@@ -63,17 +63,20 @@ namespace manprac
 
         private void addFlatsPToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            AddFlatsForm addFlatsForm = new AddFlatsForm();
+            addFlatsForm.ShowDialog();
         }
 
         private void updateFlatsPToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            UpdateFlatsForm updateFlatsForm = new UpdateFlatsForm();
+            updateFlatsForm.ShowDialog();
         }
 
         private void deleteFlatsPToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            DeleteFlatsForm deleteFlatsForm = new DeleteFlatsForm();
+            deleteFlatsForm.ShowDialog();
         }
     }
 }

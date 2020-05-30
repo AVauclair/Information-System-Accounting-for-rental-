@@ -1,6 +1,6 @@
 ﻿namespace manprac
 {
-    partial class DeleteOfficesForm
+    partial class DeleteFlatsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -39,14 +39,14 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.Location = new System.Drawing.Point(7, 11);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(93, 20);
+            this.label1.Size = new System.Drawing.Size(134, 20);
             this.label1.TabIndex = 5;
-            this.label1.Text = "ID офиса:";
+            this.label1.Text = "ID помещения:";
             // 
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.Location = new System.Drawing.Point(104, 9);
+            this.textBox1.Location = new System.Drawing.Point(145, 9);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(207, 26);
             this.textBox1.TabIndex = 4;
@@ -56,7 +56,7 @@
             // 
             this.deleteRecordButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.deleteRecordButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.deleteRecordButton.Location = new System.Drawing.Point(64, 43);
+            this.deleteRecordButton.Location = new System.Drawing.Point(88, 43);
             this.deleteRecordButton.Name = "deleteRecordButton";
             this.deleteRecordButton.Size = new System.Drawing.Size(182, 28);
             this.deleteRecordButton.TabIndex = 3;
@@ -64,19 +64,19 @@
             this.deleteRecordButton.UseVisualStyleBackColor = true;
             this.deleteRecordButton.Click += new System.EventHandler(this.deleteRecordButton_Click);
             // 
-            // DeleteOfficesForm
+            // DeleteFlatsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(320, 81);
+            this.ClientSize = new System.Drawing.Size(358, 81);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.deleteRecordButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "DeleteOfficesForm";
+            this.Name = "DeleteFlatsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Удаление записи";
-            this.Load += new System.EventHandler(this.DeleteOfficesForm_Load);
+            this.Load += new System.EventHandler(this.DeleteFlatsForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

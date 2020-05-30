@@ -17,7 +17,7 @@ namespace manprac
             InitializeComponent();
         }
 
-        private void UpdateRentersForm_Load(object sender, EventArgs e)
+        private void UpdateFlatsForm_Load(object sender, EventArgs e)
         {
             ActiveControl = textBox2;
         }

@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace manprac
 {
-    public partial class DeleteOfficesForm : Form
+    public partial class DeleteFlatsForm : Form
     {
-        public DeleteOfficesForm()
+        public DeleteFlatsForm()
         {
             InitializeComponent();
         }
 
-        private void DeleteOfficesForm_Load(object sender, EventArgs e)
+        private void DeleteFlatsForm_Load(object sender, EventArgs e)
         {
             ActiveControl = textBox1;
         }

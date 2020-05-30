@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace manprac
 {
-    public partial class AddOfficesForm : Form
+    public partial class UpdateFlatsForm : Form
     {
-        public AddOfficesForm()
+        public UpdateFlatsForm()
         {
             InitializeComponent();
         }
 
-        private void AddOfficesForm_Load(object sender, EventArgs e)
+        private void UpdateFlatsForm_Load(object sender, EventArgs e)
         {
             ActiveControl = textBox2;
         }
@@ -53,11 +53,8 @@ namespace manprac
             }
             if (e.KeyCode == Keys.Down)
             {
-                if (vatTextBox.Enabled != false)
-                {
-                    e.Handled = true;
-                    SelectNextControl(ActiveControl, true, true, true, true);
-                }
+                e.Handled = true;
+                SelectNextControl(ActiveControl, true, true, true, true);
             }
             if (e.KeyCode == Keys.Up)
             {
@@ -99,6 +96,15 @@ namespace manprac
         }
 
         private void dateTimePicker1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                updateRecordButton_Click(sender, e);
+            }
+        }
+
+        private void comboBox3_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {

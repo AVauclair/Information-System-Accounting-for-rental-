@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddFlatsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddFlatsForm.Designer.cs">
+      <DependentUpon>AddFlatsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddOfficesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -57,6 +63,12 @@
     </Compile>
     <Compile Include="AddRentersForm.Designer.cs">
       <DependentUpon>AddRentersForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DeleteFlatsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeleteFlatsForm.Designer.cs">
+      <DependentUpon>DeleteFlatsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DeleteOfficesForm.cs">
       <SubType>Form</SubType>
@@ -78,6 +90,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UpdateFlatsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateFlatsForm.Designer.cs">
+      <DependentUpon>UpdateFlatsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UpdateOfficesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,11 +108,17 @@
     <Compile Include="UpdateRentersForm.Designer.cs">
       <DependentUpon>UpdateRentersForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AddFlatsForm.resx">
+      <DependentUpon>AddFlatsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddOfficesForm.resx">
       <DependentUpon>AddOfficesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="addRentersForm.resx">
       <DependentUpon>AddRentersForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeleteFlatsForm.resx">
+      <DependentUpon>DeleteFlatsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DeleteOfficesForm.resx">
       <DependentUpon>DeleteOfficesForm.cs</DependentUpon>
@@ -114,6 +138,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UpdateFlatsForm.resx">
+      <DependentUpon>UpdateFlatsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UpdateOfficesForm.resx">
       <DependentUpon>UpdateOfficesForm.cs</DependentUpon>
     </EmbeddedResource>
