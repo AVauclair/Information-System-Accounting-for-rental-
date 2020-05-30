@@ -38,14 +38,10 @@
             this.addOfficeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateOfficeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteOfficeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.flatsPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addFlatsPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateFlatsPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteFlatsPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.flatsNToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.addFlatsNToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.updateFlatsNToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DeleteFlatsNToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,8 +51,7 @@
             this.resultToolStripMenuItem,
             this.rentersToolStripMenuItem,
             this.officesToolStripMenuItem,
-            this.flatsPToolStripMenuItem,
-            this.flatsNToolStripMenuItem1});
+            this.flatsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(912, 24);
@@ -82,20 +77,23 @@
             // addRentersToolStripMenuItem
             // 
             this.addRentersToolStripMenuItem.Name = "addRentersToolStripMenuItem";
-            this.addRentersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addRentersToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.addRentersToolStripMenuItem.Text = "Добавить";
+            this.addRentersToolStripMenuItem.Click += new System.EventHandler(this.addRentersToolStripMenuItem_Click);
             // 
             // updateRentersToolStripMenuItem
             // 
             this.updateRentersToolStripMenuItem.Name = "updateRentersToolStripMenuItem";
-            this.updateRentersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.updateRentersToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.updateRentersToolStripMenuItem.Text = "Обновить";
+            this.updateRentersToolStripMenuItem.Click += new System.EventHandler(this.updateRentersToolStripMenuItem_Click);
             // 
             // deleteRentersToolStripMenuItem
             // 
             this.deleteRentersToolStripMenuItem.Name = "deleteRentersToolStripMenuItem";
-            this.deleteRentersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteRentersToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.deleteRentersToolStripMenuItem.Text = "Удалить";
+            this.deleteRentersToolStripMenuItem.Click += new System.EventHandler(this.deleteRentersToolStripMenuItem_Click);
             // 
             // officesToolStripMenuItem
             // 
@@ -112,74 +110,52 @@
             this.addOfficeToolStripMenuItem.Name = "addOfficeToolStripMenuItem";
             this.addOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addOfficeToolStripMenuItem.Text = "Добавить";
+            this.addOfficeToolStripMenuItem.Click += new System.EventHandler(this.addOfficeToolStripMenuItem_Click);
             // 
             // updateOfficeToolStripMenuItem
             // 
             this.updateOfficeToolStripMenuItem.Name = "updateOfficeToolStripMenuItem";
             this.updateOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.updateOfficeToolStripMenuItem.Text = "Обновить";
+            this.updateOfficeToolStripMenuItem.Click += new System.EventHandler(this.updateOfficeToolStripMenuItem_Click);
             // 
             // deleteOfficeToolStripMenuItem
             // 
             this.deleteOfficeToolStripMenuItem.Name = "deleteOfficeToolStripMenuItem";
             this.deleteOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteOfficeToolStripMenuItem.Text = "Удалить";
+            this.deleteOfficeToolStripMenuItem.Click += new System.EventHandler(this.deleteOfficeToolStripMenuItem_Click);
             // 
-            // flatsPToolStripMenuItem
+            // flatsToolStripMenuItem
             // 
-            this.flatsPToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.flatsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addFlatsPToolStripMenuItem,
             this.updateFlatsPToolStripMenuItem,
             this.deleteFlatsPToolStripMenuItem});
-            this.flatsPToolStripMenuItem.Name = "flatsPToolStripMenuItem";
-            this.flatsPToolStripMenuItem.Size = new System.Drawing.Size(115, 20);
-            this.flatsPToolStripMenuItem.Text = "Жилые квартиры";
+            this.flatsToolStripMenuItem.Name = "flatsToolStripMenuItem";
+            this.flatsToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
+            this.flatsToolStripMenuItem.Text = "Квартиры";
             // 
             // addFlatsPToolStripMenuItem
             // 
             this.addFlatsPToolStripMenuItem.Name = "addFlatsPToolStripMenuItem";
             this.addFlatsPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addFlatsPToolStripMenuItem.Text = "Добавить";
+            this.addFlatsPToolStripMenuItem.Click += new System.EventHandler(this.addFlatsPToolStripMenuItem_Click);
             // 
             // updateFlatsPToolStripMenuItem
             // 
             this.updateFlatsPToolStripMenuItem.Name = "updateFlatsPToolStripMenuItem";
             this.updateFlatsPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.updateFlatsPToolStripMenuItem.Text = "Обновить";
+            this.updateFlatsPToolStripMenuItem.Click += new System.EventHandler(this.updateFlatsPToolStripMenuItem_Click);
             // 
             // deleteFlatsPToolStripMenuItem
             // 
             this.deleteFlatsPToolStripMenuItem.Name = "deleteFlatsPToolStripMenuItem";
             this.deleteFlatsPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteFlatsPToolStripMenuItem.Text = "Удалить";
-            // 
-            // flatsNToolStripMenuItem1
-            // 
-            this.flatsNToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addFlatsNToolStripMenuItem,
-            this.updateFlatsNToolStripMenuItem,
-            this.DeleteFlatsNToolStripMenuItem});
-            this.flatsNToolStripMenuItem1.Name = "flatsNToolStripMenuItem1";
-            this.flatsNToolStripMenuItem1.Size = new System.Drawing.Size(128, 20);
-            this.flatsNToolStripMenuItem1.Text = "Нежилые квартиры";
-            // 
-            // addFlatsNToolStripMenuItem
-            // 
-            this.addFlatsNToolStripMenuItem.Name = "addFlatsNToolStripMenuItem";
-            this.addFlatsNToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.addFlatsNToolStripMenuItem.Text = "Добавить";
-            // 
-            // updateFlatsNToolStripMenuItem
-            // 
-            this.updateFlatsNToolStripMenuItem.Name = "updateFlatsNToolStripMenuItem";
-            this.updateFlatsNToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.updateFlatsNToolStripMenuItem.Text = "Обновить";
-            // 
-            // DeleteFlatsNToolStripMenuItem
-            // 
-            this.DeleteFlatsNToolStripMenuItem.Name = "DeleteFlatsNToolStripMenuItem";
-            this.DeleteFlatsNToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.DeleteFlatsNToolStripMenuItem.Text = "Удалить";
+            this.deleteFlatsPToolStripMenuItem.Click += new System.EventHandler(this.deleteFlatsPToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -187,9 +163,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(912, 532);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -209,14 +188,10 @@
         private System.Windows.Forms.ToolStripMenuItem addOfficeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateOfficeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteOfficeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem flatsPToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem flatsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addFlatsPToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateFlatsPToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteFlatsPToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem flatsNToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem addFlatsNToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem updateFlatsNToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem DeleteFlatsNToolStripMenuItem;
     }
 }
 

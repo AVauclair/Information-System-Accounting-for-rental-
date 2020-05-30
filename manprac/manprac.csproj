@@ -46,6 +46,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddOfficesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddOfficesForm.Designer.cs">
+      <DependentUpon>AddOfficesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddRentersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddRentersForm.Designer.cs">
+      <DependentUpon>AddRentersForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DeleteOfficesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeleteOfficesForm.Designer.cs">
+      <DependentUpon>DeleteOfficesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DeleteRentersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeleteRentersForm.Designer.cs">
+      <DependentUpon>DeleteRentersForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +78,30 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UpdateOfficesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateOfficesForm.Designer.cs">
+      <DependentUpon>UpdateOfficesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateRentersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateRentersForm.Designer.cs">
+      <DependentUpon>UpdateRentersForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AddOfficesForm.resx">
+      <DependentUpon>AddOfficesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="addRentersForm.resx">
+      <DependentUpon>AddRentersForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeleteOfficesForm.resx">
+      <DependentUpon>DeleteOfficesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeleteRentersForm.resx">
+      <DependentUpon>DeleteRentersForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -66,6 +114,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UpdateOfficesForm.resx">
+      <DependentUpon>UpdateOfficesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateRentersForm.resx">
+      <DependentUpon>UpdateRentersForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
