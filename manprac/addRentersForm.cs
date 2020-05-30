@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace manprac
 {
     public partial class AddRentersForm : Form
     {
+        public string ConnString = Properties.Settings.Default.ConnectionSting;
         public AddRentersForm()
         {
             InitializeComponent();
@@ -26,7 +28,24 @@ namespace manprac
         {
             if (textBox1.Text == "")
             {
-                MessageBox.Show("Поле пустое", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Заполните поле \"Название предприятия\" ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+            SqlCommand command = new SqlCommand("INSERT INTO [Renters] (Name) VALUES (@Name)", conn);
+            command.Parameters.AddWithValue("@Name", textBox1.Text);
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
             }
         }
 

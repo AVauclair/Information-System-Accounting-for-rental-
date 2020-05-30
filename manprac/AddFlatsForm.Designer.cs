@@ -31,18 +31,18 @@
             this.addRecordButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.rentersBox = new System.Windows.Forms.ComboBox();
+            this.monthBox = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.summaryPaymentText = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.vatTextBox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.typeRoomBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // addRecordButton
@@ -76,25 +76,25 @@
             this.textBox2.TabIndex = 8;
             this.textBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown);
             // 
-            // comboBox1
+            // rentersBox
             // 
-            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(157, 44);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(207, 28);
-            this.comboBox1.TabIndex = 6;
-            this.comboBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox1_KeyDown);
+            this.rentersBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rentersBox.FormattingEnabled = true;
+            this.rentersBox.Location = new System.Drawing.Point(157, 44);
+            this.rentersBox.Name = "rentersBox";
+            this.rentersBox.Size = new System.Drawing.Size(207, 28);
+            this.rentersBox.TabIndex = 6;
+            this.rentersBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox1_KeyDown);
             // 
-            // comboBox2
+            // monthBox
             // 
-            this.comboBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(157, 79);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(207, 28);
-            this.comboBox2.TabIndex = 7;
-            this.comboBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox2_KeyDown);
+            this.monthBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.monthBox.FormattingEnabled = true;
+            this.monthBox.Location = new System.Drawing.Point(157, 79);
+            this.monthBox.Name = "monthBox";
+            this.monthBox.Size = new System.Drawing.Size(207, 28);
+            this.monthBox.TabIndex = 7;
+            this.monthBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox2_KeyDown);
             // 
             // label3
             // 
@@ -126,14 +126,14 @@
             this.label5.TabIndex = 11;
             this.label5.Text = "Сумма аренды:";
             // 
-            // textBox3
+            // summaryPaymentText
             // 
-            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox3.Location = new System.Drawing.Point(157, 146);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(207, 26);
-            this.textBox3.TabIndex = 12;
-            this.textBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox3_KeyDown);
+            this.summaryPaymentText.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.summaryPaymentText.Location = new System.Drawing.Point(157, 146);
+            this.summaryPaymentText.Name = "summaryPaymentText";
+            this.summaryPaymentText.Size = new System.Drawing.Size(207, 26);
+            this.summaryPaymentText.TabIndex = 12;
+            this.summaryPaymentText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox3_KeyDown);
             // 
             // label6
             // 
@@ -184,15 +184,15 @@
             this.label1.TabIndex = 18;
             this.label1.Text = "Тип помещения:";
             // 
-            // comboBox3
+            // typeRoomBox
             // 
-            this.comboBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(157, 10);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(207, 28);
-            this.comboBox3.TabIndex = 17;
-            this.comboBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox3_KeyDown);
+            this.typeRoomBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.typeRoomBox.FormattingEnabled = true;
+            this.typeRoomBox.Location = new System.Drawing.Point(157, 10);
+            this.typeRoomBox.Name = "typeRoomBox";
+            this.typeRoomBox.Size = new System.Drawing.Size(207, 28);
+            this.typeRoomBox.TabIndex = 17;
+            this.typeRoomBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox3_KeyDown);
             // 
             // AddFlatsForm
             // 
@@ -200,21 +200,23 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(376, 280);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.comboBox3);
+            this.Controls.Add(this.typeRoomBox);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.vatTextBox);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.summaryPaymentText);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.monthBox);
+            this.Controls.Add(this.rentersBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.addRecordButton);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AddFlatsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Добавление записи";
@@ -228,17 +230,17 @@
         private System.Windows.Forms.Button addRecordButton;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox rentersBox;
+        private System.Windows.Forms.ComboBox monthBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox summaryPaymentText;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox vatTextBox;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox typeRoomBox;
     }
 }

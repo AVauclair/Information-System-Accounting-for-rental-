@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,9 +19,28 @@ namespace manprac
             InitializeComponent();
         }
 
+        public string ConnString = Properties.Settings.Default.ConnectionSting;
         private void AddFlatsForm_Load(object sender, EventArgs e)
         {
             ActiveControl = textBox2;
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+            SqlCommand loadRenters = new SqlCommand("SELECT Name FROM Renters", conn);
+            SqlDataReader readerRenter = loadRenters.ExecuteReader();
+            while(readerRenter.Read())
+            {
+                rentersBox.Items.Add(readerRenter["Name"]);
+            }
+            readerRenter.Close();
+
+            SqlCommand loadMounth = new SqlCommand("SELECT Name FROM Months", conn);
+            SqlDataReader readerMonth = loadMounth.ExecuteReader();
+            while(readerMonth.Read())
+            {
+                monthBox.Items.Add(readerMonth["Name"]);
+            }
+            readerMonth.Close();
+            conn.Close();
         }
 
         private void updateRecordButton_Click(object sender, EventArgs e)
