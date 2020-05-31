@@ -28,6 +28,7 @@ namespace manprac
         private void updateRentersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UpdateRentersForm updateRentersForm = new UpdateRentersForm();
+            updateRentersForm.Owner = this;
             updateRentersForm.ShowDialog();
         }
 
@@ -89,7 +90,7 @@ namespace manprac
             DataGridRenters.Rows.Clear();
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
-            SqlCommand command = new SqlCommand("SELECT Name FROM Renters", conn);
+            SqlCommand command = new SqlCommand("SELECT ID_Renters, Name FROM Renters", conn);
             SqlDataReader reader = command.ExecuteReader();
             List<string[]> data = new List<string[]>();
 
@@ -97,9 +98,10 @@ namespace manprac
             while (reader.Read())
             {
                
-                data.Add(new string[2]);
-                data[data.Count - 1][0] = count.ToString();
-                data[data.Count - 1][1] = reader["Name"].ToString();
+                data.Add(new string[3]);
+                data[count - 1][0] = reader["ID_Renters"].ToString();
+                data[data.Count - 1][1] = count.ToString();
+                data[data.Count - 1][2] = reader["Name"].ToString();
                 count++;
             }
             foreach (string[] s in data)
