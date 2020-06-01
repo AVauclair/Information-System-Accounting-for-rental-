@@ -72,6 +72,10 @@
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.resultAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resultOfficesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resultFlatsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.resultFlatsNПомещенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridRenters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridOffices)).BeginInit();
@@ -95,6 +99,11 @@
             // 
             // resultToolStripMenuItem
             // 
+            this.resultToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.resultAllToolStripMenuItem,
+            this.resultOfficesToolStripMenuItem,
+            this.resultFlatsToolStripMenuItem1,
+            this.resultFlatsNПомещенияToolStripMenuItem});
             this.resultToolStripMenuItem.Name = "resultToolStripMenuItem";
             this.resultToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.resultToolStripMenuItem.Text = "Свод";
@@ -456,6 +465,30 @@
             this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
             this.dataGridViewTextBoxColumn11.ReadOnly = true;
             // 
+            // resultAllToolStripMenuItem
+            // 
+            this.resultAllToolStripMenuItem.Name = "resultAllToolStripMenuItem";
+            this.resultAllToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.resultAllToolStripMenuItem.Text = "Общий";
+            // 
+            // resultOfficesToolStripMenuItem
+            // 
+            this.resultOfficesToolStripMenuItem.Name = "resultOfficesToolStripMenuItem";
+            this.resultOfficesToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.resultOfficesToolStripMenuItem.Text = "Офис";
+            // 
+            // resultFlatsToolStripMenuItem1
+            // 
+            this.resultFlatsToolStripMenuItem1.Name = "resultFlatsToolStripMenuItem1";
+            this.resultFlatsToolStripMenuItem1.Size = new System.Drawing.Size(196, 22);
+            this.resultFlatsToolStripMenuItem1.Text = "Квартиры";
+            // 
+            // resultFlatsNПомещенияToolStripMenuItem
+            // 
+            this.resultFlatsNПомещенияToolStripMenuItem.Name = "resultFlatsNПомещенияToolStripMenuItem";
+            this.resultFlatsNПомещенияToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.resultFlatsNПомещенияToolStripMenuItem.Text = "Нежилые помещения";
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -528,6 +561,10 @@
         private System.Windows.Forms.ToolStripMenuItem connStringToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveDBToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadDBToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem resultAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem resultOfficesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem resultFlatsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem resultFlatsNПомещенияToolStripMenuItem;
     }
 }
 
