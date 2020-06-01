@@ -19,7 +19,7 @@ namespace manprac
             InitializeComponent();
         }
 
-        public string ConnString = Properties.Settings.Default.ConnectionSting;
+        public string ConnString = ConnStringForm.connection;
         private void AddFlatsForm_Load(object sender, EventArgs e)
         {
             ActiveControl = textBox2;
@@ -43,11 +43,15 @@ namespace manprac
             conn.Close();
         }
 
-        private void updateRecordButton_Click(object sender, EventArgs e)
+        private void addFlatsButton_Click(object sender, EventArgs e)
         {
             if (textBox2.Text == "")
             {
                 MessageBox.Show("Есть пустые поля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show("Запись была успешно добавлена", "Добавление", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -56,7 +60,7 @@ namespace manprac
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                updateRecordButton_Click(sender, e);
+                addFlatsButton_Click(sender, e);
             }
             if (e.KeyCode == Keys.Down)
             {
@@ -70,7 +74,7 @@ namespace manprac
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                updateRecordButton_Click(sender, e);
+                addFlatsButton_Click(sender, e);
             }
             if (e.KeyCode == Keys.Down)
             {
@@ -92,7 +96,7 @@ namespace manprac
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                updateRecordButton_Click(sender, e);
+                addFlatsButton_Click(sender, e);
             }
             if (e.KeyCode == Keys.Up)
             {
@@ -106,7 +110,7 @@ namespace manprac
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                updateRecordButton_Click(sender, e);
+                addFlatsButton_Click(sender, e);
             }
         }
 
@@ -115,7 +119,7 @@ namespace manprac
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                updateRecordButton_Click(sender, e);
+                addFlatsButton_Click(sender, e);
             }
         }
 
@@ -124,7 +128,7 @@ namespace manprac
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                updateRecordButton_Click(sender, e);
+                addFlatsButton_Click(sender, e);
             }
         }
 
@@ -133,7 +137,7 @@ namespace manprac
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                updateRecordButton_Click(sender, e);
+                addFlatsButton_Click(sender, e);
             }
         }
     }

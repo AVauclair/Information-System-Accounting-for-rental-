@@ -42,7 +42,15 @@
             this.addFlatsPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateFlatsPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteFlatsPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DataGridRenters = new System.Windows.Forms.DataGridView();
+            this.reportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dbToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.connStringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataGridRenters = new System.Windows.Forms.DataGridView();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NameRenters = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridOffices = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -54,21 +62,18 @@
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridFlats = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NameRenters = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DataGridRenters)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridRenters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridOffices)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridFlats)).BeginInit();
             this.SuspendLayout();
@@ -79,7 +84,9 @@
             this.resultToolStripMenuItem,
             this.rentersToolStripMenuItem,
             this.officesToolStripMenuItem,
-            this.flatsToolStripMenuItem});
+            this.flatsToolStripMenuItem,
+            this.reportToolStripMenuItem,
+            this.dbToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(912, 24);
@@ -188,27 +195,85 @@
             this.deleteFlatsPToolStripMenuItem.Text = "Удалить";
             this.deleteFlatsPToolStripMenuItem.Click += new System.EventHandler(this.deleteFlatsPToolStripMenuItem_Click);
             // 
-            // DataGridRenters
+            // reportToolStripMenuItem
             // 
-            this.DataGridRenters.AllowUserToAddRows = false;
-            this.DataGridRenters.AllowUserToDeleteRows = false;
-            this.DataGridRenters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.DataGridRenters.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
-            this.DataGridRenters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DataGridRenters.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.reportToolStripMenuItem.Name = "reportToolStripMenuItem";
+            this.reportToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+            this.reportToolStripMenuItem.Text = "Отчет";
+            // 
+            // dbToolStripMenuItem
+            // 
+            this.dbToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.connStringToolStripMenuItem,
+            this.saveDBToolStripMenuItem,
+            this.loadDBToolStripMenuItem});
+            this.dbToolStripMenuItem.Name = "dbToolStripMenuItem";
+            this.dbToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
+            this.dbToolStripMenuItem.Text = "База данных";
+            // 
+            // connStringToolStripMenuItem
+            // 
+            this.connStringToolStripMenuItem.Name = "connStringToolStripMenuItem";
+            this.connStringToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.connStringToolStripMenuItem.Text = "Указать строку подключения";
+            this.connStringToolStripMenuItem.Click += new System.EventHandler(this.connStringToolStripMenuItem_Click);
+            // 
+            // saveDBToolStripMenuItem
+            // 
+            this.saveDBToolStripMenuItem.Name = "saveDBToolStripMenuItem";
+            this.saveDBToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.saveDBToolStripMenuItem.Text = "Сохранить базу";
+            // 
+            // loadDBToolStripMenuItem
+            // 
+            this.loadDBToolStripMenuItem.Name = "loadDBToolStripMenuItem";
+            this.loadDBToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.loadDBToolStripMenuItem.Text = "Загрузить базу";
+            // 
+            // dataGridRenters
+            // 
+            this.dataGridRenters.AllowUserToAddRows = false;
+            this.dataGridRenters.AllowUserToDeleteRows = false;
+            this.dataGridRenters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridRenters.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
+            this.dataGridRenters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridRenters.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column9,
             this.Column1,
             this.NameRenters});
-            this.DataGridRenters.GridColor = System.Drawing.SystemColors.Control;
-            this.DataGridRenters.Location = new System.Drawing.Point(12, 27);
-            this.DataGridRenters.MultiSelect = false;
-            this.DataGridRenters.Name = "DataGridRenters";
-            this.DataGridRenters.ReadOnly = true;
-            this.DataGridRenters.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.DataGridRenters.RowHeadersVisible = false;
-            this.DataGridRenters.Size = new System.Drawing.Size(771, 329);
-            this.DataGridRenters.TabIndex = 2;
-            this.DataGridRenters.Visible = false;
+            this.dataGridRenters.GridColor = System.Drawing.SystemColors.Control;
+            this.dataGridRenters.Location = new System.Drawing.Point(12, 27);
+            this.dataGridRenters.MultiSelect = false;
+            this.dataGridRenters.Name = "dataGridRenters";
+            this.dataGridRenters.ReadOnly = true;
+            this.dataGridRenters.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.dataGridRenters.RowHeadersVisible = false;
+            this.dataGridRenters.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dataGridRenters.Size = new System.Drawing.Size(771, 329);
+            this.dataGridRenters.TabIndex = 2;
+            this.dataGridRenters.Visible = false;
+            // 
+            // Column9
+            // 
+            this.Column9.HeaderText = "ID";
+            this.Column9.Name = "Column9";
+            this.Column9.ReadOnly = true;
+            this.Column9.Visible = false;
+            // 
+            // Column1
+            // 
+            this.Column1.FillWeight = 30F;
+            this.Column1.HeaderText = "№";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Width = 30;
+            // 
+            // NameRenters
+            // 
+            this.NameRenters.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.NameRenters.HeaderText = "ФИО/ Название организации";
+            this.NameRenters.Name = "NameRenters";
+            this.NameRenters.ReadOnly = true;
             // 
             // dataGridOffices
             // 
@@ -234,6 +299,7 @@
             this.dataGridOffices.ReadOnly = true;
             this.dataGridOffices.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridOffices.RowHeadersVisible = false;
+            this.dataGridOffices.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dataGridOffices.Size = new System.Drawing.Size(771, 329);
             this.dataGridOffices.TabIndex = 3;
             this.dataGridOffices.Visible = false;
@@ -321,65 +387,10 @@
             this.dataGridFlats.ReadOnly = true;
             this.dataGridFlats.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridFlats.RowHeadersVisible = false;
+            this.dataGridFlats.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dataGridFlats.Size = new System.Drawing.Size(873, 329);
             this.dataGridFlats.TabIndex = 4;
             this.dataGridFlats.Visible = false;
-            // 
-            // dataGridViewTextBoxColumn11
-            // 
-            this.dataGridViewTextBoxColumn11.HeaderText = "Заметка";
-            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
-            this.dataGridViewTextBoxColumn11.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn10
-            // 
-            this.dataGridViewTextBoxColumn10.HeaderText = "Дата";
-            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
-            this.dataGridViewTextBoxColumn10.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn9
-            // 
-            this.dataGridViewTextBoxColumn9.HeaderText = "НДС";
-            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
-            this.dataGridViewTextBoxColumn9.ReadOnly = true;
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "Сумма оплаты";
-            this.Column8.Name = "Column8";
-            this.Column8.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn8
-            // 
-            this.dataGridViewTextBoxColumn8.HeaderText = "Сумма Аренды";
-            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
-            this.dataGridViewTextBoxColumn8.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn7
-            // 
-            this.dataGridViewTextBoxColumn7.HeaderText = "Месяц";
-            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-            this.dataGridViewTextBoxColumn7.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.HeaderText = "Контракт";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            this.dataGridViewTextBoxColumn6.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn5.HeaderText = "Арендатор";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "ID";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.Visible = false;
             // 
             // dataGridViewTextBoxColumn3
             // 
@@ -389,27 +400,61 @@
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
             this.dataGridViewTextBoxColumn3.Width = 30;
             // 
-            // Column9
+            // dataGridViewTextBoxColumn4
             // 
-            this.Column9.HeaderText = "ID";
-            this.Column9.Name = "Column9";
-            this.Column9.ReadOnly = true;
-            this.Column9.Visible = false;
+            this.dataGridViewTextBoxColumn4.HeaderText = "ID";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.Visible = false;
             // 
-            // Column1
+            // dataGridViewTextBoxColumn5
             // 
-            this.Column1.FillWeight = 30F;
-            this.Column1.HeaderText = "№";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Width = 30;
+            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn5.HeaderText = "Арендатор";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
             // 
-            // NameRenters
+            // dataGridViewTextBoxColumn6
             // 
-            this.NameRenters.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.NameRenters.HeaderText = "ФИО/ Название организации";
-            this.NameRenters.Name = "NameRenters";
-            this.NameRenters.ReadOnly = true;
+            this.dataGridViewTextBoxColumn6.HeaderText = "Контракт";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            this.dataGridViewTextBoxColumn7.HeaderText = "Месяц";
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            this.dataGridViewTextBoxColumn7.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            this.dataGridViewTextBoxColumn8.HeaderText = "Сумма Аренды";
+            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            this.dataGridViewTextBoxColumn8.ReadOnly = true;
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "Сумма оплаты";
+            this.Column8.Name = "Column8";
+            this.Column8.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn9
+            // 
+            this.dataGridViewTextBoxColumn9.HeaderText = "НДС";
+            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            this.dataGridViewTextBoxColumn9.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn10
+            // 
+            this.dataGridViewTextBoxColumn10.HeaderText = "Дата";
+            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
+            this.dataGridViewTextBoxColumn10.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn11
+            // 
+            this.dataGridViewTextBoxColumn11.HeaderText = "Заметка";
+            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
+            this.dataGridViewTextBoxColumn11.ReadOnly = true;
             // 
             // MainForm
             // 
@@ -417,7 +462,7 @@
             this.ClientSize = new System.Drawing.Size(912, 532);
             this.Controls.Add(this.dataGridFlats);
             this.Controls.Add(this.dataGridOffices);
-            this.Controls.Add(this.DataGridRenters);
+            this.Controls.Add(this.dataGridRenters);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
@@ -425,11 +470,11 @@
             this.MinimizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Давид придумает, Давид умный и очень находчивый ))))))))";
+            this.Text = "BetterThenExcel";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DataGridRenters)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridRenters)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridOffices)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridFlats)).EndInit();
             this.ResumeLayout(false);
@@ -453,7 +498,7 @@
         private System.Windows.Forms.ToolStripMenuItem addFlatsPToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateFlatsPToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteFlatsPToolStripMenuItem;
-        public System.Windows.Forms.DataGridView DataGridRenters;
+        public System.Windows.Forms.DataGridView dataGridRenters;
         public System.Windows.Forms.DataGridView dataGridOffices;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
@@ -478,6 +523,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameRenters;
+        private System.Windows.Forms.ToolStripMenuItem reportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dbToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem connStringToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveDBToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadDBToolStripMenuItem;
     }
 }
 

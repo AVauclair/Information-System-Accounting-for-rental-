@@ -13,15 +13,24 @@ namespace manprac
 {
     public partial class MainForm : Form
     {
-        public string ConnString = Properties.Settings.Default.ConnectionSting;
+        public string ConnString = ConnStringForm.connection;
         public MainForm()
         {
             InitializeComponent();
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            menuStrip1.Items.OfType<ToolStripMenuItem>().ToList().ForEach(x =>
+            {
+                x.MouseHover += (obj, arg) => ((ToolStripDropDownItem)obj).ShowDropDown();
+            });
+        }
+
         private void addRentersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddRentersForm addRentersForm = new AddRentersForm();
+            addRentersForm.Owner = this;
             addRentersForm.ShowDialog();
         }
 
@@ -35,59 +44,64 @@ namespace manprac
         private void deleteRentersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DeleteRentersForm deleteRentersForm = new DeleteRentersForm();
+            deleteRentersForm.Owner = this;
             deleteRentersForm.ShowDialog();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            menuStrip1.Items.OfType<ToolStripMenuItem>().ToList().ForEach(x =>
-            {
-                x.MouseHover += (obj, arg) => ((ToolStripDropDownItem)obj).ShowDropDown();
-            });
         }
 
         private void addOfficeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddOfficesForm addOfficesForm = new AddOfficesForm();
+            addOfficesForm.Owner = this;
             addOfficesForm.ShowDialog();
         }
 
         private void updateOfficeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UpdateOfficesForm updateOfficesForm = new UpdateOfficesForm();
+            updateOfficesForm.Owner = this;
             updateOfficesForm.ShowDialog();
         }
 
         private void deleteOfficeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DeleteOfficesForm deleteOfficesForm = new DeleteOfficesForm();
+            deleteOfficesForm.Owner = this;
             deleteOfficesForm.ShowDialog();
         }
 
         private void addFlatsPToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddFlatsForm addFlatsForm = new AddFlatsForm();
+            addFlatsForm.Owner = this;
             addFlatsForm.ShowDialog();
         }
 
         private void updateFlatsPToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UpdateFlatsForm updateFlatsForm = new UpdateFlatsForm();
+            updateFlatsForm.Owner = this;
             updateFlatsForm.ShowDialog();
         }
 
         private void deleteFlatsPToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DeleteFlatsForm deleteFlatsForm = new DeleteFlatsForm();
+            deleteFlatsForm.Owner = this;
             deleteFlatsForm.ShowDialog();
+        }
+
+        private void connStringToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ConnStringForm connStringForm = new ConnStringForm();
+            connStringForm.ShowDialog();
         }
 
         private void rentersToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            dataGridRenters.Visible = true;
             dataGridFlats.Visible = false;
             dataGridOffices.Visible = false;
-            DataGridRenters.Visible = true;
-            DataGridRenters.Rows.Clear();
+            dataGridRenters.Rows.Clear();
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
             SqlCommand command = new SqlCommand("SELECT ID_Renters, Name FROM Renters", conn);
@@ -97,7 +111,7 @@ namespace manprac
             int count = 1;
             while (reader.Read())
             {
-               
+
                 data.Add(new string[3]);
                 data[count - 1][0] = reader["ID_Renters"].ToString();
                 data[data.Count - 1][1] = count.ToString();
@@ -105,15 +119,15 @@ namespace manprac
                 count++;
             }
             foreach (string[] s in data)
-               DataGridRenters.Rows.Add(s);
+                dataGridRenters.Rows.Add(s);
 
-             reader.Close();
-             conn.Close();
-            }
+            reader.Close();
+            conn.Close();
+        }
 
         private void officesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DataGridRenters.Visible = false;
+            dataGridRenters.Visible = false;
             dataGridFlats.Visible = false;
             dataGridOffices.Visible = true;
             dataGridOffices.Rows.Clear();
@@ -150,9 +164,9 @@ namespace manprac
 
         private void flatsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            dataGridOffices.Visible = false;
-            DataGridRenters.Visible = false;
+            dataGridRenters.Visible = false;
             dataGridFlats.Visible = true;
+            dataGridOffices.Visible = false;
             dataGridFlats.Rows.Clear();
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
@@ -186,6 +200,6 @@ namespace manprac
             conn.Close();
         }
     }
-    }
+}
     
 

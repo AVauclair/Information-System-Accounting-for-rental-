@@ -13,7 +13,7 @@ namespace manprac
 {
     public partial class AddRentersForm : Form
     {
-        public string ConnString = Properties.Settings.Default.ConnectionSting;
+        public string ConnString = ConnStringForm.connection;
         public AddRentersForm()
         {
             InitializeComponent();
@@ -31,21 +31,25 @@ namespace manprac
                 MessageBox.Show("Заполните поле \"Название предприятия\" ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            SqlConnection conn = new SqlConnection(ConnString);
-            conn.Open();
-            SqlCommand command = new SqlCommand("INSERT INTO [Renters] (Name) VALUES (@Name)", conn);
-            command.Parameters.AddWithValue("@Name", textBox1.Text);
-            try
+            else
             {
-                command.ExecuteNonQuery();
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                conn.Close();
+                MessageBox.Show("Запись была успешно добавлена", "Добавление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                SqlConnection conn = new SqlConnection(ConnString);
+                conn.Open();
+                SqlCommand command = new SqlCommand("INSERT INTO [Renters] (Name) VALUES (@Name)", conn);
+                command.Parameters.AddWithValue("@Name", textBox1.Text);
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
             }
         }
 

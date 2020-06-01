@@ -12,6 +12,7 @@ namespace manprac
 {
     public partial class AddOfficesForm : Form
     {
+        public string ConnString = ConnStringForm.connection;
         public AddOfficesForm()
         {
             InitializeComponent();
@@ -22,11 +23,15 @@ namespace manprac
             ActiveControl = textBox2;
         }
 
-        private void updateRecordButton_Click(object sender, EventArgs e)
+        private void addOfficesButton_Click(object sender, EventArgs e)
         {
             if (textBox2.Text == "")
             {
                 MessageBox.Show("Есть пустые поля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show("Запись была успешно добавлена", "Добавление", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -35,7 +40,7 @@ namespace manprac
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                updateRecordButton_Click(sender, e);
+                addOfficesButton_Click(sender, e);
             }
             if (e.KeyCode == Keys.Down)
             {
@@ -49,7 +54,7 @@ namespace manprac
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                updateRecordButton_Click(sender, e);
+                addOfficesButton_Click(sender, e);
             }
             if (e.KeyCode == Keys.Down)
             {
@@ -71,7 +76,7 @@ namespace manprac
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                updateRecordButton_Click(sender, e);
+                addOfficesButton_Click(sender, e);
             }
             if (e.KeyCode == Keys.Up)
             {
@@ -85,7 +90,7 @@ namespace manprac
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                updateRecordButton_Click(sender, e);
+                addOfficesButton_Click(sender, e);
             }
         }
 
@@ -94,7 +99,7 @@ namespace manprac
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                updateRecordButton_Click(sender, e);
+                addOfficesButton_Click(sender, e);
             }
         }
 
@@ -103,7 +108,7 @@ namespace manprac
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                updateRecordButton_Click(sender, e);
+                addOfficesButton_Click(sender, e);
             }
         }
     }

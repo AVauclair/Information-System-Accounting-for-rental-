@@ -12,6 +12,7 @@ namespace manprac
 {
     public partial class UpdateOfficesForm : Form
     {
+        public string ConnString = ConnStringForm.connection;
         public UpdateOfficesForm()
         {
             InitializeComponent();
@@ -27,6 +28,10 @@ namespace manprac
             if (textBox2.Text == "")
             {
                 MessageBox.Show("Есть пустые поля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show("Запись была успешно обновлена", "Обновление", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

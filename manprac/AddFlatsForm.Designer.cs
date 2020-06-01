@@ -55,7 +55,7 @@
             this.addRecordButton.TabIndex = 3;
             this.addRecordButton.Text = "Добавить запись";
             this.addRecordButton.UseVisualStyleBackColor = true;
-            this.addRecordButton.Click += new System.EventHandler(this.updateRecordButton_Click);
+            this.addRecordButton.Click += new System.EventHandler(this.addFlatsButton_Click);
             // 
             // label2
             // 

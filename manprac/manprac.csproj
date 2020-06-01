@@ -64,6 +64,12 @@
     <Compile Include="AddRentersForm.Designer.cs">
       <DependentUpon>AddRentersForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConnStringForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConnStringForm.Designer.cs">
+      <DependentUpon>ConnStringForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DeleteFlatsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +122,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="addRentersForm.resx">
       <DependentUpon>AddRentersForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnStringForm.resx">
+      <DependentUpon>ConnStringForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DeleteFlatsForm.resx">
       <DependentUpon>DeleteFlatsForm.cs</DependentUpon>
