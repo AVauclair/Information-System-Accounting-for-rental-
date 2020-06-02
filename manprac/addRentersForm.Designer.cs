@@ -78,6 +78,7 @@
             this.Name = "AddRentersForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Добавление записи";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AddRentersForm_FormClosing);
             this.Load += new System.EventHandler(this.AddRentersForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,8 @@ namespace manprac
     public partial class UpdateOfficesForm : Form
     {
         public string ConnString = ConnStringForm.connection;
+        Dictionary<int, string> DebitingRenters = new Dictionary<int, string>();
+        Dictionary<int, string> DebitingMonth = new Dictionary<int, string>();
         public UpdateOfficesForm()
         {
             InitializeComponent();
@@ -20,12 +23,73 @@ namespace manprac
 
         private void UpdateFlatsForm_Load(object sender, EventArgs e)
         {
-            ActiveControl = textBox2;
+            MainForm main = this.Owner as MainForm;
+
+            ActiveControl = contract;
+
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+            SqlCommand loadRenters = new SqlCommand("SELECT ID_Renters, Name FROM Renters", conn);
+            SqlDataReader readerRenters = loadRenters.ExecuteReader();
+
+            while (readerRenters.Read())
+            {
+                DebitingRenters.Add(Convert.ToInt32(readerRenters["ID_Renters"]), Convert.ToString(readerRenters["Name"]));
+                rentersBox.Items.Add(readerRenters["Name"]);
+            }
+            readerRenters.Close();
+
+            SqlCommand loadMonth = new SqlCommand("SELECT ID_Month, Name FROM Months", conn);
+            SqlDataReader readerMonth = loadMonth.ExecuteReader();
+            while (readerMonth.Read())
+            {
+                DebitingMonth.Add(Convert.ToInt32(readerMonth["ID_Month"]), Convert.ToString(readerMonth["Name"]));
+                monthBox.Items.Add(readerMonth["Name"]);
+            }
+            readerMonth.Close();
+
+            int SelectedRenters = 0;
+            int SelectedMonth = 0;
+            foreach (var item in DebitingRenters)
+            {
+                if (item.Value == rentersBox.Text)
+                {
+                    SelectedRenters = item.Key;
+                }
+            }
+            foreach (var item in DebitingMonth)
+            {
+                if (item.Value == monthBox.Text)
+                {
+                    SelectedMonth = item.Key;
+                }
+            }
+            string selectedItem = "sss";
+            SqlCommand SelectedItems = new SqlCommand("SELECT ID_Renters, Contract, ID_Month, Amount_Rent, VAT, Date_Payment Note FROM Offices WHERE ID_Office = @ID_Office", conn);
+            SelectedItems.Parameters.AddWithValue("@ID_Office", main.dataGridOffices.CurrentRow.Cells[0].Value);
+            SqlDataReader readerSelectedItems = SelectedItems.ExecuteReader();
+            while(readerSelectedItems.Read())
+            {
+                rentersBox.SelectedItem = DebitingRenters[Convert.ToInt32(readerSelectedItems["ID_Renters"])];
+                monthBox.SelectedItem = DebitingMonth[Convert.ToInt32(readerSelectedItems["ID_Month"])];
+                amountRentBox.Text = readerSelectedItems["Amount_Rent"].ToString();
+                contract.Text = readerSelectedItems["Contract"].ToString();
+                amountRentBox.Text = readerSelectedItems["Amount_Rent"].ToString();
+                vatBox.Text = readerSelectedItems["VAT"].ToString();
+                string date = DateTime.Now.ToShortDateString();
+                DateTime dt = Convert.ToDateTime( readerSelectedItems["Date_Payment"]);
+                MessageBox.Show(dt.ToString()) ;
+                //DateTime date = Convert.ToDateTime(readerSelectedItems["Date_Payment"].ToString());
+
+                //datePicker.Value = readerSelectedItems["Date_Payment"].ToString();
+            }
+            readerSelectedItems.Close();
+            conn.Close();
         }
 
         private void updateRecordButton_Click(object sender, EventArgs e)
         {
-            if (textBox2.Text == "")
+            if (contract.Text == "")
             {
                 MessageBox.Show("Есть пустые поля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

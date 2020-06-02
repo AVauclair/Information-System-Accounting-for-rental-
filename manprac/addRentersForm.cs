@@ -13,7 +13,8 @@ namespace manprac
 {
     public partial class AddRentersForm : Form
     {
-        public string ConnString = ConnStringForm.connection;
+        //public string ConnString = ConnStringForm.connection;
+        public string ConnString = Properties.Settings.Default.ConnectionSting;
         public AddRentersForm()
         {
             InitializeComponent();
@@ -60,6 +61,33 @@ namespace manprac
                 e.Handled = true;
                 addRecordButton_Click(sender, e);
             }
+        }
+
+        private void AddRentersForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            MainForm main = this.Owner as MainForm;
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+            SqlCommand loadRenters = new SqlCommand("SELECT ID_Renters, Name FROM Renters", conn);
+            SqlDataReader readerRenters = loadRenters.ExecuteReader();
+            List<string[]> dataRenters = new List<string[]>();
+
+            int countRenters = 1;
+            while (readerRenters.Read())
+            {
+
+                dataRenters.Add(new string[3]);
+                dataRenters[dataRenters.Count - 1][0] = readerRenters["ID_Renters"].ToString();
+                dataRenters[dataRenters.Count - 1][1] = countRenters.ToString();
+                dataRenters[dataRenters.Count - 1][2] = readerRenters["Name"].ToString();
+                countRenters++;
+            }
+            main.dataGridRenters.Rows.Clear();
+            foreach (string[] s in dataRenters)
+                main.dataGridRenters.Rows.Add(s);
+
+            readerRenters.Close();
+            conn.Close();
         }
     }
 }

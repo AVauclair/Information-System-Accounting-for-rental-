@@ -22,7 +22,7 @@ namespace manprac
             ActiveControl = textBox1;
         }
 
-        public static string connection = "Data Source=ПК-1;Initial Catalog=RentDB;Integrated Security=True";
+        public static string connection = Properties.Settings.Default.ConnectionSting;//"Data Source=ПК-1;Initial Catalog=RentDB;Integrated Security=True";
 
         private void updateConnStringButton_Click(object sender, EventArgs e)
         {
