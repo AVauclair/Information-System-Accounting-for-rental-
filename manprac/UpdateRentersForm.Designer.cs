@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.oldNameBox = new System.Windows.Forms.TextBox();
+            this.oldNameTextBox = new System.Windows.Forms.TextBox();
             this.updateRecordButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.newNameBox = new System.Windows.Forms.TextBox();
+            this.newNameTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -45,15 +45,15 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Старое ФИО/Название:";
             // 
-            // oldNameBox
+            // oldNameTextBox
             // 
-            this.oldNameBox.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.oldNameBox.Enabled = false;
-            this.oldNameBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.oldNameBox.Location = new System.Drawing.Point(208, 9);
-            this.oldNameBox.Name = "oldNameBox";
-            this.oldNameBox.Size = new System.Drawing.Size(283, 31);
-            this.oldNameBox.TabIndex = 4;
+            this.oldNameTextBox.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.oldNameTextBox.Enabled = false;
+            this.oldNameTextBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.oldNameTextBox.Location = new System.Drawing.Point(208, 9);
+            this.oldNameTextBox.Name = "oldNameTextBox";
+            this.oldNameTextBox.Size = new System.Drawing.Size(283, 31);
+            this.oldNameTextBox.TabIndex = 4;
             // 
             // updateRecordButton
             // 
@@ -77,14 +77,14 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Новое ФИО/Название:";
             // 
-            // newNameBox
+            // newNameTextBox
             // 
-            this.newNameBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.newNameBox.Location = new System.Drawing.Point(208, 46);
-            this.newNameBox.Name = "newNameBox";
-            this.newNameBox.Size = new System.Drawing.Size(283, 31);
-            this.newNameBox.TabIndex = 6;
-            this.newNameBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown);
+            this.newNameTextBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.newNameTextBox.Location = new System.Drawing.Point(208, 46);
+            this.newNameTextBox.Name = "newNameTextBox";
+            this.newNameTextBox.Size = new System.Drawing.Size(283, 31);
+            this.newNameTextBox.TabIndex = 6;
+            this.newNameTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.newNameTextBox_KeyDown);
             // 
             // UpdateRentersForm
             // 
@@ -92,9 +92,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(502, 125);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.newNameBox);
+            this.Controls.Add(this.newNameTextBox);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.oldNameBox);
+            this.Controls.Add(this.oldNameTextBox);
             this.Controls.Add(this.updateRecordButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -112,9 +112,9 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox oldNameBox;
+        private System.Windows.Forms.TextBox oldNameTextBox;
         private System.Windows.Forms.Button updateRecordButton;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox newNameBox;
+        private System.Windows.Forms.TextBox newNameTextBox;
     }
 }

@@ -20,12 +20,12 @@ namespace manprac
 
         private void DeleteRentersForm_Load(object sender, EventArgs e)
         {
-            ActiveControl = textBox1;
+            ActiveControl = idTextBox;
         }
 
         private void deleteRecordButton_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text == "")
+            if (idTextBox.Text == "")
             {
                 MessageBox.Show("Поле пустое", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -43,7 +43,7 @@ namespace manprac
             }
         }
 
-        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        private void idTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {

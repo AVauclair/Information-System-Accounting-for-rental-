@@ -28,7 +28,7 @@ namespace manprac
             while (readerRenters.Read())
             {
                 DebitingRenters.Add(Convert.ToInt32(readerRenters["ID_Renters"]), Convert.ToString(readerRenters["Name"]));
-                rentersBox.Items.Add(readerRenters["Name"]);
+                rentersComboBox.Items.Add(readerRenters["Name"]);
             }
             readerRenters.Close();
 
@@ -37,7 +37,7 @@ namespace manprac
             while(readerMonth.Read())
             {
                 DebitingMonth.Add(Convert.ToInt32(readerMonth["ID_Month"]), Convert.ToString(readerMonth["Name"]));
-                monthBox.Items.Add(readerMonth["Name"]);
+                monthComboBox.Items.Add(readerMonth["Name"]);
             }
             readerMonth.Close();
             conn.Close();
@@ -46,18 +46,18 @@ namespace manprac
 
         private void AddOfficesForm_Load(object sender, EventArgs e)
         {
-            ActiveControl = contract;
+            ActiveControl = contractTextBox;
         }
 
-        private void addOfficesButton_Click(object sender, EventArgs e)
+        private void addRecordButton_Click(object sender, EventArgs e)
         {
             MainForm main = this.Owner as MainForm;
             StringBuilder errors = new StringBuilder();
-            if (string.IsNullOrWhiteSpace(rentersBox.Text)) errors.AppendLine("Выберите арендатора.");
-            if (string.IsNullOrWhiteSpace(monthBox.Text)) errors.AppendLine("Выберите месяц.");
-            if (string.IsNullOrWhiteSpace(contract.Text)) errors.AppendLine("Заполните поле \"Контракт\".");
+            if (string.IsNullOrWhiteSpace(rentersComboBox.Text)) errors.AppendLine("Выберите арендатора.");
+            if (string.IsNullOrWhiteSpace(monthComboBox.Text)) errors.AppendLine("Выберите месяц.");
+            if (string.IsNullOrWhiteSpace(contractTextBox.Text)) errors.AppendLine("Заполните поле \"Контракт\".");
             if (string.IsNullOrWhiteSpace(amountRentBox.Text)) errors.AppendLine("Заполните поле \"Сумма аренды\".");
-            if (string.IsNullOrWhiteSpace(vatBox.Text)) errors.AppendLine("Заполниете поле \"НДС\".");
+            if (string.IsNullOrWhiteSpace(vatTextBox.Text)) errors.AppendLine("Заполните поле \"НДС\".");
             if (errors.Length > 0)
             {
                 MessageBox.Show(errors.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -74,7 +74,7 @@ namespace manprac
             }
             try
             {
-                double s = Convert.ToDouble(vatBox.Text);
+                double s = Convert.ToDouble(vatTextBox.Text);
             }
             catch
             {
@@ -85,14 +85,14 @@ namespace manprac
             int SelectedMonth = 0;
             foreach (var item in DebitingRenters)
             {
-                if (item.Value == rentersBox.Text)
+                if (item.Value == rentersComboBox.Text)
                 {
                     SelectedRenters = item.Key;
                 }
             }
             foreach (var item in DebitingMonth)
             {
-                if (item.Value == monthBox.Text)
+                if (item.Value == monthComboBox.Text)
                 {
                     SelectedMonth = item.Key;
                 }
@@ -102,12 +102,20 @@ namespace manprac
             conn.Open();
             SqlCommand InsertInOffices = new SqlCommand("INSERT INTO [Offices] (ID_Renters, Contract, ID_Month, Amount_Rent, VAT, Date_Payment, Note) VALUES (@ID_Renters, @Contract, @ID_Month, @Amount_Rent, @VAT, @Date_Payment, @Note)", conn);
             InsertInOffices.Parameters.AddWithValue("@ID_Renters", SelectedRenters);
-            InsertInOffices.Parameters.AddWithValue("@Contract", contract.Text);
+            InsertInOffices.Parameters.AddWithValue("@Contract", contractTextBox.Text);
             InsertInOffices.Parameters.AddWithValue("@ID_Month", SelectedMonth);
             InsertInOffices.Parameters.AddWithValue("@Amount_Rent", amountRentBox.Text);
-            InsertInOffices.Parameters.AddWithValue("@VAT", vatBox.Text);
+            InsertInOffices.Parameters.AddWithValue("@VAT", vatTextBox.Text);
             InsertInOffices.Parameters.AddWithValue("@Date_Payment", datePicker.Value);
-            InsertInOffices.Parameters.AddWithValue("@Note", noteBox.Text);
+            if (noteTextBox.Text == "")
+            {
+                InsertInOffices.Parameters.AddWithValue("@Note", "Отсутствует");
+            }
+            else
+            {
+                InsertInOffices.Parameters.AddWithValue("@Note", noteTextBox.Text);
+            }
+
             try
             {
                 InsertInOffices.ExecuteNonQuery();
@@ -151,12 +159,12 @@ namespace manprac
             }
         }
 
-        private void textBox2_KeyDown(object sender, KeyEventArgs e)
+        private void contractTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                addOfficesButton_Click(sender, e);
+                addRecordButton_Click(sender, e);
             }
             if (e.KeyCode == Keys.Down)
             {
@@ -165,16 +173,16 @@ namespace manprac
             }
         }
 
-        private void textBox3_KeyDown(object sender, KeyEventArgs e)
+        private void amountRentTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                addOfficesButton_Click(sender, e);
+                addRecordButton_Click(sender, e);
             }
             if (e.KeyCode == Keys.Down)
             {
-                if (vatBox.Enabled != false)
+                if (vatTextBox.Enabled != false)
                 {
                     e.Handled = true;
                     SelectNextControl(ActiveControl, true, true, true, true);
@@ -192,7 +200,12 @@ namespace manprac
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                addOfficesButton_Click(sender, e);
+                addRecordButton_Click(sender, e);
+            }
+            if (e.KeyCode == Keys.Down)
+            {
+                e.Handled = true;
+                SelectNextControl(ActiveControl, true, true, true, true);
             }
             if (e.KeyCode == Keys.Up)
             {
@@ -201,21 +214,35 @@ namespace manprac
             }
         }
 
-        private void comboBox1_KeyDown(object sender, KeyEventArgs e)
+        private void noteTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                addOfficesButton_Click(sender, e);
+                addRecordButton_Click(sender, e);
+            }
+            if (e.KeyCode == Keys.Up)
+            {
+                e.Handled = true;
+                SelectNextControl(ActiveControl, false, true, true, true);
             }
         }
 
-        private void comboBox2_KeyDown(object sender, KeyEventArgs e)
+        private void rentersComboBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                addOfficesButton_Click(sender, e);
+                addRecordButton_Click(sender, e);
+            }
+        }
+
+        private void monthComboBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                addRecordButton_Click(sender, e);
             }
         }
 
@@ -224,7 +251,7 @@ namespace manprac
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                addOfficesButton_Click(sender, e);
+                addRecordButton_Click(sender, e);
             }
         }
     }

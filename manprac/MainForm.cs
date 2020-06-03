@@ -13,8 +13,7 @@ namespace manprac
 {
     public partial class MainForm : Form
     {
-        //public string ConnString = ConnStringForm.connection;
-        public string ConnString = Properties.Settings.Default.ConnectionSting;
+        public string ConnString = ConnStringForm.connection;
         public MainForm()
         {
             InitializeComponent();
@@ -79,7 +78,6 @@ namespace manprac
             readerOffices.Close();
             #endregion
             //Load Table Offices
-
             #region
             SqlCommand loadApartaments = new SqlCommand("SELECT ID_Apartament, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, Amount_Payemnt, VAT," +
                 " Date_Payment, Note FROM Apartaments LEFT JOIN Renters on Apartaments.ID_Renters = Renters.ID_Renters " +
@@ -192,7 +190,7 @@ namespace manprac
             }
         }
 
-            private void addOfficeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void addOfficeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddOfficesForm addOfficesForm = new AddOfficesForm();
             addOfficesForm.Owner = this;

@@ -13,8 +13,7 @@ namespace manprac
 {
     public partial class AddRentersForm : Form
     {
-        //public string ConnString = ConnStringForm.connection;
-        public string ConnString = Properties.Settings.Default.ConnectionSting;
+        public string ConnString = ConnStringForm.connection;
         public AddRentersForm()
         {
             InitializeComponent();
@@ -22,12 +21,12 @@ namespace manprac
 
         private void AddRentersForm_Load(object sender, EventArgs e)
         {
-            ActiveControl = textBox1;
+            ActiveControl = nameTextBox;
         }
 
         private void addRecordButton_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text == "")
+            if (nameTextBox.Text == "")
             {
                 MessageBox.Show("Заполните поле \"Название предприятия\" ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -38,7 +37,7 @@ namespace manprac
                 SqlConnection conn = new SqlConnection(ConnString);
                 conn.Open();
                 SqlCommand command = new SqlCommand("INSERT INTO [Renters] (Name) VALUES (@Name)", conn);
-                command.Parameters.AddWithValue("@Name", textBox1.Text);
+                command.Parameters.AddWithValue("@Name", nameTextBox.Text);
                 try
                 {
                     command.ExecuteNonQuery();
@@ -54,7 +53,7 @@ namespace manprac
             }
         }
 
-        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        private void nameTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {

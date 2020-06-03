@@ -19,25 +19,25 @@ namespace manprac
 
         private void connStringForm_Load(object sender, EventArgs e)
         {
-            ActiveControl = textBox1;
+            ActiveControl = stringTextBox;
         }
 
-        public static string connection = Properties.Settings.Default.ConnectionSting;//"Data Source=ПК-1;Initial Catalog=RentDB;Integrated Security=True";
+        public static string connection = "Data Source=ПК-1;Initial Catalog=RentDB;Integrated Security=True";//Properties.Settings.Default.ConnectionString;
 
         private void updateConnStringButton_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text == "")
+            if (stringTextBox.Text == "")
             {
                 MessageBox.Show("Поле пустое", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                connection = textBox1.Text;
+                connection = stringTextBox.Text;
                 MessageBox.Show("Строка была успешно обновлена", "Обновление", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
-        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        private void stringTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {

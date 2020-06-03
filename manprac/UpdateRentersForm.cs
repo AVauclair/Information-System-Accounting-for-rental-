@@ -24,7 +24,7 @@ namespace manprac
             try
             {
                 MainForm main = this.Owner as MainForm;
-                ActiveControl = newNameBox;
+                ActiveControl = newNameTextBox;
                 SqlConnection conn = new SqlConnection(ConnString);
                 conn.Open();
                 SqlCommand command = new SqlCommand("SELECT Name From Renters WHERE ID_Renters = @ID_Renters", conn);
@@ -32,7 +32,7 @@ namespace manprac
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    oldNameBox.Text = reader["Name"].ToString();
+                    oldNameTextBox.Text = reader["Name"].ToString();
                 }
                 reader.Close();
                 conn.Close();
@@ -42,12 +42,13 @@ namespace manprac
                 //Close();
                 //MessageBox.Show("Выберите");
             }
+            newNameTextBox.SelectionStart = 0;
         }
 
         private void updateRecordButton_Click(object sender, EventArgs e)
         {
             MainForm main = this.Owner as MainForm;
-            if (newNameBox.Text == "")
+            if (newNameTextBox.Text == "")
             {
                 MessageBox.Show("Поле пустое", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -58,7 +59,7 @@ namespace manprac
                 SqlConnection conn = new SqlConnection(ConnString);
                 conn.Open();
                 SqlCommand command = new SqlCommand("UPDATE [Renters] SET [Name] = @Name WHERE [ID_Renters] = @ID_Renters", conn);
-                command.Parameters.AddWithValue("@Name", newNameBox.Text);
+                command.Parameters.AddWithValue("@Name", newNameTextBox.Text);
                 command.Parameters.AddWithValue("@ID_Renters", main.dataGridRenters.CurrentRow.Cells[0].Value);
                 try
                 {
@@ -75,7 +76,7 @@ namespace manprac
             }
         }
 
-        private void textBox2_KeyDown(object sender, KeyEventArgs e)
+        private void newNameTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {

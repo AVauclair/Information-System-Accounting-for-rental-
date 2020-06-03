@@ -22,14 +22,14 @@ namespace manprac
         public string ConnString = ConnStringForm.connection;
         private void AddFlatsForm_Load(object sender, EventArgs e)
         {
-            ActiveControl = textBox2;
+            ActiveControl = contractTextBox;
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
             SqlCommand loadRenters = new SqlCommand("SELECT Name FROM Renters", conn);
             SqlDataReader readerRenter = loadRenters.ExecuteReader();
             while(readerRenter.Read())
             {
-                rentersBox.Items.Add(readerRenter["Name"]);
+                rentersComboBox.Items.Add(readerRenter["Name"]);
             }
             readerRenter.Close();
 
@@ -37,7 +37,7 @@ namespace manprac
             SqlDataReader readerMonth = loadMounth.ExecuteReader();
             while(readerMonth.Read())
             {
-                monthBox.Items.Add(readerMonth["Name"]);
+                monthComboBox.Items.Add(readerMonth["Name"]);
             }
             readerMonth.Close();
             conn.Close();
@@ -45,7 +45,7 @@ namespace manprac
 
         private void addFlatsButton_Click(object sender, EventArgs e)
         {
-            if (textBox2.Text == "")
+            if (contractTextBox.Text == "")
             {
                 MessageBox.Show("Есть пустые поля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -55,7 +55,7 @@ namespace manprac
             }
         }
 
-        private void textBox2_KeyDown(object sender, KeyEventArgs e)
+        private void contractTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -69,7 +69,7 @@ namespace manprac
             }
         }
 
-        private void textBox3_KeyDown(object sender, KeyEventArgs e)
+        private void amountRentTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -105,7 +105,7 @@ namespace manprac
             }
         }
 
-        private void comboBox1_KeyDown(object sender, KeyEventArgs e)
+        private void rentersComboBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -114,7 +114,7 @@ namespace manprac
             }
         }
 
-        private void comboBox2_KeyDown(object sender, KeyEventArgs e)
+        private void monthComboBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -123,7 +123,7 @@ namespace manprac
             }
         }
 
-        private void dateTimePicker1_KeyDown(object sender, KeyEventArgs e)
+        private void datePicker_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -132,7 +132,7 @@ namespace manprac
             }
         }
 
-        private void comboBox3_KeyDown(object sender, KeyEventArgs e)
+        private void areaTypeComboBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {

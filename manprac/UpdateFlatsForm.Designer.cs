@@ -28,34 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.addRecordButton = new System.Windows.Forms.Button();
+            this.updateRecordButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.contractTextBox = new System.Windows.Forms.TextBox();
+            this.rentersComboBox = new System.Windows.Forms.ComboBox();
+            this.monthComboBox = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.amountRentTextBox = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.vatTextBox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.datePicker = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.areaTypeComboBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
-            // addRecordButton
+            // updateRecordButton
             // 
-            this.addRecordButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.addRecordButton.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.addRecordButton.Location = new System.Drawing.Point(99, 271);
-            this.addRecordButton.Name = "addRecordButton";
-            this.addRecordButton.Size = new System.Drawing.Size(182, 32);
-            this.addRecordButton.TabIndex = 3;
-            this.addRecordButton.Text = "Обновить запись";
-            this.addRecordButton.UseVisualStyleBackColor = true;
-            this.addRecordButton.Click += new System.EventHandler(this.updateRecordButton_Click);
+            this.updateRecordButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.updateRecordButton.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.updateRecordButton.Location = new System.Drawing.Point(99, 271);
+            this.updateRecordButton.Name = "updateRecordButton";
+            this.updateRecordButton.Size = new System.Drawing.Size(182, 32);
+            this.updateRecordButton.TabIndex = 3;
+            this.updateRecordButton.Text = "Обновить запись";
+            this.updateRecordButton.UseVisualStyleBackColor = true;
+            this.updateRecordButton.Click += new System.EventHandler(this.updateRecordButton_Click);
             // 
             // label2
             // 
@@ -67,34 +67,34 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Договор:";
             // 
-            // textBox2
+            // contractTextBox
             // 
-            this.textBox2.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox2.Location = new System.Drawing.Point(157, 120);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(207, 31);
-            this.textBox2.TabIndex = 8;
-            this.textBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown);
+            this.contractTextBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.contractTextBox.Location = new System.Drawing.Point(157, 120);
+            this.contractTextBox.Name = "contractTextBox";
+            this.contractTextBox.Size = new System.Drawing.Size(207, 31);
+            this.contractTextBox.TabIndex = 8;
+            this.contractTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.contractTextBox_KeyDown);
             // 
-            // comboBox1
+            // rentersComboBox
             // 
-            this.comboBox1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(157, 46);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(207, 31);
-            this.comboBox1.TabIndex = 6;
-            this.comboBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox1_KeyDown);
+            this.rentersComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rentersComboBox.FormattingEnabled = true;
+            this.rentersComboBox.Location = new System.Drawing.Point(157, 46);
+            this.rentersComboBox.Name = "rentersComboBox";
+            this.rentersComboBox.Size = new System.Drawing.Size(207, 31);
+            this.rentersComboBox.TabIndex = 6;
+            this.rentersComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.rentersComboBox_KeyDown);
             // 
-            // comboBox2
+            // monthComboBox
             // 
-            this.comboBox2.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(157, 83);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(207, 31);
-            this.comboBox2.TabIndex = 7;
-            this.comboBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox2_KeyDown);
+            this.monthComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.monthComboBox.FormattingEnabled = true;
+            this.monthComboBox.Location = new System.Drawing.Point(157, 83);
+            this.monthComboBox.Name = "monthComboBox";
+            this.monthComboBox.Size = new System.Drawing.Size(207, 31);
+            this.monthComboBox.TabIndex = 7;
+            this.monthComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.monthComboBox_KeyDown);
             // 
             // label3
             // 
@@ -126,14 +126,14 @@
             this.label5.TabIndex = 11;
             this.label5.Text = "Сумма аренды:";
             // 
-            // textBox3
+            // amountRentTextBox
             // 
-            this.textBox3.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox3.Location = new System.Drawing.Point(157, 157);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(207, 31);
-            this.textBox3.TabIndex = 12;
-            this.textBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox3_KeyDown);
+            this.amountRentTextBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.amountRentTextBox.Location = new System.Drawing.Point(157, 157);
+            this.amountRentTextBox.Name = "amountRentTextBox";
+            this.amountRentTextBox.Size = new System.Drawing.Size(207, 31);
+            this.amountRentTextBox.TabIndex = 12;
+            this.amountRentTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.amountRentTextBox_KeyDown);
             // 
             // label6
             // 
@@ -164,14 +164,16 @@
             this.label7.TabIndex = 15;
             this.label7.Text = "Дата оплаты:";
             // 
-            // dateTimePicker1
+            // datePicker
             // 
-            this.dateTimePicker1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dateTimePicker1.Location = new System.Drawing.Point(157, 231);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(207, 31);
-            this.dateTimePicker1.TabIndex = 16;
-            this.dateTimePicker1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker1_KeyDown);
+            this.datePicker.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.datePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.datePicker.Location = new System.Drawing.Point(157, 231);
+            this.datePicker.Name = "datePicker";
+            this.datePicker.Size = new System.Drawing.Size(207, 31);
+            this.datePicker.TabIndex = 16;
+            this.datePicker.Value = new System.DateTime(2020, 6, 3, 0, 0, 0, 0);
+            this.datePicker.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker1_KeyDown);
             // 
             // label1
             // 
@@ -183,15 +185,15 @@
             this.label1.TabIndex = 18;
             this.label1.Text = "Тип помещения:";
             // 
-            // comboBox3
+            // areaTypeComboBox
             // 
-            this.comboBox3.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(157, 10);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(207, 31);
-            this.comboBox3.TabIndex = 17;
-            this.comboBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox3_KeyDown);
+            this.areaTypeComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.areaTypeComboBox.FormattingEnabled = true;
+            this.areaTypeComboBox.Location = new System.Drawing.Point(157, 10);
+            this.areaTypeComboBox.Name = "areaTypeComboBox";
+            this.areaTypeComboBox.Size = new System.Drawing.Size(207, 31);
+            this.areaTypeComboBox.TabIndex = 17;
+            this.areaTypeComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.areaTypeComboBox_KeyDown);
             // 
             // UpdateFlatsForm
             // 
@@ -199,20 +201,20 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(376, 312);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.comboBox3);
-            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.areaTypeComboBox);
+            this.Controls.Add(this.datePicker);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.vatTextBox);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.amountRentTextBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.monthComboBox);
+            this.Controls.Add(this.rentersComboBox);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.addRecordButton);
+            this.Controls.Add(this.contractTextBox);
+            this.Controls.Add(this.updateRecordButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -226,20 +228,20 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button addRecordButton;
+        private System.Windows.Forms.Button updateRecordButton;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.TextBox contractTextBox;
+        private System.Windows.Forms.ComboBox rentersComboBox;
+        private System.Windows.Forms.ComboBox monthComboBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox amountRentTextBox;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox vatTextBox;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker datePicker;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox areaTypeComboBox;
     }
 }

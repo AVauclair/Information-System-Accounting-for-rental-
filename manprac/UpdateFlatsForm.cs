@@ -20,12 +20,13 @@ namespace manprac
 
         private void UpdateFlatsForm_Load(object sender, EventArgs e)
         {
-            ActiveControl = textBox2;
+            ActiveControl = contractTextBox;
+            contractTextBox.SelectionStart = 0;
         }
 
         private void updateRecordButton_Click(object sender, EventArgs e)
         {
-            if (textBox2.Text == "")
+            if (contractTextBox.Text == "")
             {
                 MessageBox.Show("Есть пустые поля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -35,7 +36,7 @@ namespace manprac
             }
         }
 
-        private void textBox2_KeyDown(object sender, KeyEventArgs e)
+        private void contractTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -49,7 +50,7 @@ namespace manprac
             }
         }
 
-        private void textBox3_KeyDown(object sender, KeyEventArgs e)
+        private void amountRentTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -82,7 +83,7 @@ namespace manprac
             }
         }
 
-        private void comboBox1_KeyDown(object sender, KeyEventArgs e)
+        private void rentersComboBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -91,7 +92,16 @@ namespace manprac
             }
         }
 
-        private void comboBox2_KeyDown(object sender, KeyEventArgs e)
+        private void monthComboBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                updateRecordButton_Click(sender, e);
+            }
+        }
+
+        private void areaTypeComboBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -101,15 +111,6 @@ namespace manprac
         }
 
         private void dateTimePicker1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.Handled = true;
-                updateRecordButton_Click(sender, e);
-            }
-        }
-
-        private void comboBox3_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
