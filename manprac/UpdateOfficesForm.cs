@@ -64,7 +64,6 @@ namespace manprac
                     SelectedMonth = item.Key;
                 }
             }
-            string selectedItem = "sss";
             SqlCommand SelectedItems = new SqlCommand("SELECT ID_Renters, Contract, ID_Month, Amount_Rent, VAT, Date_Payment, Note FROM Offices WHERE ID_Office = @ID_Office", conn);
             SelectedItems.Parameters.AddWithValue("@ID_Office", main.dataGridOffices.CurrentRow.Cells[0].Value);
             SqlDataReader readerSelectedItems = SelectedItems.ExecuteReader();
@@ -77,6 +76,7 @@ namespace manprac
                 amountRentBox.Text = readerSelectedItems["Amount_Rent"].ToString();
                 vatTextBox.Text = readerSelectedItems["VAT"].ToString();
                 datePicker.Value = Convert.ToDateTime(readerSelectedItems["Date_Payment"]);
+                noteTextBox.Text = readerSelectedItems["Note"].ToString();
             }
             readerSelectedItems.Close();
             conn.Close();
@@ -139,7 +139,6 @@ namespace manprac
             }
             else
             {
-                MessageBox.Show("Запись была успешно обновлена", "Обновление", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 SqlConnection conn = new SqlConnection(ConnString);
                 conn.Open();
                 SqlCommand command = new SqlCommand("UPDATE [Offices] SET [ID_Renters] = @ID_Renters, [ID_Month] = @ID_Month, [Contract] = @Contract, [Amount_Rent] = @Amount_Rent, " +
@@ -155,6 +154,36 @@ namespace manprac
                 try
                 {
                     command.ExecuteNonQuery();
+
+                    SqlCommand loadOffices = new SqlCommand("SELECT ID_Office, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, VAT, Date_Payment, Note" +
+              " FROM Offices LEFT JOIN Renters on Offices.ID_Renters = Renters.ID_Renters " +
+              " LEFT JOIN Months on Offices.ID_Month = Months.ID_Month", conn);
+                    SqlDataReader readerOffices = loadOffices.ExecuteReader();
+                    List<string[]> dataOffices = new List<string[]>();
+
+                    int countOffices = 1;
+                    while (readerOffices.Read())
+                    {
+
+                        dataOffices.Add(new string[9]);
+                        dataOffices[dataOffices.Count - 1][0] = readerOffices["ID_Office"].ToString();
+                        dataOffices[dataOffices.Count - 1][1] = countOffices.ToString();
+                        dataOffices[dataOffices.Count - 1][2] = readerOffices["Renters"].ToString();
+                        dataOffices[dataOffices.Count - 1][3] = readerOffices["Contract"].ToString();
+                        dataOffices[dataOffices.Count - 1][4] = readerOffices["Month"].ToString();
+                        dataOffices[dataOffices.Count - 1][5] = readerOffices["Amount_Rent"].ToString();
+                        dataOffices[dataOffices.Count - 1][6] = readerOffices["VAT"].ToString();
+                        dataOffices[dataOffices.Count - 1][7] = readerOffices["Date_Payment"].ToString();
+                        dataOffices[dataOffices.Count - 1][8] = readerOffices["Note"].ToString();
+                        countOffices++;
+                    }
+                    main.dataGridOffices.Rows.Clear();
+                    foreach (string[] s in dataOffices)
+                        main.dataGridOffices.Rows.Add(s);
+
+                    readerOffices.Close();
+                    MessageBox.Show("Запись была успешно обновлена", "Обновление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 }
                 catch (Exception ex)
                 {
@@ -263,38 +292,7 @@ namespace manprac
 
         private void UpdateOfficesForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            MainForm main = this.Owner as MainForm;
-            SqlConnection conn = new SqlConnection(ConnString);
-            conn.Open();
-            main.dataGridOffices.Rows.Clear();
-            SqlCommand loadOffices = new SqlCommand("SELECT ID_Office, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, VAT, Date_Payment, Note" +
-              " FROM Offices LEFT JOIN Renters on Offices.ID_Renters = Renters.ID_Renters " +
-              " LEFT JOIN Months on Offices.ID_Month = Months.ID_Month", conn);
-            SqlDataReader readerOffices = loadOffices.ExecuteReader();
-            List<string[]> dataOffices = new List<string[]>();
-
-            int countOffices = 1;
-            while (readerOffices.Read())
-            {
-
-                dataOffices.Add(new string[9]);
-                dataOffices[dataOffices.Count - 1][0] = countOffices.ToString();
-                dataOffices[dataOffices.Count - 1][1] = readerOffices["ID_Office"].ToString();
-                dataOffices[dataOffices.Count - 1][2] = readerOffices["Renters"].ToString();
-                dataOffices[dataOffices.Count - 1][3] = readerOffices["Contract"].ToString();
-                dataOffices[dataOffices.Count - 1][4] = readerOffices["Month"].ToString();
-                dataOffices[dataOffices.Count - 1][5] = readerOffices["Amount_Rent"].ToString();
-                dataOffices[dataOffices.Count - 1][6] = readerOffices["VAT"].ToString();
-                dataOffices[dataOffices.Count - 1][7] = readerOffices["Date_Payment"].ToString();
-                dataOffices[dataOffices.Count - 1][8] = readerOffices["Note"].ToString();
-                countOffices++;
-            }
-            main.dataGridOffices.Rows.Clear();
-            foreach (string[] s in dataOffices)
-                main.dataGridOffices.Rows.Add(s);
-
-            readerOffices.Close();
-            conn.Close();
+           
         }
     }
 }

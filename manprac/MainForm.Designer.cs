@@ -178,21 +178,21 @@
             // addOfficeToolStripMenuItem
             // 
             this.addOfficeToolStripMenuItem.Name = "addOfficeToolStripMenuItem";
-            this.addOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addOfficeToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.addOfficeToolStripMenuItem.Text = "Добавить";
             this.addOfficeToolStripMenuItem.Click += new System.EventHandler(this.addOfficeToolStripMenuItem_Click);
             // 
             // updateOfficeToolStripMenuItem
             // 
             this.updateOfficeToolStripMenuItem.Name = "updateOfficeToolStripMenuItem";
-            this.updateOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.updateOfficeToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.updateOfficeToolStripMenuItem.Text = "Изменить";
             this.updateOfficeToolStripMenuItem.Click += new System.EventHandler(this.updateOfficeToolStripMenuItem_Click);
             // 
             // deleteOfficeToolStripMenuItem
             // 
             this.deleteOfficeToolStripMenuItem.Name = "deleteOfficeToolStripMenuItem";
-            this.deleteOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteOfficeToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.deleteOfficeToolStripMenuItem.Text = "Удалить";
             this.deleteOfficeToolStripMenuItem.Click += new System.EventHandler(this.deleteOfficeToolStripMenuItem_Click);
             // 
@@ -436,7 +436,6 @@
             this.Column7.HeaderText = "ID";
             this.Column7.Name = "Column7";
             this.Column7.ReadOnly = true;
-            this.Column7.Visible = false;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -546,15 +545,6 @@
         private System.Windows.Forms.ToolStripMenuItem resultOfficesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resultFlatsToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem resultFlatsNToolStripMenuItem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column55;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
@@ -565,6 +555,15 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column55;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
     }
 }
 

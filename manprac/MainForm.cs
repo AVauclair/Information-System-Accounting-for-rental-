@@ -79,7 +79,7 @@ namespace manprac
             #endregion
             //Load Table Offices
             #region
-            SqlCommand loadApartaments = new SqlCommand("SELECT ID_Apartament, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, Amount_Payemnt, VAT," +
+            SqlCommand loadApartaments = new SqlCommand("SELECT ID_Apartament, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, Amount_Payment, VAT," +
                 " Date_Payment, Note FROM Apartaments LEFT JOIN Renters on Apartaments.ID_Renters = Renters.ID_Renters " +
                 " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month", conn);
             SqlDataReader readerApartaments = loadApartaments.ExecuteReader();
@@ -96,7 +96,7 @@ namespace manprac
                 dataApartaments[dataApartaments.Count - 1][3] = readerApartaments["Contract"].ToString();
                 dataApartaments[dataApartaments.Count - 1][4] = readerApartaments["Month"].ToString();
                 dataApartaments[dataApartaments.Count - 1][5] = readerApartaments["Amount_Rent"].ToString();
-                dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payemnt"].ToString();
+                dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
                 dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
                 dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["Date_Payment"].ToString();
                 dataApartaments[dataApartaments.Count - 1][9] = readerApartaments["Note"].ToString();
@@ -277,7 +277,7 @@ namespace manprac
         }
 
         private void addFlatsPToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        {    
             AddFlatsForm addFlatsForm = new AddFlatsForm();
             addFlatsForm.Owner = this;
             addFlatsForm.ShowDialog();
@@ -285,6 +285,16 @@ namespace manprac
 
         private void updateFlatsPToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (dataGridFlats.Visible == false)
+            {
+                MessageBox.Show("Выберите запись в таблице \"Квартиры\", которую хотите изменить.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (dataGridFlats.CurrentCell.Selected == false)
+            {
+                MessageBox.Show("Выберите запись в таблице, которую хотите изменить.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             UpdateFlatsForm updateFlatsForm = new UpdateFlatsForm();
             updateFlatsForm.Owner = this;
             updateFlatsForm.ShowDialog();
@@ -292,9 +302,66 @@ namespace manprac
 
         private void deleteFlatsPToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DeleteFlatsForm deleteFlatsForm = new DeleteFlatsForm();
-            deleteFlatsForm.Owner = this;
-            deleteFlatsForm.ShowDialog();
+            if(dataGridFlats.Visible == false)
+            {
+                MessageBox.Show("Выберите запись в таблице \"Квартиры\", которую хотите удалить.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (dataGridFlats.CurrentCell.Selected == false)
+            {
+                MessageBox.Show("Выберите запись в таблице, которую хотите удалить.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if(MessageBox.Show("Вы уверены, что хотитет удалить запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                SqlConnection conn = new SqlConnection(ConnString);
+                conn.Open();
+                SqlCommand deleteFlats = new SqlCommand("DELETE FROM [Apartaments] WHERE [ID_Apartament] = @ID_Apartament", conn);
+                deleteFlats.Parameters.AddWithValue("@ID_Apartament", dataGridFlats.CurrentRow.Cells[0].Value);
+                try
+                {
+                    deleteFlats.ExecuteNonQuery();
+                    MessageBox.Show("Запись успешно удалена.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    SqlCommand loadApartaments = new SqlCommand("SELECT ID_Apartament, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, Amount_Payment, VAT," +
+                " Date_Payment, Note FROM Apartaments LEFT JOIN Renters on Apartaments.ID_Renters = Renters.ID_Renters " +
+                " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month", conn);
+                    SqlDataReader readerApartaments = loadApartaments.ExecuteReader();
+                    List<string[]> dataApartaments = new List<string[]>();
+
+                    int countApartaments = 1;
+                    while (readerApartaments.Read())
+                    {
+
+                        dataApartaments.Add(new string[10]);
+                        dataApartaments[dataApartaments.Count - 1][0] = readerApartaments["ID_Apartament"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][1] = countApartaments.ToString();
+                        dataApartaments[dataApartaments.Count - 1][2] = readerApartaments["Renters"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][3] = readerApartaments["Contract"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][4] = readerApartaments["Month"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][5] = readerApartaments["Amount_Rent"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["Date_Payment"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][9] = readerApartaments["Note"].ToString();
+                        countApartaments++;
+                    }
+                    dataGridFlats.Rows.Clear();
+                    foreach (string[] s in dataApartaments)
+                        dataGridFlats.Rows.Add(s);
+
+                    readerApartaments.Close();
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+
+            }
         }
 
         private void connStringToolStripMenuItem_Click(object sender, EventArgs e)

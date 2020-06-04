@@ -43,13 +43,17 @@
             this.datePicker = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.areaTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.amountPaymentTextBox = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.noteTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // addRecordButton
             // 
             this.addRecordButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.addRecordButton.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.addRecordButton.Location = new System.Drawing.Point(99, 271);
+            this.addRecordButton.Location = new System.Drawing.Point(86, 371);
             this.addRecordButton.Name = "addRecordButton";
             this.addRecordButton.Size = new System.Drawing.Size(182, 32);
             this.addRecordButton.TabIndex = 3;
@@ -139,7 +143,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.Location = new System.Drawing.Point(42, 197);
+            this.label6.Location = new System.Drawing.Point(42, 237);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(107, 23);
             this.label6.TabIndex = 13;
@@ -149,7 +153,7 @@
             // 
             this.vatTextBox.Enabled = false;
             this.vatTextBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.vatTextBox.Location = new System.Drawing.Point(157, 194);
+            this.vatTextBox.Location = new System.Drawing.Point(155, 229);
             this.vatTextBox.Name = "vatTextBox";
             this.vatTextBox.Size = new System.Drawing.Size(207, 31);
             this.vatTextBox.TabIndex = 14;
@@ -159,7 +163,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.Location = new System.Drawing.Point(34, 234);
+            this.label7.Location = new System.Drawing.Point(34, 276);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(115, 23);
             this.label7.TabIndex = 15;
@@ -169,7 +173,7 @@
             // 
             this.datePicker.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.datePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.datePicker.Location = new System.Drawing.Point(157, 231);
+            this.datePicker.Location = new System.Drawing.Point(157, 270);
             this.datePicker.Name = "datePicker";
             this.datePicker.Size = new System.Drawing.Size(207, 31);
             this.datePicker.TabIndex = 16;
@@ -194,13 +198,54 @@
             this.areaTypeComboBox.Name = "areaTypeComboBox";
             this.areaTypeComboBox.Size = new System.Drawing.Size(207, 31);
             this.areaTypeComboBox.TabIndex = 17;
+            this.areaTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.areaTypeComboBox_SelectedIndexChanged);
             this.areaTypeComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.areaTypeComboBox_KeyDown);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label8.Location = new System.Drawing.Point(14, 198);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(132, 23);
+            this.label8.TabIndex = 19;
+            this.label8.Text = "Сумма оплаты:";
+            // 
+            // amountPaymentTextBox
+            // 
+            this.amountPaymentTextBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.amountPaymentTextBox.Location = new System.Drawing.Point(157, 194);
+            this.amountPaymentTextBox.Name = "amountPaymentTextBox";
+            this.amountPaymentTextBox.Size = new System.Drawing.Size(207, 31);
+            this.amountPaymentTextBox.TabIndex = 20;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label9.Location = new System.Drawing.Point(69, 320);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(80, 23);
+            this.label9.TabIndex = 21;
+            this.label9.Text = "Заметка:";
+            // 
+            // noteTextBox
+            // 
+            this.noteTextBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.noteTextBox.Location = new System.Drawing.Point(157, 317);
+            this.noteTextBox.Name = "noteTextBox";
+            this.noteTextBox.Size = new System.Drawing.Size(207, 31);
+            this.noteTextBox.TabIndex = 22;
             // 
             // AddFlatsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(376, 312);
+            this.ClientSize = new System.Drawing.Size(376, 428);
+            this.Controls.Add(this.noteTextBox);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.amountPaymentTextBox);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.areaTypeComboBox);
             this.Controls.Add(this.datePicker);
@@ -244,5 +289,9 @@
         private System.Windows.Forms.DateTimePicker datePicker;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox areaTypeComboBox;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox amountPaymentTextBox;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox noteTextBox;
     }
 }
