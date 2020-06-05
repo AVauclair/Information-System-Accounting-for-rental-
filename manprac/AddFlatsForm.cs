@@ -224,6 +224,44 @@ namespace manprac
             }
             if (e.KeyCode == Keys.Down)
             {
+                e.Handled = true;
+                SelectNextControl(ActiveControl, true, true, true, true);
+            }
+            if (e.KeyCode == Keys.Up)
+            {
+                e.Handled = true;
+                SelectNextControl(ActiveControl, false, true, true, true);
+            }
+        }
+
+        private void amountPaymentTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                addFlatsButton_Click(sender, e);
+            }
+            if (e.KeyCode == Keys.Down)
+            {
+                e.Handled = true;
+                SelectNextControl(ActiveControl, true, true, true, true);
+            }
+            if (e.KeyCode == Keys.Up)
+            {
+                e.Handled = true;
+                SelectNextControl(ActiveControl, false, true, true, true);
+            }
+        }
+
+        private void noteTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                addFlatsButton_Click(sender, e);
+            }
+            if (e.KeyCode == Keys.Down)
+            {
                 if (vatTextBox.Enabled != false)
                 {
                     e.Handled = true;
@@ -294,7 +332,9 @@ namespace manprac
                 vatTextBox.Enabled = true;
             }
             else
+            {
                 vatTextBox.Enabled = false;
+            }
         }
     }
 }

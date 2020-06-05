@@ -94,7 +94,10 @@ namespace manprac
                 {
                     vatTextBox.Enabled = false;
                 }
-                else vatTextBox.Enabled = true;
+                else
+                {
+                    vatTextBox.Enabled = true;
+                }
                 rentersComboBox.SelectedItem = DebitingRenters[Convert.ToInt32(readerItems["ID_Renters"])];
                 monthComboBox.SelectedItem = DebitingMonth[Convert.ToInt32(readerItems["ID_Month"])];
                 contractTextBox.Text = readerItems["Contract"].ToString();
@@ -108,6 +111,8 @@ namespace manprac
             }
             readerItems.Close();
             conn.Close();
+
+            contractTextBox.SelectionStart = 0;
         }
 
         private void updateRecordButton_Click(object sender, EventArgs e)
@@ -289,6 +294,47 @@ namespace manprac
             }
         }
 
+        private void amountPaymentTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                updateRecordButton_Click(sender, e);
+            }
+            if (e.KeyCode == Keys.Down)
+            {
+                e.Handled = true;
+                SelectNextControl(ActiveControl, true, true, true, true);
+            }
+            if (e.KeyCode == Keys.Up)
+            {
+                e.Handled = true;
+                SelectNextControl(ActiveControl, false, true, true, true);
+            }
+        }
+
+        private void noteTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                updateRecordButton_Click(sender, e);
+            }
+            if (e.KeyCode == Keys.Down)
+            {
+                if (vatTextBox.Enabled != false)
+                {
+                    e.Handled = true;
+                    SelectNextControl(ActiveControl, true, true, true, true);
+                }
+            }
+            if (e.KeyCode == Keys.Up)
+            {
+                e.Handled = true;
+                SelectNextControl(ActiveControl, false, true, true, true);
+            }
+        }
+
         private void vatTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -321,7 +367,7 @@ namespace manprac
             }
         }
 
-        private void areaTypeComboBox_KeyDown(object sender, KeyEventArgs e)
+        private void datePicker_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -330,7 +376,7 @@ namespace manprac
             }
         }
 
-        private void dateTimePicker1_KeyDown(object sender, KeyEventArgs e)
+        private void areaTypeComboBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -341,11 +387,14 @@ namespace manprac
 
         private void areaTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (areaTypeComboBox.SelectedItem.ToString() == "Жилое")
+            if (areaTypeComboBox.SelectedItem.ToString() == "Нежилое")
+            {
+                vatTextBox.Enabled = true;
+            }
+            else
             {
                 vatTextBox.Enabled = false;
             }
-            else vatTextBox.Enabled = true;
         }
     }
 }

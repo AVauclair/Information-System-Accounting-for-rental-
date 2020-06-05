@@ -53,7 +53,7 @@
             // 
             this.addRecordButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.addRecordButton.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.addRecordButton.Location = new System.Drawing.Point(86, 371);
+            this.addRecordButton.Location = new System.Drawing.Point(96, 349);
             this.addRecordButton.Name = "addRecordButton";
             this.addRecordButton.Size = new System.Drawing.Size(182, 32);
             this.addRecordButton.TabIndex = 3;
@@ -143,7 +143,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.Location = new System.Drawing.Point(42, 237);
+            this.label6.Location = new System.Drawing.Point(41, 274);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(107, 23);
             this.label6.TabIndex = 13;
@@ -153,17 +153,17 @@
             // 
             this.vatTextBox.Enabled = false;
             this.vatTextBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.vatTextBox.Location = new System.Drawing.Point(155, 229);
+            this.vatTextBox.Location = new System.Drawing.Point(157, 271);
             this.vatTextBox.Name = "vatTextBox";
             this.vatTextBox.Size = new System.Drawing.Size(207, 31);
-            this.vatTextBox.TabIndex = 14;
+            this.vatTextBox.TabIndex = 22;
             this.vatTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.vatTextBox_KeyDown);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.Location = new System.Drawing.Point(34, 276);
+            this.label7.Location = new System.Drawing.Point(33, 313);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(115, 23);
             this.label7.TabIndex = 15;
@@ -173,10 +173,10 @@
             // 
             this.datePicker.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.datePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.datePicker.Location = new System.Drawing.Point(157, 270);
+            this.datePicker.Location = new System.Drawing.Point(157, 309);
             this.datePicker.Name = "datePicker";
             this.datePicker.Size = new System.Drawing.Size(207, 31);
-            this.datePicker.TabIndex = 16;
+            this.datePicker.TabIndex = 28;
             this.datePicker.Value = new System.DateTime(2020, 6, 3, 0, 0, 0, 0);
             this.datePicker.KeyDown += new System.Windows.Forms.KeyEventHandler(this.datePicker_KeyDown);
             // 
@@ -197,7 +197,7 @@
             this.areaTypeComboBox.Location = new System.Drawing.Point(157, 10);
             this.areaTypeComboBox.Name = "areaTypeComboBox";
             this.areaTypeComboBox.Size = new System.Drawing.Size(207, 31);
-            this.areaTypeComboBox.TabIndex = 17;
+            this.areaTypeComboBox.TabIndex = 30;
             this.areaTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.areaTypeComboBox_SelectedIndexChanged);
             this.areaTypeComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.areaTypeComboBox_KeyDown);
             // 
@@ -205,7 +205,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label8.Location = new System.Drawing.Point(14, 198);
+            this.label8.Location = new System.Drawing.Point(17, 198);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(132, 23);
             this.label8.TabIndex = 19;
@@ -217,13 +217,14 @@
             this.amountPaymentTextBox.Location = new System.Drawing.Point(157, 194);
             this.amountPaymentTextBox.Name = "amountPaymentTextBox";
             this.amountPaymentTextBox.Size = new System.Drawing.Size(207, 31);
-            this.amountPaymentTextBox.TabIndex = 20;
+            this.amountPaymentTextBox.TabIndex = 14;
+            this.amountPaymentTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.amountPaymentTextBox_KeyDown);
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label9.Location = new System.Drawing.Point(69, 320);
+            this.label9.Location = new System.Drawing.Point(68, 236);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(80, 23);
             this.label9.TabIndex = 21;
@@ -232,16 +233,17 @@
             // noteTextBox
             // 
             this.noteTextBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.noteTextBox.Location = new System.Drawing.Point(157, 317);
+            this.noteTextBox.Location = new System.Drawing.Point(157, 233);
             this.noteTextBox.Name = "noteTextBox";
             this.noteTextBox.Size = new System.Drawing.Size(207, 31);
-            this.noteTextBox.TabIndex = 22;
+            this.noteTextBox.TabIndex = 20;
+            this.noteTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.noteTextBox_KeyDown);
             // 
             // AddFlatsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(376, 428);
+            this.ClientSize = new System.Drawing.Size(376, 391);
             this.Controls.Add(this.noteTextBox);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.amountPaymentTextBox);
