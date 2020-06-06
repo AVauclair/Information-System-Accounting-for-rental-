@@ -32,7 +32,7 @@ namespace manprac
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    oldNameTextBox.Text = reader["Name"].ToString();
+                    newNameTextBox.Text = reader["Name"].ToString();
                 }
                 reader.Close();
                 conn.Close();
@@ -42,7 +42,7 @@ namespace manprac
                 //Close();
                 //MessageBox.Show("Выберите");
             }
-            newNameTextBox.SelectionStart = 0;
+            newNameTextBox.SelectionStart = 100;
         }
 
         private void updateRecordButton_Click(object sender, EventArgs e)

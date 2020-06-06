@@ -13,6 +13,9 @@ namespace manprac
 {
     public partial class MainForm : Form
     {
+        Dictionary<int, string> DebitingMonth = new Dictionary<int, string>();
+        Dictionary<int, string> DebitingRenters = new Dictionary<int, string>();
+        Dictionary<int, string> DebitingAreaType = new Dictionary<int, string>();
         public string ConnString = ConnStringForm.connection;
         public MainForm()
         {
@@ -21,16 +24,45 @@ namespace manprac
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+
+            SqlCommand loadMonth = new SqlCommand("SELECT ID_Month, Name FROM Months", conn);
+            SqlDataReader readerMonth = loadMonth.ExecuteReader();
+            monthComboBox.Items.Add("Все");
+            while (readerMonth.Read())
+            {
+                DebitingMonth.Add(Convert.ToInt32(readerMonth["ID_Month"]), Convert.ToString(readerMonth["Name"]));
+                monthComboBox.Items.Add(readerMonth["Name"]);
+            }
+            readerMonth.Close();
+
+            SqlCommand loadAreaType = new SqlCommand("SELECT ID_Apartment_Status, Name FROM ApartmentStatus", conn);
+            SqlDataReader readerAreaType = loadAreaType.ExecuteReader();
+            areaTypeComboBox.Items.Add("Оба");
+            while (readerAreaType.Read())
+            {
+                DebitingAreaType.Add(Convert.ToInt32(readerAreaType["ID_Apartment_Status"]), Convert.ToString(readerAreaType["Name"]));
+                areaTypeComboBox.Items.Add(readerAreaType["Name"]);
+            }
+            readerAreaType.Close();
+
             menuStrip1.Items.OfType<ToolStripMenuItem>().ToList().ForEach(x =>
             {
                 x.MouseHover += (obj, arg) => ((ToolStripDropDownItem)obj).ShowDropDown();
             });
 
-            SqlConnection conn = new SqlConnection(ConnString);
-            conn.Open();
-            #region
+
             SqlCommand loadRenters = new SqlCommand("SELECT ID_Renters, Name FROM Renters", conn);
             SqlDataReader readerRenters = loadRenters.ExecuteReader();
+            rentersComboBox.Items.Add("Все");
+            while (readerRenters.Read())
+            {
+                DebitingRenters.Add(Convert.ToInt32(readerRenters["ID_Renters"]), Convert.ToString(readerRenters["Name"]));
+                rentersComboBox.Items.Add(readerRenters["Name"]);
+            }
+
+            #region
             List<string[]> dataRenters = new List<string[]>();
 
             int countRenters = 1;
@@ -120,12 +152,12 @@ namespace manprac
 
         private void updateRentersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(dataGridRenters.Visible == false)
+            if (dataGridRenters.Visible == false)
             {
                 MessageBox.Show("Выберите запись в таблице \"Арендаторы\", которую хотите измениить.", "Ошибки", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if(dataGridRenters.CurrentCell.Selected ==false)
+            if (dataGridRenters.CurrentCell.Selected == false)
             {
                 MessageBox.Show("Выберите запись в таблице, которую хотите измениить.", "Ошибки", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -199,7 +231,7 @@ namespace manprac
 
         private void updateOfficeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(dataGridOffices.Visible == false)
+            if (dataGridOffices.Visible == false)
             {
                 MessageBox.Show("Выберите запись в таблице \"Офис\", которую хотите изменить.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -277,7 +309,7 @@ namespace manprac
         }
 
         private void addFlatsPToolStripMenuItem_Click(object sender, EventArgs e)
-        {    
+        {
             AddFlatsForm addFlatsForm = new AddFlatsForm();
             addFlatsForm.Owner = this;
             addFlatsForm.ShowDialog();
@@ -302,7 +334,7 @@ namespace manprac
 
         private void deleteFlatsPToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(dataGridFlats.Visible == false)
+            if (dataGridFlats.Visible == false)
             {
                 MessageBox.Show("Выберите запись в таблице \"Квартиры\", которую хотите удалить.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -312,7 +344,7 @@ namespace manprac
                 MessageBox.Show("Выберите запись в таблице, которую хотите удалить.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if(MessageBox.Show("Вы уверены, что хотитет удалить запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Вы уверены, что хотитет удалить запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 SqlConnection conn = new SqlConnection(ConnString);
                 conn.Open();
@@ -352,7 +384,7 @@ namespace manprac
 
                     readerApartaments.Close();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
@@ -389,7 +421,33 @@ namespace manprac
             dataGridRenters.Visible = false;
             dataGridFlats.Visible = true;
             dataGridOffices.Visible = false;
- 
+
+        }
+
+        private void resultFlatsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            dataGridResultFlats.Visible = true;
+            dataGridResultFlats.Rows.Clear();
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+            SqlCommand loadResultFlats = new SqlCommand("SELECT Months.ID_Month, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
+            "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month " +
+            " GROUP BY Months.ID_Month, Months.Name", conn);
+            SqlDataReader readerResultFlats = loadResultFlats.ExecuteReader();
+            List<string[]> data = new List<string[]>();
+
+            while (readerResultFlats.Read())
+            {
+                data.Add(new string[3]);
+                data[data.Count - 1][0] = readerResultFlats["Month"].ToString();
+                data[data.Count - 1][1] = readerResultFlats["SumRent"].ToString();
+                data[data.Count - 1][2] = readerResultFlats["SumPayment"].ToString();
+
+            }
+            foreach (string[] s in data)
+            {
+                dataGridResultFlats.Rows.Add(s);
+            }
         }
     }
 }

@@ -82,6 +82,7 @@
             // 
             // rentersComboBox
             // 
+            this.rentersComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.rentersComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rentersComboBox.FormattingEnabled = true;
             this.rentersComboBox.Location = new System.Drawing.Point(157, 46);
@@ -92,6 +93,7 @@
             // 
             // monthComboBox
             // 
+            this.monthComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.monthComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.monthComboBox.FormattingEnabled = true;
             this.monthComboBox.Location = new System.Drawing.Point(157, 83);
@@ -192,6 +194,7 @@
             // 
             // areaTypeComboBox
             // 
+            this.areaTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.areaTypeComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.areaTypeComboBox.FormattingEnabled = true;
             this.areaTypeComboBox.Location = new System.Drawing.Point(157, 10);
