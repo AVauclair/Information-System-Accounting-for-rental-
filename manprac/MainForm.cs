@@ -13,6 +13,42 @@ namespace manprac
 {
     public partial class MainForm : Form
     {
+        string firstQueryFlats = "SELECT ID_Apartament, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, Amount_Payment, VAT," +
+                " Date_Payment, Note FROM Apartaments LEFT JOIN Renters on Apartaments.ID_Renters = Renters.ID_Renters " +
+                " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month WHERE ((Date_Payment BETWEEN '{0:yyyyMMdd}' AND '{1:yyyyMMdd}'))";
+        string secondQueryFlats = "SELECT ID_Apartament, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, Amount_Payment, VAT," +
+                " Date_Payment, Note FROM Apartaments LEFT JOIN Renters on Apartaments.ID_Renters = Renters.ID_Renters " +
+                " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month WHERE ((Date_Payment BETWEEN '{0:yyyyMMdd}' AND '{1:yyyyMMdd}'))";
+        string helpQueryFlats = "";
+
+        string firstQueryResultFlats = "SELECT Months.ID_Month, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
+            "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month " +
+            " GROUP BY Months.ID_Month, Months.Name WHERE ((Date_Payment BETWEEN '{0:yyyyMMdd}' AND '{1:yyyyMMdd}'))";
+        string secondQueryResultFlats = "SELECT Months.ID_Month, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
+            "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month " +
+            " GROUP BY Months.ID_Month, Months.Name WHERE ((Date_Payment BETWEEN '{0:yyyyMMdd}' AND '{1:yyyyMMdd}'))";
+        string helpQueryResultFlats = "";
+
+        string firstQueryOffices = "SELECT ID_Office, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, VAT, Date_Payment, Note" +
+              " FROM Offices LEFT JOIN Renters on Offices.ID_Renters = Renters.ID_Renters " +
+              " LEFT JOIN Months on Offices.ID_Month = Months.ID_Month WHERE ((Date_Payment BETWEEN '{0:yyyyMMdd}' AND '{1:yyyyMMdd}'))";
+        string secondQueryOffices = "SELECT ID_Office, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, VAT, Date_Payment, Note" +
+              " FROM Offices LEFT JOIN Renters on Offices.ID_Renters = Renters.ID_Renters " +
+              " LEFT JOIN Months on Offices.ID_Month = Months.ID_Month WHERE ((Date_Payment BETWEEN '{0:yyyyMMdd}' AND '{1:yyyyMMdd}'))";
+        string helpQueryOffices = "";
+
+        string firstQueryResultOffices = "";
+        string secondQueryResultOffices = "";
+        string helpQueryResultOffices = "";
+
+        string firstQueryResultRenters = "";
+        string secondQueryResultRenters = "";
+        string helpQueryResultRenters = "";
+
+        string firstQueryResult = "";
+        string secondQueryResult = "";
+        string helpQueryResult = "";
+
         Dictionary<int, string> DebitingMonth = new Dictionary<int, string>();
         Dictionary<int, string> DebitingRenters = new Dictionary<int, string>();
         Dictionary<int, string> DebitingAreaType = new Dictionary<int, string>();
@@ -24,6 +60,11 @@ namespace manprac
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            menuStrip1.Items.OfType<ToolStripMenuItem>().ToList().ForEach(x =>
+            {
+                x.MouseHover += (obj, arg) => ((ToolStripDropDownItem)obj).ShowDropDown();
+            });
+
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
 
@@ -39,19 +80,13 @@ namespace manprac
 
             SqlCommand loadAreaType = new SqlCommand("SELECT ID_Apartment_Status, Name FROM ApartmentStatus", conn);
             SqlDataReader readerAreaType = loadAreaType.ExecuteReader();
-            areaTypeComboBox.Items.Add("Оба");
+            areaTypeComboBox.Items.Add("Любое");
             while (readerAreaType.Read())
             {
                 DebitingAreaType.Add(Convert.ToInt32(readerAreaType["ID_Apartment_Status"]), Convert.ToString(readerAreaType["Name"]));
                 areaTypeComboBox.Items.Add(readerAreaType["Name"]);
             }
             readerAreaType.Close();
-
-            menuStrip1.Items.OfType<ToolStripMenuItem>().ToList().ForEach(x =>
-            {
-                x.MouseHover += (obj, arg) => ((ToolStripDropDownItem)obj).ShowDropDown();
-            });
-
 
             SqlCommand loadRenters = new SqlCommand("SELECT ID_Renters, Name FROM Renters", conn);
             SqlDataReader readerRenters = loadRenters.ExecuteReader();
@@ -62,6 +97,7 @@ namespace manprac
                 rentersComboBox.Items.Add(readerRenters["Name"]);
             }
 
+            //Load Table Renters
             #region
             List<string[]> dataRenters = new List<string[]>();
 
@@ -76,11 +112,13 @@ namespace manprac
                 countRenters++;
             }
             foreach (string[] s in dataRenters)
+            {
                 dataGridRenters.Rows.Add(s);
+            }
 
             readerRenters.Close();
             #endregion
-            //Load Table Renters
+            //Load Table Offices
             #region
             SqlCommand loadOffices = new SqlCommand("SELECT ID_Office, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, VAT, Date_Payment, Note" +
               " FROM Offices LEFT JOIN Renters on Offices.ID_Renters = Renters.ID_Renters " +
@@ -105,11 +143,13 @@ namespace manprac
                 countOffices++;
             }
             foreach (string[] s in dataOffices)
+            {
                 dataGridOffices.Rows.Add(s);
+            }
 
             readerOffices.Close();
             #endregion
-            //Load Table Offices
+            //Load Table Apartaments
             #region
             SqlCommand loadApartaments = new SqlCommand("SELECT ID_Apartament, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, Amount_Payment, VAT," +
                 " Date_Payment, Note FROM Apartaments LEFT JOIN Renters on Apartaments.ID_Renters = Renters.ID_Renters " +
@@ -135,12 +175,18 @@ namespace manprac
                 countApartaments++;
             }
             foreach (string[] s in dataApartaments)
+            {
                 dataGridFlats.Rows.Add(s);
+            }
 
             readerApartaments.Close();
             #endregion
-            //Load Table Apartaments
+
             conn.Close();
+
+            monthComboBox.SelectedIndex = 0;
+            rentersComboBox.SelectedIndex = 0;
+            areaTypeComboBox.SelectedIndex = 0;
         }
 
         private void addRentersToolStripMenuItem_Click(object sender, EventArgs e)
@@ -449,6 +495,1177 @@ namespace manprac
                 dataGridResultFlats.Rows.Add(s);
             }
         }
+
+        //тут фильтрация начинается
+        #region
+        private void datePickerStart_ValueChanged(object sender, EventArgs e)
+        {
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+
+            if (dataGridFlats.Visible == true)
+            {
+                SqlCommand loadApartaments = new SqlCommand(string.Format(secondQueryFlats, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text, 
+                    amountRentTextBoxFinish.Text, amountPaymentTextBoxStart.Text, amountPaymentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(), rentersComboBox.SelectedValue.ToString(), 
+                    areaTypeComboBox.SelectedValue.ToString()), conn);
+                SqlDataReader readerApartaments = loadApartaments.ExecuteReader();
+                List<string[]> dataApartaments = new List<string[]>();
+
+                int countApartaments = 1;
+                while (readerApartaments.Read())
+                {
+
+                    dataApartaments.Add(new string[10]);
+                    dataApartaments[dataApartaments.Count - 1][0] = readerApartaments["ID_Apartament"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][1] = countApartaments.ToString();
+                    dataApartaments[dataApartaments.Count - 1][2] = readerApartaments["Renters"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][3] = readerApartaments["Contract"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][4] = readerApartaments["Month"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][5] = readerApartaments["Amount_Rent"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["Date_Payment"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][9] = readerApartaments["Note"].ToString();
+                    countApartaments++;
+                }
+                foreach (string[] s in dataApartaments)
+                {
+                    dataGridFlats.Rows.Add(s);
+                }
+
+                readerApartaments.Close();
+            }
+            if (dataGridOffices.Visible == true)
+            {
+                SqlCommand loadOffices = new SqlCommand(string.Format(secondQueryOffices, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                    amountRentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(), rentersComboBox.SelectedValue.ToString()), conn);
+                SqlDataReader readerOffices = loadOffices.ExecuteReader();
+                List<string[]> dataOffices = new List<string[]>();
+
+                int countOffices = 1;
+                while (readerOffices.Read())
+                {
+
+                    dataOffices.Add(new string[9]);
+                    dataOffices[dataOffices.Count - 1][0] = readerOffices["ID_Office"].ToString();
+                    dataOffices[dataOffices.Count - 1][1] = countOffices.ToString();
+                    dataOffices[dataOffices.Count - 1][2] = readerOffices["Renters"].ToString();
+                    dataOffices[dataOffices.Count - 1][3] = readerOffices["Contract"].ToString();
+                    dataOffices[dataOffices.Count - 1][4] = readerOffices["Month"].ToString();
+                    dataOffices[dataOffices.Count - 1][5] = readerOffices["Amount_Rent"].ToString();
+                    dataOffices[dataOffices.Count - 1][6] = readerOffices["VAT"].ToString();
+                    dataOffices[dataOffices.Count - 1][7] = readerOffices["Date_Payment"].ToString();
+                    dataOffices[dataOffices.Count - 1][8] = readerOffices["Note"].ToString();
+                    countOffices++;
+                }
+                foreach (string[] s in dataOffices)
+                {
+                    dataGridOffices.Rows.Add(s);
+                }
+
+                readerOffices.Close();
+            }
+            if (dataGridResultFlats.Visible == true)
+            {
+                SqlCommand loadResultFlats = new SqlCommand(string.Format(secondQueryResultFlats, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                    amountRentTextBoxFinish.Text, amountPaymentTextBoxStart.Text, amountPaymentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(),
+                    areaTypeComboBox.SelectedValue.ToString()), conn);
+                SqlDataReader readerResultFlats = loadResultFlats.ExecuteReader();
+                List<string[]> data = new List<string[]>();
+
+                while (readerResultFlats.Read())
+                {
+                    data.Add(new string[3]);
+                    data[data.Count - 1][0] = readerResultFlats["Month"].ToString();
+                    data[data.Count - 1][1] = readerResultFlats["SumRent"].ToString();
+                    data[data.Count - 1][2] = readerResultFlats["SumPayment"].ToString();
+
+                }
+                foreach (string[] s in data)
+                {
+                    dataGridResultFlats.Rows.Add(s);
+                }
+            }
+            if (dataGridResultOffices.Visible == true)
+            {
+
+            }
+            if (dataGridResultRenters.Visible == true)
+            {
+
+            }
+            if (dataGridResults.Visible == true)
+            {
+
+            }
+
+            conn.Close();
+        }
+
+        private void datePickerFinish_ValueChanged(object sender, EventArgs e)
+        {
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+
+            if (dataGridFlats.Visible == true)
+            {
+                SqlCommand loadApartaments = new SqlCommand(string.Format(secondQueryFlats, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                    amountRentTextBoxFinish.Text, amountPaymentTextBoxStart.Text, amountPaymentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(), rentersComboBox.SelectedValue.ToString(),
+                    areaTypeComboBox.SelectedValue.ToString()), conn);
+                SqlDataReader readerApartaments = loadApartaments.ExecuteReader();
+                List<string[]> dataApartaments = new List<string[]>();
+
+                int countApartaments = 1;
+                while (readerApartaments.Read())
+                {
+
+                    dataApartaments.Add(new string[10]);
+                    dataApartaments[dataApartaments.Count - 1][0] = readerApartaments["ID_Apartament"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][1] = countApartaments.ToString();
+                    dataApartaments[dataApartaments.Count - 1][2] = readerApartaments["Renters"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][3] = readerApartaments["Contract"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][4] = readerApartaments["Month"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][5] = readerApartaments["Amount_Rent"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["Date_Payment"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][9] = readerApartaments["Note"].ToString();
+                    countApartaments++;
+                }
+                foreach (string[] s in dataApartaments)
+                {
+                    dataGridFlats.Rows.Add(s);
+                }
+
+                readerApartaments.Close();
+            }
+            if (dataGridOffices.Visible == true)
+            {
+                SqlCommand loadOffices = new SqlCommand(string.Format(secondQueryOffices, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                    amountRentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(), rentersComboBox.SelectedValue.ToString()), conn);
+                SqlDataReader readerOffices = loadOffices.ExecuteReader();
+                List<string[]> dataOffices = new List<string[]>();
+
+                int countOffices = 1;
+                while (readerOffices.Read())
+                {
+
+                    dataOffices.Add(new string[9]);
+                    dataOffices[dataOffices.Count - 1][0] = readerOffices["ID_Office"].ToString();
+                    dataOffices[dataOffices.Count - 1][1] = countOffices.ToString();
+                    dataOffices[dataOffices.Count - 1][2] = readerOffices["Renters"].ToString();
+                    dataOffices[dataOffices.Count - 1][3] = readerOffices["Contract"].ToString();
+                    dataOffices[dataOffices.Count - 1][4] = readerOffices["Month"].ToString();
+                    dataOffices[dataOffices.Count - 1][5] = readerOffices["Amount_Rent"].ToString();
+                    dataOffices[dataOffices.Count - 1][6] = readerOffices["VAT"].ToString();
+                    dataOffices[dataOffices.Count - 1][7] = readerOffices["Date_Payment"].ToString();
+                    dataOffices[dataOffices.Count - 1][8] = readerOffices["Note"].ToString();
+                    countOffices++;
+                }
+                foreach (string[] s in dataOffices)
+                {
+                    dataGridOffices.Rows.Add(s);
+                }
+
+                readerOffices.Close();
+            }
+            if (dataGridResultFlats.Visible == true)
+            {
+                SqlCommand loadResultFlats = new SqlCommand(string.Format(secondQueryResultFlats, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                    amountRentTextBoxFinish.Text, amountPaymentTextBoxStart.Text, amountPaymentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(),
+                    areaTypeComboBox.SelectedValue.ToString()), conn);
+                SqlDataReader readerResultFlats = loadResultFlats.ExecuteReader();
+                List<string[]> data = new List<string[]>();
+
+                while (readerResultFlats.Read())
+                {
+                    data.Add(new string[3]);
+                    data[data.Count - 1][0] = readerResultFlats["Month"].ToString();
+                    data[data.Count - 1][1] = readerResultFlats["SumRent"].ToString();
+                    data[data.Count - 1][2] = readerResultFlats["SumPayment"].ToString();
+
+                }
+                foreach (string[] s in data)
+                {
+                    dataGridResultFlats.Rows.Add(s);
+                }
+            }
+            if (dataGridResultOffices.Visible == true)
+            {
+
+            }
+            if (dataGridResultRenters.Visible == true)
+            {
+
+            }
+            if (dataGridResults.Visible == true)
+            {
+
+            }
+
+            conn.Close();
+        }
+
+        private void amountRentTextBoxStart_TextChanged(object sender, EventArgs e)
+        {
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+
+            if (amountRentTextBoxStart.Text == "" || string.IsNullOrWhiteSpace(amountRentTextBoxStart.Text) || amountRentTextBoxStart.Text.Any(char.IsLetter) || amountRentTextBoxStart.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
+            {
+                amountRentTextBoxStart.Text = "1";
+            }
+            else if (amountRentTextBoxStart.Text == "" || string.IsNullOrWhiteSpace(amountRentTextBoxStart.Text) || amountRentTextBoxStart.Text.Any(char.IsLetter) || amountRentTextBoxStart.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
+            {
+                amountRentTextBoxStart.Text = "100000";
+            }
+
+            if (dataGridFlats.Visible == true)
+            {
+                try
+                {
+                    if (helpQueryFlats.Length < firstQueryFlats.Length)
+                    {
+                        secondQueryFlats = firstQueryFlats.Substring(0, firstQueryFlats.Length - 1) + " AND (Amount_Rent BETWEEN `{2}` AND `{3}`))";
+                        helpQueryFlats = secondQueryFlats;
+                    }
+                    else
+                    {
+                        secondQueryFlats = helpQueryFlats.Substring(0, helpQueryFlats.Length - 1) + " AND (Amount_Rent BETWEEN `{2}` AND `{3}`))";
+                        firstQueryFlats = secondQueryFlats;
+                    }
+
+                    SqlCommand loadApartaments = new SqlCommand(string.Format(secondQueryFlats, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                        amountRentTextBoxFinish.Text, amountPaymentTextBoxStart.Text, amountPaymentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(), rentersComboBox.SelectedValue.ToString(),
+                        areaTypeComboBox.SelectedValue.ToString()), conn);
+                    SqlDataReader readerApartaments = loadApartaments.ExecuteReader();
+                    List<string[]> dataApartaments = new List<string[]>();
+
+                    int countApartaments = 1;
+                    while (readerApartaments.Read())
+                    {
+
+                        dataApartaments.Add(new string[10]);
+                        dataApartaments[dataApartaments.Count - 1][0] = readerApartaments["ID_Apartament"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][1] = countApartaments.ToString();
+                        dataApartaments[dataApartaments.Count - 1][2] = readerApartaments["Renters"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][3] = readerApartaments["Contract"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][4] = readerApartaments["Month"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][5] = readerApartaments["Amount_Rent"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["Date_Payment"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][9] = readerApartaments["Note"].ToString();
+                        countApartaments++;
+                    }
+                    foreach (string[] s in dataApartaments)
+                    {
+                        dataGridFlats.Rows.Add(s);
+                    }
+
+                    readerApartaments.Close();
+                }
+                catch
+                {
+
+                }
+            }
+            if (dataGridOffices.Visible == true)
+            {
+                try
+                {
+                    if (helpQueryOffices.Length < firstQueryOffices.Length)
+                    {
+                        secondQueryOffices = firstQueryOffices.Substring(0, firstQueryOffices.Length - 1) + " AND (Amount_Rent BETWEEN `{2}` AND `{3}`))";
+                        helpQueryOffices = secondQueryOffices;
+                    }
+                    else
+                    {
+                        secondQueryOffices = helpQueryOffices.Substring(0, helpQueryOffices.Length - 1) + " AND (Amount_Rent BETWEEN `{2}` AND `{3}`))";
+                        firstQueryOffices = secondQueryOffices;
+                    }
+
+                    SqlCommand loadOffices = new SqlCommand(string.Format(secondQueryOffices, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                        amountRentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(), rentersComboBox.SelectedValue.ToString()), conn);
+                    SqlDataReader readerOffices = loadOffices.ExecuteReader();
+                    List<string[]> dataOffices = new List<string[]>();
+
+                    int countOffices = 1;
+                    while (readerOffices.Read())
+                    {
+
+                        dataOffices.Add(new string[9]);
+                        dataOffices[dataOffices.Count - 1][0] = readerOffices["ID_Office"].ToString();
+                        dataOffices[dataOffices.Count - 1][1] = countOffices.ToString();
+                        dataOffices[dataOffices.Count - 1][2] = readerOffices["Renters"].ToString();
+                        dataOffices[dataOffices.Count - 1][3] = readerOffices["Contract"].ToString();
+                        dataOffices[dataOffices.Count - 1][4] = readerOffices["Month"].ToString();
+                        dataOffices[dataOffices.Count - 1][5] = readerOffices["Amount_Rent"].ToString();
+                        dataOffices[dataOffices.Count - 1][6] = readerOffices["VAT"].ToString();
+                        dataOffices[dataOffices.Count - 1][7] = readerOffices["Date_Payment"].ToString();
+                        dataOffices[dataOffices.Count - 1][8] = readerOffices["Note"].ToString();
+                        countOffices++;
+                    }
+                    foreach (string[] s in dataOffices)
+                    {
+                        dataGridOffices.Rows.Add(s);
+                    }
+
+                    readerOffices.Close();
+                }
+                catch
+                {
+
+                }
+                
+            }
+            if (dataGridResultFlats.Visible == true)
+            {
+                try
+                {
+                    if (helpQueryResultFlats.Length < firstQueryResultFlats.Length)
+                    {
+                        secondQueryResultFlats = firstQueryResultFlats.Substring(0, firstQueryResultFlats.Length - 1) + " AND (Amount_Rent BETWEEN `{2}` AND `{3}`))";
+                        helpQueryResultFlats = secondQueryResultFlats;
+                    }
+                    else
+                    {
+                        secondQueryResultFlats = helpQueryResultFlats.Substring(0, helpQueryResultFlats.Length - 1) + " AND (Amount_Rent BETWEEN `{2}` AND `{3}`))";
+                        firstQueryResultFlats = secondQueryResultFlats;
+                    }
+
+                    SqlCommand loadResultFlats = new SqlCommand(string.Format(secondQueryResultFlats, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                        amountRentTextBoxFinish.Text, amountPaymentTextBoxStart.Text, amountPaymentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(),
+                        areaTypeComboBox.SelectedValue.ToString()), conn);
+                    SqlDataReader readerResultFlats = loadResultFlats.ExecuteReader();
+                    List<string[]> data = new List<string[]>();
+
+                    while (readerResultFlats.Read())
+                    {
+                        data.Add(new string[3]);
+                        data[data.Count - 1][0] = readerResultFlats["Month"].ToString();
+                        data[data.Count - 1][1] = readerResultFlats["SumRent"].ToString();
+                        data[data.Count - 1][2] = readerResultFlats["SumPayment"].ToString();
+
+                    }
+                    foreach (string[] s in data)
+                    {
+                        dataGridResultFlats.Rows.Add(s);
+                    }
+                }
+                catch
+                {
+
+                }
+            }
+            if (dataGridResultOffices.Visible == true)
+            {
+
+            }
+            if (dataGridResultRenters.Visible == true)
+            {
+
+            }
+            if (dataGridResults.Visible == true)
+            {
+
+            }
+
+            conn.Close();
+        }
+
+        private void amountRentTextBoxFinish_TextChanged(object sender, EventArgs e)
+        {
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+
+            if (amountRentTextBoxFinish.Text == "" || string.IsNullOrWhiteSpace(amountRentTextBoxFinish.Text) || amountRentTextBoxFinish.Text.Any(char.IsLetter) || amountRentTextBoxFinish.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
+            {
+                amountRentTextBoxFinish.Text = "1";
+            }
+            else if (amountRentTextBoxFinish.Text == "" || string.IsNullOrWhiteSpace(amountRentTextBoxFinish.Text) || amountRentTextBoxFinish.Text.Any(char.IsLetter) || amountRentTextBoxFinish.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
+            {
+                amountRentTextBoxFinish.Text = "100000";
+            }
+
+            if (dataGridFlats.Visible == true)
+            {
+                try
+                {
+                    if (helpQueryFlats.Length < firstQueryFlats.Length)
+                    {
+                        secondQueryFlats = firstQueryFlats.Substring(0, firstQueryFlats.Length - 1) + " AND (Amount_Rent BETWEEN `{2}` AND `{3}`))";
+                        helpQueryFlats = secondQueryFlats;
+                    }
+                    else
+                    {
+                        secondQueryFlats = helpQueryFlats.Substring(0, helpQueryFlats.Length - 1) + " AND (Amount_Rent BETWEEN `{2}` AND `{3}`))";
+                        firstQueryFlats = secondQueryFlats;
+                    }
+
+                    SqlCommand loadApartaments = new SqlCommand(string.Format(secondQueryFlats, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                        amountRentTextBoxFinish.Text, amountPaymentTextBoxStart.Text, amountPaymentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(), rentersComboBox.SelectedValue.ToString(),
+                        areaTypeComboBox.SelectedValue.ToString()), conn);
+                    SqlDataReader readerApartaments = loadApartaments.ExecuteReader();
+                    List<string[]> dataApartaments = new List<string[]>();
+
+                    int countApartaments = 1;
+                    while (readerApartaments.Read())
+                    {
+
+                        dataApartaments.Add(new string[10]);
+                        dataApartaments[dataApartaments.Count - 1][0] = readerApartaments["ID_Apartament"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][1] = countApartaments.ToString();
+                        dataApartaments[dataApartaments.Count - 1][2] = readerApartaments["Renters"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][3] = readerApartaments["Contract"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][4] = readerApartaments["Month"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][5] = readerApartaments["Amount_Rent"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["Date_Payment"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][9] = readerApartaments["Note"].ToString();
+                        countApartaments++;
+                    }
+                    foreach (string[] s in dataApartaments)
+                    {
+                        dataGridFlats.Rows.Add(s);
+                    }
+
+                    readerApartaments.Close();
+                }
+                catch
+                {
+
+                }
+            }
+            if (dataGridOffices.Visible == true)
+            {
+                try
+                {
+                    if (helpQueryOffices.Length < firstQueryOffices.Length)
+                    {
+                        secondQueryOffices = firstQueryOffices.Substring(0, firstQueryOffices.Length - 1) + " AND (Amount_Rent BETWEEN `{2}` AND `{3}`))";
+                        helpQueryOffices = secondQueryOffices;
+                    }
+                    else
+                    {
+                        secondQueryOffices = helpQueryOffices.Substring(0, helpQueryOffices.Length - 1) + " AND (Amount_Rent BETWEEN `{2}` AND `{3}`))";
+                        firstQueryOffices = secondQueryOffices;
+                    }
+
+                    SqlCommand loadOffices = new SqlCommand(string.Format(secondQueryOffices, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                        amountRentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(), rentersComboBox.SelectedValue.ToString()), conn);
+                    SqlDataReader readerOffices = loadOffices.ExecuteReader();
+                    List<string[]> dataOffices = new List<string[]>();
+
+                    int countOffices = 1;
+                    while (readerOffices.Read())
+                    {
+
+                        dataOffices.Add(new string[9]);
+                        dataOffices[dataOffices.Count - 1][0] = readerOffices["ID_Office"].ToString();
+                        dataOffices[dataOffices.Count - 1][1] = countOffices.ToString();
+                        dataOffices[dataOffices.Count - 1][2] = readerOffices["Renters"].ToString();
+                        dataOffices[dataOffices.Count - 1][3] = readerOffices["Contract"].ToString();
+                        dataOffices[dataOffices.Count - 1][4] = readerOffices["Month"].ToString();
+                        dataOffices[dataOffices.Count - 1][5] = readerOffices["Amount_Rent"].ToString();
+                        dataOffices[dataOffices.Count - 1][6] = readerOffices["VAT"].ToString();
+                        dataOffices[dataOffices.Count - 1][7] = readerOffices["Date_Payment"].ToString();
+                        dataOffices[dataOffices.Count - 1][8] = readerOffices["Note"].ToString();
+                        countOffices++;
+                    }
+                    foreach (string[] s in dataOffices)
+                    {
+                        dataGridOffices.Rows.Add(s);
+                    }
+
+                    readerOffices.Close();
+                }
+                catch
+                {
+
+                }
+            }
+            if (dataGridResultFlats.Visible == true)
+            {
+                try
+                {
+                    if (helpQueryResultFlats.Length < firstQueryResultFlats.Length)
+                    {
+                        secondQueryResultFlats = firstQueryResultFlats.Substring(0, firstQueryResultFlats.Length - 1) + " AND (Amount_Rent BETWEEN `{2}` AND `{3}`))";
+                        helpQueryResultFlats = secondQueryResultFlats;
+                    }
+                    else
+                    {
+                        secondQueryResultFlats = helpQueryResultFlats.Substring(0, helpQueryResultFlats.Length - 1) + " AND (Amount_Rent BETWEEN `{2}` AND `{3}`))";
+                        firstQueryResultFlats = secondQueryResultFlats;
+                    }
+
+                    SqlCommand loadResultFlats = new SqlCommand(string.Format(secondQueryResultFlats, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                        amountRentTextBoxFinish.Text, amountPaymentTextBoxStart.Text, amountPaymentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(),
+                        areaTypeComboBox.SelectedValue.ToString()), conn);
+                    SqlDataReader readerResultFlats = loadResultFlats.ExecuteReader();
+                    List<string[]> data = new List<string[]>();
+
+                    while (readerResultFlats.Read())
+                    {
+                        data.Add(new string[3]);
+                        data[data.Count - 1][0] = readerResultFlats["Month"].ToString();
+                        data[data.Count - 1][1] = readerResultFlats["SumRent"].ToString();
+                        data[data.Count - 1][2] = readerResultFlats["SumPayment"].ToString();
+
+                    }
+                    foreach (string[] s in data)
+                    {
+                        dataGridResultFlats.Rows.Add(s);
+                    }
+                }
+                catch
+                {
+
+                }
+            }
+            if (dataGridResultOffices.Visible == true)
+            {
+
+            }
+            if (dataGridResultRenters.Visible == true)
+            {
+
+            }
+            if (dataGridResults.Visible == true)
+            {
+
+            }
+
+            conn.Close();
+        }
+
+        private void amountPaymentTextBoxStart_TextChanged(object sender, EventArgs e)
+        {
+            if (amountPaymentTextBoxStart.Text == "" || string.IsNullOrWhiteSpace(amountPaymentTextBoxStart.Text) || amountPaymentTextBoxStart.Text.Any(char.IsLetter) || amountPaymentTextBoxStart.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
+            {
+                amountPaymentTextBoxStart.Text = "1";
+            }
+            else if (amountPaymentTextBoxStart.Text == "" || string.IsNullOrWhiteSpace(amountPaymentTextBoxStart.Text) || amountPaymentTextBoxStart.Text.Any(char.IsLetter) || amountPaymentTextBoxStart.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
+            {
+                amountPaymentTextBoxStart.Text = "100000";
+            }
+
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+
+            if (dataGridFlats.Visible == true)
+            {
+                try
+                {
+                    if (helpQueryFlats.Length < firstQueryFlats.Length)
+                    {
+                        secondQueryFlats = firstQueryFlats.Substring(0, firstQueryFlats.Length - 1) + " AND (Amount_Payment BETWEEN `{4}` AND `{5}`))";
+                        helpQueryFlats = secondQueryFlats;
+                    }
+                    else
+                    {
+                        secondQueryFlats = helpQueryFlats.Substring(0, helpQueryFlats.Length - 1) + " AND (Amount_Payment BETWEEN `{4}` AND `{5}`))";
+                        firstQueryFlats = secondQueryFlats;
+                    }
+
+                    SqlCommand loadApartaments = new SqlCommand(string.Format(secondQueryFlats, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                        amountRentTextBoxFinish.Text, amountPaymentTextBoxStart.Text, amountPaymentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(), rentersComboBox.SelectedValue.ToString(),
+                        areaTypeComboBox.SelectedValue.ToString()), conn);
+                    SqlDataReader readerApartaments = loadApartaments.ExecuteReader();
+                    List<string[]> dataApartaments = new List<string[]>();
+
+                    int countApartaments = 1;
+                    while (readerApartaments.Read())
+                    {
+
+                        dataApartaments.Add(new string[10]);
+                        dataApartaments[dataApartaments.Count - 1][0] = readerApartaments["ID_Apartament"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][1] = countApartaments.ToString();
+                        dataApartaments[dataApartaments.Count - 1][2] = readerApartaments["Renters"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][3] = readerApartaments["Contract"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][4] = readerApartaments["Month"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][5] = readerApartaments["Amount_Rent"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["Date_Payment"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][9] = readerApartaments["Note"].ToString();
+                        countApartaments++;
+                    }
+                    foreach (string[] s in dataApartaments)
+                    {
+                        dataGridFlats.Rows.Add(s);
+                    }
+
+                    readerApartaments.Close();
+                }
+                catch
+                {
+
+                }
+            }
+            if (dataGridResultFlats.Visible == true)
+            {
+                try
+                {
+                    if (helpQueryResultFlats.Length < firstQueryResultFlats.Length)
+                    {
+                        secondQueryResultFlats = firstQueryResultFlats.Substring(0, firstQueryResultFlats.Length - 1) + " AND (Amount_Payment BETWEEN `{4}` AND `{5}`))";
+                        helpQueryResultFlats = secondQueryResultFlats;
+                    }
+                    else
+                    {
+                        secondQueryResultFlats = helpQueryResultFlats.Substring(0, helpQueryResultFlats.Length - 1) + " AND (Amount_Payment BETWEEN `{4}` AND `{5}`))";
+                        firstQueryResultFlats = secondQueryResultFlats;
+                    }
+
+                    SqlCommand loadResultFlats = new SqlCommand(string.Format(secondQueryResultFlats, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                        amountRentTextBoxFinish.Text, amountPaymentTextBoxStart.Text, amountPaymentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(),
+                        areaTypeComboBox.SelectedValue.ToString()), conn);
+                    SqlDataReader readerResultFlats = loadResultFlats.ExecuteReader();
+                    List<string[]> data = new List<string[]>();
+
+                    while (readerResultFlats.Read())
+                    {
+                        data.Add(new string[3]);
+                        data[data.Count - 1][0] = readerResultFlats["Month"].ToString();
+                        data[data.Count - 1][1] = readerResultFlats["SumRent"].ToString();
+                        data[data.Count - 1][2] = readerResultFlats["SumPayment"].ToString();
+
+                    }
+                    foreach (string[] s in data)
+                    {
+                        dataGridResultFlats.Rows.Add(s);
+                    }
+                }
+                catch
+                {
+
+                }
+            }
+            if (dataGridResultOffices.Visible == true)
+            {
+
+            }
+            if (dataGridResultRenters.Visible == true)
+            {
+
+            }
+            if (dataGridResults.Visible == true)
+            {
+
+            }
+
+            conn.Close();
+        }
+
+        private void amountPaymentTextBoxFinish_TextChanged(object sender, EventArgs e)
+        {
+            if (amountPaymentTextBoxFinish.Text == "" || string.IsNullOrWhiteSpace(amountPaymentTextBoxFinish.Text) || amountPaymentTextBoxFinish.Text.Any(char.IsLetter) || amountPaymentTextBoxFinish.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
+            {
+                amountPaymentTextBoxFinish.Text = "1";
+            }
+            else if (amountPaymentTextBoxFinish.Text == "" || string.IsNullOrWhiteSpace(amountPaymentTextBoxFinish.Text) || amountPaymentTextBoxFinish.Text.Any(char.IsLetter) || amountPaymentTextBoxFinish.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
+            {
+                amountPaymentTextBoxFinish.Text = "100000";
+            }
+
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+
+            if (dataGridFlats.Visible == true)
+            {
+                try
+                {
+                    if (helpQueryFlats.Length < firstQueryFlats.Length)
+                    {
+                        secondQueryFlats = firstQueryFlats.Substring(0, firstQueryFlats.Length - 1) + " AND (Amount_Payment BETWEEN `{4}` AND `{5}`))";
+                        helpQueryFlats = secondQueryFlats;
+                    }
+                    else
+                    {
+                        secondQueryFlats = helpQueryFlats.Substring(0, helpQueryFlats.Length - 1) + " AND (Amount_Payment BETWEEN `{4}` AND `{5}`))";
+                        firstQueryFlats = secondQueryFlats;
+                    }
+
+                    SqlCommand loadApartaments = new SqlCommand(string.Format(secondQueryFlats, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                        amountRentTextBoxFinish.Text, amountPaymentTextBoxStart.Text, amountPaymentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(), rentersComboBox.SelectedValue.ToString(),
+                        areaTypeComboBox.SelectedValue.ToString()), conn);
+                    SqlDataReader readerApartaments = loadApartaments.ExecuteReader();
+                    List<string[]> dataApartaments = new List<string[]>();
+
+                    int countApartaments = 1;
+                    while (readerApartaments.Read())
+                    {
+
+                        dataApartaments.Add(new string[10]);
+                        dataApartaments[dataApartaments.Count - 1][0] = readerApartaments["ID_Apartament"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][1] = countApartaments.ToString();
+                        dataApartaments[dataApartaments.Count - 1][2] = readerApartaments["Renters"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][3] = readerApartaments["Contract"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][4] = readerApartaments["Month"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][5] = readerApartaments["Amount_Rent"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["Date_Payment"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][9] = readerApartaments["Note"].ToString();
+                        countApartaments++;
+                    }
+                    foreach (string[] s in dataApartaments)
+                    {
+                        dataGridFlats.Rows.Add(s);
+                    }
+
+                    readerApartaments.Close();
+                }
+                catch
+                {
+
+                }
+            }
+            if (dataGridResultFlats.Visible == true)
+            {
+                try
+                {
+                    if (helpQueryResultFlats.Length < firstQueryResultFlats.Length)
+                    {
+                        secondQueryResultFlats = firstQueryResultFlats.Substring(0, firstQueryResultFlats.Length - 1) + " AND (Amount_Payment BETWEEN `{4}` AND `{5}`))";
+                        helpQueryResultFlats = secondQueryResultFlats;
+                    }
+                    else
+                    {
+                        secondQueryResultFlats = helpQueryResultFlats.Substring(0, helpQueryResultFlats.Length - 1) + " AND (Amount_Payment BETWEEN `{4}` AND `{5}`))";
+                        firstQueryResultFlats = secondQueryResultFlats;
+                    }
+
+                    SqlCommand loadResultFlats = new SqlCommand(string.Format(secondQueryResultFlats, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                        amountRentTextBoxFinish.Text, amountPaymentTextBoxStart.Text, amountPaymentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(),
+                        areaTypeComboBox.SelectedValue.ToString()), conn);
+                    SqlDataReader readerResultFlats = loadResultFlats.ExecuteReader();
+                    List<string[]> data = new List<string[]>();
+
+                    while (readerResultFlats.Read())
+                    {
+                        data.Add(new string[3]);
+                        data[data.Count - 1][0] = readerResultFlats["Month"].ToString();
+                        data[data.Count - 1][1] = readerResultFlats["SumRent"].ToString();
+                        data[data.Count - 1][2] = readerResultFlats["SumPayment"].ToString();
+
+                    }
+                    foreach (string[] s in data)
+                    {
+                        dataGridResultFlats.Rows.Add(s);
+                    }
+                }
+                catch
+                {
+
+                }
+            }
+            if (dataGridResultOffices.Visible == true)
+            {
+
+            }
+            if (dataGridResultRenters.Visible == true)
+            {
+
+            }
+            if (dataGridResults.Visible == true)
+            {
+
+            }
+
+            conn.Close();
+        }
+
+        private void monthComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+
+            if (dataGridFlats.Visible == true)
+            {
+                try
+                {
+                    if (helpQueryFlats.Length < firstQueryFlats.Length)
+                    {
+                        secondQueryFlats = firstQueryFlats.Substring(0, firstQueryFlats.Length - 1) + " AND (Month = `{6}`))";
+                        helpQueryFlats = secondQueryFlats;
+                    }
+                    else
+                    {
+                        secondQueryFlats = helpQueryFlats.Substring(0, helpQueryFlats.Length - 1) + " AND (Month = `{6}`))";
+                        firstQueryFlats = secondQueryFlats;
+                    }
+
+                    SqlCommand loadApartaments = new SqlCommand(string.Format(secondQueryFlats, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                        amountRentTextBoxFinish.Text, amountPaymentTextBoxStart.Text, amountPaymentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(), rentersComboBox.SelectedValue.ToString(),
+                        areaTypeComboBox.SelectedValue.ToString()), conn);
+                    SqlDataReader readerApartaments = loadApartaments.ExecuteReader();
+                    List<string[]> dataApartaments = new List<string[]>();
+
+                    int countApartaments = 1;
+                    while (readerApartaments.Read())
+                    {
+
+                        dataApartaments.Add(new string[10]);
+                        dataApartaments[dataApartaments.Count - 1][0] = readerApartaments["ID_Apartament"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][1] = countApartaments.ToString();
+                        dataApartaments[dataApartaments.Count - 1][2] = readerApartaments["Renters"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][3] = readerApartaments["Contract"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][4] = readerApartaments["Month"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][5] = readerApartaments["Amount_Rent"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["Date_Payment"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][9] = readerApartaments["Note"].ToString();
+                        countApartaments++;
+                    }
+                    foreach (string[] s in dataApartaments)
+                    {
+                        dataGridFlats.Rows.Add(s);
+                    }
+
+                    readerApartaments.Close();
+                }
+                catch
+                {
+
+                }
+            }
+            if (dataGridOffices.Visible == true)
+            {
+                try
+                {
+                    if (helpQueryOffices.Length < firstQueryOffices.Length)
+                    {
+                        secondQueryOffices = firstQueryOffices.Substring(0, firstQueryOffices.Length - 1) + " AND (Month = `{4}`))";
+                        helpQueryOffices = secondQueryOffices;
+                    }
+                    else
+                    {
+                        secondQueryOffices = helpQueryOffices.Substring(0, helpQueryOffices.Length - 1) + " AND (Month = `{4}`))";
+                        firstQueryOffices = secondQueryOffices;
+                    }
+
+                    SqlCommand loadOffices = new SqlCommand(string.Format(secondQueryOffices, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                        amountRentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(), rentersComboBox.SelectedValue.ToString()), conn);
+                    SqlDataReader readerOffices = loadOffices.ExecuteReader();
+                    List<string[]> dataOffices = new List<string[]>();
+
+                    int countOffices = 1;
+                    while (readerOffices.Read())
+                    {
+
+                        dataOffices.Add(new string[9]);
+                        dataOffices[dataOffices.Count - 1][0] = readerOffices["ID_Office"].ToString();
+                        dataOffices[dataOffices.Count - 1][1] = countOffices.ToString();
+                        dataOffices[dataOffices.Count - 1][2] = readerOffices["Renters"].ToString();
+                        dataOffices[dataOffices.Count - 1][3] = readerOffices["Contract"].ToString();
+                        dataOffices[dataOffices.Count - 1][4] = readerOffices["Month"].ToString();
+                        dataOffices[dataOffices.Count - 1][5] = readerOffices["Amount_Rent"].ToString();
+                        dataOffices[dataOffices.Count - 1][6] = readerOffices["VAT"].ToString();
+                        dataOffices[dataOffices.Count - 1][7] = readerOffices["Date_Payment"].ToString();
+                        dataOffices[dataOffices.Count - 1][8] = readerOffices["Note"].ToString();
+                        countOffices++;
+                    }
+                    foreach (string[] s in dataOffices)
+                    {
+                        dataGridOffices.Rows.Add(s);
+                    }
+
+                    readerOffices.Close();
+                }
+                catch
+                {
+
+                }
+            }
+            if (dataGridResultFlats.Visible == true)
+            {
+                try
+                {
+                    if (helpQueryResultFlats.Length < firstQueryResultFlats.Length)
+                    {
+                        secondQueryResultFlats = firstQueryResultFlats.Substring(0, firstQueryResultFlats.Length - 1) + " AND (Month = `{6}`))";
+                        helpQueryResultFlats = secondQueryResultFlats;
+                    }
+                    else
+                    {
+                        secondQueryResultFlats = helpQueryResultFlats.Substring(0, helpQueryResultFlats.Length - 1) + " AND (Month = `{6}`))";
+                        firstQueryResultFlats = secondQueryResultFlats;
+                    }
+
+                    SqlCommand loadResultFlats = new SqlCommand(string.Format(secondQueryResultFlats, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                        amountRentTextBoxFinish.Text, amountPaymentTextBoxStart.Text, amountPaymentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(),
+                        areaTypeComboBox.SelectedValue.ToString()), conn);
+                    SqlDataReader readerResultFlats = loadResultFlats.ExecuteReader();
+                    List<string[]> data = new List<string[]>();
+
+                    while (readerResultFlats.Read())
+                    {
+                        data.Add(new string[3]);
+                        data[data.Count - 1][0] = readerResultFlats["Month"].ToString();
+                        data[data.Count - 1][1] = readerResultFlats["SumRent"].ToString();
+                        data[data.Count - 1][2] = readerResultFlats["SumPayment"].ToString();
+
+                    }
+                    foreach (string[] s in data)
+                    {
+                        dataGridResultFlats.Rows.Add(s);
+                    }
+                }
+                catch
+                {
+
+                }
+            }
+            if (dataGridResultOffices.Visible == true)
+            {
+
+            }
+            if (dataGridResultRenters.Visible == true)
+            {
+
+            }
+            if (dataGridResults.Visible == true)
+            {
+
+            }
+
+            conn.Close();
+        }
+
+        private void rentersComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+
+            if (dataGridFlats.Visible == true)
+            {
+                try
+                {
+                    if (helpQueryFlats.Length < firstQueryFlats.Length)
+                    {
+                        secondQueryFlats = firstQueryFlats.Substring(0, firstQueryFlats.Length - 1) + " AND (ID_Renters = `{7}`))";
+                        helpQueryFlats = secondQueryFlats;
+                    }
+                    else
+                    {
+                        secondQueryFlats = helpQueryFlats.Substring(0, helpQueryFlats.Length - 1) + " AND (ID_Renters = `{7}`))";
+                        firstQueryFlats = secondQueryFlats;
+                    }
+
+                    SqlCommand loadApartaments = new SqlCommand(string.Format(secondQueryFlats, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                        amountRentTextBoxFinish.Text, amountPaymentTextBoxStart.Text, amountPaymentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(), rentersComboBox.SelectedValue.ToString(),
+                        areaTypeComboBox.SelectedValue.ToString()), conn);
+                    SqlDataReader readerApartaments = loadApartaments.ExecuteReader();
+                    List<string[]> dataApartaments = new List<string[]>();
+
+                    int countApartaments = 1;
+                    while (readerApartaments.Read())
+                    {
+
+                        dataApartaments.Add(new string[10]);
+                        dataApartaments[dataApartaments.Count - 1][0] = readerApartaments["ID_Apartament"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][1] = countApartaments.ToString();
+                        dataApartaments[dataApartaments.Count - 1][2] = readerApartaments["Renters"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][3] = readerApartaments["Contract"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][4] = readerApartaments["Month"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][5] = readerApartaments["Amount_Rent"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["Date_Payment"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][9] = readerApartaments["Note"].ToString();
+                        countApartaments++;
+                    }
+                    foreach (string[] s in dataApartaments)
+                    {
+                        dataGridFlats.Rows.Add(s);
+                    }
+
+                    readerApartaments.Close();
+                }
+                catch
+                {
+
+                }
+            }
+            if (dataGridOffices.Visible == true)
+            {
+                try
+                {
+                    if (helpQueryOffices.Length < firstQueryOffices.Length)
+                    {
+                        secondQueryOffices = firstQueryOffices.Substring(0, firstQueryOffices.Length - 1) + " AND (ID_Renters = `{5}`))";
+                        helpQueryOffices = secondQueryOffices;
+                    }
+                    else
+                    {
+                        secondQueryOffices = helpQueryOffices.Substring(0, helpQueryOffices.Length - 1) + " AND (ID_Renters = `{5}`))";
+                        firstQueryOffices = secondQueryOffices;
+                    }
+
+                    SqlCommand loadOffices = new SqlCommand(string.Format(secondQueryOffices, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                        amountRentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(), rentersComboBox.SelectedValue.ToString()), conn);
+                    SqlDataReader readerOffices = loadOffices.ExecuteReader();
+                    List<string[]> dataOffices = new List<string[]>();
+
+                    int countOffices = 1;
+                    while (readerOffices.Read())
+                    {
+
+                        dataOffices.Add(new string[9]);
+                        dataOffices[dataOffices.Count - 1][0] = readerOffices["ID_Office"].ToString();
+                        dataOffices[dataOffices.Count - 1][1] = countOffices.ToString();
+                        dataOffices[dataOffices.Count - 1][2] = readerOffices["Renters"].ToString();
+                        dataOffices[dataOffices.Count - 1][3] = readerOffices["Contract"].ToString();
+                        dataOffices[dataOffices.Count - 1][4] = readerOffices["Month"].ToString();
+                        dataOffices[dataOffices.Count - 1][5] = readerOffices["Amount_Rent"].ToString();
+                        dataOffices[dataOffices.Count - 1][6] = readerOffices["VAT"].ToString();
+                        dataOffices[dataOffices.Count - 1][7] = readerOffices["Date_Payment"].ToString();
+                        dataOffices[dataOffices.Count - 1][8] = readerOffices["Note"].ToString();
+                        countOffices++;
+                    }
+                    foreach (string[] s in dataOffices)
+                    {
+                        dataGridOffices.Rows.Add(s);
+                    }
+
+                    readerOffices.Close();
+                }
+                catch
+                {
+
+                }
+            }
+            if (dataGridResultOffices.Visible == true)
+            {
+
+            }
+            if (dataGridResultRenters.Visible == true)
+            {
+
+            }
+            if (dataGridResults.Visible == true)
+            {
+
+            }
+
+            conn.Close();
+        }
+
+        private void areaTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+
+            if (dataGridFlats.Visible == true)
+            {
+                try
+                {
+                    if (helpQueryFlats.Length < firstQueryFlats.Length)
+                    {
+                        secondQueryFlats = firstQueryFlats.Substring(0, firstQueryFlats.Length - 1) + " AND (ID_Apartment_Status = `{8}`))";
+                        helpQueryFlats = secondQueryFlats;
+                    }
+                    else
+                    {
+                        secondQueryFlats = helpQueryFlats.Substring(0, helpQueryFlats.Length - 1) + " AND (ID_Apartment_Status = `{8}`))";
+                        firstQueryFlats = secondQueryFlats;
+                    }
+
+                    SqlCommand loadApartaments = new SqlCommand(string.Format(secondQueryFlats, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                        amountRentTextBoxFinish.Text, amountPaymentTextBoxStart.Text, amountPaymentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(), rentersComboBox.SelectedValue.ToString(),
+                        areaTypeComboBox.SelectedValue.ToString()), conn);
+                    SqlDataReader readerApartaments = loadApartaments.ExecuteReader();
+                    List<string[]> dataApartaments = new List<string[]>();
+
+                    int countApartaments = 1;
+                    while (readerApartaments.Read())
+                    {
+
+                        dataApartaments.Add(new string[10]);
+                        dataApartaments[dataApartaments.Count - 1][0] = readerApartaments["ID_Apartament"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][1] = countApartaments.ToString();
+                        dataApartaments[dataApartaments.Count - 1][2] = readerApartaments["Renters"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][3] = readerApartaments["Contract"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][4] = readerApartaments["Month"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][5] = readerApartaments["Amount_Rent"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["Date_Payment"].ToString();
+                        dataApartaments[dataApartaments.Count - 1][9] = readerApartaments["Note"].ToString();
+                        countApartaments++;
+                    }
+                    foreach (string[] s in dataApartaments)
+                    {
+                        dataGridFlats.Rows.Add(s);
+                    }
+
+                    readerApartaments.Close();
+                }
+                catch
+                {
+
+                }
+            }
+            if (dataGridResultFlats.Visible == true)
+            {
+                try
+                {
+                    if (helpQueryResultFlats.Length < firstQueryResultFlats.Length)
+                    {
+                        secondQueryResultFlats = firstQueryResultFlats.Substring(0, firstQueryResultFlats.Length - 1) + " AND (ID_Apartment_Status = `{7}`))";
+                        helpQueryResultFlats = secondQueryResultFlats;
+                    }
+                    else
+                    {
+                        secondQueryResultFlats = helpQueryResultFlats.Substring(0, helpQueryResultFlats.Length - 1) + " AND (ID_Apartment_Status = `{7}`))";
+                        firstQueryResultFlats = secondQueryResultFlats;
+                    }
+
+                    SqlCommand loadResultFlats = new SqlCommand(string.Format(secondQueryResultFlats, datePickerStart.Value, datePickerFinish.Value, amountRentTextBoxStart.Text,
+                        amountRentTextBoxFinish.Text, amountPaymentTextBoxStart.Text, amountPaymentTextBoxFinish.Text, monthComboBox.SelectedValue.ToString(),
+                        areaTypeComboBox.SelectedValue.ToString()), conn);
+                    SqlDataReader readerResultFlats = loadResultFlats.ExecuteReader();
+                    List<string[]> data = new List<string[]>();
+
+                    while (readerResultFlats.Read())
+                    {
+                        data.Add(new string[3]);
+                        data[data.Count - 1][0] = readerResultFlats["Month"].ToString();
+                        data[data.Count - 1][1] = readerResultFlats["SumRent"].ToString();
+                        data[data.Count - 1][2] = readerResultFlats["SumPayment"].ToString();
+
+                    }
+                    foreach (string[] s in data)
+                    {
+                        dataGridResultFlats.Rows.Add(s);
+                    }
+                }
+                catch
+                {
+
+                }
+            }
+            if (dataGridResultOffices.Visible == true)
+            {
+
+            }
+            if (dataGridResultRenters.Visible == true)
+            {
+
+            }
+            if (dataGridResults.Visible == true)
+            {
+
+            }
+
+            conn.Close();
+        }
+        #endregion
     }
 }
     
