@@ -52,6 +52,7 @@ namespace manprac
 
         public void OfficesLoad()
         {
+           
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
 
@@ -73,7 +74,10 @@ namespace manprac
                 dataOffices[dataOffices.Count - 1][4] = readerOffices["Month"].ToString();
                 dataOffices[dataOffices.Count - 1][5] = readerOffices["Amount_Rent"].ToString();
                 dataOffices[dataOffices.Count - 1][6] = readerOffices["VAT"].ToString();
-                dataOffices[dataOffices.Count - 1][7] = readerOffices["Date_Payment"].ToString();
+                if(readerOffices["Date_Payment"].ToString() != "")
+                {
+                    dataOffices[dataOffices.Count - 1][7] = Convert.ToDateTime(readerOffices["Date_Payment"]).ToShortDateString();
+                }
                 dataOffices[dataOffices.Count - 1][8] = readerOffices["Note"].ToString();
                 countOffices++;
             }
@@ -92,16 +96,17 @@ namespace manprac
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
 
-            SqlCommand loadApartaments = new SqlCommand("SELECT ID_Apartament, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, Amount_Payment, VAT," +
+            SqlCommand loadApartaments = new SqlCommand("SELECT ID_Apartament, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, Amount_Payment, VAT, ApartmentStatus.Name ApartamentStatus, " +
                 " Date_Payment, Note FROM Apartaments LEFT JOIN Renters on Apartaments.ID_Renters = Renters.ID_Renters " +
-                " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month", conn);
+                " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month " +
+                " LEFT JOIN ApartmentStatus on Apartaments.Apartament_Status = ApartmentStatus.ID_Apartment_Status", conn);
             SqlDataReader readerApartaments = loadApartaments.ExecuteReader();
             List<string[]> dataApartaments = new List<string[]>();
             int countApartaments = 1;
             while (readerApartaments.Read())
             {
 
-                dataApartaments.Add(new string[10]);
+                dataApartaments.Add(new string[11]);
                 dataApartaments[dataApartaments.Count - 1][0] = readerApartaments["ID_Apartament"].ToString();
                 dataApartaments[dataApartaments.Count - 1][1] = countApartaments.ToString();
                 dataApartaments[dataApartaments.Count - 1][2] = readerApartaments["Renters"].ToString();
@@ -110,8 +115,12 @@ namespace manprac
                 dataApartaments[dataApartaments.Count - 1][5] = readerApartaments["Amount_Rent"].ToString();
                 dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
                 dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
-                dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["Date_Payment"].ToString();
-                dataApartaments[dataApartaments.Count - 1][9] = readerApartaments["Note"].ToString();
+                dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["ApartamentStatus"].ToString();
+                if(readerApartaments["Date_Payment"].ToString() != "")
+                {
+                    dataApartaments[dataApartaments.Count - 1][9] = Convert.ToDateTime(readerApartaments["Date_Payment"]).ToShortDateString();
+                }
+                dataApartaments[dataApartaments.Count - 1][10] = readerApartaments["Note"].ToString();
                 countApartaments++;
             }
             foreach (string[] s in dataApartaments)
@@ -126,6 +135,7 @@ namespace manprac
 
         public void ResultFlatsLoad()
         {
+            
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
 
@@ -485,6 +495,30 @@ namespace manprac
             dataGridRenters.Visible = true;
             dataGridFlats.Visible = false;
             dataGridOffices.Visible = false;
+            dataGridCommonResults.Visible = false;
+            dataGridResultFlats.Visible = false;
+            dataGridResultOffices.Visible = false;
+
+            summaryPaymentLabel.Visible = false;
+            summaryPaymentTextBox.Visible = false;
+            summaryRentLabel.Visible = false;
+            summaryRentTextBox.Visible = false;
+            differenctLabel.Visible = false;
+            differenceTextBox.Visible = false;
+
+            dateLabel.Visible = false;
+            datePickerStart.Visible = false;
+            datePickerFinish.Visible = false;
+            amountPaymentTextBoxStart.Visible = false;
+            amountPaymentTextBoxFinish.Visible = false;
+            amountRentTextBoxFinish.Visible = false;
+            amountRentTextBoxStart.Visible = false;
+            monthLabel.Visible = false;
+            monthComboBox.Visible = false;
+            rentersLabel.Visible = false;
+            rentersComboBox.Visible = false;
+            areaTypeLabel.Visible = false;
+            areaTypeComboBox.Visible = false;
         }
 
         private void officesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -492,6 +526,31 @@ namespace manprac
             dataGridRenters.Visible = false;
             dataGridFlats.Visible = false;
             dataGridOffices.Visible = true;
+            dataGridCommonResults.Visible = false;
+            dataGridResultFlats.Visible = false;
+            dataGridResultRenters.Visible = false;
+            dataGridResultOffices.Visible = false;
+
+            summaryPaymentLabel.Visible = false;
+            summaryPaymentTextBox.Visible = false;
+            summaryRentLabel.Visible = false;
+            summaryRentTextBox.Visible = false;
+            differenctLabel.Visible = false;
+            differenceTextBox.Visible = false;
+
+            dateLabel.Visible = true;
+            datePickerStart.Visible = true;
+            datePickerFinish.Visible = true;
+            amountPaymentTextBoxStart.Visible = true;
+            amountPaymentTextBoxFinish.Visible = true;
+            amountRentTextBoxFinish.Visible = true;
+            amountRentTextBoxStart.Visible = true;
+            monthLabel.Visible = true;
+            monthComboBox.Visible = true;
+            rentersLabel.Visible = true;
+            rentersComboBox.Visible = true;
+            areaTypeLabel.Visible = true;
+            areaTypeComboBox.Visible = true;
         }
 
         private void flatsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -499,12 +558,60 @@ namespace manprac
             dataGridRenters.Visible = false;
             dataGridFlats.Visible = true;
             dataGridOffices.Visible = false;
+            dataGridCommonResults.Visible = false;
+            dataGridResultFlats.Visible = false;
+            dataGridResultOffices.Visible = false;
+
+            summaryPaymentLabel.Visible = false;
+            summaryPaymentTextBox.Visible = false;
+            summaryRentLabel.Visible = false;
+            summaryRentTextBox.Visible = false;
+            differenctLabel.Visible = false;
+            differenceTextBox.Visible = false;
+
+            dateLabel.Visible = true;
+            datePickerStart.Visible = true;
+            datePickerFinish.Visible = true;
+            amountPaymentTextBoxStart.Visible = true;
+            amountPaymentTextBoxFinish.Visible = true;
+            amountRentTextBoxFinish.Visible = true;
+            amountRentTextBoxStart.Visible = true;
+            monthLabel.Visible = true;
+            monthComboBox.Visible = true;
+            rentersLabel.Visible = true;
+            rentersComboBox.Visible = true;
+            areaTypeLabel.Visible = true;
+            areaTypeComboBox.Visible = true;
 
         }
 
         private void resultFlatsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            dataGridRenters.Visible = false;
+            dataGridFlats.Visible = false;
+            dataGridOffices.Visible = false;
+            dataGridCommonResults.Visible = false;
             dataGridResultFlats.Visible = true;
+            dataGridResultOffices.Visible = false;
+
+            dateLabel.Visible = false;
+            datePickerStart.Visible = false;
+            datePickerFinish.Visible = false;
+            amountPaymentTextBoxStart.Visible = false;
+            amountPaymentTextBoxFinish.Visible = false;
+            amountRentTextBoxFinish.Visible = false;
+            amountRentTextBoxStart.Visible = false;
+            monthLabel.Visible = false;
+            monthComboBox.Visible = false;
+            rentersLabel.Visible = false;
+            rentersComboBox.Visible = false;
+            areaTypeLabel.Visible = false;
+            areaTypeComboBox.Visible = false;
+
+            summaryPaymentLabel.Visible = true;
+            summaryPaymentTextBox.Visible = true;
+            summaryRentLabel.Visible = true;
+            summaryRentTextBox.Visible = true;
             dataGridResultFlats.Rows.Clear();
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
@@ -526,6 +633,145 @@ namespace manprac
             {
                 dataGridResultFlats.Rows.Add(s);
             }
+            readerResultFlats.Close();
+
+            SqlCommand loadResultTotal = new SqlCommand("SELECT SUM(Amount_Rent) SumRent, SUM(Amount_Payment) SumPayment FROM Apartaments", conn);
+            SqlDataReader readerResultTotal = loadResultTotal.ExecuteReader();
+            while (readerResultTotal.Read())
+            {
+                summaryRentTextBox.Text = readerResultTotal["SumRent"].ToString();
+                summaryPaymentTextBox.Text = readerResultTotal["SumPayment"].ToString();
+            }
+            readerResultTotal.Close();
+            conn.Close();
+        }
+
+        private void resultOfficesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataGridRenters.Visible = false;
+            dataGridFlats.Visible = false;
+            dataGridOffices.Visible = false;
+            dataGridCommonResults.Visible = false;
+            dataGridResultFlats.Visible = false;
+            dataGridResultOffices.Visible = true;
+
+            dateLabel.Visible = false;
+            datePickerStart.Visible = false;
+            datePickerFinish.Visible = false;
+            amountPaymentTextBoxStart.Visible = false;
+            amountPaymentTextBoxFinish.Visible = false;
+            amountRentTextBoxFinish.Visible = false;
+            amountRentTextBoxStart.Visible = false;
+            monthLabel.Visible = false;
+            monthComboBox.Visible = false;
+            rentersLabel.Visible = false;
+            rentersComboBox.Visible = false;
+            areaTypeLabel.Visible = false;
+            areaTypeComboBox.Visible = false;
+
+            summaryPaymentLabel.Visible = true;
+            summaryPaymentTextBox.Visible = true;
+            summaryRentLabel.Visible = true;
+            summaryRentTextBox.Visible = true;
+
+            dataGridResultOffices.Rows.Clear();
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+            SqlCommand loadResultOffices = new SqlCommand("Select Months.ID_Month, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference" +
+                " FROM Offices LEFT JOIN Months on Offices.ID_Month = Months.ID_Month GROUP BY Months.ID_Month, Months.Name", conn);
+            SqlDataReader readerResultOffices = loadResultOffices.ExecuteReader();
+            List<string[]> data = new List<string[]>();
+            while (readerResultOffices.Read())
+            {
+                data.Add(new string[4]);
+                data[data.Count - 1][0] = readerResultOffices["Month"].ToString();
+                data[data.Count - 1][1] = readerResultOffices["Amount_Rent"].ToString();
+                data[data.Count - 1][2] = readerResultOffices["VAT"].ToString();
+                data[data.Count - 1][3] = readerResultOffices["Difference"].ToString();
+            }
+            readerResultOffices.Close();
+            foreach (string[] s in data)
+                dataGridResultOffices.Rows.Add(s);
+
+            SqlCommand loadResultSummary = new SqlCommand("Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference FROM Offices ", conn);
+            SqlDataReader readerResultSummary = loadResultSummary.ExecuteReader();
+            while (readerResultSummary.Read())
+            {
+                summaryRentTextBox.Text = readerResultSummary["Amount_Rent"].ToString();
+                summaryPaymentTextBox.Text = readerResultSummary["VAT"].ToString();
+                differenceTextBox.Text = readerResultSummary["Difference"].ToString();
+            }
+            readerResultSummary.Close();
+            conn.Close();
+        }
+
+        private void resultAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataGridRenters.Visible = false;
+            dataGridFlats.Visible = false;
+            dataGridOffices.Visible = false;
+            dataGridCommonResults.Visible = true;
+            dataGridResultFlats.Visible = false;
+            dataGridResultOffices.Visible = false;
+
+            dateLabel.Visible = false;
+            datePickerStart.Visible = false;
+            datePickerFinish.Visible = false;
+            amountPaymentTextBoxStart.Visible = false;
+            amountPaymentTextBoxFinish.Visible = false;
+            amountRentTextBoxFinish.Visible = false;
+            amountRentTextBoxStart.Visible = false;
+            monthLabel.Visible = false;
+            monthComboBox.Visible = false;
+            rentersLabel.Visible = false;
+            rentersComboBox.Visible = false;
+            areaTypeLabel.Visible = false;
+            areaTypeComboBox.Visible = false;
+
+            summaryPaymentLabel.Visible = false;
+            summaryPaymentTextBox.Visible = false;
+            summaryRentLabel.Visible = false;
+            summaryRentTextBox.Visible = false;
+
+            dataGridCommonResults.Rows.Clear();
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+            SqlCommand loadCommonSummary1 = new SqlCommand("Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices", conn);
+            SqlDataReader readerCommonSummary1 = loadCommonSummary1.ExecuteReader();
+            List<string[]> data1 = new List<string[]>();
+            while (readerCommonSummary1.Read())
+            {
+                data1.Add(new string[3]);
+                data1[data1.Count - 1][0] = "Офис";
+                data1[data1.Count - 1][1] = readerCommonSummary1["Amount_Rent"].ToString();
+                data1[data1.Count - 1][2] = readerCommonSummary1["VAT"].ToString();
+            }
+            foreach (string[] s in data1)
+                dataGridCommonResults.Rows.Add(s);
+            readerCommonSummary1.Close();
+
+            SqlCommand loadCommonSummary2 = new SqlCommand("Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Apartaments", conn);
+            SqlDataReader readerCommonSummary2 = loadCommonSummary2.ExecuteReader();
+            List<string[]> data2 = new List<string[]>();
+            while (readerCommonSummary2.Read())
+            {
+                data2.Add(new string[3]);
+                data2[data2.Count - 1][0] = "Квартиры";
+                data2[data2.Count - 1][1] = readerCommonSummary2["Amount_Rent"].ToString();
+                data2[data2.Count - 1][2] = readerCommonSummary2["VAT"].ToString();
+            }
+            readerCommonSummary2.Close();
+            foreach (string[] s in data2)
+                dataGridCommonResults.Rows.Add(s);
+            conn.Close();
+            double sumRent = 0;
+            double sumVat = 0;
+            for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
+            {
+                sumRent += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[1].Value);
+                sumVat += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[2].Value);
+            }
+            dataGridCommonResults.Rows.Add("Всего", sumRent, sumVat);
         }
         #endregion
 
@@ -635,6 +881,8 @@ namespace manprac
             conn.Close();
         }
         #endregion
+
+       
     }
 }
     
