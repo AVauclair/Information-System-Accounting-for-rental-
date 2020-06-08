@@ -13,98 +13,27 @@ namespace manprac
 {
     public partial class MainForm : Form
     {
-        string firstQueryFlats = "SELECT ID_Apartament, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, Amount_Payment, VAT," +
-                " Date_Payment, Note FROM Apartaments LEFT JOIN Renters on Apartaments.ID_Renters = Renters.ID_Renters " +
-                " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month WHERE ((Date_Payment BETWEEN '{0:yyyyMMdd}' AND '{1:yyyyMMdd}'))";
-        string secondQueryFlats = "SELECT ID_Apartament, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, Amount_Payment, VAT," +
-                " Date_Payment, Note FROM Apartaments LEFT JOIN Renters on Apartaments.ID_Renters = Renters.ID_Renters " +
-                " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month WHERE ((Date_Payment BETWEEN '{0:yyyyMMdd}' AND '{1:yyyyMMdd}'))";
-        string helpQueryFlats = "";
-
-        string firstQueryResultFlats = "SELECT Months.ID_Month, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
-            "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month " +
-            " GROUP BY Months.ID_Month, Months.Name WHERE ((Date_Payment BETWEEN '{0:yyyyMMdd}' AND '{1:yyyyMMdd}'))";
-        string secondQueryResultFlats = "SELECT Months.ID_Month, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
-            "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month " +
-            " GROUP BY Months.ID_Month, Months.Name WHERE ((Date_Payment BETWEEN '{0:yyyyMMdd}' AND '{1:yyyyMMdd}'))";
-        string helpQueryResultFlats = "";
-
-        string firstQueryOffices = "SELECT ID_Office, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, VAT, Date_Payment, Note" +
-              " FROM Offices LEFT JOIN Renters on Offices.ID_Renters = Renters.ID_Renters " +
-              " LEFT JOIN Months on Offices.ID_Month = Months.ID_Month WHERE ((Date_Payment BETWEEN '{0:yyyyMMdd}' AND '{1:yyyyMMdd}'))";
-        string secondQueryOffices = "SELECT ID_Office, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, VAT, Date_Payment, Note" +
-              " FROM Offices LEFT JOIN Renters on Offices.ID_Renters = Renters.ID_Renters " +
-              " LEFT JOIN Months on Offices.ID_Month = Months.ID_Month WHERE ((Date_Payment BETWEEN '{0:yyyyMMdd}' AND '{1:yyyyMMdd}'))";
-        string helpQueryOffices = "";
-
-        string firstQueryResultOffices = "";
-        string secondQueryResultOffices = "";
-        string helpQueryResultOffices = "";
-
-        string firstQueryResultRenters = "";
-        string secondQueryResultRenters = "";
-        string helpQueryResultRenters = "";
-
-        string firstQueryResult = "";
-        string secondQueryResult = "";
-        string helpQueryResult = "";
 
         Dictionary<int, string> DebitingMonth = new Dictionary<int, string>();
         Dictionary<int, string> DebitingRenters = new Dictionary<int, string>();
         Dictionary<int, string> DebitingAreaType = new Dictionary<int, string>();
         public string ConnString = ConnStringForm.connection;
-        public MainForm()
-        {
-            InitializeComponent();
-        }
 
-        private void Form1_Load(object sender, EventArgs e)
+        #region методы загрузок таблиц
+        public void RentersLoad()
         {
-            menuStrip1.Items.OfType<ToolStripMenuItem>().ToList().ForEach(x =>
-            {
-                x.MouseHover += (obj, arg) => ((ToolStripDropDownItem)obj).ShowDropDown();
-            });
-
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
 
-            SqlCommand loadMonth = new SqlCommand("SELECT ID_Month, Name FROM Months", conn);
-            SqlDataReader readerMonth = loadMonth.ExecuteReader();
-            monthComboBox.Items.Add("Все");
-            while (readerMonth.Read())
-            {
-                DebitingMonth.Add(Convert.ToInt32(readerMonth["ID_Month"]), Convert.ToString(readerMonth["Name"]));
-                monthComboBox.Items.Add(readerMonth["Name"]);
-            }
-            readerMonth.Close();
-
-            SqlCommand loadAreaType = new SqlCommand("SELECT ID_Apartment_Status, Name FROM ApartmentStatus", conn);
-            SqlDataReader readerAreaType = loadAreaType.ExecuteReader();
-            areaTypeComboBox.Items.Add("Любое");
-            while (readerAreaType.Read())
-            {
-                DebitingAreaType.Add(Convert.ToInt32(readerAreaType["ID_Apartment_Status"]), Convert.ToString(readerAreaType["Name"]));
-                areaTypeComboBox.Items.Add(readerAreaType["Name"]);
-            }
-            readerAreaType.Close();
+            List<string[]> dataRenters = new List<string[]>();
 
             SqlCommand loadRenters = new SqlCommand("SELECT ID_Renters, Name FROM Renters", conn);
             SqlDataReader readerRenters = loadRenters.ExecuteReader();
-            rentersComboBox.Items.Add("Все");
-            while (readerRenters.Read())
-            {
-                DebitingRenters.Add(Convert.ToInt32(readerRenters["ID_Renters"]), Convert.ToString(readerRenters["Name"]));
-                rentersComboBox.Items.Add(readerRenters["Name"]);
-            }
 
-            //Load Table Renters
-            #region
-            List<string[]> dataRenters = new List<string[]>();
-
+            rentersComboBox.Items.Add("Любой");
             int countRenters = 1;
             while (readerRenters.Read())
             {
-
                 dataRenters.Add(new string[3]);
                 dataRenters[dataRenters.Count - 1][0] = readerRenters["ID_Renters"].ToString();
                 dataRenters[dataRenters.Count - 1][1] = countRenters.ToString();
@@ -117,9 +46,15 @@ namespace manprac
             }
 
             readerRenters.Close();
-            #endregion
-            //Load Table Offices
-            #region
+
+            conn.Close();
+        }
+
+        public void OfficesLoad()
+        {
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+
             SqlCommand loadOffices = new SqlCommand("SELECT ID_Office, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, VAT, Date_Payment, Note" +
               " FROM Offices LEFT JOIN Renters on Offices.ID_Renters = Renters.ID_Renters " +
               " LEFT JOIN Months on Offices.ID_Month = Months.ID_Month", conn);
@@ -148,15 +83,20 @@ namespace manprac
             }
 
             readerOffices.Close();
-            #endregion
-            //Load Table Apartaments
-            #region
+
+            conn.Close();
+        }
+
+        public void FlatsLoad()
+        {
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+
             SqlCommand loadApartaments = new SqlCommand("SELECT ID_Apartament, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, Amount_Payment, VAT," +
                 " Date_Payment, Note FROM Apartaments LEFT JOIN Renters on Apartaments.ID_Renters = Renters.ID_Renters " +
                 " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month", conn);
             SqlDataReader readerApartaments = loadApartaments.ExecuteReader();
             List<string[]> dataApartaments = new List<string[]>();
-
             int countApartaments = 1;
             while (readerApartaments.Read())
             {
@@ -176,19 +116,109 @@ namespace manprac
             }
             foreach (string[] s in dataApartaments)
             {
-                advancedDataGridView1.Rows.Add(s);
+                dataGridFlats.Rows.Add(s);
             }
 
             readerApartaments.Close();
-            #endregion
 
             conn.Close();
+        }
 
+        public void ResultFlatsLoad()
+        {
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+
+            SqlCommand loadResultFlats = new SqlCommand("SELECT Months.ID_Month, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
+            "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month " +
+            " GROUP BY Months.ID_Month, Months.Name", conn);
+            SqlDataReader readerResultFlats = loadResultFlats.ExecuteReader();
+            List<string[]> data = new List<string[]>();
+
+            while (readerResultFlats.Read())
+            {
+                data.Add(new string[3]);
+                data[data.Count - 1][0] = readerResultFlats["Month"].ToString();
+                data[data.Count - 1][1] = readerResultFlats["SumRent"].ToString();
+                data[data.Count - 1][2] = readerResultFlats["SumPayment"].ToString();
+
+            }
+            foreach (string[] s in data)
+            {
+                dataGridResultFlats.Rows.Add(s);
+            }
+
+            readerResultFlats.Close();
+
+            conn.Close();
+        }
+        #endregion
+
+        public MainForm()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            #region открытие подменю тулстрип при наведении
+            menuStrip1.Items.OfType<ToolStripMenuItem>().ToList().ForEach(x =>
+            {
+                x.MouseHover += (obj, arg) => ((ToolStripDropDownItem)obj).ShowDropDown();
+            });
+            #endregion
+
+            #region заполнение комбобоксов
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+
+            SqlCommand loadMonth = new SqlCommand("SELECT ID_Month, Name FROM Months", conn);
+            SqlDataReader readerMonth = loadMonth.ExecuteReader();
+            monthComboBox.Items.Add("Все");
+            while (readerMonth.Read())
+            {
+                DebitingMonth.Add(Convert.ToInt32(readerMonth["ID_Month"]), Convert.ToString(readerMonth["Name"]));
+                monthComboBox.Items.Add(readerMonth["Name"]);
+            }
+            readerMonth.Close();
+
+            SqlCommand loadAreaType = new SqlCommand("SELECT ID_Apartment_Status, Name FROM ApartmentStatus", conn);
+            SqlDataReader readerAreaType = loadAreaType.ExecuteReader();
+            areaTypeComboBox.Items.Add("Все");
+            while (readerAreaType.Read())
+            {
+                DebitingAreaType.Add(Convert.ToInt32(readerAreaType["ID_Apartment_Status"]), Convert.ToString(readerAreaType["Name"]));
+                areaTypeComboBox.Items.Add(readerAreaType["Name"]);
+            }
+            readerAreaType.Close();
+
+            SqlCommand loadRentersComboBox = new SqlCommand("SELECT ID_Renters, Name FROM Renters", conn);
+            SqlDataReader readerRentersComboBox = loadRentersComboBox.ExecuteReader();
+            rentersComboBox.Items.Add("Любое");
+            while (readerRentersComboBox.Read())
+            {
+                DebitingRenters.Add(Convert.ToInt32(readerRentersComboBox["ID_Renters"]), Convert.ToString(readerRentersComboBox["Name"]));
+                rentersComboBox.Items.Add(readerRentersComboBox["Name"]);
+            }
+            readerAreaType.Close();
+
+            conn.Close();
+            #endregion
+
+            #region загрузка данных в таблицы
+            RentersLoad();
+            OfficesLoad();
+            FlatsLoad();
+            #endregion
+
+            #region установка изначальных значений в комбобоксы
             monthComboBox.SelectedIndex = 0;
             rentersComboBox.SelectedIndex = 0;
             areaTypeComboBox.SelectedIndex = 0;
+            #endregion
         }
 
+        #region переход на другие формы
         private void addRentersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddRentersForm addRentersForm = new AddRentersForm();
@@ -200,12 +230,12 @@ namespace manprac
         {
             if (dataGridRenters.Visible == false)
             {
-                MessageBox.Show("Выберите запись в таблице \"Арендаторы\", которую хотите измениить.", "Ошибки", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Выберите запись в таблице \"Арендаторы\", которую хотите изменить.", "Ошибки", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (dataGridRenters.CurrentCell.Selected == false)
             {
-                MessageBox.Show("Выберите запись в таблице, которую хотите измениить.", "Ошибки", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Выберите запись в таблице, которую хотите изменить.", "Ошибки", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             UpdateRentersForm updateRentersForm = new UpdateRentersForm();
@@ -447,7 +477,9 @@ namespace manprac
             ConnStringForm connStringForm = new ConnStringForm();
             connStringForm.ShowDialog();
         }
+        #endregion
 
+        #region отображение таблиц по нажатию на пункт в меню
         private void rentersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dataGridRenters.Visible = true;
@@ -495,263 +527,60 @@ namespace manprac
                 dataGridResultFlats.Rows.Add(s);
             }
         }
+        #endregion
 
-        //тут фильтрация начинается
-        #region
-        private void datePickerStart_ValueChanged(object sender, EventArgs e)
-        {
-            SqlConnection conn = new SqlConnection(ConnString);
-            conn.Open();
-
-            if (dataGridFlats.Visible == true)
-            {
-                
-            }
-            if (dataGridOffices.Visible == true)
-            {
-                
-            }
-            if (dataGridResultFlats.Visible == true)
-            {
-                
-            }
-            if (dataGridResultOffices.Visible == true)
-            {
-
-            }
-            if (dataGridResultRenters.Visible == true)
-            {
-
-            }
-            if (dataGridResults.Visible == true)
-            {
-
-            }
-
-            conn.Close();
-        }
-
-        private void datePickerFinish_ValueChanged(object sender, EventArgs e)
-        {
-            SqlConnection conn = new SqlConnection(ConnString);
-            conn.Open();
-
-            if (dataGridFlats.Visible == true)
-            {
-                
-            }
-            if (dataGridOffices.Visible == true)
-            {
-                
-            }
-            if (dataGridResultFlats.Visible == true)
-            {
-                
-            }
-            if (dataGridResultOffices.Visible == true)
-            {
-
-            }
-            if (dataGridResultRenters.Visible == true)
-            {
-
-            }
-            if (dataGridResults.Visible == true)
-            {
-
-            }
-
-            conn.Close();
-        }
-
-        private void amountRentTextBoxStart_TextChanged(object sender, EventArgs e)
-        {
-            SqlConnection conn = new SqlConnection(ConnString);
-            conn.Open();
-
-            if (amountRentTextBoxStart.Text == "" || string.IsNullOrWhiteSpace(amountRentTextBoxStart.Text) || amountRentTextBoxStart.Text.Any(char.IsLetter) || amountRentTextBoxStart.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
-            {
-                amountRentTextBoxStart.Text = "1";
-            }
-            else if (amountRentTextBoxStart.Text == "" || string.IsNullOrWhiteSpace(amountRentTextBoxStart.Text) || amountRentTextBoxStart.Text.Any(char.IsLetter) || amountRentTextBoxStart.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
-            {
-                amountRentTextBoxStart.Text = "100000";
-            }
-
-            if (dataGridFlats.Visible == true)
-            {
-                
-            }
-            if (dataGridOffices.Visible == true)
-            {
-                
-            }
-            if (dataGridResultFlats.Visible == true)
-            {
-                
-            }
-            if (dataGridResultOffices.Visible == true)
-            {
-
-            }
-            if (dataGridResultRenters.Visible == true)
-            {
-
-            }
-            if (dataGridResults.Visible == true)
-            {
-
-            }
-
-            conn.Close();
-        }
-
-        private void amountRentTextBoxFinish_TextChanged(object sender, EventArgs e)
-        {
-            SqlConnection conn = new SqlConnection(ConnString);
-            conn.Open();
-
-            if (amountRentTextBoxFinish.Text == "" || string.IsNullOrWhiteSpace(amountRentTextBoxFinish.Text) || amountRentTextBoxFinish.Text.Any(char.IsLetter) || amountRentTextBoxFinish.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
-            {
-                amountRentTextBoxFinish.Text = "1";
-            }
-            else if (amountRentTextBoxFinish.Text == "" || string.IsNullOrWhiteSpace(amountRentTextBoxFinish.Text) || amountRentTextBoxFinish.Text.Any(char.IsLetter) || amountRentTextBoxFinish.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
-            {
-                amountRentTextBoxFinish.Text = "100000";
-            }
-
-            if (dataGridFlats.Visible == true)
-            {
-                
-            }
-            if (dataGridOffices.Visible == true)
-            {
-                
-            }
-            if (dataGridResultFlats.Visible == true)
-            {
-                
-            }
-            if (dataGridResultOffices.Visible == true)
-            {
-
-            }
-            if (dataGridResultRenters.Visible == true)
-            {
-
-            }
-            if (dataGridResults.Visible == true)
-            {
-
-            }
-
-            conn.Close();
-        }
-
-        private void amountPaymentTextBoxStart_TextChanged(object sender, EventArgs e)
-        {
-            if (amountPaymentTextBoxStart.Text == "" || string.IsNullOrWhiteSpace(amountPaymentTextBoxStart.Text) || amountPaymentTextBoxStart.Text.Any(char.IsLetter) || amountPaymentTextBoxStart.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
-            {
-                amountPaymentTextBoxStart.Text = "1";
-            }
-            else if (amountPaymentTextBoxStart.Text == "" || string.IsNullOrWhiteSpace(amountPaymentTextBoxStart.Text) || amountPaymentTextBoxStart.Text.Any(char.IsLetter) || amountPaymentTextBoxStart.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
-            {
-                amountPaymentTextBoxStart.Text = "100000";
-            }
-
-            SqlConnection conn = new SqlConnection(ConnString);
-            conn.Open();
-
-            if (dataGridFlats.Visible == true)
-            {
-                
-            }
-            if (dataGridResultFlats.Visible == true)
-            {
-                
-            }
-            if (dataGridResultOffices.Visible == true)
-            {
-
-            }
-            if (dataGridResultRenters.Visible == true)
-            {
-
-            }
-            if (dataGridResults.Visible == true)
-            {
-
-            }
-
-            conn.Close();
-        }
-
-        private void amountPaymentTextBoxFinish_TextChanged(object sender, EventArgs e)
-        {
-            if (amountPaymentTextBoxFinish.Text == "" || string.IsNullOrWhiteSpace(amountPaymentTextBoxFinish.Text) || amountPaymentTextBoxFinish.Text.Any(char.IsLetter) || amountPaymentTextBoxFinish.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
-            {
-                amountPaymentTextBoxFinish.Text = "1";
-            }
-            else if (amountPaymentTextBoxFinish.Text == "" || string.IsNullOrWhiteSpace(amountPaymentTextBoxFinish.Text) || amountPaymentTextBoxFinish.Text.Any(char.IsLetter) || amountPaymentTextBoxFinish.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
-            {
-                amountPaymentTextBoxFinish.Text = "100000";
-            }
-
-            SqlConnection conn = new SqlConnection(ConnString);
-            conn.Open();
-
-            if (dataGridFlats.Visible == true)
-            {
-                
-            }
-            if (dataGridResultFlats.Visible == true)
-            {
-                
-            }
-            if (dataGridResultOffices.Visible == true)
-            {
-
-            }
-            if (dataGridResultRenters.Visible == true)
-            {
-
-            }
-            if (dataGridResults.Visible == true)
-            {
-
-            }
-
-            conn.Close();
-        }
-
+        #region фильтрация
         private void monthComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
 
-            if (dataGridFlats.Visible == true)
-            {
-                
-            }
             if (dataGridOffices.Visible == true)
             {
-                
+                dataGridOffices.Rows.Clear();
+                OfficesLoad();
+                if (monthComboBox.SelectedIndex != 0)
+                {
+                    for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                    {
+                        if (!(dataGridOffices.Rows[i].Cells[4].Value.ToString().Contains(monthComboBox.Text)))
+                        {
+                            dataGridOffices.Rows[i].Visible = false;
+                        }
+                    }
+                }
             }
+
+            if (dataGridFlats.Visible == true)
+            {
+                dataGridFlats.Rows.Clear();
+                FlatsLoad();
+                if (monthComboBox.SelectedIndex != 0)
+                {
+                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                    {
+                        if (!(dataGridFlats.Rows[i].Cells[4].Value.ToString().Contains(monthComboBox.Text)))
+                        {
+                            dataGridFlats.Rows[i].Visible = false;
+                        }
+                    }
+                }
+            }
+
             if (dataGridResultFlats.Visible == true)
             {
-                
-            }
-            if (dataGridResultOffices.Visible == true)
-            {
-
-            }
-            if (dataGridResultRenters.Visible == true)
-            {
-
-            }
-            if (dataGridResults.Visible == true)
-            {
-
+                dataGridResultFlats.Rows.Clear();
+                ResultFlatsLoad();
+                if (monthComboBox.SelectedIndex != 0)
+                {
+                    for (int i = 0; i < dataGridResultFlats.Rows.Count; i++)
+                    {
+                        if (!(dataGridResultFlats.Rows[i].Cells[0].Value.ToString().Contains(monthComboBox.Text)))
+                        {
+                            dataGridResultFlats.Rows[i].Visible = false;
+                        }
+                    }
+                }
             }
 
             conn.Close();
@@ -762,69 +591,50 @@ namespace manprac
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
 
-            if (dataGridFlats.Visible == true)
-            {
-                
-            }
             if (dataGridOffices.Visible == true)
             {
-                
+                dataGridOffices.Rows.Clear();
+                OfficesLoad();
+                if (rentersComboBox.SelectedIndex != 0)
+                {
+                    for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                    {
+                        if (!(dataGridOffices.Rows[i].Cells[2].Value.ToString().Contains(rentersComboBox.Text)))
+                        {
+                            dataGridOffices.Rows[i].Visible = false;
+                        }
+                    }
+                }
             }
-            if (dataGridResultOffices.Visible == true)
-            {
 
-            }
-            if (dataGridResultRenters.Visible == true)
+            if (dataGridFlats.Visible == true)
             {
-
-            }
-            if (dataGridResults.Visible == true)
-            {
-
+                dataGridFlats.Rows.Clear();
+                FlatsLoad();
+                if (rentersComboBox.SelectedIndex != 0)
+                {
+                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                    {
+                        if (!(dataGridFlats.Rows[i].Cells[2].Value.ToString().Contains(rentersComboBox.Text)))
+                        {
+                            dataGridFlats.Rows[i].Visible = false;
+                        }
+                    }
+                }
             }
 
             conn.Close();
         }
 
+        //не доделал фильтрацию у квартир и свода квартир так как хз как - типа помещения в таблиц нет
         private void areaTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
 
-            if (dataGridFlats.Visible == true)
-            {
-                
-            }
-            if (dataGridResultFlats.Visible == true)
-            {
-                
-            }
-            if (dataGridResultOffices.Visible == true)
-            {
-
-            }
-            if (dataGridResultRenters.Visible == true)
-            {
-
-            }
-            if (dataGridResults.Visible == true)
-            {
-
-            }
-
             conn.Close();
         }
         #endregion
-
-        private void advancedDataGridView1_FilterStringChanged(object sender, Zuby.ADGV.AdvancedDataGridView.FilterEventArgs e)
-        {
-
-        }
-
-        private void advancedDataGridView1_SortStringChanged(object sender, Zuby.ADGV.AdvancedDataGridView.SortEventArgs e)
-        {
-            
-        }
     }
 }
     

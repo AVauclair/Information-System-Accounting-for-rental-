@@ -80,21 +80,11 @@
             this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.datePickerStart = new System.Windows.Forms.DateTimePicker();
-            this.label1 = new System.Windows.Forms.Label();
-            this.amountRentTextBoxStart = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.amountPaymentTextBoxStart = new System.Windows.Forms.TextBox();
-            this.monthComboBox = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.datePickerFinish = new System.Windows.Forms.DateTimePicker();
-            this.amountRentTextBoxFinish = new System.Windows.Forms.TextBox();
-            this.amountPaymentTextBoxFinish = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.rentersComboBox = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.areaTypeComboBox = new System.Windows.Forms.ComboBox();
             this.dataGridResultOffices = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -107,17 +97,16 @@
             this.dataGridViewTextBoxColumn20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn21 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn22 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.advancedDataGridView1 = new Zuby.ADGV.AdvancedDataGridView();
-            this.Column20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.monthComboBox = new System.Windows.Forms.ComboBox();
+            this.amountPaymentTextBoxFinish = new System.Windows.Forms.TextBox();
+            this.amountPaymentTextBoxStart = new System.Windows.Forms.TextBox();
+            this.amountRentTextBoxStart = new System.Windows.Forms.TextBox();
+            this.amountRentTextBoxFinish = new System.Windows.Forms.TextBox();
+            this.datePickerFinish = new System.Windows.Forms.DateTimePicker();
+            this.label1 = new System.Windows.Forms.Label();
+            this.datePickerStart = new System.Windows.Forms.DateTimePicker();
+            this.areaTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.rentersComboBox = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridRenters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridOffices)).BeginInit();
@@ -126,7 +115,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridResultOffices)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridResultRenters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridResults)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.advancedDataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -583,36 +571,6 @@
             this.Column10.Name = "Column10";
             this.Column10.ReadOnly = true;
             // 
-            // datePickerStart
-            // 
-            this.datePickerStart.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.datePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.datePickerStart.Location = new System.Drawing.Point(63, 175);
-            this.datePickerStart.Name = "datePickerStart";
-            this.datePickerStart.Size = new System.Drawing.Size(127, 31);
-            this.datePickerStart.TabIndex = 6;
-            this.datePickerStart.ValueChanged += new System.EventHandler(this.datePickerStart_ValueChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(182, 128);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(57, 23);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Дата";
-            // 
-            // amountRentTextBoxStart
-            // 
-            this.amountRentTextBoxStart.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.amountRentTextBoxStart.Location = new System.Drawing.Point(63, 258);
-            this.amountRentTextBoxStart.Name = "amountRentTextBoxStart";
-            this.amountRentTextBoxStart.Size = new System.Drawing.Size(127, 31);
-            this.amountRentTextBoxStart.TabIndex = 8;
-            this.amountRentTextBoxStart.Text = "1";
-            this.amountRentTextBoxStart.TextChanged += new System.EventHandler(this.amountRentTextBoxStart_TextChanged);
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -633,27 +591,6 @@
             this.label3.TabIndex = 11;
             this.label3.Text = "Сумма оплаты";
             // 
-            // amountPaymentTextBoxStart
-            // 
-            this.amountPaymentTextBoxStart.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.amountPaymentTextBoxStart.Location = new System.Drawing.Point(63, 338);
-            this.amountPaymentTextBoxStart.Name = "amountPaymentTextBoxStart";
-            this.amountPaymentTextBoxStart.Size = new System.Drawing.Size(127, 31);
-            this.amountPaymentTextBoxStart.TabIndex = 10;
-            this.amountPaymentTextBoxStart.Text = "1";
-            this.amountPaymentTextBoxStart.TextChanged += new System.EventHandler(this.amountPaymentTextBoxStart_TextChanged);
-            // 
-            // monthComboBox
-            // 
-            this.monthComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.monthComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.monthComboBox.FormattingEnabled = true;
-            this.monthComboBox.Location = new System.Drawing.Point(509, 571);
-            this.monthComboBox.Name = "monthComboBox";
-            this.monthComboBox.Size = new System.Drawing.Size(185, 31);
-            this.monthComboBox.TabIndex = 20;
-            this.monthComboBox.SelectedIndexChanged += new System.EventHandler(this.monthComboBox_SelectedIndexChanged);
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -663,36 +600,6 @@
             this.label8.Size = new System.Drawing.Size(62, 23);
             this.label8.TabIndex = 21;
             this.label8.Text = "Месяц";
-            // 
-            // datePickerFinish
-            // 
-            this.datePickerFinish.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.datePickerFinish.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.datePickerFinish.Location = new System.Drawing.Point(244, 175);
-            this.datePickerFinish.Name = "datePickerFinish";
-            this.datePickerFinish.Size = new System.Drawing.Size(127, 31);
-            this.datePickerFinish.TabIndex = 22;
-            this.datePickerFinish.ValueChanged += new System.EventHandler(this.datePickerFinish_ValueChanged);
-            // 
-            // amountRentTextBoxFinish
-            // 
-            this.amountRentTextBoxFinish.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.amountRentTextBoxFinish.Location = new System.Drawing.Point(244, 258);
-            this.amountRentTextBoxFinish.Name = "amountRentTextBoxFinish";
-            this.amountRentTextBoxFinish.Size = new System.Drawing.Size(127, 31);
-            this.amountRentTextBoxFinish.TabIndex = 23;
-            this.amountRentTextBoxFinish.Text = "1000000";
-            this.amountRentTextBoxFinish.TextChanged += new System.EventHandler(this.amountRentTextBoxFinish_TextChanged);
-            // 
-            // amountPaymentTextBoxFinish
-            // 
-            this.amountPaymentTextBoxFinish.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.amountPaymentTextBoxFinish.Location = new System.Drawing.Point(244, 340);
-            this.amountPaymentTextBoxFinish.Name = "amountPaymentTextBoxFinish";
-            this.amountPaymentTextBoxFinish.Size = new System.Drawing.Size(127, 31);
-            this.amountPaymentTextBoxFinish.TabIndex = 24;
-            this.amountPaymentTextBoxFinish.Text = "1000000";
-            this.amountPaymentTextBoxFinish.TextChanged += new System.EventHandler(this.amountPaymentTextBoxFinish_TextChanged);
             // 
             // label9
             // 
@@ -704,17 +611,6 @@
             this.label9.TabIndex = 26;
             this.label9.Text = "Арендатор";
             // 
-            // rentersComboBox
-            // 
-            this.rentersComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.rentersComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rentersComboBox.FormattingEnabled = true;
-            this.rentersComboBox.Location = new System.Drawing.Point(762, 571);
-            this.rentersComboBox.Name = "rentersComboBox";
-            this.rentersComboBox.Size = new System.Drawing.Size(185, 31);
-            this.rentersComboBox.TabIndex = 25;
-            this.rentersComboBox.SelectedIndexChanged += new System.EventHandler(this.rentersComboBox_SelectedIndexChanged);
-            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -724,17 +620,6 @@
             this.label10.Size = new System.Drawing.Size(137, 23);
             this.label10.TabIndex = 28;
             this.label10.Text = "Тип помещения";
-            // 
-            // areaTypeComboBox
-            // 
-            this.areaTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.areaTypeComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.areaTypeComboBox.FormattingEnabled = true;
-            this.areaTypeComboBox.Location = new System.Drawing.Point(997, 571);
-            this.areaTypeComboBox.Name = "areaTypeComboBox";
-            this.areaTypeComboBox.Size = new System.Drawing.Size(185, 31);
-            this.areaTypeComboBox.TabIndex = 27;
-            this.areaTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.areaTypeComboBox_SelectedIndexChanged);
             // 
             // dataGridResultOffices
             // 
@@ -877,122 +762,108 @@
             this.dataGridViewTextBoxColumn22.Name = "dataGridViewTextBoxColumn22";
             this.dataGridViewTextBoxColumn22.ReadOnly = true;
             // 
-            // advancedDataGridView1
+            // monthComboBox
             // 
-            this.advancedDataGridView1.AllowUserToAddRows = false;
-            this.advancedDataGridView1.AllowUserToDeleteRows = false;
-            this.advancedDataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.advancedDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.advancedDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column20,
-            this.Column11,
-            this.Column12,
-            this.Column13,
-            this.Column14,
-            this.Column15,
-            this.Column16,
-            this.Column17,
-            this.Column18,
-            this.Column19});
-            this.advancedDataGridView1.FilterAndSortEnabled = true;
-            this.advancedDataGridView1.Location = new System.Drawing.Point(310, 175);
-            this.advancedDataGridView1.MultiSelect = false;
-            this.advancedDataGridView1.Name = "advancedDataGridView1";
-            this.advancedDataGridView1.ReadOnly = true;
-            this.advancedDataGridView1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.advancedDataGridView1.RowHeadersVisible = false;
-            this.advancedDataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.advancedDataGridView1.Size = new System.Drawing.Size(959, 289);
-            this.advancedDataGridView1.TabIndex = 32;
-            this.advancedDataGridView1.SortStringChanged += new System.EventHandler<Zuby.ADGV.AdvancedDataGridView.SortEventArgs>(this.advancedDataGridView1_SortStringChanged);
-            this.advancedDataGridView1.FilterStringChanged += new System.EventHandler<Zuby.ADGV.AdvancedDataGridView.FilterEventArgs>(this.advancedDataGridView1_FilterStringChanged);
+            this.monthComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.monthComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.monthComboBox.FormattingEnabled = true;
+            this.monthComboBox.Location = new System.Drawing.Point(509, 571);
+            this.monthComboBox.Name = "monthComboBox";
+            this.monthComboBox.Size = new System.Drawing.Size(185, 31);
+            this.monthComboBox.TabIndex = 20;
+            this.monthComboBox.SelectedIndexChanged += new System.EventHandler(this.monthComboBox_SelectedIndexChanged);
             // 
-            // Column20
+            // amountPaymentTextBoxFinish
             // 
-            this.Column20.HeaderText = "ID";
-            this.Column20.MinimumWidth = 22;
-            this.Column20.Name = "Column20";
-            this.Column20.ReadOnly = true;
-            this.Column20.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.Column20.Visible = false;
+            this.amountPaymentTextBoxFinish.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.amountPaymentTextBoxFinish.Location = new System.Drawing.Point(244, 340);
+            this.amountPaymentTextBoxFinish.Name = "amountPaymentTextBoxFinish";
+            this.amountPaymentTextBoxFinish.Size = new System.Drawing.Size(127, 31);
+            this.amountPaymentTextBoxFinish.TabIndex = 24;
+            this.amountPaymentTextBoxFinish.Text = "1000000";
             // 
-            // Column11
+            // amountPaymentTextBoxStart
             // 
-            this.Column11.HeaderText = "№";
-            this.Column11.MinimumWidth = 22;
-            this.Column11.Name = "Column11";
-            this.Column11.ReadOnly = true;
-            this.Column11.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.amountPaymentTextBoxStart.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.amountPaymentTextBoxStart.Location = new System.Drawing.Point(63, 338);
+            this.amountPaymentTextBoxStart.Name = "amountPaymentTextBoxStart";
+            this.amountPaymentTextBoxStart.Size = new System.Drawing.Size(127, 31);
+            this.amountPaymentTextBoxStart.TabIndex = 10;
+            this.amountPaymentTextBoxStart.Text = "1";
             // 
-            // Column12
+            // amountRentTextBoxStart
             // 
-            this.Column12.HeaderText = "Арендатор";
-            this.Column12.MinimumWidth = 22;
-            this.Column12.Name = "Column12";
-            this.Column12.ReadOnly = true;
-            this.Column12.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.amountRentTextBoxStart.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.amountRentTextBoxStart.Location = new System.Drawing.Point(63, 258);
+            this.amountRentTextBoxStart.Name = "amountRentTextBoxStart";
+            this.amountRentTextBoxStart.Size = new System.Drawing.Size(127, 31);
+            this.amountRentTextBoxStart.TabIndex = 8;
+            this.amountRentTextBoxStart.Text = "1";
             // 
-            // Column13
+            // amountRentTextBoxFinish
             // 
-            this.Column13.HeaderText = "Договор";
-            this.Column13.MinimumWidth = 22;
-            this.Column13.Name = "Column13";
-            this.Column13.ReadOnly = true;
-            this.Column13.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.amountRentTextBoxFinish.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.amountRentTextBoxFinish.Location = new System.Drawing.Point(244, 258);
+            this.amountRentTextBoxFinish.Name = "amountRentTextBoxFinish";
+            this.amountRentTextBoxFinish.Size = new System.Drawing.Size(127, 31);
+            this.amountRentTextBoxFinish.TabIndex = 23;
+            this.amountRentTextBoxFinish.Text = "1000000";
             // 
-            // Column14
+            // datePickerFinish
             // 
-            this.Column14.HeaderText = "Месяц";
-            this.Column14.MinimumWidth = 22;
-            this.Column14.Name = "Column14";
-            this.Column14.ReadOnly = true;
-            this.Column14.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.datePickerFinish.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.datePickerFinish.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.datePickerFinish.Location = new System.Drawing.Point(244, 175);
+            this.datePickerFinish.Name = "datePickerFinish";
+            this.datePickerFinish.Size = new System.Drawing.Size(127, 31);
+            this.datePickerFinish.TabIndex = 22;
             // 
-            // Column15
+            // label1
             // 
-            this.Column15.HeaderText = "Сумма Аренды";
-            this.Column15.MinimumWidth = 22;
-            this.Column15.Name = "Column15";
-            this.Column15.ReadOnly = true;
-            this.Column15.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(182, 128);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(57, 23);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Дата";
             // 
-            // Column16
+            // datePickerStart
             // 
-            this.Column16.HeaderText = "Сумма Оплаты";
-            this.Column16.MinimumWidth = 22;
-            this.Column16.Name = "Column16";
-            this.Column16.ReadOnly = true;
-            this.Column16.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.datePickerStart.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.datePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.datePickerStart.Location = new System.Drawing.Point(63, 175);
+            this.datePickerStart.Name = "datePickerStart";
+            this.datePickerStart.Size = new System.Drawing.Size(127, 31);
+            this.datePickerStart.TabIndex = 6;
             // 
-            // Column17
+            // areaTypeComboBox
             // 
-            this.Column17.HeaderText = "НДС";
-            this.Column17.MinimumWidth = 22;
-            this.Column17.Name = "Column17";
-            this.Column17.ReadOnly = true;
-            this.Column17.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.areaTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.areaTypeComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.areaTypeComboBox.FormattingEnabled = true;
+            this.areaTypeComboBox.Location = new System.Drawing.Point(997, 571);
+            this.areaTypeComboBox.Name = "areaTypeComboBox";
+            this.areaTypeComboBox.Size = new System.Drawing.Size(185, 31);
+            this.areaTypeComboBox.TabIndex = 27;
+            this.areaTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.areaTypeComboBox_SelectedIndexChanged);
             // 
-            // Column18
+            // rentersComboBox
             // 
-            this.Column18.HeaderText = "Дата";
-            this.Column18.MinimumWidth = 22;
-            this.Column18.Name = "Column18";
-            this.Column18.ReadOnly = true;
-            this.Column18.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            // 
-            // Column19
-            // 
-            this.Column19.HeaderText = "Заметка";
-            this.Column19.MinimumWidth = 22;
-            this.Column19.Name = "Column19";
-            this.Column19.ReadOnly = true;
-            this.Column19.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.rentersComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.rentersComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rentersComboBox.FormattingEnabled = true;
+            this.rentersComboBox.Location = new System.Drawing.Point(767, 571);
+            this.rentersComboBox.Name = "rentersComboBox";
+            this.rentersComboBox.Size = new System.Drawing.Size(185, 31);
+            this.rentersComboBox.TabIndex = 32;
+            this.rentersComboBox.SelectedIndexChanged += new System.EventHandler(this.rentersComboBox_SelectedIndexChanged);
             // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1311, 651);
-            this.Controls.Add(this.advancedDataGridView1);
+            this.Controls.Add(this.rentersComboBox);
             this.Controls.Add(this.dataGridFlats);
             this.Controls.Add(this.dataGridOffices);
             this.Controls.Add(this.dataGridRenters);
@@ -1011,7 +882,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.datePickerStart);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.rentersComboBox);
             this.Controls.Add(this.dataGridResultFlats);
             this.Controls.Add(this.dataGridResults);
             this.Controls.Add(this.dataGridResultRenters);
@@ -1033,7 +903,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridResultOffices)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridResultRenters)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridResults)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.advancedDataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1074,21 +943,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn13;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
-        private System.Windows.Forms.DateTimePicker datePickerStart;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox amountRentTextBoxStart;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox amountPaymentTextBoxStart;
-        private System.Windows.Forms.ComboBox monthComboBox;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.DateTimePicker datePickerFinish;
-        private System.Windows.Forms.TextBox amountRentTextBoxFinish;
-        private System.Windows.Forms.TextBox amountPaymentTextBoxFinish;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox rentersComboBox;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.ComboBox areaTypeComboBox;
         public System.Windows.Forms.DataGridView dataGridResultOffices;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn15;
@@ -1120,17 +979,16 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
-        public Zuby.ADGV.AdvancedDataGridView advancedDataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column20;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column15;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column16;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column17;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column18;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column19;
+        private System.Windows.Forms.ComboBox monthComboBox;
+        private System.Windows.Forms.TextBox amountPaymentTextBoxFinish;
+        private System.Windows.Forms.TextBox amountPaymentTextBoxStart;
+        private System.Windows.Forms.TextBox amountRentTextBoxStart;
+        private System.Windows.Forms.TextBox amountRentTextBoxFinish;
+        private System.Windows.Forms.DateTimePicker datePickerFinish;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DateTimePicker datePickerStart;
+        private System.Windows.Forms.ComboBox areaTypeComboBox;
+        private System.Windows.Forms.ComboBox rentersComboBox;
     }
 }
 
