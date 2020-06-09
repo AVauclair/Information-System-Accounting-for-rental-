@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.resultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resultAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,7 +58,27 @@
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NameRenters = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridOffices = new System.Windows.Forms.DataGridView();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column55 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridFlats = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridResultFlats = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -91,31 +111,11 @@
             this.areaTypeComboBox = new System.Windows.Forms.ComboBox();
             this.rentersComboBox = new System.Windows.Forms.ComboBox();
             this.summaryPaymentLabel = new System.Windows.Forms.Label();
-            this.summaryPaymentTextBox = new System.Windows.Forms.TextBox();
             this.summaryRentLabel = new System.Windows.Forms.Label();
-            this.summaryRentTextBox = new System.Windows.Forms.TextBox();
             this.differenctLabel = new System.Windows.Forms.Label();
-            this.differenceTextBox = new System.Windows.Forms.TextBox();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column55 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.summaryRentLabelVal = new System.Windows.Forms.Label();
+            this.summaryPaymentLabelVal = new System.Windows.Forms.Label();
+            this.differenceLabelVal = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridRenters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridOffices)).BeginInit();
@@ -193,21 +193,21 @@
             // addRentersToolStripMenuItem
             // 
             this.addRentersToolStripMenuItem.Name = "addRentersToolStripMenuItem";
-            this.addRentersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addRentersToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.addRentersToolStripMenuItem.Text = "Добавить";
             this.addRentersToolStripMenuItem.Click += new System.EventHandler(this.addRentersToolStripMenuItem_Click);
             // 
             // updateRentersToolStripMenuItem
             // 
             this.updateRentersToolStripMenuItem.Name = "updateRentersToolStripMenuItem";
-            this.updateRentersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.updateRentersToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.updateRentersToolStripMenuItem.Text = "Изменить";
             this.updateRentersToolStripMenuItem.Click += new System.EventHandler(this.updateRentersToolStripMenuItem_Click);
             // 
             // deleteRentersToolStripMenuItem
             // 
             this.deleteRentersToolStripMenuItem.Name = "deleteRentersToolStripMenuItem";
-            this.deleteRentersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteRentersToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.deleteRentersToolStripMenuItem.Text = "Удалить";
             this.deleteRentersToolStripMenuItem.Click += new System.EventHandler(this.deleteRentersToolStripMenuItem_Click);
             // 
@@ -225,21 +225,21 @@
             // addOfficeToolStripMenuItem
             // 
             this.addOfficeToolStripMenuItem.Name = "addOfficeToolStripMenuItem";
-            this.addOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addOfficeToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.addOfficeToolStripMenuItem.Text = "Добавить";
             this.addOfficeToolStripMenuItem.Click += new System.EventHandler(this.addOfficeToolStripMenuItem_Click);
             // 
             // updateOfficeToolStripMenuItem
             // 
             this.updateOfficeToolStripMenuItem.Name = "updateOfficeToolStripMenuItem";
-            this.updateOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.updateOfficeToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.updateOfficeToolStripMenuItem.Text = "Изменить";
             this.updateOfficeToolStripMenuItem.Click += new System.EventHandler(this.updateOfficeToolStripMenuItem_Click);
             // 
             // deleteOfficeToolStripMenuItem
             // 
             this.deleteOfficeToolStripMenuItem.Name = "deleteOfficeToolStripMenuItem";
-            this.deleteOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteOfficeToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.deleteOfficeToolStripMenuItem.Text = "Удалить";
             this.deleteOfficeToolStripMenuItem.Click += new System.EventHandler(this.deleteOfficeToolStripMenuItem_Click);
             // 
@@ -288,7 +288,7 @@
             this.saveDBToolStripMenuItem,
             this.loadDBToolStripMenuItem});
             this.dbToolStripMenuItem.Name = "dbToolStripMenuItem";
-            this.dbToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
+            this.dbToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
             this.dbToolStripMenuItem.Text = "База данных";
             // 
             // connStringToolStripMenuItem
@@ -322,7 +322,7 @@
             this.Column1,
             this.NameRenters});
             this.dataGridRenters.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridRenters.Location = new System.Drawing.Point(492, 42);
+            this.dataGridRenters.Location = new System.Drawing.Point(428, 42);
             this.dataGridRenters.MultiSelect = false;
             this.dataGridRenters.Name = "dataGridRenters";
             this.dataGridRenters.ReadOnly = true;
@@ -384,6 +384,67 @@
             this.dataGridOffices.TabIndex = 3;
             this.dataGridOffices.Visible = false;
             // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "ID";
+            this.Column7.Name = "Column7";
+            this.Column7.ReadOnly = true;
+            this.Column7.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.FillWeight = 30F;
+            this.dataGridViewTextBoxColumn1.HeaderText = "№";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 30;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn2.HeaderText = "Арендатор";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Договор";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Месяц";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Сумма Аренды";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            // 
+            // Column55
+            // 
+            this.Column55.HeaderText = "НДС";
+            this.Column55.Name = "Column55";
+            this.Column55.ReadOnly = true;
+            // 
+            // Column5
+            // 
+            dataGridViewCellStyle3.Format = "D";
+            dataGridViewCellStyle3.NullValue = null;
+            this.Column5.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Column5.HeaderText = "Дата";
+            this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "Заметка";
+            this.Column6.Name = "Column6";
+            this.Column6.ReadOnly = true;
+            // 
             // dataGridFlats
             // 
             this.dataGridFlats.AllowUserToAddRows = false;
@@ -415,6 +476,79 @@
             this.dataGridFlats.TabIndex = 4;
             this.dataGridFlats.Visible = false;
             // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.HeaderText = "ID";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.FillWeight = 30F;
+            this.dataGridViewTextBoxColumn3.HeaderText = "№";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            this.dataGridViewTextBoxColumn3.Width = 30;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn5.HeaderText = "Арендатор";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.HeaderText = "Договор";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            this.dataGridViewTextBoxColumn7.HeaderText = "Месяц";
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            this.dataGridViewTextBoxColumn7.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            this.dataGridViewTextBoxColumn8.HeaderText = "Сумма Аренды";
+            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            this.dataGridViewTextBoxColumn8.ReadOnly = true;
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "Сумма оплаты";
+            this.Column8.Name = "Column8";
+            this.Column8.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn9
+            // 
+            this.dataGridViewTextBoxColumn9.HeaderText = "НДС";
+            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            this.dataGridViewTextBoxColumn9.ReadOnly = true;
+            // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "Тип помещения";
+            this.Column11.Name = "Column11";
+            this.Column11.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn10
+            // 
+            dataGridViewCellStyle4.Format = "D";
+            dataGridViewCellStyle4.NullValue = null;
+            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dataGridViewTextBoxColumn10.HeaderText = "Дата";
+            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
+            this.dataGridViewTextBoxColumn10.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn11
+            // 
+            this.dataGridViewTextBoxColumn11.HeaderText = "Заметка";
+            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
+            this.dataGridViewTextBoxColumn11.ReadOnly = true;
+            // 
             // dataGridResultFlats
             // 
             this.dataGridResultFlats.AllowUserToAddRows = false;
@@ -427,7 +561,7 @@
             this.dataGridViewTextBoxColumn14,
             this.Column10});
             this.dataGridResultFlats.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridResultFlats.Location = new System.Drawing.Point(118, 96);
+            this.dataGridResultFlats.Location = new System.Drawing.Point(47, 96);
             this.dataGridResultFlats.MultiSelect = false;
             this.dataGridResultFlats.Name = "dataGridResultFlats";
             this.dataGridResultFlats.ReadOnly = true;
@@ -679,6 +813,7 @@
             this.amountPaymentTextBoxFinish.TabIndex = 24;
             this.amountPaymentTextBoxFinish.Text = "1000000";
             this.amountPaymentTextBoxFinish.Visible = false;
+            this.amountPaymentTextBoxFinish.TextChanged += new System.EventHandler(this.amountPaymentTextBoxFinish_TextChanged);
             // 
             // amountPaymentTextBoxStart
             // 
@@ -689,6 +824,7 @@
             this.amountPaymentTextBoxStart.TabIndex = 10;
             this.amountPaymentTextBoxStart.Text = "1";
             this.amountPaymentTextBoxStart.Visible = false;
+            this.amountPaymentTextBoxStart.TextChanged += new System.EventHandler(this.amountPaymentTextBoxStart_TextChanged);
             // 
             // amountRentTextBoxStart
             // 
@@ -699,6 +835,7 @@
             this.amountRentTextBoxStart.TabIndex = 8;
             this.amountRentTextBoxStart.Text = "1";
             this.amountRentTextBoxStart.Visible = false;
+            this.amountRentTextBoxStart.TextChanged += new System.EventHandler(this.amountRentTextBoxStart_TextChanged);
             // 
             // amountRentTextBoxFinish
             // 
@@ -709,6 +846,7 @@
             this.amountRentTextBoxFinish.TabIndex = 23;
             this.amountRentTextBoxFinish.Text = "1000000";
             this.amountRentTextBoxFinish.Visible = false;
+            this.amountRentTextBoxFinish.TextChanged += new System.EventHandler(this.amountRentTextBoxFinish_TextChanged);
             // 
             // datePickerFinish
             // 
@@ -719,6 +857,7 @@
             this.datePickerFinish.Size = new System.Drawing.Size(127, 31);
             this.datePickerFinish.TabIndex = 22;
             this.datePickerFinish.Visible = false;
+            this.datePickerFinish.ValueChanged += new System.EventHandler(this.datePickerFinish_ValueChanged);
             // 
             // dateLabel
             // 
@@ -740,6 +879,7 @@
             this.datePickerStart.Size = new System.Drawing.Size(127, 31);
             this.datePickerStart.TabIndex = 6;
             this.datePickerStart.Visible = false;
+            this.datePickerStart.ValueChanged += new System.EventHandler(this.datePickerStart_ValueChanged);
             // 
             // areaTypeComboBox
             // 
@@ -777,15 +917,6 @@
             this.summaryPaymentLabel.Text = "Общая сумма оплаты";
             this.summaryPaymentLabel.Visible = false;
             // 
-            // summaryPaymentTextBox
-            // 
-            this.summaryPaymentTextBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.summaryPaymentTextBox.Location = new System.Drawing.Point(630, 459);
-            this.summaryPaymentTextBox.Name = "summaryPaymentTextBox";
-            this.summaryPaymentTextBox.Size = new System.Drawing.Size(127, 31);
-            this.summaryPaymentTextBox.TabIndex = 34;
-            this.summaryPaymentTextBox.Visible = false;
-            // 
             // summaryRentLabel
             // 
             this.summaryRentLabel.AutoSize = true;
@@ -797,178 +928,59 @@
             this.summaryRentLabel.Text = "Общая сумма аренды";
             this.summaryRentLabel.Visible = false;
             // 
-            // summaryRentTextBox
-            // 
-            this.summaryRentTextBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.summaryRentTextBox.Location = new System.Drawing.Point(630, 402);
-            this.summaryRentTextBox.Name = "summaryRentTextBox";
-            this.summaryRentTextBox.Size = new System.Drawing.Size(127, 31);
-            this.summaryRentTextBox.TabIndex = 36;
-            this.summaryRentTextBox.Visible = false;
-            // 
             // differenctLabel
             // 
             this.differenctLabel.AutoSize = true;
             this.differenctLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.differenctLabel.Location = new System.Drawing.Point(435, 509);
             this.differenctLabel.Name = "differenctLabel";
-            this.differenctLabel.Size = new System.Drawing.Size(195, 23);
+            this.differenctLabel.Size = new System.Drawing.Size(78, 23);
             this.differenctLabel.TabIndex = 37;
-            this.differenctLabel.Text = "Общая сумма оплаты";
+            this.differenctLabel.Text = "Разница";
             this.differenctLabel.Visible = false;
             // 
-            // differenceTextBox
+            // summaryRentLabelVal
             // 
-            this.differenceTextBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.differenceTextBox.Location = new System.Drawing.Point(630, 506);
-            this.differenceTextBox.Name = "differenceTextBox";
-            this.differenceTextBox.Size = new System.Drawing.Size(127, 31);
-            this.differenceTextBox.TabIndex = 38;
-            this.differenceTextBox.Visible = false;
+            this.summaryRentLabelVal.AutoSize = true;
+            this.summaryRentLabelVal.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.summaryRentLabelVal.Location = new System.Drawing.Point(653, 404);
+            this.summaryRentLabelVal.Name = "summaryRentLabelVal";
+            this.summaryRentLabelVal.Size = new System.Drawing.Size(50, 19);
+            this.summaryRentLabelVal.TabIndex = 39;
+            this.summaryRentLabelVal.Text = "label1";
+            this.summaryRentLabelVal.Visible = false;
             // 
-            // dataGridViewTextBoxColumn4
+            // summaryPaymentLabelVal
             // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "ID";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.Visible = false;
+            this.summaryPaymentLabelVal.AutoSize = true;
+            this.summaryPaymentLabelVal.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.summaryPaymentLabelVal.Location = new System.Drawing.Point(653, 462);
+            this.summaryPaymentLabelVal.Name = "summaryPaymentLabelVal";
+            this.summaryPaymentLabelVal.Size = new System.Drawing.Size(50, 19);
+            this.summaryPaymentLabelVal.TabIndex = 40;
+            this.summaryPaymentLabelVal.Text = "label2";
+            this.summaryPaymentLabelVal.Visible = false;
             // 
-            // dataGridViewTextBoxColumn3
+            // differenceLabelVal
             // 
-            this.dataGridViewTextBoxColumn3.FillWeight = 30F;
-            this.dataGridViewTextBoxColumn3.HeaderText = "№";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            this.dataGridViewTextBoxColumn3.Width = 30;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn5.HeaderText = "Арендатор";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.HeaderText = "Договор";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            this.dataGridViewTextBoxColumn6.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn7
-            // 
-            this.dataGridViewTextBoxColumn7.HeaderText = "Месяц";
-            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-            this.dataGridViewTextBoxColumn7.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn8
-            // 
-            this.dataGridViewTextBoxColumn8.HeaderText = "Сумма Аренды";
-            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
-            this.dataGridViewTextBoxColumn8.ReadOnly = true;
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "Сумма оплаты";
-            this.Column8.Name = "Column8";
-            this.Column8.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn9
-            // 
-            this.dataGridViewTextBoxColumn9.HeaderText = "НДС";
-            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
-            this.dataGridViewTextBoxColumn9.ReadOnly = true;
-            // 
-            // Column11
-            // 
-            this.Column11.HeaderText = "Тип помещения";
-            this.Column11.Name = "Column11";
-            this.Column11.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn10
-            // 
-            dataGridViewCellStyle2.Format = "D";
-            dataGridViewCellStyle2.NullValue = null;
-            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGridViewTextBoxColumn10.HeaderText = "Дата";
-            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
-            this.dataGridViewTextBoxColumn10.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn11
-            // 
-            this.dataGridViewTextBoxColumn11.HeaderText = "Заметка";
-            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
-            this.dataGridViewTextBoxColumn11.ReadOnly = true;
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "ID";
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
-            this.Column7.Visible = false;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.FillWeight = 30F;
-            this.dataGridViewTextBoxColumn1.HeaderText = "№";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 30;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn2.HeaderText = "Арендатор";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Договор";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Месяц";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Сумма Аренды";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            // 
-            // Column55
-            // 
-            this.Column55.HeaderText = "НДС";
-            this.Column55.Name = "Column55";
-            this.Column55.ReadOnly = true;
-            // 
-            // Column5
-            // 
-            dataGridViewCellStyle1.Format = "D";
-            dataGridViewCellStyle1.NullValue = null;
-            this.Column5.DefaultCellStyle = dataGridViewCellStyle1;
-            this.Column5.HeaderText = "Дата";
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "Заметка";
-            this.Column6.Name = "Column6";
-            this.Column6.ReadOnly = true;
+            this.differenceLabelVal.AutoSize = true;
+            this.differenceLabelVal.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.differenceLabelVal.Location = new System.Drawing.Point(653, 512);
+            this.differenceLabelVal.Name = "differenceLabelVal";
+            this.differenceLabelVal.Size = new System.Drawing.Size(50, 19);
+            this.differenceLabelVal.TabIndex = 41;
+            this.differenceLabelVal.Text = "label3";
+            this.differenceLabelVal.Visible = false;
             // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1311, 651);
-            this.Controls.Add(this.differenceTextBox);
+            this.Controls.Add(this.differenceLabelVal);
+            this.Controls.Add(this.summaryPaymentLabelVal);
+            this.Controls.Add(this.summaryRentLabelVal);
             this.Controls.Add(this.differenctLabel);
-            this.Controls.Add(this.summaryRentTextBox);
             this.Controls.Add(this.summaryRentLabel);
-            this.Controls.Add(this.summaryPaymentTextBox);
             this.Controls.Add(this.summaryPaymentLabel);
             this.Controls.Add(this.rentersComboBox);
             this.Controls.Add(this.dataGridFlats);
@@ -1078,11 +1090,8 @@
         private System.Windows.Forms.ComboBox areaTypeComboBox;
         private System.Windows.Forms.ComboBox rentersComboBox;
         private System.Windows.Forms.Label summaryPaymentLabel;
-        private System.Windows.Forms.TextBox summaryPaymentTextBox;
         private System.Windows.Forms.Label summaryRentLabel;
-        private System.Windows.Forms.TextBox summaryRentTextBox;
         private System.Windows.Forms.Label differenctLabel;
-        private System.Windows.Forms.TextBox differenceTextBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
@@ -1103,6 +1112,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column55;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.Label summaryRentLabelVal;
+        private System.Windows.Forms.Label summaryPaymentLabelVal;
+        private System.Windows.Forms.Label differenceLabelVal;
     }
 }
 

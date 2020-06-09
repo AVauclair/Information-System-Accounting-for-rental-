@@ -164,6 +164,118 @@ namespace manprac
         }
         #endregion
 
+        #region методы фильтраций
+
+        public void AmountRentFiltration()
+        {
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+
+            if (dataGridOffices.Visible == true)
+            {
+                if (amountRentTextBoxStart.Text != "" && amountRentTextBoxFinish.Text != "")
+                {
+                    dataGridOffices.Rows.Clear();
+                    OfficesLoad();
+                    for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                    {
+                        if (!((Convert.ToDouble(dataGridOffices.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text)) &&
+                            (Convert.ToDouble(dataGridOffices.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text))))
+                        {
+                            dataGridOffices.Rows[i].Visible = false;
+                        }
+                    }
+                }
+            }
+
+            //не работает
+            if (dataGridFlats.Visible == true)
+            {
+                if (amountRentTextBoxStart.Text != "" && amountRentTextBoxFinish.Text != "")
+                {
+                    dataGridFlats.Rows.Clear();
+                    FlatsLoad();
+                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                    {
+                        if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text)) &&
+                            (Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text))))
+                        {
+                            dataGridFlats.Rows[i].Visible = false;
+                        }
+                    }
+                }
+            }
+
+            conn.Close();
+        }
+
+        //не работает
+        public void AmountPaymentFiltration()
+        {
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+
+            if (dataGridFlats.Visible == true)
+            {
+                if (amountPaymentTextBoxStart.Text != "" && amountPaymentTextBoxFinish.Text != "")
+                {
+                    dataGridFlats.Rows.Clear();
+                    FlatsLoad();
+                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                    {
+                        if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) >= Convert.ToDouble(amountPaymentTextBoxStart.Text)) &&
+                            (Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) <= Convert.ToDouble(amountPaymentTextBoxFinish.Text))))
+                        {
+                            dataGridFlats.Rows[i].Visible = false;
+                        }
+                    }
+                }
+            }
+
+            conn.Close();
+        }
+
+        public void DateFiltration()
+        {
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+
+            if (dataGridOffices.Visible == true)
+            {
+                dataGridOffices.Rows.Clear();
+                OfficesLoad();
+                for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                {
+                    dataGridOffices.Rows[i].Cells[7].DataGridView.DefaultCellStyle.Format = "d";
+                    DateTime dt = DateTime.Parse(dataGridOffices.Rows[i].Cells[7].Value.ToString());
+                    if (!((dt.Date >= datePickerStart.Value.Date) && (dt.Date <= datePickerFinish.Value.Date)))
+                    {
+                        dataGridOffices.Rows[i].Visible = false;
+                    }
+                }
+            }
+
+            //не работает
+            if (dataGridFlats.Visible == true)
+            {
+                dataGridFlats.Rows.Clear();
+                FlatsLoad();
+                for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                {
+                    dataGridFlats.Rows[i].Cells[9].DataGridView.DefaultCellStyle.Format = "d";
+                    DateTime dt = DateTime.Parse(dataGridFlats.Rows[i].Cells[9].Value.ToString());
+                    if (!((dt.Date >= datePickerStart.Value.Date) && (dt.Date <= datePickerFinish.Value.Date)))
+                    {
+                        dataGridFlats.Rows[i].Visible = false;
+                    }
+                }
+            }
+
+            conn.Close();
+        }
+
+        #endregion
+
         public MainForm()
         {
             InitializeComponent();
@@ -500,11 +612,11 @@ namespace manprac
             dataGridResultOffices.Visible = false;
 
             summaryPaymentLabel.Visible = false;
-            summaryPaymentTextBox.Visible = false;
+            summaryPaymentLabelVal.Visible = false;
             summaryRentLabel.Visible = false;
-            summaryRentTextBox.Visible = false;
+            summaryRentLabelVal.Visible = false;
             differenctLabel.Visible = false;
-            differenceTextBox.Visible = false;
+            differenceLabelVal.Visible = false;
 
             dateLabel.Visible = false;
             datePickerStart.Visible = false;
@@ -519,6 +631,8 @@ namespace manprac
             rentersComboBox.Visible = false;
             areaTypeLabel.Visible = false;
             areaTypeComboBox.Visible = false;
+            rentLabel.Visible = false;
+            paymentLabel.Visible = false;
         }
 
         private void officesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -532,17 +646,18 @@ namespace manprac
             dataGridResultOffices.Visible = false;
 
             summaryPaymentLabel.Visible = false;
-            summaryPaymentTextBox.Visible = false;
+            summaryPaymentLabelVal.Visible = false;
             summaryRentLabel.Visible = false;
-            summaryRentTextBox.Visible = false;
+            summaryRentLabelVal.Visible = false;
             differenctLabel.Visible = false;
-            differenceTextBox.Visible = false;
+            differenceLabelVal.Visible = false;
+            paymentLabel.Visible = false;
+            amountPaymentTextBoxStart.Visible = false;
+            amountPaymentTextBoxFinish.Visible = false;
 
             dateLabel.Visible = true;
             datePickerStart.Visible = true;
             datePickerFinish.Visible = true;
-            amountPaymentTextBoxStart.Visible = true;
-            amountPaymentTextBoxFinish.Visible = true;
             amountRentTextBoxFinish.Visible = true;
             amountRentTextBoxStart.Visible = true;
             monthLabel.Visible = true;
@@ -551,6 +666,7 @@ namespace manprac
             rentersComboBox.Visible = true;
             areaTypeLabel.Visible = true;
             areaTypeComboBox.Visible = true;
+            rentLabel.Visible = true;
         }
 
         private void flatsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -563,11 +679,11 @@ namespace manprac
             dataGridResultOffices.Visible = false;
 
             summaryPaymentLabel.Visible = false;
-            summaryPaymentTextBox.Visible = false;
+            summaryPaymentLabelVal.Visible = false;
             summaryRentLabel.Visible = false;
-            summaryRentTextBox.Visible = false;
+            summaryRentLabelVal.Visible = false;
             differenctLabel.Visible = false;
-            differenceTextBox.Visible = false;
+            differenceLabelVal.Visible = false;
 
             dateLabel.Visible = true;
             datePickerStart.Visible = true;
@@ -583,6 +699,8 @@ namespace manprac
             areaTypeLabel.Visible = true;
             areaTypeComboBox.Visible = true;
 
+            rentLabel.Visible = true;
+            paymentLabel.Visible = true;
         }
 
         private void resultFlatsToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -607,11 +725,15 @@ namespace manprac
             rentersComboBox.Visible = false;
             areaTypeLabel.Visible = false;
             areaTypeComboBox.Visible = false;
+            rentLabel.Visible = false;
+            paymentLabel.Visible = false;
 
             summaryPaymentLabel.Visible = true;
-            summaryPaymentTextBox.Visible = true;
+            summaryPaymentLabelVal.Visible = true;
             summaryRentLabel.Visible = true;
-            summaryRentTextBox.Visible = true;
+            summaryRentLabelVal.Visible = true;
+
+
             dataGridResultFlats.Rows.Clear();
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
@@ -639,8 +761,8 @@ namespace manprac
             SqlDataReader readerResultTotal = loadResultTotal.ExecuteReader();
             while (readerResultTotal.Read())
             {
-                summaryRentTextBox.Text = readerResultTotal["SumRent"].ToString();
-                summaryPaymentTextBox.Text = readerResultTotal["SumPayment"].ToString();
+                summaryRentLabelVal.Text = readerResultTotal["SumRent"].ToString();
+                summaryPaymentLabelVal.Text = readerResultTotal["SumPayment"].ToString();
             }
             readerResultTotal.Close();
             conn.Close();
@@ -668,11 +790,13 @@ namespace manprac
             rentersComboBox.Visible = false;
             areaTypeLabel.Visible = false;
             areaTypeComboBox.Visible = false;
+            rentLabel.Visible = false;
+            paymentLabel.Visible = false;
 
             summaryPaymentLabel.Visible = true;
-            summaryPaymentTextBox.Visible = true;
+            summaryPaymentLabelVal.Visible = true;
             summaryRentLabel.Visible = true;
-            summaryRentTextBox.Visible = true;
+            summaryRentLabelVal.Visible = true;
 
             dataGridResultOffices.Rows.Clear();
             SqlConnection conn = new SqlConnection(ConnString);
@@ -697,9 +821,9 @@ namespace manprac
             SqlDataReader readerResultSummary = loadResultSummary.ExecuteReader();
             while (readerResultSummary.Read())
             {
-                summaryRentTextBox.Text = readerResultSummary["Amount_Rent"].ToString();
-                summaryPaymentTextBox.Text = readerResultSummary["VAT"].ToString();
-                differenceTextBox.Text = readerResultSummary["Difference"].ToString();
+                summaryRentLabelVal.Text = readerResultSummary["Amount_Rent"].ToString();
+                summaryPaymentLabelVal.Text = readerResultSummary["VAT"].ToString();
+                differenceLabelVal.Text = readerResultSummary["Difference"].ToString();
             }
             readerResultSummary.Close();
             conn.Close();
@@ -727,11 +851,13 @@ namespace manprac
             rentersComboBox.Visible = false;
             areaTypeLabel.Visible = false;
             areaTypeComboBox.Visible = false;
+            rentLabel.Visible = false;
+            paymentLabel.Visible = false;
 
             summaryPaymentLabel.Visible = false;
-            summaryPaymentTextBox.Visible = false;
+            summaryPaymentLabelVal.Visible = false;
             summaryRentLabel.Visible = false;
-            summaryRentTextBox.Visible = false;
+            summaryRentLabelVal.Visible = false;
 
             dataGridCommonResults.Rows.Clear();
             SqlConnection conn = new SqlConnection(ConnString);
@@ -880,9 +1006,61 @@ namespace manprac
 
             conn.Close();
         }
-        #endregion
 
-       
+        private void datePickerStart_ValueChanged(object sender, EventArgs e)
+        {
+            DateFiltration();
+        }
+
+        private void datePickerFinish_ValueChanged(object sender, EventArgs e)
+        {
+            DateFiltration();
+        }
+
+        private void amountRentTextBoxStart_TextChanged(object sender, EventArgs e)
+        {
+            if (amountRentTextBoxStart.Text.Any(char.IsLetter) || amountRentTextBoxStart.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
+            {
+                amountRentTextBoxStart.Text = "1";
+                amountRentTextBoxStart.SelectionStart = 1;
+            }
+
+            AmountRentFiltration();
+        }
+
+        private void amountRentTextBoxFinish_TextChanged(object sender, EventArgs e)
+        {
+            if (amountRentTextBoxFinish.Text.Any(char.IsLetter) || amountRentTextBoxFinish.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
+            {
+                amountRentTextBoxFinish.Text = "100000";
+                amountRentTextBoxFinish.SelectionStart = 7;
+            }
+
+            AmountRentFiltration();
+        }
+
+        private void amountPaymentTextBoxStart_TextChanged(object sender, EventArgs e)
+        {
+            if (amountPaymentTextBoxStart.Text.Any(char.IsLetter) || amountPaymentTextBoxStart.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
+            {
+                amountPaymentTextBoxStart.Text = "1";
+                amountPaymentTextBoxStart.SelectionStart = 1;
+            }
+
+            AmountPaymentFiltration();
+        }
+
+        private void amountPaymentTextBoxFinish_TextChanged(object sender, EventArgs e)
+        {
+            if (amountPaymentTextBoxFinish.Text.Any(char.IsLetter) || amountPaymentTextBoxFinish.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
+            {
+                amountPaymentTextBoxFinish.Text = "100000";
+                amountPaymentTextBoxFinish.SelectionStart = 7;
+            }
+
+            AmountPaymentFiltration();
+        }
+        #endregion
     }
 }
     
