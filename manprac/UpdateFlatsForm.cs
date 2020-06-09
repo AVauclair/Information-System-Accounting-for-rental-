@@ -28,7 +28,7 @@ namespace manprac
             ActiveControl = contractTextBox;
             contractTextBox.SelectionStart = 0;
 
-            MainForm main = this.Owner as MainForm;
+            yy main = this.Owner as yy;
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
             SqlCommand loadRenters = new SqlCommand("SELECT ID_Renters, Name FROM Renters", conn);
@@ -117,7 +117,7 @@ namespace manprac
 
         private void updateRecordButton_Click(object sender, EventArgs e)
         {
-            MainForm main = this.Owner as MainForm;
+            yy main = this.Owner as yy;
             StringBuilder errors = new StringBuilder();
             if (string.IsNullOrEmpty(areaTypeComboBox.Text)) errors.AppendLine("Выберите тип помещения.");
             if (string.IsNullOrWhiteSpace(rentersComboBox.Text)) errors.AppendLine("Выберите арендатора.");

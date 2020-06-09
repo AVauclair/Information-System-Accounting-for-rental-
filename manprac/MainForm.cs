@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace manprac
 {
-    public partial class MainForm : Form
+    public partial class yy : Form
     {
 
         Dictionary<int, string> DebitingMonth = new Dictionary<int, string>();
@@ -52,7 +52,7 @@ namespace manprac
 
         public void OfficesLoad()
         {
-           
+
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
 
@@ -74,7 +74,7 @@ namespace manprac
                 dataOffices[dataOffices.Count - 1][4] = readerOffices["Month"].ToString();
                 dataOffices[dataOffices.Count - 1][5] = readerOffices["Amount_Rent"].ToString();
                 dataOffices[dataOffices.Count - 1][6] = readerOffices["VAT"].ToString();
-                if(readerOffices["Date_Payment"].ToString() != "")
+                if (readerOffices["Date_Payment"].ToString() != "")
                 {
                     dataOffices[dataOffices.Count - 1][7] = Convert.ToDateTime(readerOffices["Date_Payment"]).ToShortDateString();
                 }
@@ -116,7 +116,7 @@ namespace manprac
                 dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
                 dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
                 dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["ApartamentStatus"].ToString();
-                if(readerApartaments["Date_Payment"].ToString() != "")
+                if (readerApartaments["Date_Payment"].ToString() != "")
                 {
                     dataApartaments[dataApartaments.Count - 1][9] = Convert.ToDateTime(readerApartaments["Date_Payment"]).ToShortDateString();
                 }
@@ -135,7 +135,7 @@ namespace manprac
 
         public void ResultFlatsLoad()
         {
-            
+
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
 
@@ -276,7 +276,7 @@ namespace manprac
 
         #endregion
 
-        public MainForm()
+        public yy()
         {
             InitializeComponent();
         }
@@ -604,6 +604,7 @@ namespace manprac
         #region отображение таблиц по нажатию на пункт в меню
         private void rentersToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            dataGridUninhabitedArea.Visible = false;
             dataGridRenters.Visible = true;
             dataGridFlats.Visible = false;
             dataGridOffices.Visible = false;
@@ -617,6 +618,8 @@ namespace manprac
             summaryRentLabelVal.Visible = false;
             differenctLabel.Visible = false;
             differenceLabelVal.Visible = false;
+            summaryVatLabel.Visible = false;
+            summaryVatLabelVal.Visible = false;
 
             dateLabel.Visible = false;
             datePickerStart.Visible = false;
@@ -637,6 +640,7 @@ namespace manprac
 
         private void officesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            dataGridUninhabitedArea.Visible = false;
             dataGridRenters.Visible = false;
             dataGridFlats.Visible = false;
             dataGridOffices.Visible = true;
@@ -652,6 +656,8 @@ namespace manprac
             differenctLabel.Visible = false;
             differenceLabelVal.Visible = false;
             paymentLabel.Visible = false;
+            summaryVatLabel.Visible = false;
+            summaryVatLabelVal.Visible = false;
             amountPaymentTextBoxStart.Visible = false;
             amountPaymentTextBoxFinish.Visible = false;
 
@@ -671,6 +677,7 @@ namespace manprac
 
         private void flatsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            dataGridUninhabitedArea.Visible = false;
             dataGridRenters.Visible = false;
             dataGridFlats.Visible = true;
             dataGridOffices.Visible = false;
@@ -684,6 +691,8 @@ namespace manprac
             summaryRentLabelVal.Visible = false;
             differenctLabel.Visible = false;
             differenceLabelVal.Visible = false;
+            summaryVatLabel.Visible = false;
+            summaryVatLabelVal.Visible = false;
 
             dateLabel.Visible = true;
             datePickerStart.Visible = true;
@@ -705,6 +714,7 @@ namespace manprac
 
         private void resultFlatsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            dataGridUninhabitedArea.Visible = false;
             dataGridRenters.Visible = false;
             dataGridFlats.Visible = false;
             dataGridOffices.Visible = false;
@@ -732,6 +742,8 @@ namespace manprac
             summaryPaymentLabelVal.Visible = true;
             summaryRentLabel.Visible = true;
             summaryRentLabelVal.Visible = true;
+            summaryVatLabel.Visible = false;
+            summaryVatLabelVal.Visible = false;
 
 
             dataGridResultFlats.Rows.Clear();
@@ -770,6 +782,7 @@ namespace manprac
 
         private void resultOfficesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            dataGridUninhabitedArea.Visible = false;
             dataGridRenters.Visible = false;
             dataGridFlats.Visible = false;
             dataGridOffices.Visible = false;
@@ -797,6 +810,8 @@ namespace manprac
             summaryPaymentLabelVal.Visible = true;
             summaryRentLabel.Visible = true;
             summaryRentLabelVal.Visible = true;
+            summaryVatLabel.Visible = false;
+            summaryVatLabelVal.Visible = false;
 
             dataGridResultOffices.Rows.Clear();
             SqlConnection conn = new SqlConnection(ConnString);
@@ -831,6 +846,7 @@ namespace manprac
 
         private void resultAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            dataGridUninhabitedArea.Visible = false;
             dataGridRenters.Visible = false;
             dataGridFlats.Visible = false;
             dataGridOffices.Visible = false;
@@ -858,6 +874,8 @@ namespace manprac
             summaryPaymentLabelVal.Visible = false;
             summaryRentLabel.Visible = false;
             summaryRentLabelVal.Visible = false;
+            summaryVatLabel.Visible = false;
+            summaryVatLabelVal.Visible = false;
 
             dataGridCommonResults.Rows.Clear();
             SqlConnection conn = new SqlConnection(ConnString);
@@ -898,6 +916,67 @@ namespace manprac
                 sumVat += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[2].Value);
             }
             dataGridCommonResults.Rows.Add("Всего", sumRent, sumVat);
+        }
+
+        private void resultFlatsNToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataGridUninhabitedArea.Visible = false;
+            dataGridUninhabitedArea.Visible = true;
+            dataGridRenters.Visible = false;
+            dataGridFlats.Visible = false;
+            dataGridOffices.Visible = false;
+            dataGridCommonResults.Visible = false;
+            dataGridResultFlats.Visible = false;
+            dataGridResultOffices.Visible = false;
+
+            dateLabel.Visible = false;
+            datePickerStart.Visible = false;
+            datePickerFinish.Visible = false;
+            amountPaymentTextBoxStart.Visible = false;
+            amountPaymentTextBoxFinish.Visible = false;
+            amountRentTextBoxFinish.Visible = false;
+            amountRentTextBoxStart.Visible = false;
+            monthLabel.Visible = false;
+            monthComboBox.Visible = false;
+            rentersLabel.Visible = false;
+            rentersComboBox.Visible = false;
+            areaTypeLabel.Visible = false;
+            areaTypeComboBox.Visible = false;
+
+            summaryPaymentLabel.Visible = true;
+            summaryPaymentLabelVal.Visible = true;
+            summaryRentLabel.Visible = false;
+            summaryRentLabelVal.Visible = false;
+            summaryVatLabelVal.Visible = true;
+            summaryVatLabel.Visible = true;
+
+
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+            SqlCommand loadUninhabitedArea1 = new SqlCommand("SELECT Months.ID_Month, Months.Name Month, sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments " +
+              " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month WHERE Apartament_Status = 2 Group By Months.ID_Month, Months.Name", conn);
+            SqlDataReader readerUninhabitedArea1 = loadUninhabitedArea1.ExecuteReader();
+            List<string[]> data1 = new List<string[]>();
+            while (readerUninhabitedArea1.Read())
+            {
+                data1.Add(new string[3]);
+                data1[data1.Count - 1][0] = readerUninhabitedArea1["Month"].ToString();
+                data1[data1.Count - 1][1] = readerUninhabitedArea1["Amount_Payment"].ToString();
+                data1[data1.Count - 1][2] = readerUninhabitedArea1["VAT"].ToString();
+            }
+            readerUninhabitedArea1.Close();
+            foreach (string[] s in data1)
+                dataGridUninhabitedArea.Rows.Add(s);
+
+            SqlCommand loadUningabitedArea2 = new SqlCommand("SELECT sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments Where Apartament_Status = 2", conn);
+            SqlDataReader readerUninhabitedAre2 = loadUningabitedArea2.ExecuteReader();
+            while (readerUninhabitedAre2.Read())
+            {
+                summaryPaymentLabelVal.Text = readerUninhabitedAre2["Amount_Payment"].ToString();
+                summaryVatLabelVal.Text = readerUninhabitedAre2["VAT"].ToString();
+            }
+            readerUninhabitedAre2.Close();
+            conn.Close();
         }
         #endregion
 
@@ -1060,8 +1139,94 @@ namespace manprac
 
             AmountPaymentFiltration();
         }
+
         #endregion
+
+        private void saveDBToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string DBname = "";
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+            SqlCommand NameDB = new SqlCommand("select db_name() Name", conn);
+            SqlDataReader readerNameBD = NameDB.ExecuteReader();
+            while (readerNameBD.Read())
+            {
+                DBname = readerNameBD["Name"].ToString();
+            }
+            readerNameBD.Close();
+            try
+            {
+                SaveFileDialog dlg = new SaveFileDialog();
+                dlg.FileName = DBname + "_" + DateTime.Now.ToString("yyyy-MM-dd");
+                dlg.DefaultExt = ".bak";
+                dlg.Filter = "Базы данных (*.bak)|*.bak|Все файлы (*.*)|*.*";
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    string filename = dlg.FileName;
+                    SqlConnection connection = new SqlConnection(ConnString);
+
+                    string comm = "USE [master] " +
+                        $"BACKUP DATABASE [{DBname}] TO DISK = N'{filename}'";
+                    SqlCommand command = new SqlCommand(comm, connection);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+
+                    MessageBox.Show("Копия базы данных успешно создана.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private void loadDBToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string DBname = "";
+
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+            SqlCommand NameDB = new SqlCommand("select db_name() Name", conn);
+            SqlDataReader readerNameBD = NameDB.ExecuteReader();
+            while (readerNameBD.Read())
+            {
+                DBname = readerNameBD["Name"].ToString();
+            }
+            readerNameBD.Close();
+
+            try
+            {
+                if (MessageBox.Show("После выбора файла несохраненные данные будут утеряны. Также программа будет перезагружена. Продолжить?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    OpenFileDialog dlg = new OpenFileDialog();
+                    dlg.DefaultExt = ".bak";
+                    dlg.Filter = "Базы данных (*.bak)|*.bak|Все файлы (*.*)|*.*";
+                    if (dlg.ShowDialog() == DialogResult.OK)
+                    {
+                        string filename = dlg.FileName;
+                        SqlConnection connection = new SqlConnection(ConnString);
+                        string comm = "USE [master] " +
+                            $"ALTER DATABASE[{DBname}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE " +
+                            $"RESTORE DATABASE[{DBname}] FROM DISK = N'{filename}' WITH REPLACE " +
+                            $"ALTER DATABASE[{DBname}] SET MULTI_USER";
+                        SqlCommand command = new SqlCommand(comm, connection);
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        Application.Restart();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }
+
     
 

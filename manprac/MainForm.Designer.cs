@@ -1,6 +1,6 @@
 ﻿namespace manprac
 {
-    partial class MainForm
+    partial class yy
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.resultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resultAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,7 +85,6 @@
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rentLabel = new System.Windows.Forms.Label();
             this.paymentLabel = new System.Windows.Forms.Label();
-            this.monthLabel = new System.Windows.Forms.Label();
             this.rentersLabel = new System.Windows.Forms.Label();
             this.areaTypeLabel = new System.Windows.Forms.Label();
             this.dataGridResultOffices = new System.Windows.Forms.DataGridView();
@@ -116,6 +115,13 @@
             this.summaryRentLabelVal = new System.Windows.Forms.Label();
             this.summaryPaymentLabelVal = new System.Windows.Forms.Label();
             this.differenceLabelVal = new System.Windows.Forms.Label();
+            this.monthLabel = new System.Windows.Forms.Label();
+            this.dataGridUninhabitedArea = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn23 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.summaryVatLabel = new System.Windows.Forms.Label();
+            this.summaryVatLabelVal = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridRenters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridOffices)).BeginInit();
@@ -124,6 +130,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridResultOffices)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridResultRenters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridCommonResults)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridUninhabitedArea)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -178,6 +185,7 @@
             this.resultFlatsNToolStripMenuItem.Name = "resultFlatsNToolStripMenuItem";
             this.resultFlatsNToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.resultFlatsNToolStripMenuItem.Text = "Нежилые помещения";
+            this.resultFlatsNToolStripMenuItem.Click += new System.EventHandler(this.resultFlatsNToolStripMenuItem_Click);
             // 
             // rentersToolStripMenuItem
             // 
@@ -225,21 +233,21 @@
             // addOfficeToolStripMenuItem
             // 
             this.addOfficeToolStripMenuItem.Name = "addOfficeToolStripMenuItem";
-            this.addOfficeToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.addOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addOfficeToolStripMenuItem.Text = "Добавить";
             this.addOfficeToolStripMenuItem.Click += new System.EventHandler(this.addOfficeToolStripMenuItem_Click);
             // 
             // updateOfficeToolStripMenuItem
             // 
             this.updateOfficeToolStripMenuItem.Name = "updateOfficeToolStripMenuItem";
-            this.updateOfficeToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.updateOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.updateOfficeToolStripMenuItem.Text = "Изменить";
             this.updateOfficeToolStripMenuItem.Click += new System.EventHandler(this.updateOfficeToolStripMenuItem_Click);
             // 
             // deleteOfficeToolStripMenuItem
             // 
             this.deleteOfficeToolStripMenuItem.Name = "deleteOfficeToolStripMenuItem";
-            this.deleteOfficeToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.deleteOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteOfficeToolStripMenuItem.Text = "Удалить";
             this.deleteOfficeToolStripMenuItem.Click += new System.EventHandler(this.deleteOfficeToolStripMenuItem_Click);
             // 
@@ -288,7 +296,7 @@
             this.saveDBToolStripMenuItem,
             this.loadDBToolStripMenuItem});
             this.dbToolStripMenuItem.Name = "dbToolStripMenuItem";
-            this.dbToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
+            this.dbToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
             this.dbToolStripMenuItem.Text = "База данных";
             // 
             // connStringToolStripMenuItem
@@ -303,12 +311,14 @@
             this.saveDBToolStripMenuItem.Name = "saveDBToolStripMenuItem";
             this.saveDBToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.saveDBToolStripMenuItem.Text = "Сохранить базу";
+            this.saveDBToolStripMenuItem.Click += new System.EventHandler(this.saveDBToolStripMenuItem_Click);
             // 
             // loadDBToolStripMenuItem
             // 
             this.loadDBToolStripMenuItem.Name = "loadDBToolStripMenuItem";
             this.loadDBToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.loadDBToolStripMenuItem.Text = "Загрузить базу";
+            this.loadDBToolStripMenuItem.Click += new System.EventHandler(this.loadDBToolStripMenuItem_Click);
             // 
             // dataGridRenters
             // 
@@ -432,9 +442,9 @@
             // 
             // Column5
             // 
-            dataGridViewCellStyle3.Format = "D";
-            dataGridViewCellStyle3.NullValue = null;
-            this.Column5.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Format = "D";
+            dataGridViewCellStyle7.NullValue = null;
+            this.Column5.DefaultCellStyle = dataGridViewCellStyle7;
             this.Column5.HeaderText = "Дата";
             this.Column5.Name = "Column5";
             this.Column5.ReadOnly = true;
@@ -536,9 +546,9 @@
             // 
             // dataGridViewTextBoxColumn10
             // 
-            dataGridViewCellStyle4.Format = "D";
-            dataGridViewCellStyle4.NullValue = null;
-            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Format = "D";
+            dataGridViewCellStyle8.NullValue = null;
+            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle8;
             this.dataGridViewTextBoxColumn10.HeaderText = "Дата";
             this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
             this.dataGridViewTextBoxColumn10.ReadOnly = true;
@@ -618,17 +628,6 @@
             this.paymentLabel.Text = "Сумма оплаты";
             this.paymentLabel.Visible = false;
             // 
-            // monthLabel
-            // 
-            this.monthLabel.AutoSize = true;
-            this.monthLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.monthLabel.Location = new System.Drawing.Point(568, 545);
-            this.monthLabel.Name = "monthLabel";
-            this.monthLabel.Size = new System.Drawing.Size(62, 23);
-            this.monthLabel.TabIndex = 21;
-            this.monthLabel.Text = "Месяц";
-            this.monthLabel.Visible = false;
-            // 
             // rentersLabel
             // 
             this.rentersLabel.AutoSize = true;
@@ -663,7 +662,7 @@
             this.dataGridViewTextBoxColumn15,
             this.dataGridViewTextBoxColumn16});
             this.dataGridResultOffices.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridResultOffices.Location = new System.Drawing.Point(366, 40);
+            this.dataGridResultOffices.Location = new System.Drawing.Point(333, 40);
             this.dataGridResultOffices.MultiSelect = false;
             this.dataGridResultOffices.Name = "dataGridResultOffices";
             this.dataGridResultOffices.ReadOnly = true;
@@ -972,10 +971,93 @@
             this.differenceLabelVal.Text = "label3";
             this.differenceLabelVal.Visible = false;
             // 
-            // MainForm
+            // monthLabel
+            // 
+            this.monthLabel.AutoSize = true;
+            this.monthLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.monthLabel.Location = new System.Drawing.Point(568, 545);
+            this.monthLabel.Name = "monthLabel";
+            this.monthLabel.Size = new System.Drawing.Size(62, 23);
+            this.monthLabel.TabIndex = 21;
+            this.monthLabel.Text = "Месяц";
+            this.monthLabel.Visible = false;
+            // 
+            // dataGridUninhabitedArea
+            // 
+            this.dataGridUninhabitedArea.AllowUserToAddRows = false;
+            this.dataGridUninhabitedArea.AllowUserToDeleteRows = false;
+            this.dataGridUninhabitedArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridUninhabitedArea.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
+            this.dataGridUninhabitedArea.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridUninhabitedArea.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn23,
+            this.dataGridViewTextBoxColumn24,
+            this.dataGridViewTextBoxColumn25});
+            this.dataGridUninhabitedArea.GridColor = System.Drawing.SystemColors.Control;
+            this.dataGridUninhabitedArea.Location = new System.Drawing.Point(77, 42);
+            this.dataGridUninhabitedArea.MultiSelect = false;
+            this.dataGridUninhabitedArea.Name = "dataGridUninhabitedArea";
+            this.dataGridUninhabitedArea.ReadOnly = true;
+            this.dataGridUninhabitedArea.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.dataGridUninhabitedArea.RowHeadersVisible = false;
+            this.dataGridUninhabitedArea.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dataGridUninhabitedArea.Size = new System.Drawing.Size(771, 329);
+            this.dataGridUninhabitedArea.TabIndex = 42;
+            this.dataGridUninhabitedArea.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn23
+            // 
+            this.dataGridViewTextBoxColumn23.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn23.FillWeight = 69.37336F;
+            this.dataGridViewTextBoxColumn23.HeaderText = "Месяц";
+            this.dataGridViewTextBoxColumn23.Name = "dataGridViewTextBoxColumn23";
+            this.dataGridViewTextBoxColumn23.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn24
+            // 
+            this.dataGridViewTextBoxColumn24.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn24.FillWeight = 102.251F;
+            this.dataGridViewTextBoxColumn24.HeaderText = "Сумма аренды";
+            this.dataGridViewTextBoxColumn24.Name = "dataGridViewTextBoxColumn24";
+            this.dataGridViewTextBoxColumn24.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn25
+            // 
+            this.dataGridViewTextBoxColumn25.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn25.FillWeight = 58.37563F;
+            this.dataGridViewTextBoxColumn25.HeaderText = "НДС";
+            this.dataGridViewTextBoxColumn25.Name = "dataGridViewTextBoxColumn25";
+            this.dataGridViewTextBoxColumn25.ReadOnly = true;
+            // 
+            // summaryVatLabel
+            // 
+            this.summaryVatLabel.AutoSize = true;
+            this.summaryVatLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.summaryVatLabel.Location = new System.Drawing.Point(144, 499);
+            this.summaryVatLabel.Name = "summaryVatLabel";
+            this.summaryVatLabel.Size = new System.Drawing.Size(131, 23);
+            this.summaryVatLabel.TabIndex = 43;
+            this.summaryVatLabel.Text = "Итоговое НДС";
+            this.summaryVatLabel.Visible = false;
+            // 
+            // summaryVatLabelVal
+            // 
+            this.summaryVatLabelVal.AutoSize = true;
+            this.summaryVatLabelVal.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.summaryVatLabelVal.Location = new System.Drawing.Point(302, 503);
+            this.summaryVatLabelVal.Name = "summaryVatLabelVal";
+            this.summaryVatLabelVal.Size = new System.Drawing.Size(50, 19);
+            this.summaryVatLabelVal.TabIndex = 44;
+            this.summaryVatLabelVal.Text = "label3";
+            this.summaryVatLabelVal.Visible = false;
+            // 
+            // yy
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1311, 651);
+            this.Controls.Add(this.summaryVatLabelVal);
+            this.Controls.Add(this.summaryVatLabel);
+            this.Controls.Add(this.dataGridUninhabitedArea);
             this.Controls.Add(this.differenceLabelVal);
             this.Controls.Add(this.summaryPaymentLabelVal);
             this.Controls.Add(this.summaryRentLabelVal);
@@ -1009,7 +1091,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "MainForm";
+            this.Name = "yy";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "BetterThenExcel";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -1022,6 +1104,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridResultOffices)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridResultRenters)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridCommonResults)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridUninhabitedArea)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1064,7 +1147,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.Label rentLabel;
         private System.Windows.Forms.Label paymentLabel;
-        private System.Windows.Forms.Label monthLabel;
         private System.Windows.Forms.Label rentersLabel;
         private System.Windows.Forms.Label areaTypeLabel;
         public System.Windows.Forms.DataGridView dataGridResultOffices;
@@ -1115,6 +1197,13 @@
         private System.Windows.Forms.Label summaryRentLabelVal;
         private System.Windows.Forms.Label summaryPaymentLabelVal;
         private System.Windows.Forms.Label differenceLabelVal;
+        private System.Windows.Forms.Label monthLabel;
+        public System.Windows.Forms.DataGridView dataGridUninhabitedArea;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn23;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn24;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn25;
+        private System.Windows.Forms.Label summaryVatLabel;
+        private System.Windows.Forms.Label summaryVatLabelVal;
     }
 }
 

@@ -23,7 +23,7 @@ namespace manprac
         {
             try
             {
-                MainForm main = this.Owner as MainForm;
+                yy main = this.Owner as yy;
                 ActiveControl = newNameTextBox;
                 SqlConnection conn = new SqlConnection(ConnString);
                 conn.Open();
@@ -47,7 +47,7 @@ namespace manprac
 
         private void updateRecordButton_Click(object sender, EventArgs e)
         {
-            MainForm main = this.Owner as MainForm;
+            yy main = this.Owner as yy;
             if (newNameTextBox.Text == "")
             {
                 MessageBox.Show("Поле пустое", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -87,7 +87,7 @@ namespace manprac
 
         private void UpdateRentersForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            MainForm main = this.Owner as MainForm;
+            yy main = this.Owner as yy;
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
             main.dataGridRenters.Rows.Clear();

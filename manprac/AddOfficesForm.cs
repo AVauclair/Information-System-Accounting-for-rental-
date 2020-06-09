@@ -51,7 +51,7 @@ namespace manprac
 
         private void addRecordButton_Click(object sender, EventArgs e)
         {
-            MainForm main = this.Owner as MainForm;
+            yy main = this.Owner as yy;
             StringBuilder errors = new StringBuilder();
             if (string.IsNullOrWhiteSpace(rentersComboBox.Text)) errors.AppendLine("Выберите арендатора.");
             if (string.IsNullOrWhiteSpace(monthComboBox.Text)) errors.AppendLine("Выберите месяц.");

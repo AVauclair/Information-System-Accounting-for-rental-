@@ -59,7 +59,7 @@ namespace manprac
 
         private void addFlatsButton_Click(object sender, EventArgs e)
         {
-            MainForm main = this.Owner as MainForm;
+            yy main = this.Owner as yy;
             StringBuilder errors = new StringBuilder();
             if (string.IsNullOrEmpty(areaTypeComboBox.Text)) errors.AppendLine("Выберите тип помещения.");
             if (string.IsNullOrWhiteSpace(rentersComboBox.Text)) errors.AppendLine("Выберите арендатора.");

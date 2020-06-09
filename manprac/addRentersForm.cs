@@ -64,7 +64,7 @@ namespace manprac
 
         private void AddRentersForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            MainForm main = this.Owner as MainForm;
+            yy main = this.Owner as yy;
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
             SqlCommand loadRenters = new SqlCommand("SELECT ID_Renters, Name FROM Renters", conn);

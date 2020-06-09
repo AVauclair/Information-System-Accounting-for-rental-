@@ -23,7 +23,7 @@ namespace manprac
 
         private void UpdateFlatsForm_Load(object sender, EventArgs e)
         {
-            MainForm main = this.Owner as MainForm;
+            yy main = this.Owner as yy;
 
             ActiveControl = contractTextBox;
 
@@ -85,7 +85,7 @@ namespace manprac
 
         private void updateRecordButton_Click(object sender, EventArgs e)
         {
-            MainForm main = this.Owner as MainForm;
+            yy main = this.Owner as yy;
             try
             {
                 double s = Convert.ToDouble(amountRentBox.Text);
