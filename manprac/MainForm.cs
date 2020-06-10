@@ -177,31 +177,64 @@ namespace manprac
                 {
                     dataGridOffices.Rows.Clear();
                     OfficesLoad();
-                    for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                    try
                     {
-                        if (!((Convert.ToDouble(dataGridOffices.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text)) &&
-                            (Convert.ToDouble(dataGridOffices.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text))))
+                        for (int i = 0; i < dataGridOffices.Rows.Count; i++)
                         {
-                            dataGridOffices.Rows[i].Visible = false;
+                            if (dataGridFlats.Rows[i].Cells[5].Value.ToString() == "")
+                            {
+                                dataGridFlats.Rows[i].Cells[5].Value = 0;
+                            }
+
+                            if (!((Convert.ToDouble(dataGridOffices.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text)) &&
+                                (Convert.ToDouble(dataGridOffices.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text))))
+                            {
+                                dataGridOffices.Rows[i].Visible = false;
+                            }
+
+                            if (Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value.ToString()) == 0)
+                            {
+                                dataGridFlats.Rows[i].Cells[5].Value = "";
+                            }
                         }
+                    }
+                    catch
+                    {
+
                     }
                 }
             }
 
-            //не работает
             if (dataGridFlats.Visible == true)
             {
                 if (amountRentTextBoxStart.Text != "" && amountRentTextBoxFinish.Text != "")
                 {
                     dataGridFlats.Rows.Clear();
                     FlatsLoad();
-                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                    try
                     {
-                        if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text)) &&
-                            (Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text))))
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
                         {
-                            dataGridFlats.Rows[i].Visible = false;
+                            if (dataGridFlats.Rows[i].Cells[5].Value.ToString() == "")
+                            {
+                                dataGridFlats.Rows[i].Cells[5].Value = 0;
+                            }
+
+                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text)) &&
+                                 (Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text))))
+                            {
+                                dataGridFlats.Rows[i].Visible = false;
+                            }
+
+                            if (Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value.ToString()) == 0)
+                            {
+                                dataGridFlats.Rows[i].Cells[5].Value = "";
+                            }
                         }
+                    }
+                    catch
+                    {
+
                     }
                 }
             }
@@ -209,7 +242,6 @@ namespace manprac
             conn.Close();
         }
 
-        //не работает
         public void AmountPaymentFiltration()
         {
             SqlConnection conn = new SqlConnection(ConnString);
@@ -221,13 +253,30 @@ namespace manprac
                 {
                     dataGridFlats.Rows.Clear();
                     FlatsLoad();
-                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                    try
                     {
-                        if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) >= Convert.ToDouble(amountPaymentTextBoxStart.Text)) &&
-                            (Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) <= Convert.ToDouble(amountPaymentTextBoxFinish.Text))))
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
                         {
-                            dataGridFlats.Rows[i].Visible = false;
+                            if (dataGridFlats.Rows[i].Cells[6].Value.ToString() == "")
+                            {
+                                dataGridFlats.Rows[i].Cells[6].Value = 0;
+                            }
+
+                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) >= Convert.ToDouble(amountPaymentTextBoxStart.Text)) &&
+                                 (Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) <= Convert.ToDouble(amountPaymentTextBoxFinish.Text))))
+                            {
+                                dataGridFlats.Rows[i].Visible = false;
+                            }
+
+                            if (Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) == 0)
+                            {
+                                dataGridFlats.Rows[i].Cells[6].Value = "";
+                            }
                         }
+                    }
+                    catch
+                    {
+
                     }
                 }
             }
@@ -244,29 +293,67 @@ namespace manprac
             {
                 dataGridOffices.Rows.Clear();
                 OfficesLoad();
-                for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                try
                 {
-                    dataGridOffices.Rows[i].Cells[7].DataGridView.DefaultCellStyle.Format = "d";
-                    DateTime dt = DateTime.Parse(dataGridOffices.Rows[i].Cells[7].Value.ToString());
-                    if (!((dt.Date >= datePickerStart.Value.Date) && (dt.Date <= datePickerFinish.Value.Date)))
+                    for (int i = 0; i < dataGridOffices.Rows.Count; i++)
                     {
-                        dataGridOffices.Rows[i].Visible = false;
+                        if (dataGridFlats.Rows[i].Cells[7].Value.ToString() == "")
+                        {
+                            dataGridFlats.Rows[i].Cells[7].Value = 0;
+                        }
+
+                        dataGridOffices.Rows[i].Cells[7].DataGridView.DefaultCellStyle.Format = "d";
+                        DateTime dt = DateTime.Parse(dataGridOffices.Rows[i].Cells[7].Value.ToString());
+                        if (!((dt.Date >= datePickerStart.Value.Date) && (dt.Date <= datePickerFinish.Value.Date)))
+                        {
+                            dataGridOffices.Rows[i].Visible = false;
+                        }
+
+                        if (Convert.ToDouble(dataGridFlats.Rows[i].Cells[7].Value) == 0)
+                        {
+                            dataGridFlats.Rows[i].Cells[7].Value = "";
+                        }
                     }
                 }
+                catch
+                {
+
+                }
             }
+
 
             //не работает
             if (dataGridFlats.Visible == true)
             {
-                dataGridFlats.Rows.Clear();
-                FlatsLoad();
-                for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                if (amountRentTextBoxStart.Text != "" && amountRentTextBoxFinish.Text != "")
                 {
-                    dataGridFlats.Rows[i].Cells[9].DataGridView.DefaultCellStyle.Format = "d";
-                    DateTime dt = DateTime.Parse(dataGridFlats.Rows[i].Cells[9].Value.ToString());
-                    if (!((dt.Date >= datePickerStart.Value.Date) && (dt.Date <= datePickerFinish.Value.Date)))
+                    dataGridFlats.Rows.Clear();
+                    FlatsLoad();
+                    try
                     {
-                        dataGridFlats.Rows[i].Visible = false;
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                        {
+                            if (dataGridFlats.Rows[i].Cells[9].Value.ToString() == "")
+                            {
+                                dataGridFlats.Rows[i].Cells[9].Value = 0;
+                            }
+
+                            dataGridFlats.Rows[i].Cells[9].DataGridView.DefaultCellStyle.Format = "d";
+                            DateTime dt = DateTime.Parse(dataGridFlats.Rows[i].Cells[9].Value.ToString());
+                            if (!((dt.Date >= datePickerStart.Value.Date) && (dt.Date <= datePickerFinish.Value.Date)))
+                            {
+                                dataGridFlats.Rows[i].Visible = false;
+                            }
+
+                            if (Convert.ToDouble(dataGridFlats.Rows[i].Cells[9].Value) == 0)
+                            {
+                                dataGridFlats.Rows[i].Cells[9].Value = "";
+                            }
+                        }
+                    }
+                    catch
+                    {
+
                     }
                 }
             }
@@ -1098,50 +1185,51 @@ namespace manprac
 
         private void amountRentTextBoxStart_TextChanged(object sender, EventArgs e)
         {
-            if (amountRentTextBoxStart.Text.Any(char.IsLetter) || amountRentTextBoxStart.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
+            /*if (amountRentTextBoxStart.Text.Any(char.IsLetter) || amountRentTextBoxStart.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
             {
                 amountRentTextBoxStart.Text = "1";
                 amountRentTextBoxStart.SelectionStart = 1;
-            }
+            }*/
 
             AmountRentFiltration();
         }
 
         private void amountRentTextBoxFinish_TextChanged(object sender, EventArgs e)
         {
-            if (amountRentTextBoxFinish.Text.Any(char.IsLetter) || amountRentTextBoxFinish.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
+            /*if (amountRentTextBoxFinish.Text.Any(char.IsLetter) || amountRentTextBoxFinish.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
             {
                 amountRentTextBoxFinish.Text = "100000";
                 amountRentTextBoxFinish.SelectionStart = 7;
-            }
+            }*/
 
             AmountRentFiltration();
         }
 
         private void amountPaymentTextBoxStart_TextChanged(object sender, EventArgs e)
         {
-            if (amountPaymentTextBoxStart.Text.Any(char.IsLetter) || amountPaymentTextBoxStart.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
+            /*if (amountPaymentTextBoxStart.Text.Any(char.IsLetter) || amountPaymentTextBoxStart.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
             {
                 amountPaymentTextBoxStart.Text = "1";
                 amountPaymentTextBoxStart.SelectionStart = 1;
-            }
+            }*/
 
             AmountPaymentFiltration();
         }
 
         private void amountPaymentTextBoxFinish_TextChanged(object sender, EventArgs e)
         {
-            if (amountPaymentTextBoxFinish.Text.Any(char.IsLetter) || amountPaymentTextBoxFinish.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
+            /*if (amountPaymentTextBoxFinish.Text.Any(char.IsLetter) || amountPaymentTextBoxFinish.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
             {
                 amountPaymentTextBoxFinish.Text = "100000";
                 amountPaymentTextBoxFinish.SelectionStart = 7;
-            }
+            }*/
 
             AmountPaymentFiltration();
         }
 
         #endregion
 
+        #region дамп бд
         private void saveDBToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string DBname = "";
@@ -1225,6 +1313,7 @@ namespace manprac
                 MessageBox.Show(ex.Message);
             }
         }
+        #endregion
     }
 }
 

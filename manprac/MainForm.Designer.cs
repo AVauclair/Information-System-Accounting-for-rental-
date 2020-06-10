@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.resultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resultAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -233,21 +233,21 @@
             // addOfficeToolStripMenuItem
             // 
             this.addOfficeToolStripMenuItem.Name = "addOfficeToolStripMenuItem";
-            this.addOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addOfficeToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.addOfficeToolStripMenuItem.Text = "Добавить";
             this.addOfficeToolStripMenuItem.Click += new System.EventHandler(this.addOfficeToolStripMenuItem_Click);
             // 
             // updateOfficeToolStripMenuItem
             // 
             this.updateOfficeToolStripMenuItem.Name = "updateOfficeToolStripMenuItem";
-            this.updateOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.updateOfficeToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.updateOfficeToolStripMenuItem.Text = "Изменить";
             this.updateOfficeToolStripMenuItem.Click += new System.EventHandler(this.updateOfficeToolStripMenuItem_Click);
             // 
             // deleteOfficeToolStripMenuItem
             // 
             this.deleteOfficeToolStripMenuItem.Name = "deleteOfficeToolStripMenuItem";
-            this.deleteOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteOfficeToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.deleteOfficeToolStripMenuItem.Text = "Удалить";
             this.deleteOfficeToolStripMenuItem.Click += new System.EventHandler(this.deleteOfficeToolStripMenuItem_Click);
             // 
@@ -296,7 +296,7 @@
             this.saveDBToolStripMenuItem,
             this.loadDBToolStripMenuItem});
             this.dbToolStripMenuItem.Name = "dbToolStripMenuItem";
-            this.dbToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
+            this.dbToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
             this.dbToolStripMenuItem.Text = "База данных";
             // 
             // connStringToolStripMenuItem
@@ -442,9 +442,9 @@
             // 
             // Column5
             // 
-            dataGridViewCellStyle7.Format = "D";
-            dataGridViewCellStyle7.NullValue = null;
-            this.Column5.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Format = "D";
+            dataGridViewCellStyle1.NullValue = null;
+            this.Column5.DefaultCellStyle = dataGridViewCellStyle1;
             this.Column5.HeaderText = "Дата";
             this.Column5.Name = "Column5";
             this.Column5.ReadOnly = true;
@@ -546,9 +546,9 @@
             // 
             // dataGridViewTextBoxColumn10
             // 
-            dataGridViewCellStyle8.Format = "D";
-            dataGridViewCellStyle8.NullValue = null;
-            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Format = "D";
+            dataGridViewCellStyle2.NullValue = null;
+            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewTextBoxColumn10.HeaderText = "Дата";
             this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
             this.dataGridViewTextBoxColumn10.ReadOnly = true;
