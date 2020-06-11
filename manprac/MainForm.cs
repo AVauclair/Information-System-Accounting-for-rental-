@@ -321,40 +321,36 @@ namespace manprac
                 }
             }
 
-
-            //не работает
             if (dataGridFlats.Visible == true)
             {
-                if (amountRentTextBoxStart.Text != "" && amountRentTextBoxFinish.Text != "")
+                dataGridFlats.Rows.Clear();
+                FlatsLoad();
+                try
                 {
-                    dataGridFlats.Rows.Clear();
-                    FlatsLoad();
-                    try
+                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
                     {
-                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+
+                        if (dataGridFlats.Rows[i].Cells[9].Value == null)
                         {
-                            if (dataGridFlats.Rows[i].Cells[9].Value.ToString() == "")
-                            {
-                                dataGridFlats.Rows[i].Cells[9].Value = 0;
-                            }
+                            dataGridFlats.Rows[i].Cells[9].Value = "01.01.2001";
+                        }
 
-                            dataGridFlats.Rows[i].Cells[9].DataGridView.DefaultCellStyle.Format = "d";
-                            DateTime dt = DateTime.Parse(dataGridFlats.Rows[i].Cells[9].Value.ToString());
-                            if (!((dt.Date >= datePickerStart.Value.Date) && (dt.Date <= datePickerFinish.Value.Date)))
-                            {
-                                dataGridFlats.Rows[i].Visible = false;
-                            }
+                        dataGridFlats.Rows[i].Cells[9].DataGridView.DefaultCellStyle.Format = "d";
+                        DateTime dt = DateTime.Parse(dataGridFlats.Rows[i].Cells[9].Value.ToString());
+                        if (!((dt.Date >= datePickerStart.Value.Date) && (dt.Date <= datePickerFinish.Value.Date)))
+                        {
+                            dataGridFlats.Rows[i].Visible = false;
+                        }
 
-                            if (Convert.ToDouble(dataGridFlats.Rows[i].Cells[9].Value) == 0)
-                            {
-                                dataGridFlats.Rows[i].Cells[9].Value = "";
-                            }
+                        if (dataGridFlats.Rows[i].Cells[9].Value.ToString() == "01.01.2001")
+                        {
+                            dataGridFlats.Rows[i].Cells[9].Value = null;
                         }
                     }
-                    catch
-                    {
+                }
+                catch
+                {
 
-                    }
                 }
             }
 
