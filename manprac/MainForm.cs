@@ -18,9 +18,13 @@ namespace manprac
         Dictionary<int, string> DebitingRenters = new Dictionary<int, string>();
         Dictionary<int, string> DebitingAreaType = new Dictionary<int, string>();
 
+        string resultFlatsLoadQueryConst = "SELECT Months.ID_Month, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
+            "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month " +
+            " GROUP BY Months.ID_Month, Months.Name";
         string resultFlatsLoadQuery = "SELECT Months.ID_Month, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
             "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month " +
             " GROUP BY Months.ID_Month, Months.Name";
+        string resultFlatsSumQueryConst = "SELECT SUM(Amount_Rent) SumRent, SUM(Amount_Payment) SumPayment FROM Apartaments";
         string resultFlatsSumQuery = "SELECT SUM(Amount_Rent) SumRent, SUM(Amount_Payment) SumPayment FROM Apartaments";
 
         string resultOfficesLoadQuery = "Select Months.ID_Month, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference" +
@@ -154,9 +158,7 @@ namespace manprac
         {
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
-            SqlCommand loadResultFlats = new SqlCommand("SELECT Months.ID_Month, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
-            "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month " +
-            " GROUP BY Months.ID_Month, Months.Name", conn);
+            SqlCommand loadResultFlats = new SqlCommand(resultFlatsLoadQuery, conn);
             SqlDataReader readerResultFlats = loadResultFlats.ExecuteReader();
             List<string[]> data = new List<string[]>();
 
@@ -174,7 +176,7 @@ namespace manprac
             }
             readerResultFlats.Close();
 
-            SqlCommand loadResultTotal = new SqlCommand("SELECT SUM(Amount_Rent) SumRent, SUM(Amount_Payment) SumPayment FROM Apartaments", conn);
+            SqlCommand loadResultTotal = new SqlCommand(resultFlatsSumQuery, conn);
             SqlDataReader readerResultTotal = loadResultTotal.ExecuteReader();
             while (readerResultTotal.Read())
             {
@@ -189,8 +191,7 @@ namespace manprac
         {
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
-            SqlCommand loadResultOffices = new SqlCommand("Select Months.ID_Month, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference" +
-                " FROM Offices LEFT JOIN Months on Offices.ID_Month = Months.ID_Month GROUP BY Months.ID_Month, Months.Name", conn);
+            SqlCommand loadResultOffices = new SqlCommand(resultOfficesLoadQuery, conn);
             SqlDataReader readerResultOffices = loadResultOffices.ExecuteReader();
             List<string[]> data = new List<string[]>();
             while (readerResultOffices.Read())
@@ -205,7 +206,7 @@ namespace manprac
             foreach (string[] s in data)
                 dataGridResultOffices.Rows.Add(s);
 
-            SqlCommand loadResultSummary = new SqlCommand("Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference FROM Offices", conn);
+            SqlCommand loadResultSummary = new SqlCommand(resultOfficesSumQuery, conn);
             SqlDataReader readerResultSummary = loadResultSummary.ExecuteReader();
             while (readerResultSummary.Read())
             {
@@ -221,8 +222,7 @@ namespace manprac
         {
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
-            SqlCommand loadUninhabitedArea1 = new SqlCommand("SELECT Months.ID_Month, Months.Name Month, sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments " +
-              " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month WHERE Apartament_Status = 2 Group By Months.ID_Month, Months.Name", conn);
+            SqlCommand loadUninhabitedArea1 = new SqlCommand(resultFlatsNLoadQuery, conn);
             SqlDataReader readerUninhabitedArea1 = loadUninhabitedArea1.ExecuteReader();
             List<string[]> data1 = new List<string[]>();
             while (readerUninhabitedArea1.Read())
@@ -236,7 +236,7 @@ namespace manprac
             foreach (string[] s in data1)
                 dataGridUninhabitedArea.Rows.Add(s);
 
-            SqlCommand loadUningabitedArea2 = new SqlCommand("SELECT sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments Where Apartament_Status = 2", conn);
+            SqlCommand loadUningabitedArea2 = new SqlCommand(resultFlatsNSumQuery, conn);
             SqlDataReader readerUninhabitedAre2 = loadUningabitedArea2.ExecuteReader();
             while (readerUninhabitedAre2.Read())
             {
@@ -251,7 +251,7 @@ namespace manprac
         {
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
-            SqlCommand loadCommonSummary1 = new SqlCommand("Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices", conn);
+            SqlCommand loadCommonSummary1 = new SqlCommand(resultAllLoadQuery, conn);
             SqlDataReader readerCommonSummary1 = loadCommonSummary1.ExecuteReader();
             List<string[]> data1 = new List<string[]>();
             while (readerCommonSummary1.Read())
@@ -265,7 +265,7 @@ namespace manprac
                 dataGridCommonResults.Rows.Add(s);
             readerCommonSummary1.Close();
 
-            SqlCommand loadCommonSummary2 = new SqlCommand("Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Apartaments", conn);
+            SqlCommand loadCommonSummary2 = new SqlCommand(resultAllSumQuery, conn);
             SqlDataReader readerCommonSummary2 = loadCommonSummary2.ExecuteReader();
             List<string[]> data2 = new List<string[]>();
             while (readerCommonSummary2.Read())
@@ -416,6 +416,9 @@ namespace manprac
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
 
+            string datestart = string.Format("{0:yyyy-MM-dd}", $"'{datePickerStart.Value}'");
+            string datefinish = string.Format("{0:yyyy-MM-dd}", "'" + datePickerFinish.Value + "'");
+
             if (dataGridOffices.Visible == true)
             {
                 dataGridOffices.Rows.Clear();
@@ -479,6 +482,14 @@ namespace manprac
                 {
 
                 }
+            }
+
+            if (dataGridResultFlats.Visible == true)
+            {
+                resultFlatsLoadQuery = resultFlatsLoadQueryConst.Insert(187, $"WHERE Date_Payment BETWEEN {datestart} AND {datefinish}");
+                resultFlatsSumQuery = resultFlatsSumQueryConst + $" WHERE Date_Payment BETWEEN {datestart} AND {datefinish}";
+                dataGridResultFlats.Rows.Clear();
+                ResultFlatsLoad();
             }
 
             conn.Close();
@@ -932,9 +943,9 @@ namespace manprac
             dataGridResultFlats.Visible = true;
             dataGridResultOffices.Visible = false;
 
-            dateLabel.Visible = false;
-            datePickerStart.Visible = false;
-            datePickerFinish.Visible = false;
+            dateLabel.Visible = true;
+            datePickerStart.Visible = true;
+            datePickerFinish.Visible = true;
             amountPaymentTextBoxStart.Visible = false;
             amountPaymentTextBoxFinish.Visible = false;
             amountRentTextBoxFinish.Visible = false;
@@ -970,9 +981,9 @@ namespace manprac
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = true;
 
-            dateLabel.Visible = false;
-            datePickerStart.Visible = false;
-            datePickerFinish.Visible = false;
+            dateLabel.Visible = true;
+            datePickerStart.Visible = true;
+            datePickerFinish.Visible = true;
             amountPaymentTextBoxStart.Visible = false;
             amountPaymentTextBoxFinish.Visible = false;
             amountRentTextBoxFinish.Visible = false;
@@ -1007,9 +1018,9 @@ namespace manprac
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = false;
 
-            dateLabel.Visible = false;
-            datePickerStart.Visible = false;
-            datePickerFinish.Visible = false;
+            dateLabel.Visible = true;
+            datePickerStart.Visible = true;
+            datePickerFinish.Visible = true;
             amountPaymentTextBoxStart.Visible = false;
             amountPaymentTextBoxFinish.Visible = false;
             amountRentTextBoxFinish.Visible = false;
@@ -1046,9 +1057,9 @@ namespace manprac
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = false;
 
-            dateLabel.Visible = false;
-            datePickerStart.Visible = false;
-            datePickerFinish.Visible = false;
+            dateLabel.Visible = true;
+            datePickerStart.Visible = true;
+            datePickerFinish.Visible = true;
             amountPaymentTextBoxStart.Visible = false;
             amountPaymentTextBoxFinish.Visible = false;
             amountRentTextBoxFinish.Visible = false;

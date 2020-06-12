@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.resultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resultAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -442,9 +442,9 @@
             // 
             // Column5
             // 
-            dataGridViewCellStyle3.Format = "D";
-            dataGridViewCellStyle3.NullValue = null;
-            this.Column5.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle5.Format = "D";
+            dataGridViewCellStyle5.NullValue = null;
+            this.Column5.DefaultCellStyle = dataGridViewCellStyle5;
             this.Column5.HeaderText = "Дата";
             this.Column5.Name = "Column5";
             this.Column5.ReadOnly = true;
@@ -546,9 +546,9 @@
             // 
             // dataGridViewTextBoxColumn10
             // 
-            dataGridViewCellStyle4.Format = "D";
-            dataGridViewCellStyle4.NullValue = null;
-            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle6.Format = "D";
+            dataGridViewCellStyle6.NullValue = null;
+            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridViewTextBoxColumn10.HeaderText = "Дата";
             this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
             this.dataGridViewTextBoxColumn10.ReadOnly = true;
@@ -571,7 +571,7 @@
             this.dataGridViewTextBoxColumn14,
             this.Column10});
             this.dataGridResultFlats.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridResultFlats.Location = new System.Drawing.Point(36, 111);
+            this.dataGridResultFlats.Location = new System.Drawing.Point(47, 85);
             this.dataGridResultFlats.MultiSelect = false;
             this.dataGridResultFlats.Name = "dataGridResultFlats";
             this.dataGridResultFlats.ReadOnly = true;
@@ -851,7 +851,7 @@
             // 
             this.datePickerFinish.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.datePickerFinish.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.datePickerFinish.Location = new System.Drawing.Point(244, 175);
+            this.datePickerFinish.Location = new System.Drawing.Point(1143, 302);
             this.datePickerFinish.Name = "datePickerFinish";
             this.datePickerFinish.Size = new System.Drawing.Size(127, 31);
             this.datePickerFinish.TabIndex = 22;
@@ -862,7 +862,7 @@
             // 
             this.dateLabel.AutoSize = true;
             this.dateLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dateLabel.Location = new System.Drawing.Point(182, 128);
+            this.dateLabel.Location = new System.Drawing.Point(1081, 255);
             this.dateLabel.Name = "dateLabel";
             this.dateLabel.Size = new System.Drawing.Size(57, 23);
             this.dateLabel.TabIndex = 7;
@@ -873,10 +873,11 @@
             // 
             this.datePickerStart.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.datePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.datePickerStart.Location = new System.Drawing.Point(63, 175);
+            this.datePickerStart.Location = new System.Drawing.Point(962, 302);
             this.datePickerStart.Name = "datePickerStart";
             this.datePickerStart.Size = new System.Drawing.Size(127, 31);
             this.datePickerStart.TabIndex = 6;
+            this.datePickerStart.Value = new System.DateTime(2020, 1, 1, 13, 44, 0, 0);
             this.datePickerStart.Visible = false;
             this.datePickerStart.ValueChanged += new System.EventHandler(this.datePickerStart_ValueChanged);
             // 
@@ -994,7 +995,7 @@
             this.dataGridViewTextBoxColumn24,
             this.dataGridViewTextBoxColumn25});
             this.dataGridUninhabitedArea.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridUninhabitedArea.Location = new System.Drawing.Point(63, 130);
+            this.dataGridUninhabitedArea.Location = new System.Drawing.Point(63, 193);
             this.dataGridUninhabitedArea.MultiSelect = false;
             this.dataGridUninhabitedArea.Name = "dataGridUninhabitedArea";
             this.dataGridUninhabitedArea.ReadOnly = true;
@@ -1065,9 +1066,6 @@
             this.Controls.Add(this.summaryRentLabel);
             this.Controls.Add(this.summaryPaymentLabel);
             this.Controls.Add(this.rentersComboBox);
-            this.Controls.Add(this.dataGridFlats);
-            this.Controls.Add(this.dataGridOffices);
-            this.Controls.Add(this.dataGridRenters);
             this.Controls.Add(this.areaTypeLabel);
             this.Controls.Add(this.areaTypeComboBox);
             this.Controls.Add(this.rentersLabel);
@@ -1087,6 +1085,9 @@
             this.Controls.Add(this.dataGridCommonResults);
             this.Controls.Add(this.dataGridResultRenters);
             this.Controls.Add(this.dataGridResultOffices);
+            this.Controls.Add(this.dataGridFlats);
+            this.Controls.Add(this.dataGridOffices);
+            this.Controls.Add(this.dataGridRenters);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
