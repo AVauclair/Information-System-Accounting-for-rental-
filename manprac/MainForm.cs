@@ -27,12 +27,18 @@ namespace manprac
         string resultFlatsSumQueryConst = "SELECT SUM(Amount_Rent) SumRent, SUM(Amount_Payment) SumPayment FROM Apartaments";
         string resultFlatsSumQuery = "SELECT SUM(Amount_Rent) SumRent, SUM(Amount_Payment) SumPayment FROM Apartaments";
 
+        string resultOfficesLoadQueryConst = "Select Months.ID_Month, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference" +
+                " FROM Offices LEFT JOIN Months on Offices.ID_Month = Months.ID_Month GROUP BY Months.ID_Month, Months.Name";
         string resultOfficesLoadQuery = "Select Months.ID_Month, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference" +
                 " FROM Offices LEFT JOIN Months on Offices.ID_Month = Months.ID_Month GROUP BY Months.ID_Month, Months.Name";
+        string resultOfficesSumQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference FROM Offices";
         string resultOfficesSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference FROM Offices";
 
+        string resultFlatsNLoadQueryConst = "SELECT Months.ID_Month, Months.Name Month, sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments " +
+              " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month WHERE Apartament_Status = 2 Group By Months.ID_Month, Months.Name";
         string resultFlatsNLoadQuery = "SELECT Months.ID_Month, Months.Name Month, sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments " +
               " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month WHERE Apartament_Status = 2 Group By Months.ID_Month, Months.Name";
+        string resultFlatsNSumQueryConst = "SELECT sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments Where Apartament_Status = 2";
         string resultFlatsNSumQuery = "SELECT sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments Where Apartament_Status = 2";
 
         string resultAllLoadQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices";
@@ -490,6 +496,24 @@ namespace manprac
                 resultFlatsSumQuery = resultFlatsSumQueryConst + $" WHERE Date_Payment BETWEEN {datestart} AND {datefinish}";
                 dataGridResultFlats.Rows.Clear();
                 ResultFlatsLoad();
+            }
+
+            if (dataGridResultOffices.Visible == true)
+            {
+                resultOfficesLoadQuery = resultOfficesLoadQueryConst.Insert(187, $"WHERE Date_Payment BETWEEN {datestart} AND {datefinish}");
+                resultOfficesSumQuery = resultOfficesSumQueryConst + $" WHERE Date_Payment BETWEEN {datestart} AND {datefinish}";
+                dataGridResultOffices.Rows.Clear();
+                ResultOfficesLoad();
+            }
+            
+            if (dataGridUninhabitedArea.Visible == true)
+            {
+                resultFlatsNLoadQuery = resultFlatsNLoadQueryConst.Insert(197, $"AND (Date_Payment BETWEEN {datestart} AND {datefinish}) ");
+                //MessageBox.Show(resultFlatsNLoadQuery);
+                resultFlatsNSumQuery = resultFlatsNSumQueryConst + $" AND (Date_Payment BETWEEN {datestart} AND {datefinish})";
+                //MessageBox.Show(resultFlatsNSumQuery);
+                dataGridUninhabitedArea.Rows.Clear();
+                ResultOfficesLoad();
             }
 
             conn.Close();
