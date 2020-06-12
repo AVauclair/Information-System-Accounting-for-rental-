@@ -17,6 +17,23 @@ namespace manprac
         Dictionary<int, string> DebitingMonth = new Dictionary<int, string>();
         Dictionary<int, string> DebitingRenters = new Dictionary<int, string>();
         Dictionary<int, string> DebitingAreaType = new Dictionary<int, string>();
+
+        string resultFlatsLoadQuery = "SELECT Months.ID_Month, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
+            "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month " +
+            " GROUP BY Months.ID_Month, Months.Name";
+        string resultFlatsSumQuery = "SELECT SUM(Amount_Rent) SumRent, SUM(Amount_Payment) SumPayment FROM Apartaments";
+
+        string resultOfficesLoadQuery = "Select Months.ID_Month, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference" +
+                " FROM Offices LEFT JOIN Months on Offices.ID_Month = Months.ID_Month GROUP BY Months.ID_Month, Months.Name";
+        string resultOfficesSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference FROM Offices";
+
+        string resultFlatsNLoadQuery = "SELECT Months.ID_Month, Months.Name Month, sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments " +
+              " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month WHERE Apartament_Status = 2 Group By Months.ID_Month, Months.Name";
+        string resultFlatsNSumQuery = "SELECT sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments Where Apartament_Status = 2";
+
+        string resultAllLoadQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices";
+        string resultAllSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Apartaments";
+
         public string ConnString = ConnStringForm.connection;
 
         #region методы загрузок таблиц
@@ -135,10 +152,8 @@ namespace manprac
 
         public void ResultFlatsLoad()
         {
-
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
-
             SqlCommand loadResultFlats = new SqlCommand("SELECT Months.ID_Month, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
             "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month " +
             " GROUP BY Months.ID_Month, Months.Name", conn);
@@ -157,11 +172,123 @@ namespace manprac
             {
                 dataGridResultFlats.Rows.Add(s);
             }
-
             readerResultFlats.Close();
 
+            SqlCommand loadResultTotal = new SqlCommand("SELECT SUM(Amount_Rent) SumRent, SUM(Amount_Payment) SumPayment FROM Apartaments", conn);
+            SqlDataReader readerResultTotal = loadResultTotal.ExecuteReader();
+            while (readerResultTotal.Read())
+            {
+                summaryRentLabelVal.Text = readerResultTotal["SumRent"].ToString();
+                summaryPaymentLabelVal.Text = readerResultTotal["SumPayment"].ToString();
+            }
+            readerResultTotal.Close();
             conn.Close();
         }
+
+        public void ResultOfficesLoad()
+        {
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+            SqlCommand loadResultOffices = new SqlCommand("Select Months.ID_Month, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference" +
+                " FROM Offices LEFT JOIN Months on Offices.ID_Month = Months.ID_Month GROUP BY Months.ID_Month, Months.Name", conn);
+            SqlDataReader readerResultOffices = loadResultOffices.ExecuteReader();
+            List<string[]> data = new List<string[]>();
+            while (readerResultOffices.Read())
+            {
+                data.Add(new string[4]);
+                data[data.Count - 1][0] = readerResultOffices["Month"].ToString();
+                data[data.Count - 1][1] = readerResultOffices["Amount_Rent"].ToString();
+                data[data.Count - 1][2] = readerResultOffices["VAT"].ToString();
+                data[data.Count - 1][3] = readerResultOffices["Difference"].ToString();
+            }
+            readerResultOffices.Close();
+            foreach (string[] s in data)
+                dataGridResultOffices.Rows.Add(s);
+
+            SqlCommand loadResultSummary = new SqlCommand("Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference FROM Offices", conn);
+            SqlDataReader readerResultSummary = loadResultSummary.ExecuteReader();
+            while (readerResultSummary.Read())
+            {
+                summaryRentLabelVal.Text = readerResultSummary["Amount_Rent"].ToString();
+                summaryPaymentLabelVal.Text = readerResultSummary["VAT"].ToString();
+                differenceLabelVal.Text = readerResultSummary["Difference"].ToString();
+            }
+            readerResultSummary.Close();
+            conn.Close();
+        }
+
+        public void ResultFlatsNLoad()
+        {
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+            SqlCommand loadUninhabitedArea1 = new SqlCommand("SELECT Months.ID_Month, Months.Name Month, sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments " +
+              " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month WHERE Apartament_Status = 2 Group By Months.ID_Month, Months.Name", conn);
+            SqlDataReader readerUninhabitedArea1 = loadUninhabitedArea1.ExecuteReader();
+            List<string[]> data1 = new List<string[]>();
+            while (readerUninhabitedArea1.Read())
+            {
+                data1.Add(new string[3]);
+                data1[data1.Count - 1][0] = readerUninhabitedArea1["Month"].ToString();
+                data1[data1.Count - 1][1] = readerUninhabitedArea1["Amount_Payment"].ToString();
+                data1[data1.Count - 1][2] = readerUninhabitedArea1["VAT"].ToString();
+            }
+            readerUninhabitedArea1.Close();
+            foreach (string[] s in data1)
+                dataGridUninhabitedArea.Rows.Add(s);
+
+            SqlCommand loadUningabitedArea2 = new SqlCommand("SELECT sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments Where Apartament_Status = 2", conn);
+            SqlDataReader readerUninhabitedAre2 = loadUningabitedArea2.ExecuteReader();
+            while (readerUninhabitedAre2.Read())
+            {
+                summaryPaymentLabelVal.Text = readerUninhabitedAre2["Amount_Payment"].ToString();
+                summaryVatLabelVal.Text = readerUninhabitedAre2["VAT"].ToString();
+            }
+            readerUninhabitedAre2.Close();
+            conn.Close();
+        }
+
+        public void ResultAllLoad()
+        {
+            SqlConnection conn = new SqlConnection(ConnString);
+            conn.Open();
+            SqlCommand loadCommonSummary1 = new SqlCommand("Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices", conn);
+            SqlDataReader readerCommonSummary1 = loadCommonSummary1.ExecuteReader();
+            List<string[]> data1 = new List<string[]>();
+            while (readerCommonSummary1.Read())
+            {
+                data1.Add(new string[3]);
+                data1[data1.Count - 1][0] = "Офис";
+                data1[data1.Count - 1][1] = readerCommonSummary1["Amount_Rent"].ToString();
+                data1[data1.Count - 1][2] = readerCommonSummary1["VAT"].ToString();
+            }
+            foreach (string[] s in data1)
+                dataGridCommonResults.Rows.Add(s);
+            readerCommonSummary1.Close();
+
+            SqlCommand loadCommonSummary2 = new SqlCommand("Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Apartaments", conn);
+            SqlDataReader readerCommonSummary2 = loadCommonSummary2.ExecuteReader();
+            List<string[]> data2 = new List<string[]>();
+            while (readerCommonSummary2.Read())
+            {
+                data2.Add(new string[3]);
+                data2[data2.Count - 1][0] = "Квартиры";
+                data2[data2.Count - 1][1] = readerCommonSummary2["Amount_Rent"].ToString();
+                data2[data2.Count - 1][2] = readerCommonSummary2["VAT"].ToString();
+            }
+            readerCommonSummary2.Close();
+            foreach (string[] s in data2)
+                dataGridCommonResults.Rows.Add(s);
+            conn.Close();
+            double sumRent = 0;
+            double sumVat = 0;
+            for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
+            {
+                sumRent += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[1].Value);
+                sumVat += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[2].Value);
+            }
+            dataGridCommonResults.Rows.Add("Всего", sumRent, sumVat);
+        }
+
         #endregion
 
         #region методы фильтраций
@@ -812,8 +939,6 @@ namespace manprac
             amountPaymentTextBoxFinish.Visible = false;
             amountRentTextBoxFinish.Visible = false;
             amountRentTextBoxStart.Visible = false;
-            monthLabel.Visible = false;
-            monthComboBox.Visible = false;
             rentersLabel.Visible = false;
             rentersComboBox.Visible = false;
             areaTypeLabel.Visible = false;
@@ -825,42 +950,14 @@ namespace manprac
             summaryPaymentLabelVal.Visible = true;
             summaryRentLabel.Visible = true;
             summaryRentLabelVal.Visible = true;
+            monthLabel.Visible = true;
+            monthComboBox.Visible = true;
             summaryVatLabel.Visible = false;
             summaryVatLabelVal.Visible = false;
 
 
             dataGridResultFlats.Rows.Clear();
-            SqlConnection conn = new SqlConnection(ConnString);
-            conn.Open();
-            SqlCommand loadResultFlats = new SqlCommand("SELECT Months.ID_Month, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
-            "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month " +
-            " GROUP BY Months.ID_Month, Months.Name", conn);
-            SqlDataReader readerResultFlats = loadResultFlats.ExecuteReader();
-            List<string[]> data = new List<string[]>();
-
-            while (readerResultFlats.Read())
-            {
-                data.Add(new string[3]);
-                data[data.Count - 1][0] = readerResultFlats["Month"].ToString();
-                data[data.Count - 1][1] = readerResultFlats["SumRent"].ToString();
-                data[data.Count - 1][2] = readerResultFlats["SumPayment"].ToString();
-
-            }
-            foreach (string[] s in data)
-            {
-                dataGridResultFlats.Rows.Add(s);
-            }
-            readerResultFlats.Close();
-
-            SqlCommand loadResultTotal = new SqlCommand("SELECT SUM(Amount_Rent) SumRent, SUM(Amount_Payment) SumPayment FROM Apartaments", conn);
-            SqlDataReader readerResultTotal = loadResultTotal.ExecuteReader();
-            while (readerResultTotal.Read())
-            {
-                summaryRentLabelVal.Text = readerResultTotal["SumRent"].ToString();
-                summaryPaymentLabelVal.Text = readerResultTotal["SumPayment"].ToString();
-            }
-            readerResultTotal.Close();
-            conn.Close();
+            ResultFlatsLoad();
         }
 
         private void resultOfficesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -880,8 +977,6 @@ namespace manprac
             amountPaymentTextBoxFinish.Visible = false;
             amountRentTextBoxFinish.Visible = false;
             amountRentTextBoxStart.Visible = false;
-            monthLabel.Visible = false;
-            monthComboBox.Visible = false;
             rentersLabel.Visible = false;
             rentersComboBox.Visible = false;
             areaTypeLabel.Visible = false;
@@ -893,38 +988,13 @@ namespace manprac
             summaryPaymentLabelVal.Visible = true;
             summaryRentLabel.Visible = true;
             summaryRentLabelVal.Visible = true;
+            monthLabel.Visible = true;
+            monthComboBox.Visible = true;
             summaryVatLabel.Visible = false;
             summaryVatLabelVal.Visible = false;
 
             dataGridResultOffices.Rows.Clear();
-            SqlConnection conn = new SqlConnection(ConnString);
-            conn.Open();
-            SqlCommand loadResultOffices = new SqlCommand("Select Months.ID_Month, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference" +
-                " FROM Offices LEFT JOIN Months on Offices.ID_Month = Months.ID_Month GROUP BY Months.ID_Month, Months.Name", conn);
-            SqlDataReader readerResultOffices = loadResultOffices.ExecuteReader();
-            List<string[]> data = new List<string[]>();
-            while (readerResultOffices.Read())
-            {
-                data.Add(new string[4]);
-                data[data.Count - 1][0] = readerResultOffices["Month"].ToString();
-                data[data.Count - 1][1] = readerResultOffices["Amount_Rent"].ToString();
-                data[data.Count - 1][2] = readerResultOffices["VAT"].ToString();
-                data[data.Count - 1][3] = readerResultOffices["Difference"].ToString();
-            }
-            readerResultOffices.Close();
-            foreach (string[] s in data)
-                dataGridResultOffices.Rows.Add(s);
-
-            SqlCommand loadResultSummary = new SqlCommand("Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference FROM Offices ", conn);
-            SqlDataReader readerResultSummary = loadResultSummary.ExecuteReader();
-            while (readerResultSummary.Read())
-            {
-                summaryRentLabelVal.Text = readerResultSummary["Amount_Rent"].ToString();
-                summaryPaymentLabelVal.Text = readerResultSummary["VAT"].ToString();
-                differenceLabelVal.Text = readerResultSummary["Difference"].ToString();
-            }
-            readerResultSummary.Close();
-            conn.Close();
+            ResultOfficesLoad();
         }
 
         private void resultAllToolStripMenuItem_Click(object sender, EventArgs e)
@@ -944,8 +1014,6 @@ namespace manprac
             amountPaymentTextBoxFinish.Visible = false;
             amountRentTextBoxFinish.Visible = false;
             amountRentTextBoxStart.Visible = false;
-            monthLabel.Visible = false;
-            monthComboBox.Visible = false;
             rentersLabel.Visible = false;
             rentersComboBox.Visible = false;
             areaTypeLabel.Visible = false;
@@ -960,45 +1028,11 @@ namespace manprac
             summaryVatLabel.Visible = false;
             summaryVatLabelVal.Visible = false;
 
-            dataGridCommonResults.Rows.Clear();
-            SqlConnection conn = new SqlConnection(ConnString);
-            conn.Open();
-            SqlCommand loadCommonSummary1 = new SqlCommand("Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices", conn);
-            SqlDataReader readerCommonSummary1 = loadCommonSummary1.ExecuteReader();
-            List<string[]> data1 = new List<string[]>();
-            while (readerCommonSummary1.Read())
-            {
-                data1.Add(new string[3]);
-                data1[data1.Count - 1][0] = "Офис";
-                data1[data1.Count - 1][1] = readerCommonSummary1["Amount_Rent"].ToString();
-                data1[data1.Count - 1][2] = readerCommonSummary1["VAT"].ToString();
-            }
-            foreach (string[] s in data1)
-                dataGridCommonResults.Rows.Add(s);
-            readerCommonSummary1.Close();
+            monthLabel.Visible = true;
+            monthComboBox.Visible = true;
 
-            SqlCommand loadCommonSummary2 = new SqlCommand("Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Apartaments", conn);
-            SqlDataReader readerCommonSummary2 = loadCommonSummary2.ExecuteReader();
-            List<string[]> data2 = new List<string[]>();
-            while (readerCommonSummary2.Read())
-            {
-                data2.Add(new string[3]);
-                data2[data2.Count - 1][0] = "Квартиры";
-                data2[data2.Count - 1][1] = readerCommonSummary2["Amount_Rent"].ToString();
-                data2[data2.Count - 1][2] = readerCommonSummary2["VAT"].ToString();
-            }
-            readerCommonSummary2.Close();
-            foreach (string[] s in data2)
-                dataGridCommonResults.Rows.Add(s);
-            conn.Close();
-            double sumRent = 0;
-            double sumVat = 0;
-            for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
-            {
-                sumRent += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[1].Value);
-                sumVat += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[2].Value);
-            }
-            dataGridCommonResults.Rows.Add("Всего", sumRent, sumVat);
+            dataGridCommonResults.Rows.Clear();
+            ResultAllLoad();
         }
 
         private void resultFlatsNToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1019,8 +1053,6 @@ namespace manprac
             amountPaymentTextBoxFinish.Visible = false;
             amountRentTextBoxFinish.Visible = false;
             amountRentTextBoxStart.Visible = false;
-            monthLabel.Visible = false;
-            monthComboBox.Visible = false;
             rentersLabel.Visible = false;
             rentersComboBox.Visible = false;
             areaTypeLabel.Visible = false;
@@ -1032,34 +1064,10 @@ namespace manprac
             summaryRentLabelVal.Visible = false;
             summaryVatLabelVal.Visible = true;
             summaryVatLabel.Visible = true;
+            monthLabel.Visible = true;
+            monthComboBox.Visible = true;
 
-
-            SqlConnection conn = new SqlConnection(ConnString);
-            conn.Open();
-            SqlCommand loadUninhabitedArea1 = new SqlCommand("SELECT Months.ID_Month, Months.Name Month, sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments " +
-              " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month WHERE Apartament_Status = 2 Group By Months.ID_Month, Months.Name", conn);
-            SqlDataReader readerUninhabitedArea1 = loadUninhabitedArea1.ExecuteReader();
-            List<string[]> data1 = new List<string[]>();
-            while (readerUninhabitedArea1.Read())
-            {
-                data1.Add(new string[3]);
-                data1[data1.Count - 1][0] = readerUninhabitedArea1["Month"].ToString();
-                data1[data1.Count - 1][1] = readerUninhabitedArea1["Amount_Payment"].ToString();
-                data1[data1.Count - 1][2] = readerUninhabitedArea1["VAT"].ToString();
-            }
-            readerUninhabitedArea1.Close();
-            foreach (string[] s in data1)
-                dataGridUninhabitedArea.Rows.Add(s);
-
-            SqlCommand loadUningabitedArea2 = new SqlCommand("SELECT sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments Where Apartament_Status = 2", conn);
-            SqlDataReader readerUninhabitedAre2 = loadUningabitedArea2.ExecuteReader();
-            while (readerUninhabitedAre2.Read())
-            {
-                summaryPaymentLabelVal.Text = readerUninhabitedAre2["Amount_Payment"].ToString();
-                summaryVatLabelVal.Text = readerUninhabitedAre2["VAT"].ToString();
-            }
-            readerUninhabitedAre2.Close();
-            conn.Close();
+            ResultFlatsNLoad();
         }
         #endregion
 
