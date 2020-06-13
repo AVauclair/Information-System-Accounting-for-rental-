@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.resultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resultAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,7 +50,6 @@
             this.deleteFlatsPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dbToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.connStringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridRenters = new System.Windows.Forms.DataGridView();
@@ -292,31 +291,23 @@
             // dbToolStripMenuItem
             // 
             this.dbToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.connStringToolStripMenuItem,
             this.saveDBToolStripMenuItem,
             this.loadDBToolStripMenuItem});
             this.dbToolStripMenuItem.Name = "dbToolStripMenuItem";
             this.dbToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
             this.dbToolStripMenuItem.Text = "База данных";
             // 
-            // connStringToolStripMenuItem
-            // 
-            this.connStringToolStripMenuItem.Name = "connStringToolStripMenuItem";
-            this.connStringToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.connStringToolStripMenuItem.Text = "Указать строку подключения";
-            this.connStringToolStripMenuItem.Click += new System.EventHandler(this.connStringToolStripMenuItem_Click);
-            // 
             // saveDBToolStripMenuItem
             // 
             this.saveDBToolStripMenuItem.Name = "saveDBToolStripMenuItem";
-            this.saveDBToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.saveDBToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveDBToolStripMenuItem.Text = "Сохранить базу";
             this.saveDBToolStripMenuItem.Click += new System.EventHandler(this.saveDBToolStripMenuItem_Click);
             // 
             // loadDBToolStripMenuItem
             // 
             this.loadDBToolStripMenuItem.Name = "loadDBToolStripMenuItem";
-            this.loadDBToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.loadDBToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadDBToolStripMenuItem.Text = "Загрузить базу";
             this.loadDBToolStripMenuItem.Click += new System.EventHandler(this.loadDBToolStripMenuItem_Click);
             // 
@@ -442,9 +433,9 @@
             // 
             // Column5
             // 
-            dataGridViewCellStyle5.Format = "D";
-            dataGridViewCellStyle5.NullValue = null;
-            this.Column5.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle3.Format = "D";
+            dataGridViewCellStyle3.NullValue = null;
+            this.Column5.DefaultCellStyle = dataGridViewCellStyle3;
             this.Column5.HeaderText = "Дата";
             this.Column5.Name = "Column5";
             this.Column5.ReadOnly = true;
@@ -546,9 +537,9 @@
             // 
             // dataGridViewTextBoxColumn10
             // 
-            dataGridViewCellStyle6.Format = "D";
-            dataGridViewCellStyle6.NullValue = null;
-            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle4.Format = "D";
+            dataGridViewCellStyle4.NullValue = null;
+            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridViewTextBoxColumn10.HeaderText = "Дата";
             this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
             this.dataGridViewTextBoxColumn10.ReadOnly = true;
@@ -1095,6 +1086,7 @@
             this.Name = "yy";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "BetterThenExcel";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.yy_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -1135,7 +1127,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn NameRenters;
         private System.Windows.Forms.ToolStripMenuItem reportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dbToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem connStringToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveDBToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadDBToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resultAllToolStripMenuItem;

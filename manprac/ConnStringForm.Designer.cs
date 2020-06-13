@@ -73,7 +73,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.stringTextBox);
             this.Controls.Add(this.updateConnStringButton);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ConnStringForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактирование строки подключения";

@@ -18,6 +18,7 @@ namespace manprac
         Dictionary<int, string> DebitingRenters = new Dictionary<int, string>();
         Dictionary<int, string> DebitingAreaType = new Dictionary<int, string>();
 
+        #region переменные для загрузки данных в таблицы
         string resultFlatsLoadQueryConst = "SELECT Months.ID_Month, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
             "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month " +
             " GROUP BY Months.ID_Month, Months.Name";
@@ -43,6 +44,7 @@ namespace manprac
 
         string resultAllLoadQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices";
         string resultAllSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Apartaments";
+        #endregion
 
         public string ConnString = ConnStringForm.connection;
 
@@ -838,12 +840,6 @@ namespace manprac
 
             }
         }
-
-        private void connStringToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ConnStringForm connStringForm = new ConnStringForm();
-            connStringForm.ShowDialog();
-        }
         #endregion
 
         #region отображение таблиц по нажатию на пункт в меню
@@ -1298,7 +1294,7 @@ namespace manprac
                     connection.Open();
                     command.ExecuteNonQuery();
 
-                    MessageBox.Show("Копия базы данных успешно создана.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Резервное сохранение базы данных успешно создано.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
@@ -1327,7 +1323,7 @@ namespace manprac
 
             try
             {
-                if (MessageBox.Show("После выбора файла несохраненные данные будут утеряны. Также программа будет перезагружена. Продолжить?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                if (MessageBox.Show("После выбора файла несохраненные данные будут утеряны. Программа будет перезагружена. Продолжить?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     OpenFileDialog dlg = new OpenFileDialog();
                     dlg.DefaultExt = ".bak";
@@ -1353,6 +1349,11 @@ namespace manprac
             }
         }
         #endregion
+
+        private void yy_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
 
