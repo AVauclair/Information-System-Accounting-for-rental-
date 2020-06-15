@@ -61,7 +61,7 @@
             this.updateConnStringButton.Name = "updateConnStringButton";
             this.updateConnStringButton.Size = new System.Drawing.Size(182, 28);
             this.updateConnStringButton.TabIndex = 3;
-            this.updateConnStringButton.Text = "Обновить строку";
+            this.updateConnStringButton.Text = "Подключиться";
             this.updateConnStringButton.UseVisualStyleBackColor = true;
             this.updateConnStringButton.Click += new System.EventHandler(this.updateConnStringButton_Click);
             // 
@@ -78,7 +78,7 @@
             this.MinimizeBox = false;
             this.Name = "ConnStringForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Редактирование строки подключения";
+            this.Text = "Подключение";
             this.Load += new System.EventHandler(this.connStringForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
