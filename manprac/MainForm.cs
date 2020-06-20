@@ -296,7 +296,6 @@ namespace manprac
             }
             dataGridCommonResults.Rows.Add("Всего", sumRent, sumVat);
         }
-
         #endregion
 
         #region методы фильтраций
@@ -511,11 +510,9 @@ namespace manprac
             if (dataGridUninhabitedArea.Visible == true)
             {
                 resultFlatsNLoadQuery = resultFlatsNLoadQueryConst.Insert(197, $"AND (Date_Payment BETWEEN {datestart} AND {datefinish}) ");
-                //MessageBox.Show(resultFlatsNLoadQuery);
                 resultFlatsNSumQuery = resultFlatsNSumQueryConst + $" AND (Date_Payment BETWEEN {datestart} AND {datefinish})";
-                //MessageBox.Show(resultFlatsNSumQuery);
                 dataGridUninhabitedArea.Rows.Clear();
-                ResultOfficesLoad();
+                ResultFlatsNLoad();
             }
 
             conn.Close();
@@ -1356,6 +1353,7 @@ namespace manprac
         {
             Application.Exit();
         }
+
         #region печать отчетов
         private void предпросмотрToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1488,9 +1486,6 @@ namespace manprac
             e.Graphics.DrawString("Дата: " + dt.ToShortDateString(), new Font("Arial", 14), Brushes.Black, 10, 200);
             btm.Dispose();
         }
-
-
-
 
         private void printResultFlats_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
