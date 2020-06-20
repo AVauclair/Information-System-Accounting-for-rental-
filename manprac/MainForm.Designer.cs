@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(yy));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.resultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resultAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,6 +51,9 @@
             this.updateFlatsPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteFlatsPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PrintPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PrintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExportToExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dbToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -121,6 +126,12 @@
             this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.summaryVatLabel = new System.Windows.Forms.Label();
             this.summaryVatLabelVal = new System.Windows.Forms.Label();
+            this.printDialog1 = new System.Windows.Forms.PrintDialog();
+            this.printCommonResult = new System.Drawing.Printing.PrintDocument();
+            this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
+            this.printUninhabitedArea = new System.Drawing.Printing.PrintDocument();
+            this.printResultFlats = new System.Drawing.Printing.PrintDocument();
+            this.printResultOffices = new System.Drawing.Printing.PrintDocument();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridRenters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridOffices)).BeginInit();
@@ -284,9 +295,34 @@
             // 
             // reportToolStripMenuItem
             // 
+            this.reportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PrintPreviewToolStripMenuItem,
+            this.PrintToolStripMenuItem,
+            this.ExportToExcelToolStripMenuItem});
             this.reportToolStripMenuItem.Name = "reportToolStripMenuItem";
             this.reportToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
             this.reportToolStripMenuItem.Text = "Отчет";
+            // 
+            // PrintPreviewToolStripMenuItem
+            // 
+            this.PrintPreviewToolStripMenuItem.Name = "PrintPreviewToolStripMenuItem";
+            this.PrintPreviewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.PrintPreviewToolStripMenuItem.Text = "Предпросмотр";
+            this.PrintPreviewToolStripMenuItem.Click += new System.EventHandler(this.предпросмотрToolStripMenuItem_Click);
+            // 
+            // PrintToolStripMenuItem
+            // 
+            this.PrintToolStripMenuItem.Name = "PrintToolStripMenuItem";
+            this.PrintToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.PrintToolStripMenuItem.Text = "Печать";
+            this.PrintToolStripMenuItem.Click += new System.EventHandler(this.PrintToolStripMenuItem_Click);
+            // 
+            // ExportToExcelToolStripMenuItem
+            // 
+            this.ExportToExcelToolStripMenuItem.Name = "ExportToExcelToolStripMenuItem";
+            this.ExportToExcelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ExportToExcelToolStripMenuItem.Text = "Экспорт в Excel";
+            this.ExportToExcelToolStripMenuItem.Click += new System.EventHandler(this.ExportToExcelToolStripMenuItem_Click);
             // 
             // dbToolStripMenuItem
             // 
@@ -294,20 +330,20 @@
             this.saveDBToolStripMenuItem,
             this.loadDBToolStripMenuItem});
             this.dbToolStripMenuItem.Name = "dbToolStripMenuItem";
-            this.dbToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
+            this.dbToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
             this.dbToolStripMenuItem.Text = "База данных";
             // 
             // saveDBToolStripMenuItem
             // 
             this.saveDBToolStripMenuItem.Name = "saveDBToolStripMenuItem";
-            this.saveDBToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveDBToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.saveDBToolStripMenuItem.Text = "Сохранить базу";
             this.saveDBToolStripMenuItem.Click += new System.EventHandler(this.saveDBToolStripMenuItem_Click);
             // 
             // loadDBToolStripMenuItem
             // 
             this.loadDBToolStripMenuItem.Name = "loadDBToolStripMenuItem";
-            this.loadDBToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadDBToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.loadDBToolStripMenuItem.Text = "Загрузить базу";
             this.loadDBToolStripMenuItem.Click += new System.EventHandler(this.loadDBToolStripMenuItem_Click);
             // 
@@ -433,9 +469,9 @@
             // 
             // Column5
             // 
-            dataGridViewCellStyle3.Format = "D";
-            dataGridViewCellStyle3.NullValue = null;
-            this.Column5.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Format = "D";
+            dataGridViewCellStyle1.NullValue = null;
+            this.Column5.DefaultCellStyle = dataGridViewCellStyle1;
             this.Column5.HeaderText = "Дата";
             this.Column5.Name = "Column5";
             this.Column5.ReadOnly = true;
@@ -537,9 +573,9 @@
             // 
             // dataGridViewTextBoxColumn10
             // 
-            dataGridViewCellStyle4.Format = "D";
-            dataGridViewCellStyle4.NullValue = null;
-            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Format = "D";
+            dataGridViewCellStyle2.NullValue = null;
+            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewTextBoxColumn10.HeaderText = "Дата";
             this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
             this.dataGridViewTextBoxColumn10.ReadOnly = true;
@@ -562,7 +598,7 @@
             this.dataGridViewTextBoxColumn14,
             this.Column10});
             this.dataGridResultFlats.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridResultFlats.Location = new System.Drawing.Point(47, 85);
+            this.dataGridResultFlats.Location = new System.Drawing.Point(63, 42);
             this.dataGridResultFlats.MultiSelect = false;
             this.dataGridResultFlats.Name = "dataGridResultFlats";
             this.dataGridResultFlats.ReadOnly = true;
@@ -700,7 +736,7 @@
             this.dataGridViewTextBoxColumn18,
             this.dataGridViewTextBoxColumn19});
             this.dataGridResultRenters.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridResultRenters.Location = new System.Drawing.Point(186, 72);
+            this.dataGridResultRenters.Location = new System.Drawing.Point(77, 40);
             this.dataGridResultRenters.MultiSelect = false;
             this.dataGridResultRenters.Name = "dataGridResultRenters";
             this.dataGridResultRenters.ReadOnly = true;
@@ -740,6 +776,7 @@
             this.dataGridCommonResults.AllowUserToAddRows = false;
             this.dataGridCommonResults.AllowUserToDeleteRows = false;
             this.dataGridCommonResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridCommonResults.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridCommonResults.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dataGridCommonResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridCommonResults.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -747,16 +784,21 @@
             this.dataGridViewTextBoxColumn21,
             this.dataGridViewTextBoxColumn22});
             this.dataGridCommonResults.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridCommonResults.Location = new System.Drawing.Point(148, 96);
+            this.dataGridCommonResults.Location = new System.Drawing.Point(135, 29);
             this.dataGridCommonResults.MultiSelect = false;
             this.dataGridCommonResults.Name = "dataGridCommonResults";
             this.dataGridCommonResults.ReadOnly = true;
             this.dataGridCommonResults.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridCommonResults.RowHeadersVisible = false;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dataGridCommonResults.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridCommonResults.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridCommonResults.Size = new System.Drawing.Size(771, 329);
+            this.dataGridCommonResults.Size = new System.Drawing.Size(771, 372);
             this.dataGridCommonResults.TabIndex = 31;
             this.dataGridCommonResults.Visible = false;
+            this.dataGridCommonResults.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridCommonResults_RowsAdded);
+            this.dataGridCommonResults.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridCommonResults_RowsRemoved);
+            this.dataGridCommonResults.SelectionChanged += new System.EventHandler(this.dataGridCommonResults_SelectionChanged);
             // 
             // dataGridViewTextBoxColumn20
             // 
@@ -1043,6 +1085,38 @@
             this.summaryVatLabelVal.Text = "label3";
             this.summaryVatLabelVal.Visible = false;
             // 
+            // printDialog1
+            // 
+            this.printDialog1.Document = this.printCommonResult;
+            this.printDialog1.UseEXDialog = true;
+            // 
+            // printCommonResult
+            // 
+            this.printCommonResult.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
+            // 
+            // printPreviewDialog1
+            // 
+            this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
+            this.printPreviewDialog1.Document = this.printCommonResult;
+            this.printPreviewDialog1.Enabled = true;
+            this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
+            this.printPreviewDialog1.Name = "printPreviewDialog1";
+            this.printPreviewDialog1.Visible = false;
+            // 
+            // printUninhabitedArea
+            // 
+            this.printUninhabitedArea.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printResultRenters_PrintPage);
+            // 
+            // printResultFlats
+            // 
+            this.printResultFlats.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printResultFlats_PrintPage);
+            // 
+            // printResultOffices
+            // 
+            this.printResultOffices.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printResultOffices_PrintPage);
+            // 
             // yy
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1196,6 +1270,15 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn25;
         private System.Windows.Forms.Label summaryVatLabel;
         private System.Windows.Forms.Label summaryVatLabelVal;
+        private System.Windows.Forms.ToolStripMenuItem PrintPreviewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem PrintToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ExportToExcelToolStripMenuItem;
+        private System.Windows.Forms.PrintDialog printDialog1;
+        private System.Drawing.Printing.PrintDocument printCommonResult;
+        private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
+        private System.Drawing.Printing.PrintDocument printUninhabitedArea;
+        private System.Drawing.Printing.PrintDocument printResultFlats;
+        private System.Drawing.Printing.PrintDocument printResultOffices;
     }
 }
 

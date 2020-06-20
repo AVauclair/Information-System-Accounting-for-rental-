@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -69,24 +73,6 @@
     </Compile>
     <Compile Include="ConnStringForm.Designer.cs">
       <DependentUpon>ConnStringForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DeleteFlatsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DeleteFlatsForm.Designer.cs">
-      <DependentUpon>DeleteFlatsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DeleteOfficesForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DeleteOfficesForm.Designer.cs">
-      <DependentUpon>DeleteOfficesForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DeleteRentersForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DeleteRentersForm.Designer.cs">
-      <DependentUpon>DeleteRentersForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -126,15 +112,6 @@
     <EmbeddedResource Include="ConnStringForm.resx">
       <DependentUpon>ConnStringForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DeleteFlatsForm.resx">
-      <DependentUpon>DeleteFlatsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DeleteOfficesForm.resx">
-      <DependentUpon>DeleteOfficesForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DeleteRentersForm.resx">
-      <DependentUpon>DeleteRentersForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -156,6 +133,7 @@
     <EmbeddedResource Include="UpdateRentersForm.resx">
       <DependentUpon>UpdateRentersForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

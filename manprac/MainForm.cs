@@ -507,7 +507,7 @@ namespace manprac
                 dataGridResultOffices.Rows.Clear();
                 ResultOfficesLoad();
             }
-            
+
             if (dataGridUninhabitedArea.Visible == true)
             {
                 resultFlatsNLoadQuery = resultFlatsNLoadQueryConst.Insert(197, $"AND (Date_Payment BETWEEN {datestart} AND {datefinish}) ");
@@ -585,6 +585,8 @@ namespace manprac
             rentersComboBox.SelectedIndex = 0;
             areaTypeComboBox.SelectedIndex = 0;
             #endregion
+
+            ChangeHeight();
         }
 
         #region переход на другие формы
@@ -1354,7 +1356,280 @@ namespace manprac
         {
             Application.Exit();
         }
+        #region печать отчетов
+        private void предпросмотрToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridCommonResults.Visible == true)
+            {
+                printPreviewDialog1 = new PrintPreviewDialog();
+                printPreviewDialog1.Document = printCommonResult;
+                printPreviewDialog1.WindowState = FormWindowState.Maximized;
+                printPreviewDialog1.ShowDialog();
+                return;
+            }
+            if (dataGridResultFlats.Visible == true)
+            {
+                printPreviewDialog1 = new PrintPreviewDialog();
+                printPreviewDialog1.Document = printResultFlats;
+                printPreviewDialog1.WindowState = FormWindowState.Maximized;
+                printPreviewDialog1.ShowDialog();
+                return;
+            }
+            if (dataGridResultOffices.Visible == true)
+            {
+                printPreviewDialog1 = new PrintPreviewDialog();
+                printPreviewDialog1.Document = printResultOffices;
+                printPreviewDialog1.WindowState = FormWindowState.Maximized;
+                printPreviewDialog1.ShowDialog();
+                return;
+
+            }
+            if (dataGridUninhabitedArea.Visible == true)
+            {
+                printPreviewDialog1 = new PrintPreviewDialog();
+                printPreviewDialog1.Document = printUninhabitedArea;
+                printPreviewDialog1.WindowState = FormWindowState.Maximized;
+                printPreviewDialog1.ShowDialog();
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Выберите таблицу, с которой хотите работать.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            DateTime dt = DateTime.Now;
+            string s = "Общий свод по таблицам";
+            Bitmap btm = new Bitmap(dataGridCommonResults.Size.Width, dataGridCommonResults.Size.Height);
+            dataGridCommonResults.DrawToBitmap(btm, new Rectangle(0, 0, dataGridCommonResults.Size.Width + 10, dataGridCommonResults.Size.Height));
+            e.Graphics.DrawString(s, new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 10, 20);
+            e.Graphics.DrawImage(btm, 10, 60);
+            e.Graphics.DrawString("Дата: " + dt.ToShortDateString(), new Font("Arial", 14), Brushes.Black, 10, 200);
+            btm.Dispose();
+        }
+
+
+        private void PrintToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridCommonResults.Visible == true)
+            {
+                PrintDialog dialog = new PrintDialog();
+                dialog.Document = printCommonResult;
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    printCommonResult.Print();
+                }
+                return;
+            }
+            if (dataGridResultFlats.Visible == true)
+            {
+                PrintDialog dialog = new PrintDialog();
+                dialog.Document = printResultFlats;
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    printResultFlats.Print();
+                }
+                return;
+            }
+            if (dataGridUninhabitedArea.Visible == true)
+            {
+                PrintDialog dialog = new PrintDialog();
+                dialog.Document = printUninhabitedArea;
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    printUninhabitedArea.Print();
+                }
+                return;
+            }
+            if (dataGridResultOffices.Visible == true)
+            {
+                PrintDialog dialog = new PrintDialog();
+                dialog.Document = printResultOffices;
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    printResultOffices.Print();
+                }
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Выберите таблицу, с которой хотите работать.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void printResultOffices_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            DateTime dt = DateTime.Now;
+            string s = "Общий свод по таблицам";
+            Bitmap btm = new Bitmap(dataGridResultOffices.Size.Width, dataGridResultOffices.Size.Height);
+            dataGridResultOffices.DrawToBitmap(btm, new Rectangle(0, 0, dataGridResultOffices.Size.Width + 10, dataGridResultOffices.Size.Height));
+            e.Graphics.DrawString(s, new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 10, 20);
+            e.Graphics.DrawImage(btm, 10, 60);
+            e.Graphics.DrawString("Дата: " + dt.ToShortDateString(), new Font("Arial", 14), Brushes.Black, 10, 200);
+            btm.Dispose();
+        }
+
+        private void printResultRenters_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+
+            DateTime dt = DateTime.Now;
+            string s = "Общий свод по таблицам";
+            Bitmap btm = new Bitmap(dataGridUninhabitedArea.Size.Width, dataGridUninhabitedArea.Size.Height);
+            dataGridUninhabitedArea.DrawToBitmap(btm, new Rectangle(0, 0, dataGridUninhabitedArea.Size.Width + 10, dataGridUninhabitedArea.Size.Height));
+            e.Graphics.DrawString(s, new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 10, 20);
+            e.Graphics.DrawImage(btm, 10, 60);
+            e.Graphics.DrawString("Дата: " + dt.ToShortDateString(), new Font("Arial", 14), Brushes.Black, 10, 200);
+            btm.Dispose();
+        }
+
+
+
+
+        private void printResultFlats_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+
+            DateTime dt = DateTime.Now;
+            string s = "Общий свод по таблицам";
+            Bitmap btm = new Bitmap(dataGridResultFlats.Size.Width, dataGridResultFlats.Size.Height);
+            dataGridResultFlats.DrawToBitmap(btm, new Rectangle(0, 0, dataGridResultFlats.Size.Width + 10, dataGridResultFlats.Size.Height));
+            e.Graphics.DrawString(s, new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 10, 20);
+            e.Graphics.DrawImage(btm, 10, 60);
+            e.Graphics.DrawString("Дата: " + dt.ToShortDateString(), new Font("Arial", 14), Brushes.Black, 10, 200);
+            btm.Dispose();
+        }
+
+        private void ExportToExcelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridCommonResults.Visible == true)
+            {
+                Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
+                Microsoft.Office.Interop.Excel.Workbook ExcelWorkBook;
+                Microsoft.Office.Interop.Excel.Worksheet ExcelWorkSheet;
+                ExcelWorkBook = ExcelApp.Workbooks.Add(System.Reflection.Missing.Value);
+                ExcelWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)ExcelWorkBook.Worksheets.get_Item(1);
+                ExcelApp.Cells[1, 1] = "Общий свод по таблицам за период с " + datePickerStart.Value.ToShortDateString() + " по " + datePickerFinish.Value.ToShortDateString();
+                ExcelApp.Cells[1, 2] = "";
+                for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
+                {
+                    for (int j = 0; j < dataGridCommonResults.ColumnCount; j++)
+                    {
+                        ExcelApp.Cells[i + 3, j + 1] = dataGridCommonResults.Rows[i].Cells[j].Value;
+                    }
+                }
+                ExcelApp.Cells[7, 1] = "Дата:";
+                ExcelApp.Cells[7, 2] = DateTime.Now.ToShortDateString();
+                ExcelApp.Visible = true;
+                ExcelApp.UserControl = true;
+                return;
+            }
+            if (dataGridResultFlats.Visible == true)
+            {
+                Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
+                Microsoft.Office.Interop.Excel.Workbook ExcelWorkBook;
+                Microsoft.Office.Interop.Excel.Worksheet ExcelWorkSheet;
+                ExcelWorkBook = ExcelApp.Workbooks.Add(System.Reflection.Missing.Value);
+                ExcelWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)ExcelWorkBook.Worksheets.get_Item(1);
+                ExcelApp.Cells[1, 1] = "Общий свод по квартирам за период с " + datePickerStart.Value.ToShortDateString() + " по " + datePickerFinish.Value.ToShortDateString();
+                ExcelApp.Cells[1, 2] = "";
+                for (int i = 0; i < dataGridResultFlats.Rows.Count; i++)
+                {
+                    for (int j = 0; j < dataGridResultFlats.ColumnCount; j++)
+                    {
+                        ExcelApp.Cells[i + 3, j + 1] = dataGridResultFlats.Rows[i].Cells[j].Value;
+                    }
+                }
+                ExcelApp.Cells[dataGridResultFlats.Rows.Count + 4, 1] = "Дата:";
+                ExcelApp.Cells[dataGridResultFlats.Rows.Count + 4, 2] = DateTime.Now.ToShortDateString();
+                ExcelApp.Visible = true;
+                ExcelApp.UserControl = true;
+                return;
+            }
+            if (dataGridUninhabitedArea.Visible == true)
+            {
+                Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
+                Microsoft.Office.Interop.Excel.Workbook ExcelWorkBook;
+                Microsoft.Office.Interop.Excel.Worksheet ExcelWorkSheet;
+                ExcelWorkBook = ExcelApp.Workbooks.Add(System.Reflection.Missing.Value);
+                ExcelWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)ExcelWorkBook.Worksheets.get_Item(1);
+                ExcelApp.Cells[1, 1] = "Общий свод по нежилым квартирам за период с " + datePickerStart.Value.ToShortDateString() + " по " + datePickerFinish.Value.ToShortDateString();
+                ExcelApp.Cells[1, 2] = "";
+                for (int i = 0; i < dataGridUninhabitedArea.Rows.Count; i++)
+                {
+                    for (int j = 0; j < dataGridUninhabitedArea.ColumnCount; j++)
+                    {
+                        ExcelApp.Cells[i + 3, j + 1] = dataGridUninhabitedArea.Rows[i].Cells[j].Value;
+                    }
+                }
+                ExcelApp.Cells[dataGridUninhabitedArea.Rows.Count + 4, 1] = "Дата:";
+                ExcelApp.Cells[dataGridUninhabitedArea.Rows.Count + 4, 2] = DateTime.Now.ToShortDateString();
+                ExcelApp.Visible = true;
+                ExcelApp.UserControl = true;
+                return;
+            }
+            if (dataGridResultOffices.Visible == true)
+            {
+                Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
+                Microsoft.Office.Interop.Excel.Workbook ExcelWorkBook;
+                Microsoft.Office.Interop.Excel.Worksheet ExcelWorkSheet;
+                ExcelWorkBook = ExcelApp.Workbooks.Add(System.Reflection.Missing.Value);
+                ExcelWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)ExcelWorkBook.Worksheets.get_Item(1);
+                ExcelApp.Cells[1, 1] = "Общий свод по нежилым квартирам за период с " + datePickerStart.Value.ToShortDateString() + " по " + datePickerFinish.Value.ToShortDateString();
+                ExcelApp.Cells[1, 2] = "";
+                for (int i = 0; i < dataGridResultOffices.Rows.Count; i++)
+                {
+                    for (int j = 0; j < dataGridResultOffices.ColumnCount; j++)
+                    {
+                        ExcelApp.Cells[i + 3, j + 1] = dataGridResultOffices.Rows[i].Cells[j].Value;
+                    }
+                }
+                ExcelApp.Cells[dataGridResultOffices.Rows.Count + 4, 1] = "Дата:";
+                ExcelApp.Cells[dataGridResultOffices.Rows.Count + 4, 2] = DateTime.Now.ToShortDateString();
+                ExcelApp.Visible = true;
+                ExcelApp.UserControl = true;
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Выберите таблицу, с которой хотите работать.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        /*--------------- Код ниже нужен для нормального отображения таблицы общих сводов, нужно сделать с оставшимися 3мя таблицами
+         * то же самое -----------------------------------------------------------------------------------------------------------*/
+        private void ChangeHeight()
+        {
+            // меняем высоту таблицу по высоте всех строк
+            dataGridCommonResults.Height = dataGridCommonResults.Rows.GetRowsHeight(DataGridViewElementStates.Visible) +
+                               dataGridCommonResults.ColumnHeadersHeight;
+        }
+        private void dataGridCommonResults_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            ChangeHeight();
+        }
+
+        private void dataGridCommonResults_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            ChangeHeight();
+        }
+
+        private void dataGridCommonResults_SelectionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                ((DataGridView)sender).SelectedCells[0].Selected = false;
+            }
+            catch { }
+        }
     }
+
 }
 
     
