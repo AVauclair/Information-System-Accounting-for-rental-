@@ -198,7 +198,7 @@ namespace manprac
 
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
-            SqlCommand updateApartament = new SqlCommand("UPDATE Apartaments SET  [ID_Renters] = @ID_Renters, [Contract] =@Contract, [ID_Month] =@ID_Month," +
+            SqlCommand updateApartament = new SqlCommand("UPDATE Apartaments SET [ID_Renters] = @ID_Renters, [Contract] =@Contract, [ID_Month] =@ID_Month," +
                 " [Amount_Rent]=@Amount_Rent, [VAT] =@VAT, [Date_Payment] =@Date_Payment, [Apartament_Status]= @Apartament_Status, [Note] =@Note," +
                 " [Amount_Payment]= @Amount_Payment WHERE [ID_Apartament] = @ID_Apartament", conn);
             updateApartament.Parameters.AddWithValue("@ID_Renters", SelectedRenters);

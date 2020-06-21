@@ -48,7 +48,9 @@ namespace manprac
         string resultFlatsNSumQuery = "SELECT sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments Where Apartament_Status = 2";
 
         string resultAllLoadQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices";
+        string resultAllLoadQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices";
         string resultAllSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Apartaments";
+        string resultAllSumQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Apartaments";
         #endregion
 
         public string ConnString = ConnStringForm.connection;
@@ -290,10 +292,17 @@ namespace manprac
             conn.Close();
             double sumRent = 0;
             double sumVat = 0;
-            for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
+            try
             {
-                sumRent += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[1].Value);
-                sumVat += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[2].Value);
+                for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
+                {
+                    sumRent += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[1].Value);
+                    sumVat += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[2].Value);
+                }
+            }
+            catch
+            {
+
             }
             dataGridCommonResults.Rows.Add("Всего", sumRent, sumVat);
         }
@@ -425,7 +434,7 @@ namespace manprac
             conn.Open();
 
             string datestart = string.Format("{0:yyyy-MM-dd}", $"'{datePickerStart.Value}'");
-            string datefinish = string.Format("{0:yyyy-MM-dd}", "'" + datePickerFinish.Value + "'");
+            string datefinish = string.Format("{0:yyyy-MM-dd}", $"'{datePickerFinish.Value}'");
 
             if (dataGridOffices.Visible == true)
             {
@@ -494,10 +503,20 @@ namespace manprac
 
             if (dataGridResultFlats.Visible == true)
             {
-                resultFlatsLoadQuery = resultFlatsLoadQueryConst.Insert(187, $"WHERE Date_Payment BETWEEN {datestart} AND {datefinish}");
-                resultFlatsSumQuery = resultFlatsSumQueryConst + $" WHERE Date_Payment BETWEEN {datestart} AND {datefinish}";
-                dataGridResultFlats.Rows.Clear();
-                ResultFlatsLoad();
+                if (areaTypeComboBox.SelectedIndex == 1)
+                {
+                    resultFlatsLoadQuery = resultFlatsLoadQueryConst.Insert(187, $"WHERE ((Date_Payment BETWEEN {datestart} AND {datefinish}) AND Apartament_Status = 1)");
+                    resultFlatsSumQuery = resultFlatsSumQueryConst + $" WHERE ((Date_Payment BETWEEN {datestart} AND {datefinish}) AND Apartament_Status = 1)";
+                    dataGridResultFlats.Rows.Clear();
+                    ResultFlatsLoad();
+                }
+                else if (areaTypeComboBox.SelectedIndex == 2)
+                {
+                    resultFlatsLoadQuery = resultFlatsLoadQueryConst.Insert(187, $"WHERE ((Date_Payment BETWEEN {datestart} AND {datefinish}) AND Apartament_Status = 2)");
+                    resultFlatsSumQuery = resultFlatsSumQueryConst + $" WHERE ((Date_Payment BETWEEN {datestart} AND {datefinish}) AND Apartament_Status = 2)";
+                    dataGridResultFlats.Rows.Clear();
+                    ResultFlatsLoad();
+                }
             }
 
             if (dataGridResultOffices.Visible == true)
@@ -510,10 +529,18 @@ namespace manprac
 
             if (dataGridUninhabitedArea.Visible == true)
             {
-                resultFlatsNLoadQuery = resultFlatsNLoadQueryConst.Insert(197, $"AND (Date_Payment BETWEEN {datestart} AND {datefinish}) ");
+                resultFlatsNLoadQuery = resultFlatsNLoadQueryConst.Insert(197, $"AND (Date_Payment BETWEEN {datestart} AND {datefinish})");
                 resultFlatsNSumQuery = resultFlatsNSumQueryConst + $" AND (Date_Payment BETWEEN {datestart} AND {datefinish})";
                 dataGridUninhabitedArea.Rows.Clear();
                 ResultFlatsNLoad();
+            }
+
+            if (dataGridCommonResults.Visible == true)
+            {
+                resultAllLoadQuery = resultAllLoadQueryConst.Insert(62, $" WHERE Date_Payment BETWEEN {datestart} AND {datefinish}");
+                resultAllSumQuery = resultAllSumQueryConst.Insert(66, $" WHERE Date_Payment BETWEEN {datestart} AND {datefinish}");
+                dataGridCommonResults.Rows.Clear();
+                ResultAllLoad();
             }
 
             conn.Close();
@@ -946,8 +973,8 @@ namespace manprac
             amountRentTextBoxStart.Visible = false;
             rentersLabel.Visible = false;
             rentersComboBox.Visible = false;
-            areaTypeLabel.Visible = false;
-            areaTypeComboBox.Visible = false;
+            areaTypeLabel.Visible = true;
+            areaTypeComboBox.Visible = true;
             rentLabel.Visible = false;
             paymentLabel.Visible = false;
 
@@ -1140,11 +1167,26 @@ namespace manprac
             conn.Close();
         }
 
-        //не доделал фильтрацию у квартир и свода квартир так как хз как - типа помещения в таблиц нет
         private void areaTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             SqlConnection conn = new SqlConnection(ConnString);
             conn.Open();
+
+            if (dataGridFlats.Visible == true)
+            {
+                dataGridFlats.Rows.Clear();
+                FlatsLoad();
+                if (areaTypeComboBox.SelectedIndex != 0)
+                {
+                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                    {
+                        if (!(dataGridFlats.Rows[i].Cells[8].Value.ToString().Contains(areaTypeComboBox.Text)))
+                        {
+                            dataGridFlats.Rows[i].Visible = false;
+                        }
+                    }
+                }
+            }
 
             conn.Close();
         }
@@ -1161,45 +1203,21 @@ namespace manprac
 
         private void amountRentTextBoxStart_TextChanged(object sender, EventArgs e)
         {
-            /*if (amountRentTextBoxStart.Text.Any(char.IsLetter) || amountRentTextBoxStart.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
-            {
-                amountRentTextBoxStart.Text = "1";
-                amountRentTextBoxStart.SelectionStart = 1;
-            }*/
-
             AmountRentFiltration();
         }
 
         private void amountRentTextBoxFinish_TextChanged(object sender, EventArgs e)
         {
-            /*if (amountRentTextBoxFinish.Text.Any(char.IsLetter) || amountRentTextBoxFinish.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
-            {
-                amountRentTextBoxFinish.Text = "100000";
-                amountRentTextBoxFinish.SelectionStart = 7;
-            }*/
-
             AmountRentFiltration();
         }
 
         private void amountPaymentTextBoxStart_TextChanged(object sender, EventArgs e)
         {
-            /*if (amountPaymentTextBoxStart.Text.Any(char.IsLetter) || amountPaymentTextBoxStart.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
-            {
-                amountPaymentTextBoxStart.Text = "1";
-                amountPaymentTextBoxStart.SelectionStart = 1;
-            }*/
-
             AmountPaymentFiltration();
         }
 
         private void amountPaymentTextBoxFinish_TextChanged(object sender, EventArgs e)
         {
-            /*if (amountPaymentTextBoxFinish.Text.Any(char.IsLetter) || amountPaymentTextBoxFinish.Text.Intersect("!@#$%^&*()_-+=|:;\"'`~/?.>,<[]{\\}№ ").Count() != 0)
-            {
-                amountPaymentTextBoxFinish.Text = "100000";
-                amountPaymentTextBoxFinish.SelectionStart = 7;
-            }*/
-
             AmountPaymentFiltration();
         }
 
@@ -1341,7 +1359,7 @@ namespace manprac
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             DateTime dt = DateTime.Now;
-            string s = "Общий свод по таблицам в период с " + datePickerStart.Value.ToShortDateString() + " по" + datePickerFinish.Value.ToShortDateString();
+            string s = "Общий свод по таблицам в период с " + datePickerStart.Value.ToShortDateString() + " по " + datePickerFinish.Value.ToShortDateString();
             Bitmap btm = new Bitmap(dataGridCommonResults.Size.Width, dataGridCommonResults.Size.Height);
             dataGridCommonResults.DrawToBitmap(btm, new Rectangle(0, 0, dataGridCommonResults.Size.Width + 10, dataGridCommonResults.Size.Height +10 ));
             e.Graphics.DrawString(s, new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 20, 40);
@@ -1349,7 +1367,6 @@ namespace manprac
             e.Graphics.DrawString("Дата: " + dt.ToShortDateString(), new Font("Arial", 14), Brushes.Black, 20, 180);
             btm.Dispose();
         }
-
 
         private void PrintToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1407,7 +1424,7 @@ namespace manprac
         private void printResultOffices_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             DateTime dt = DateTime.Now;
-            string s = "Общий свод по офисам в период с " + datePickerStart.Value.ToShortDateString() + " по" + datePickerFinish.Value.ToShortDateString();
+            string s = "Общий свод по офисам в период с " + datePickerStart.Value.ToShortDateString() + " по " + datePickerFinish.Value.ToShortDateString();
             Bitmap btm = new Bitmap(dataGridResultOffices.Size.Width, dataGridResultOffices.Size.Height);
             dataGridResultOffices.DrawToBitmap(btm, new Rectangle(0, 0, dataGridResultOffices.Size.Width + 10, dataGridResultOffices.Size.Height));
             e.Graphics.DrawString(s, new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 20, 40);
@@ -1420,7 +1437,7 @@ namespace manprac
         {
 
             DateTime dt = DateTime.Now;
-            string s = "Общий свод по нежилым квартирам в период с " + datePickerStart.Value.ToShortDateString() + " по" + datePickerFinish.Value.ToShortDateString();
+            string s = "Общий свод по нежилым квартирам в период с " + datePickerStart.Value.ToShortDateString() + " по " + datePickerFinish.Value.ToShortDateString();
             Bitmap btm = new Bitmap(dataGridUninhabitedArea.Size.Width, dataGridUninhabitedArea.Size.Height);
             e.Graphics.DrawString(s, new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 10, 40);
             dataGridUninhabitedArea.DrawToBitmap(btm, new Rectangle(0, 0, dataGridUninhabitedArea.Size.Width + 20, dataGridUninhabitedArea.Size.Height));
@@ -1433,7 +1450,7 @@ namespace manprac
         {
 
             DateTime dt = DateTime.Now;
-            string s = "Общий свод по всем квартирам в период с " + datePickerStart.Value.ToShortDateString() + " по" + datePickerFinish.Value.ToShortDateString();
+            string s = "Общий свод по всем квартирам в период с " + datePickerStart.Value.ToShortDateString() + " по " + datePickerFinish.Value.ToShortDateString();
             Bitmap btm = new Bitmap(dataGridResultFlats.Size.Width, dataGridResultFlats.Size.Height);
             dataGridResultFlats.DrawToBitmap(btm, new Rectangle(0, 0, dataGridResultFlats.Size.Width + 10, dataGridResultFlats.Size.Height));
             e.Graphics.DrawString(s, new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 20, 40);
@@ -1566,6 +1583,7 @@ namespace manprac
             dataGridResultFlats.Height = dataGridResultFlats.Rows.GetRowsHeight(DataGridViewElementStates.Visible) +
                dataGridResultFlats.ColumnHeadersHeight;
         }
+
         private void dataGridCommonResults_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             ChangeHeight();
