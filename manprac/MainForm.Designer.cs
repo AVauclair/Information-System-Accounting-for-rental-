@@ -95,6 +95,7 @@
             this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridResultRenters = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -113,19 +114,11 @@
             this.datePickerStart = new System.Windows.Forms.DateTimePicker();
             this.areaTypeComboBox = new System.Windows.Forms.ComboBox();
             this.rentersComboBox = new System.Windows.Forms.ComboBox();
-            this.summaryPaymentLabel = new System.Windows.Forms.Label();
-            this.summaryRentLabel = new System.Windows.Forms.Label();
-            this.differenctLabel = new System.Windows.Forms.Label();
-            this.summaryRentLabelVal = new System.Windows.Forms.Label();
-            this.summaryPaymentLabelVal = new System.Windows.Forms.Label();
-            this.differenceLabelVal = new System.Windows.Forms.Label();
             this.monthLabel = new System.Windows.Forms.Label();
             this.dataGridUninhabitedArea = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn23 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.summaryVatLabel = new System.Windows.Forms.Label();
-            this.summaryVatLabelVal = new System.Windows.Forms.Label();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.printCommonResult = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
@@ -336,14 +329,14 @@
             // saveDBToolStripMenuItem
             // 
             this.saveDBToolStripMenuItem.Name = "saveDBToolStripMenuItem";
-            this.saveDBToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.saveDBToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveDBToolStripMenuItem.Text = "Сохранить базу";
             this.saveDBToolStripMenuItem.Click += new System.EventHandler(this.saveDBToolStripMenuItem_Click);
             // 
             // loadDBToolStripMenuItem
             // 
             this.loadDBToolStripMenuItem.Name = "loadDBToolStripMenuItem";
-            this.loadDBToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.loadDBToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadDBToolStripMenuItem.Text = "Загрузить базу";
             this.loadDBToolStripMenuItem.Click += new System.EventHandler(this.loadDBToolStripMenuItem_Click);
             // 
@@ -591,6 +584,7 @@
             this.dataGridResultFlats.AllowUserToAddRows = false;
             this.dataGridResultFlats.AllowUserToDeleteRows = false;
             this.dataGridResultFlats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridResultFlats.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.dataGridResultFlats.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dataGridResultFlats.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridResultFlats.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -598,7 +592,7 @@
             this.dataGridViewTextBoxColumn14,
             this.Column10});
             this.dataGridResultFlats.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridResultFlats.Location = new System.Drawing.Point(63, 42);
+            this.dataGridResultFlats.Location = new System.Drawing.Point(0, 110);
             this.dataGridResultFlats.MultiSelect = false;
             this.dataGridResultFlats.Name = "dataGridResultFlats";
             this.dataGridResultFlats.ReadOnly = true;
@@ -608,6 +602,9 @@
             this.dataGridResultFlats.Size = new System.Drawing.Size(771, 329);
             this.dataGridResultFlats.TabIndex = 5;
             this.dataGridResultFlats.Visible = false;
+            this.dataGridResultFlats.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridResultFlats_RowsAdded);
+            this.dataGridResultFlats.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridResultFlats_RowsRemoved);
+            this.dataGridResultFlats.SelectionChanged += new System.EventHandler(this.dataGridResultFlats_SelectionChanged);
             // 
             // dataGridViewTextBoxColumn13
             // 
@@ -682,23 +679,28 @@
             this.dataGridResultOffices.AllowUserToAddRows = false;
             this.dataGridResultOffices.AllowUserToDeleteRows = false;
             this.dataGridResultOffices.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridResultOffices.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridResultOffices.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dataGridResultOffices.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridResultOffices.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn12,
             this.dataGridViewTextBoxColumn15,
-            this.dataGridViewTextBoxColumn16});
+            this.dataGridViewTextBoxColumn16,
+            this.Column12});
             this.dataGridResultOffices.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridResultOffices.Location = new System.Drawing.Point(333, 40);
+            this.dataGridResultOffices.Location = new System.Drawing.Point(12, 97);
             this.dataGridResultOffices.MultiSelect = false;
             this.dataGridResultOffices.Name = "dataGridResultOffices";
             this.dataGridResultOffices.ReadOnly = true;
             this.dataGridResultOffices.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridResultOffices.RowHeadersVisible = false;
             this.dataGridResultOffices.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridResultOffices.Size = new System.Drawing.Size(771, 329);
+            this.dataGridResultOffices.Size = new System.Drawing.Size(771, 374);
             this.dataGridResultOffices.TabIndex = 29;
             this.dataGridResultOffices.Visible = false;
+            this.dataGridResultOffices.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridResultOffices_RowsAdded);
+            this.dataGridResultOffices.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridResultOffices_RowsRemoved);
+            this.dataGridResultOffices.SelectionChanged += new System.EventHandler(this.dataGridResultOffices_SelectionChanged);
             // 
             // dataGridViewTextBoxColumn12
             // 
@@ -724,6 +726,12 @@
             this.dataGridViewTextBoxColumn16.Name = "dataGridViewTextBoxColumn16";
             this.dataGridViewTextBoxColumn16.ReadOnly = true;
             // 
+            // Column12
+            // 
+            this.Column12.HeaderText = "Разница";
+            this.Column12.Name = "Column12";
+            this.Column12.ReadOnly = true;
+            // 
             // dataGridResultRenters
             // 
             this.dataGridResultRenters.AllowUserToAddRows = false;
@@ -736,7 +744,7 @@
             this.dataGridViewTextBoxColumn18,
             this.dataGridViewTextBoxColumn19});
             this.dataGridResultRenters.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridResultRenters.Location = new System.Drawing.Point(77, 40);
+            this.dataGridResultRenters.Location = new System.Drawing.Point(12, 67);
             this.dataGridResultRenters.MultiSelect = false;
             this.dataGridResultRenters.Name = "dataGridResultRenters";
             this.dataGridResultRenters.ReadOnly = true;
@@ -775,6 +783,7 @@
             // 
             this.dataGridCommonResults.AllowUserToAddRows = false;
             this.dataGridCommonResults.AllowUserToDeleteRows = false;
+            this.dataGridCommonResults.AllowUserToResizeRows = false;
             this.dataGridCommonResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridCommonResults.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridCommonResults.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
@@ -784,7 +793,7 @@
             this.dataGridViewTextBoxColumn21,
             this.dataGridViewTextBoxColumn22});
             this.dataGridCommonResults.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridCommonResults.Location = new System.Drawing.Point(135, 29);
+            this.dataGridCommonResults.Location = new System.Drawing.Point(21, 67);
             this.dataGridCommonResults.MultiSelect = false;
             this.dataGridCommonResults.Name = "dataGridCommonResults";
             this.dataGridCommonResults.ReadOnly = true;
@@ -939,72 +948,6 @@
             this.rentersComboBox.Visible = false;
             this.rentersComboBox.SelectedIndexChanged += new System.EventHandler(this.rentersComboBox_SelectedIndexChanged);
             // 
-            // summaryPaymentLabel
-            // 
-            this.summaryPaymentLabel.AutoSize = true;
-            this.summaryPaymentLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.summaryPaymentLabel.Location = new System.Drawing.Point(424, 462);
-            this.summaryPaymentLabel.Name = "summaryPaymentLabel";
-            this.summaryPaymentLabel.Size = new System.Drawing.Size(195, 23);
-            this.summaryPaymentLabel.TabIndex = 33;
-            this.summaryPaymentLabel.Text = "Общая сумма оплаты";
-            this.summaryPaymentLabel.Visible = false;
-            // 
-            // summaryRentLabel
-            // 
-            this.summaryRentLabel.AutoSize = true;
-            this.summaryRentLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.summaryRentLabel.Location = new System.Drawing.Point(424, 402);
-            this.summaryRentLabel.Name = "summaryRentLabel";
-            this.summaryRentLabel.Size = new System.Drawing.Size(189, 23);
-            this.summaryRentLabel.TabIndex = 35;
-            this.summaryRentLabel.Text = "Общая сумма аренды";
-            this.summaryRentLabel.Visible = false;
-            // 
-            // differenctLabel
-            // 
-            this.differenctLabel.AutoSize = true;
-            this.differenctLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.differenctLabel.Location = new System.Drawing.Point(435, 509);
-            this.differenctLabel.Name = "differenctLabel";
-            this.differenctLabel.Size = new System.Drawing.Size(78, 23);
-            this.differenctLabel.TabIndex = 37;
-            this.differenctLabel.Text = "Разница";
-            this.differenctLabel.Visible = false;
-            // 
-            // summaryRentLabelVal
-            // 
-            this.summaryRentLabelVal.AutoSize = true;
-            this.summaryRentLabelVal.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.summaryRentLabelVal.Location = new System.Drawing.Point(653, 404);
-            this.summaryRentLabelVal.Name = "summaryRentLabelVal";
-            this.summaryRentLabelVal.Size = new System.Drawing.Size(50, 19);
-            this.summaryRentLabelVal.TabIndex = 39;
-            this.summaryRentLabelVal.Text = "label1";
-            this.summaryRentLabelVal.Visible = false;
-            // 
-            // summaryPaymentLabelVal
-            // 
-            this.summaryPaymentLabelVal.AutoSize = true;
-            this.summaryPaymentLabelVal.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.summaryPaymentLabelVal.Location = new System.Drawing.Point(653, 462);
-            this.summaryPaymentLabelVal.Name = "summaryPaymentLabelVal";
-            this.summaryPaymentLabelVal.Size = new System.Drawing.Size(50, 19);
-            this.summaryPaymentLabelVal.TabIndex = 40;
-            this.summaryPaymentLabelVal.Text = "label2";
-            this.summaryPaymentLabelVal.Visible = false;
-            // 
-            // differenceLabelVal
-            // 
-            this.differenceLabelVal.AutoSize = true;
-            this.differenceLabelVal.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.differenceLabelVal.Location = new System.Drawing.Point(653, 512);
-            this.differenceLabelVal.Name = "differenceLabelVal";
-            this.differenceLabelVal.Size = new System.Drawing.Size(50, 19);
-            this.differenceLabelVal.TabIndex = 41;
-            this.differenceLabelVal.Text = "label3";
-            this.differenceLabelVal.Visible = false;
-            // 
             // monthLabel
             // 
             this.monthLabel.AutoSize = true;
@@ -1021,6 +964,7 @@
             this.dataGridUninhabitedArea.AllowUserToAddRows = false;
             this.dataGridUninhabitedArea.AllowUserToDeleteRows = false;
             this.dataGridUninhabitedArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridUninhabitedArea.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.dataGridUninhabitedArea.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dataGridUninhabitedArea.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridUninhabitedArea.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -1028,16 +972,19 @@
             this.dataGridViewTextBoxColumn24,
             this.dataGridViewTextBoxColumn25});
             this.dataGridUninhabitedArea.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridUninhabitedArea.Location = new System.Drawing.Point(63, 193);
+            this.dataGridUninhabitedArea.Location = new System.Drawing.Point(53, 82);
             this.dataGridUninhabitedArea.MultiSelect = false;
             this.dataGridUninhabitedArea.Name = "dataGridUninhabitedArea";
             this.dataGridUninhabitedArea.ReadOnly = true;
             this.dataGridUninhabitedArea.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridUninhabitedArea.RowHeadersVisible = false;
             this.dataGridUninhabitedArea.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridUninhabitedArea.Size = new System.Drawing.Size(771, 329);
+            this.dataGridUninhabitedArea.Size = new System.Drawing.Size(771, 357);
             this.dataGridUninhabitedArea.TabIndex = 42;
             this.dataGridUninhabitedArea.Visible = false;
+            this.dataGridUninhabitedArea.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridUninhabitedArea_RowsAdded);
+            this.dataGridUninhabitedArea.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridUninhabitedArea_RowsRemoved);
+            this.dataGridUninhabitedArea.SelectionChanged += new System.EventHandler(this.dataGridUninhabitedArea_SelectionChanged);
             // 
             // dataGridViewTextBoxColumn23
             // 
@@ -1062,28 +1009,6 @@
             this.dataGridViewTextBoxColumn25.HeaderText = "НДС";
             this.dataGridViewTextBoxColumn25.Name = "dataGridViewTextBoxColumn25";
             this.dataGridViewTextBoxColumn25.ReadOnly = true;
-            // 
-            // summaryVatLabel
-            // 
-            this.summaryVatLabel.AutoSize = true;
-            this.summaryVatLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.summaryVatLabel.Location = new System.Drawing.Point(144, 499);
-            this.summaryVatLabel.Name = "summaryVatLabel";
-            this.summaryVatLabel.Size = new System.Drawing.Size(131, 23);
-            this.summaryVatLabel.TabIndex = 43;
-            this.summaryVatLabel.Text = "Итоговое НДС";
-            this.summaryVatLabel.Visible = false;
-            // 
-            // summaryVatLabelVal
-            // 
-            this.summaryVatLabelVal.AutoSize = true;
-            this.summaryVatLabelVal.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.summaryVatLabelVal.Location = new System.Drawing.Point(302, 503);
-            this.summaryVatLabelVal.Name = "summaryVatLabelVal";
-            this.summaryVatLabelVal.Size = new System.Drawing.Size(50, 19);
-            this.summaryVatLabelVal.TabIndex = 44;
-            this.summaryVatLabelVal.Text = "label3";
-            this.summaryVatLabelVal.Visible = false;
             // 
             // printDialog1
             // 
@@ -1121,15 +1046,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1311, 651);
-            this.Controls.Add(this.summaryVatLabelVal);
-            this.Controls.Add(this.summaryVatLabel);
             this.Controls.Add(this.dataGridUninhabitedArea);
-            this.Controls.Add(this.differenceLabelVal);
-            this.Controls.Add(this.summaryPaymentLabelVal);
-            this.Controls.Add(this.summaryRentLabelVal);
-            this.Controls.Add(this.differenctLabel);
-            this.Controls.Add(this.summaryRentLabel);
-            this.Controls.Add(this.summaryPaymentLabel);
             this.Controls.Add(this.rentersComboBox);
             this.Controls.Add(this.areaTypeLabel);
             this.Controls.Add(this.areaTypeComboBox);
@@ -1216,9 +1133,6 @@
         private System.Windows.Forms.Label rentersLabel;
         private System.Windows.Forms.Label areaTypeLabel;
         public System.Windows.Forms.DataGridView dataGridResultOffices;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn15;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn16;
         public System.Windows.Forms.DataGridView dataGridResultRenters;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn17;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn18;
@@ -1237,9 +1151,6 @@
         private System.Windows.Forms.DateTimePicker datePickerStart;
         private System.Windows.Forms.ComboBox areaTypeComboBox;
         private System.Windows.Forms.ComboBox rentersComboBox;
-        private System.Windows.Forms.Label summaryPaymentLabel;
-        private System.Windows.Forms.Label summaryRentLabel;
-        private System.Windows.Forms.Label differenctLabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
@@ -1260,16 +1171,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column55;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.Label summaryRentLabelVal;
-        private System.Windows.Forms.Label summaryPaymentLabelVal;
-        private System.Windows.Forms.Label differenceLabelVal;
         private System.Windows.Forms.Label monthLabel;
         public System.Windows.Forms.DataGridView dataGridUninhabitedArea;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn23;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn24;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn25;
-        private System.Windows.Forms.Label summaryVatLabel;
-        private System.Windows.Forms.Label summaryVatLabelVal;
         private System.Windows.Forms.ToolStripMenuItem PrintPreviewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem PrintToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ExportToExcelToolStripMenuItem;
@@ -1279,6 +1185,10 @@
         private System.Drawing.Printing.PrintDocument printUninhabitedArea;
         private System.Drawing.Printing.PrintDocument printResultFlats;
         private System.Drawing.Printing.PrintDocument printResultOffices;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn15;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn16;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
     }
 }
 

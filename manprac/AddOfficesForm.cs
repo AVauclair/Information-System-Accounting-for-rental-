@@ -132,8 +132,8 @@ namespace manprac
                 {
 
                     dataOffices.Add(new string[9]);
-                    dataOffices[dataOffices.Count - 1][0] = countOffices.ToString();
-                    dataOffices[dataOffices.Count - 1][1] = readerOffices["ID_Office"].ToString();
+                    dataOffices[dataOffices.Count - 1][0] = readerOffices["ID_Office"].ToString();
+                    dataOffices[dataOffices.Count - 1][1] = countOffices.ToString();
                     dataOffices[dataOffices.Count - 1][2] = readerOffices["Renters"].ToString();
                     dataOffices[dataOffices.Count - 1][3] = readerOffices["Contract"].ToString();
                     dataOffices[dataOffices.Count - 1][4] = readerOffices["Month"].ToString();

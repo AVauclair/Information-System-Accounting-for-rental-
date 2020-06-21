@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.Excel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +9,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Application = System.Windows.Forms.Application;
+using Font = System.Drawing.Font;
+using Rectangle = System.Drawing.Rectangle;
+//using Excel = Microsoft.Office.Interop.Excel;
 
 namespace manprac
 {
@@ -188,8 +193,7 @@ namespace manprac
             SqlDataReader readerResultTotal = loadResultTotal.ExecuteReader();
             while (readerResultTotal.Read())
             {
-                summaryRentLabelVal.Text = readerResultTotal["SumRent"].ToString();
-                summaryPaymentLabelVal.Text = readerResultTotal["SumPayment"].ToString();
+                dataGridResultFlats.Rows.Add("Всего", readerResultTotal["SumRent"].ToString(), readerResultTotal["SumPayment"].ToString());
             }
             readerResultTotal.Close();
             conn.Close();
@@ -218,9 +222,7 @@ namespace manprac
             SqlDataReader readerResultSummary = loadResultSummary.ExecuteReader();
             while (readerResultSummary.Read())
             {
-                summaryRentLabelVal.Text = readerResultSummary["Amount_Rent"].ToString();
-                summaryPaymentLabelVal.Text = readerResultSummary["VAT"].ToString();
-                differenceLabelVal.Text = readerResultSummary["Difference"].ToString();
+                dataGridResultOffices.Rows.Add("Всего", readerResultSummary["Amount_Rent"].ToString(), readerResultSummary["VAT"].ToString(), readerResultSummary["Difference"].ToString());
             }
             readerResultSummary.Close();
             conn.Close();
@@ -248,8 +250,7 @@ namespace manprac
             SqlDataReader readerUninhabitedAre2 = loadUningabitedArea2.ExecuteReader();
             while (readerUninhabitedAre2.Read())
             {
-                summaryPaymentLabelVal.Text = readerUninhabitedAre2["Amount_Payment"].ToString();
-                summaryVatLabelVal.Text = readerUninhabitedAre2["VAT"].ToString();
+                dataGridUninhabitedArea.Rows.Add("Всего", readerUninhabitedAre2["Amount_Payment"].ToString(), readerUninhabitedAre2["VAT"].ToString());
             }
             readerUninhabitedAre2.Close();
             conn.Close();
@@ -852,14 +853,6 @@ namespace manprac
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = false;
 
-            summaryPaymentLabel.Visible = false;
-            summaryPaymentLabelVal.Visible = false;
-            summaryRentLabel.Visible = false;
-            summaryRentLabelVal.Visible = false;
-            differenctLabel.Visible = false;
-            differenceLabelVal.Visible = false;
-            summaryVatLabel.Visible = false;
-            summaryVatLabelVal.Visible = false;
 
             dateLabel.Visible = false;
             datePickerStart.Visible = false;
@@ -889,15 +882,6 @@ namespace manprac
             dataGridResultRenters.Visible = false;
             dataGridResultOffices.Visible = false;
 
-            summaryPaymentLabel.Visible = false;
-            summaryPaymentLabelVal.Visible = false;
-            summaryRentLabel.Visible = false;
-            summaryRentLabelVal.Visible = false;
-            differenctLabel.Visible = false;
-            differenceLabelVal.Visible = false;
-            paymentLabel.Visible = false;
-            summaryVatLabel.Visible = false;
-            summaryVatLabelVal.Visible = false;
             amountPaymentTextBoxStart.Visible = false;
             amountPaymentTextBoxFinish.Visible = false;
 
@@ -924,15 +908,6 @@ namespace manprac
             dataGridCommonResults.Visible = false;
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = false;
-
-            summaryPaymentLabel.Visible = false;
-            summaryPaymentLabelVal.Visible = false;
-            summaryRentLabel.Visible = false;
-            summaryRentLabelVal.Visible = false;
-            differenctLabel.Visible = false;
-            differenceLabelVal.Visible = false;
-            summaryVatLabel.Visible = false;
-            summaryVatLabelVal.Visible = false;
 
             dateLabel.Visible = true;
             datePickerStart.Visible = true;
@@ -976,16 +951,6 @@ namespace manprac
             rentLabel.Visible = false;
             paymentLabel.Visible = false;
 
-            summaryPaymentLabel.Visible = true;
-            summaryPaymentLabelVal.Visible = true;
-            summaryRentLabel.Visible = true;
-            summaryRentLabelVal.Visible = true;
-            monthLabel.Visible = true;
-            monthComboBox.Visible = true;
-            summaryVatLabel.Visible = false;
-            summaryVatLabelVal.Visible = false;
-
-
             dataGridResultFlats.Rows.Clear();
             ResultFlatsLoad();
         }
@@ -1014,15 +979,6 @@ namespace manprac
             rentLabel.Visible = false;
             paymentLabel.Visible = false;
 
-            summaryPaymentLabel.Visible = true;
-            summaryPaymentLabelVal.Visible = true;
-            summaryRentLabel.Visible = true;
-            summaryRentLabelVal.Visible = true;
-            monthLabel.Visible = true;
-            monthComboBox.Visible = true;
-            summaryVatLabel.Visible = false;
-            summaryVatLabelVal.Visible = false;
-
             dataGridResultOffices.Rows.Clear();
             ResultOfficesLoad();
         }
@@ -1050,13 +1006,6 @@ namespace manprac
             areaTypeComboBox.Visible = false;
             rentLabel.Visible = false;
             paymentLabel.Visible = false;
-
-            summaryPaymentLabel.Visible = false;
-            summaryPaymentLabelVal.Visible = false;
-            summaryRentLabel.Visible = false;
-            summaryRentLabelVal.Visible = false;
-            summaryVatLabel.Visible = false;
-            summaryVatLabelVal.Visible = false;
 
             monthLabel.Visible = true;
             monthComboBox.Visible = true;
@@ -1087,13 +1036,6 @@ namespace manprac
             rentersComboBox.Visible = false;
             areaTypeLabel.Visible = false;
             areaTypeComboBox.Visible = false;
-
-            summaryPaymentLabel.Visible = true;
-            summaryPaymentLabelVal.Visible = true;
-            summaryRentLabel.Visible = false;
-            summaryRentLabelVal.Visible = false;
-            summaryVatLabelVal.Visible = true;
-            summaryVatLabel.Visible = true;
             monthLabel.Visible = true;
             monthComboBox.Visible = true;
 
@@ -1399,12 +1341,12 @@ namespace manprac
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             DateTime dt = DateTime.Now;
-            string s = "Общий свод по таблицам";
+            string s = "Общий свод по таблицам в период с " + datePickerStart.Value.ToShortDateString() + " по" + datePickerFinish.Value.ToShortDateString();
             Bitmap btm = new Bitmap(dataGridCommonResults.Size.Width, dataGridCommonResults.Size.Height);
-            dataGridCommonResults.DrawToBitmap(btm, new Rectangle(0, 0, dataGridCommonResults.Size.Width + 10, dataGridCommonResults.Size.Height));
-            e.Graphics.DrawString(s, new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 10, 20);
-            e.Graphics.DrawImage(btm, 10, 60);
-            e.Graphics.DrawString("Дата: " + dt.ToShortDateString(), new Font("Arial", 14), Brushes.Black, 10, 200);
+            dataGridCommonResults.DrawToBitmap(btm, new Rectangle(0, 0, dataGridCommonResults.Size.Width + 10, dataGridCommonResults.Size.Height +10 ));
+            e.Graphics.DrawString(s, new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 20, 40);
+            e.Graphics.DrawImage(btm, 20, 80);
+            e.Graphics.DrawString("Дата: " + dt.ToShortDateString(), new Font("Arial", 14), Brushes.Black, 20, 180);
             btm.Dispose();
         }
 
@@ -1465,12 +1407,12 @@ namespace manprac
         private void printResultOffices_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             DateTime dt = DateTime.Now;
-            string s = "Общий свод по таблицам";
+            string s = "Общий свод по офисам в период с " + datePickerStart.Value.ToShortDateString() + " по" + datePickerFinish.Value.ToShortDateString();
             Bitmap btm = new Bitmap(dataGridResultOffices.Size.Width, dataGridResultOffices.Size.Height);
             dataGridResultOffices.DrawToBitmap(btm, new Rectangle(0, 0, dataGridResultOffices.Size.Width + 10, dataGridResultOffices.Size.Height));
-            e.Graphics.DrawString(s, new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 10, 20);
-            e.Graphics.DrawImage(btm, 10, 60);
-            e.Graphics.DrawString("Дата: " + dt.ToShortDateString(), new Font("Arial", 14), Brushes.Black, 10, 200);
+            e.Graphics.DrawString(s, new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 20, 40);
+            e.Graphics.DrawImage(btm, 20, 80);
+            e.Graphics.DrawString("Дата: " + dt.ToShortDateString(), new Font("Arial", 14), Brushes.Black, 20, 120 + dataGridResultOffices.Rows.GetRowsHeight(DataGridViewElementStates.Visible) );
             btm.Dispose();
         }
 
@@ -1478,12 +1420,12 @@ namespace manprac
         {
 
             DateTime dt = DateTime.Now;
-            string s = "Общий свод по таблицам";
+            string s = "Общий свод по нежилым квартирам в период с " + datePickerStart.Value.ToShortDateString() + " по" + datePickerFinish.Value.ToShortDateString();
             Bitmap btm = new Bitmap(dataGridUninhabitedArea.Size.Width, dataGridUninhabitedArea.Size.Height);
-            dataGridUninhabitedArea.DrawToBitmap(btm, new Rectangle(0, 0, dataGridUninhabitedArea.Size.Width + 10, dataGridUninhabitedArea.Size.Height));
-            e.Graphics.DrawString(s, new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 10, 20);
-            e.Graphics.DrawImage(btm, 10, 60);
-            e.Graphics.DrawString("Дата: " + dt.ToShortDateString(), new Font("Arial", 14), Brushes.Black, 10, 200);
+            e.Graphics.DrawString(s, new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 10, 40);
+            dataGridUninhabitedArea.DrawToBitmap(btm, new Rectangle(0, 0, dataGridUninhabitedArea.Size.Width + 20, dataGridUninhabitedArea.Size.Height));
+            e.Graphics.DrawImage(btm, 20, 80);
+            e.Graphics.DrawString("Дата: " + dt.ToShortDateString(), new Font("Arial", 14), Brushes.Black, 20, 120 + dataGridUninhabitedArea.Rows.GetRowsHeight(DataGridViewElementStates.Visible));
             btm.Dispose();
         }
 
@@ -1491,12 +1433,12 @@ namespace manprac
         {
 
             DateTime dt = DateTime.Now;
-            string s = "Общий свод по таблицам";
+            string s = "Общий свод по всем квартирам в период с " + datePickerStart.Value.ToShortDateString() + " по" + datePickerFinish.Value.ToShortDateString();
             Bitmap btm = new Bitmap(dataGridResultFlats.Size.Width, dataGridResultFlats.Size.Height);
             dataGridResultFlats.DrawToBitmap(btm, new Rectangle(0, 0, dataGridResultFlats.Size.Width + 10, dataGridResultFlats.Size.Height));
-            e.Graphics.DrawString(s, new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 10, 20);
-            e.Graphics.DrawImage(btm, 10, 60);
-            e.Graphics.DrawString("Дата: " + dt.ToShortDateString(), new Font("Arial", 14), Brushes.Black, 10, 200);
+            e.Graphics.DrawString(s, new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 20, 40);
+            e.Graphics.DrawImage(btm, 20, 80);
+            e.Graphics.DrawString("Дата: " + dt.ToShortDateString(), new Font("Arial", 14), Brushes.Black, 20, 120 + dataGridResultFlats.Rows.GetRowsHeight(DataGridViewElementStates.Visible));
             btm.Dispose();
         }
 
@@ -1507,22 +1449,31 @@ namespace manprac
                 Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
                 Microsoft.Office.Interop.Excel.Workbook ExcelWorkBook;
                 Microsoft.Office.Interop.Excel.Worksheet ExcelWorkSheet;
-                ExcelWorkBook = ExcelApp.Workbooks.Add(System.Reflection.Missing.Value);
-                ExcelWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)ExcelWorkBook.Worksheets.get_Item(1);
-                ExcelApp.Cells[1, 1] = "Общий свод по таблицам за период с " + datePickerStart.Value.ToShortDateString() + " по " + datePickerFinish.Value.ToShortDateString();
-                ExcelApp.Cells[1, 2] = "";
-                for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
-                {
-                    for (int j = 0; j < dataGridCommonResults.ColumnCount; j++)
-                    {
-                        ExcelApp.Cells[i + 3, j + 1] = dataGridCommonResults.Rows[i].Cells[j].Value;
+                  ExcelWorkBook = ExcelApp.Workbooks.Add(System.Reflection.Missing.Value);
+                  ExcelWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)ExcelWorkBook.Worksheets.get_Item(1);
+
+                  ExcelApp.Cells[1, 1] = "Общий свод по таблицам за период с " + datePickerStart.Value.ToShortDateString() + " по " + datePickerFinish.Value.ToShortDateString();
+                  ExcelApp.Cells[1, 2] = "";
+                  ExcelApp.Cells[3, 1] = "Название";
+                  ExcelApp.Cells[3, 2] = "Сумма аренды";
+                  ExcelApp.Cells[3, 3] = "Сумма оплаты";
+
+                  for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
+                  {
+                      for (int j = 0; j < dataGridCommonResults.ColumnCount; j++)
+                      {
+                          ExcelApp.Cells[i + 3, j + 1] = dataGridCommonResults.Rows[i].Cells[j].Value;
+                          ExcelApp.Cells[i + 3, j + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlLeft;
                     }
                 }
-                ExcelApp.Cells[7, 1] = "Дата:";
-                ExcelApp.Cells[7, 2] = DateTime.Now.ToShortDateString();
-                ExcelApp.Visible = true;
-                ExcelApp.UserControl = true;
-                return;
+                  ExcelApp.Cells[7, 1] = "Дата:";
+                  ExcelApp.Cells[7, 2] = DateTime.Now.ToShortDateString();
+
+
+
+                  ExcelApp.Visible = true;
+                  ExcelApp.UserControl = true;
+                  return;
             }
             if (dataGridResultFlats.Visible == true)
             {
@@ -1531,17 +1482,20 @@ namespace manprac
                 Microsoft.Office.Interop.Excel.Worksheet ExcelWorkSheet;
                 ExcelWorkBook = ExcelApp.Workbooks.Add(System.Reflection.Missing.Value);
                 ExcelWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)ExcelWorkBook.Worksheets.get_Item(1);
-                ExcelApp.Cells[1, 1] = "Общий свод по квартирам за период с " + datePickerStart.Value.ToShortDateString() + " по " + datePickerFinish.Value.ToShortDateString();
+                ExcelWorkSheet.Name = "Свод";
+                ExcelApp.Cells[1, 1] = "Общий свод по всем квартирам за период с " + datePickerStart.Value.ToShortDateString() + " по " + datePickerFinish.Value.ToShortDateString();
                 ExcelApp.Cells[1, 2] = "";
                 for (int i = 0; i < dataGridResultFlats.Rows.Count; i++)
                 {
                     for (int j = 0; j < dataGridResultFlats.ColumnCount; j++)
                     {
                         ExcelApp.Cells[i + 3, j + 1] = dataGridResultFlats.Rows[i].Cells[j].Value;
+                        ExcelApp.Cells[i + 3, j + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlLeft;
+
                     }
                 }
-                ExcelApp.Cells[dataGridResultFlats.Rows.Count + 4, 1] = "Дата:";
-                ExcelApp.Cells[dataGridResultFlats.Rows.Count + 4, 2] = DateTime.Now.ToShortDateString();
+                ExcelApp.Cells[dataGridResultFlats.Rows.Count + 4, 1] = "Дата:" ;   
+                ExcelApp.Cells[dataGridResultFlats.Rows.Count +4, 2] = DateTime.Now.ToShortDateString();
                 ExcelApp.Visible = true;
                 ExcelApp.UserControl = true;
                 return;
@@ -1560,6 +1514,7 @@ namespace manprac
                     for (int j = 0; j < dataGridUninhabitedArea.ColumnCount; j++)
                     {
                         ExcelApp.Cells[i + 3, j + 1] = dataGridUninhabitedArea.Rows[i].Cells[j].Value;
+                        ExcelApp.Cells[i + 3, j + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlLeft;
                     }
                 }
                 ExcelApp.Cells[dataGridUninhabitedArea.Rows.Count + 4, 1] = "Дата:";
@@ -1575,13 +1530,14 @@ namespace manprac
                 Microsoft.Office.Interop.Excel.Worksheet ExcelWorkSheet;
                 ExcelWorkBook = ExcelApp.Workbooks.Add(System.Reflection.Missing.Value);
                 ExcelWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)ExcelWorkBook.Worksheets.get_Item(1);
-                ExcelApp.Cells[1, 1] = "Общий свод по нежилым квартирам за период с " + datePickerStart.Value.ToShortDateString() + " по " + datePickerFinish.Value.ToShortDateString();
+                ExcelApp.Cells[1, 1] = "Общий свод по офисам за период с " + datePickerStart.Value.ToShortDateString() + " по " + datePickerFinish.Value.ToShortDateString();
                 ExcelApp.Cells[1, 2] = "";
                 for (int i = 0; i < dataGridResultOffices.Rows.Count; i++)
                 {
                     for (int j = 0; j < dataGridResultOffices.ColumnCount; j++)
                     {
                         ExcelApp.Cells[i + 3, j + 1] = dataGridResultOffices.Rows[i].Cells[j].Value;
+                        ExcelApp.Cells[i + 3, j + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlLeft;
                     }
                 }
                 ExcelApp.Cells[dataGridResultOffices.Rows.Count + 4, 1] = "Дата:";
@@ -1597,13 +1553,18 @@ namespace manprac
         }
         #endregion
 
-        /*--------------- Код ниже нужен для нормального отображения таблицы общих сводов, нужно сделать с оставшимися 3мя таблицами
-         * то же самое -----------------------------------------------------------------------------------------------------------*/
+        #region Адекватное отображение таблицы сводов
         private void ChangeHeight()
         {
             // меняем высоту таблицу по высоте всех строк
             dataGridCommonResults.Height = dataGridCommonResults.Rows.GetRowsHeight(DataGridViewElementStates.Visible) +
-                               dataGridCommonResults.ColumnHeadersHeight;
+                dataGridCommonResults.ColumnHeadersHeight;
+            dataGridResultOffices.Height = dataGridResultOffices.Rows.GetRowsHeight(DataGridViewElementStates.Visible) +
+                dataGridResultOffices.ColumnHeadersHeight;
+            dataGridUninhabitedArea.Height = dataGridUninhabitedArea.Rows.GetRowsHeight(DataGridViewElementStates.Visible) +
+                dataGridUninhabitedArea.ColumnHeadersHeight;
+            dataGridResultFlats.Height = dataGridResultFlats.Rows.GetRowsHeight(DataGridViewElementStates.Visible) +
+               dataGridResultFlats.ColumnHeadersHeight;
         }
         private void dataGridCommonResults_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
@@ -1623,6 +1584,64 @@ namespace manprac
             }
             catch { }
         }
+
+        private void dataGridResultOffices_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            ChangeHeight();
+        }
+
+        private void dataGridResultOffices_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            ChangeHeight();
+        }
+
+        private void dataGridResultOffices_SelectionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                ((DataGridView)sender).SelectedCells[0].Selected = false;
+            }
+            catch { }
+        }
+
+        private void dataGridUninhabitedArea_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            ChangeHeight();
+        }
+
+        private void dataGridUninhabitedArea_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            ChangeHeight();
+        }
+
+        private void dataGridUninhabitedArea_SelectionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                ((DataGridView)sender).SelectedCells[0].Selected = false;
+            }
+            catch { }
+        }
+
+        private void dataGridResultFlats_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            ChangeHeight();
+        }
+
+        private void dataGridResultFlats_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            ChangeHeight();
+        }
+
+        private void dataGridResultFlats_SelectionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                ((DataGridView)sender).SelectedCells[0].Selected = false;
+            }
+            catch { }
+        }
+        #endregion
     }
 
 }
