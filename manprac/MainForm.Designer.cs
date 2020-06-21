@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(yy));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.resultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -125,6 +126,7 @@
             this.printUninhabitedArea = new System.Drawing.Printing.PrintDocument();
             this.printResultFlats = new System.Drawing.Printing.PrintDocument();
             this.printResultOffices = new System.Drawing.Printing.PrintDocument();
+            this.lineLabel = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridRenters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridOffices)).BeginInit();
@@ -299,21 +301,21 @@
             // PrintPreviewToolStripMenuItem
             // 
             this.PrintPreviewToolStripMenuItem.Name = "PrintPreviewToolStripMenuItem";
-            this.PrintPreviewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.PrintPreviewToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.PrintPreviewToolStripMenuItem.Text = "Предпросмотр";
             this.PrintPreviewToolStripMenuItem.Click += new System.EventHandler(this.предпросмотрToolStripMenuItem_Click);
             // 
             // PrintToolStripMenuItem
             // 
             this.PrintToolStripMenuItem.Name = "PrintToolStripMenuItem";
-            this.PrintToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.PrintToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.PrintToolStripMenuItem.Text = "Печать";
             this.PrintToolStripMenuItem.Click += new System.EventHandler(this.PrintToolStripMenuItem_Click);
             // 
             // ExportToExcelToolStripMenuItem
             // 
             this.ExportToExcelToolStripMenuItem.Name = "ExportToExcelToolStripMenuItem";
-            this.ExportToExcelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ExportToExcelToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.ExportToExcelToolStripMenuItem.Text = "Экспорт в Excel";
             this.ExportToExcelToolStripMenuItem.Click += new System.EventHandler(this.ExportToExcelToolStripMenuItem_Click);
             // 
@@ -323,20 +325,20 @@
             this.saveDBToolStripMenuItem,
             this.loadDBToolStripMenuItem});
             this.dbToolStripMenuItem.Name = "dbToolStripMenuItem";
-            this.dbToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
+            this.dbToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
             this.dbToolStripMenuItem.Text = "База данных";
             // 
             // saveDBToolStripMenuItem
             // 
             this.saveDBToolStripMenuItem.Name = "saveDBToolStripMenuItem";
-            this.saveDBToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveDBToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.saveDBToolStripMenuItem.Text = "Сохранить базу";
             this.saveDBToolStripMenuItem.Click += new System.EventHandler(this.saveDBToolStripMenuItem_Click);
             // 
             // loadDBToolStripMenuItem
             // 
             this.loadDBToolStripMenuItem.Name = "loadDBToolStripMenuItem";
-            this.loadDBToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadDBToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.loadDBToolStripMenuItem.Text = "Загрузить базу";
             this.loadDBToolStripMenuItem.Click += new System.EventHandler(this.loadDBToolStripMenuItem_Click);
             // 
@@ -352,14 +354,14 @@
             this.Column1,
             this.NameRenters});
             this.dataGridRenters.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridRenters.Location = new System.Drawing.Point(428, 42);
+            this.dataGridRenters.Location = new System.Drawing.Point(12, 42);
             this.dataGridRenters.MultiSelect = false;
             this.dataGridRenters.Name = "dataGridRenters";
             this.dataGridRenters.ReadOnly = true;
             this.dataGridRenters.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridRenters.RowHeadersVisible = false;
             this.dataGridRenters.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridRenters.Size = new System.Drawing.Size(771, 329);
+            this.dataGridRenters.Size = new System.Drawing.Size(940, 329);
             this.dataGridRenters.TabIndex = 2;
             this.dataGridRenters.Visible = false;
             // 
@@ -403,14 +405,14 @@
             this.Column5,
             this.Column6});
             this.dataGridOffices.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridOffices.Location = new System.Drawing.Point(540, 42);
+            this.dataGridOffices.Location = new System.Drawing.Point(12, 42);
             this.dataGridOffices.MultiSelect = false;
             this.dataGridOffices.Name = "dataGridOffices";
             this.dataGridOffices.ReadOnly = true;
             this.dataGridOffices.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridOffices.RowHeadersVisible = false;
             this.dataGridOffices.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridOffices.Size = new System.Drawing.Size(771, 329);
+            this.dataGridOffices.Size = new System.Drawing.Size(940, 329);
             this.dataGridOffices.TabIndex = 3;
             this.dataGridOffices.Visible = false;
             // 
@@ -462,9 +464,9 @@
             // 
             // Column5
             // 
-            dataGridViewCellStyle1.Format = "D";
-            dataGridViewCellStyle1.NullValue = null;
-            this.Column5.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Format = "D";
+            dataGridViewCellStyle5.NullValue = null;
+            this.Column5.DefaultCellStyle = dataGridViewCellStyle5;
             this.Column5.HeaderText = "Дата";
             this.Column5.Name = "Column5";
             this.Column5.ReadOnly = true;
@@ -495,14 +497,14 @@
             this.dataGridViewTextBoxColumn10,
             this.dataGridViewTextBoxColumn11});
             this.dataGridFlats.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridFlats.Location = new System.Drawing.Point(428, 193);
+            this.dataGridFlats.Location = new System.Drawing.Point(12, 42);
             this.dataGridFlats.MultiSelect = false;
             this.dataGridFlats.Name = "dataGridFlats";
             this.dataGridFlats.ReadOnly = true;
             this.dataGridFlats.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridFlats.RowHeadersVisible = false;
             this.dataGridFlats.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridFlats.Size = new System.Drawing.Size(873, 329);
+            this.dataGridFlats.Size = new System.Drawing.Size(940, 329);
             this.dataGridFlats.TabIndex = 4;
             this.dataGridFlats.Visible = false;
             // 
@@ -566,9 +568,9 @@
             // 
             // dataGridViewTextBoxColumn10
             // 
-            dataGridViewCellStyle2.Format = "D";
-            dataGridViewCellStyle2.NullValue = null;
-            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Format = "D";
+            dataGridViewCellStyle6.NullValue = null;
+            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridViewTextBoxColumn10.HeaderText = "Дата";
             this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
             this.dataGridViewTextBoxColumn10.ReadOnly = true;
@@ -592,14 +594,14 @@
             this.dataGridViewTextBoxColumn14,
             this.Column10});
             this.dataGridResultFlats.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridResultFlats.Location = new System.Drawing.Point(0, 110);
+            this.dataGridResultFlats.Location = new System.Drawing.Point(12, 42);
             this.dataGridResultFlats.MultiSelect = false;
             this.dataGridResultFlats.Name = "dataGridResultFlats";
             this.dataGridResultFlats.ReadOnly = true;
             this.dataGridResultFlats.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridResultFlats.RowHeadersVisible = false;
             this.dataGridResultFlats.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridResultFlats.Size = new System.Drawing.Size(771, 329);
+            this.dataGridResultFlats.Size = new System.Drawing.Size(940, 329);
             this.dataGridResultFlats.TabIndex = 5;
             this.dataGridResultFlats.Visible = false;
             this.dataGridResultFlats.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridResultFlats_RowsAdded);
@@ -634,7 +636,7 @@
             // 
             this.rentLabel.AutoSize = true;
             this.rentLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rentLabel.Location = new System.Drawing.Point(144, 221);
+            this.rentLabel.Location = new System.Drawing.Point(1059, 87);
             this.rentLabel.Name = "rentLabel";
             this.rentLabel.Size = new System.Drawing.Size(131, 23);
             this.rentLabel.TabIndex = 9;
@@ -645,7 +647,7 @@
             // 
             this.paymentLabel.AutoSize = true;
             this.paymentLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.paymentLabel.Location = new System.Drawing.Point(144, 302);
+            this.paymentLabel.Location = new System.Drawing.Point(1059, 168);
             this.paymentLabel.Name = "paymentLabel";
             this.paymentLabel.Size = new System.Drawing.Size(137, 23);
             this.paymentLabel.TabIndex = 11;
@@ -656,7 +658,7 @@
             // 
             this.rentersLabel.AutoSize = true;
             this.rentersLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rentersLabel.Location = new System.Drawing.Point(801, 545);
+            this.rentersLabel.Location = new System.Drawing.Point(440, 399);
             this.rentersLabel.Name = "rentersLabel";
             this.rentersLabel.Size = new System.Drawing.Size(105, 23);
             this.rentersLabel.TabIndex = 26;
@@ -667,7 +669,7 @@
             // 
             this.areaTypeLabel.AutoSize = true;
             this.areaTypeLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.areaTypeLabel.Location = new System.Drawing.Point(1021, 545);
+            this.areaTypeLabel.Location = new System.Drawing.Point(791, 399);
             this.areaTypeLabel.Name = "areaTypeLabel";
             this.areaTypeLabel.Size = new System.Drawing.Size(137, 23);
             this.areaTypeLabel.TabIndex = 28;
@@ -688,14 +690,14 @@
             this.dataGridViewTextBoxColumn16,
             this.Column12});
             this.dataGridResultOffices.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridResultOffices.Location = new System.Drawing.Point(12, 97);
+            this.dataGridResultOffices.Location = new System.Drawing.Point(12, 42);
             this.dataGridResultOffices.MultiSelect = false;
             this.dataGridResultOffices.Name = "dataGridResultOffices";
             this.dataGridResultOffices.ReadOnly = true;
             this.dataGridResultOffices.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridResultOffices.RowHeadersVisible = false;
             this.dataGridResultOffices.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridResultOffices.Size = new System.Drawing.Size(771, 374);
+            this.dataGridResultOffices.Size = new System.Drawing.Size(940, 329);
             this.dataGridResultOffices.TabIndex = 29;
             this.dataGridResultOffices.Visible = false;
             this.dataGridResultOffices.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridResultOffices_RowsAdded);
@@ -744,14 +746,14 @@
             this.dataGridViewTextBoxColumn18,
             this.dataGridViewTextBoxColumn19});
             this.dataGridResultRenters.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridResultRenters.Location = new System.Drawing.Point(12, 67);
+            this.dataGridResultRenters.Location = new System.Drawing.Point(12, 42);
             this.dataGridResultRenters.MultiSelect = false;
             this.dataGridResultRenters.Name = "dataGridResultRenters";
             this.dataGridResultRenters.ReadOnly = true;
             this.dataGridResultRenters.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridResultRenters.RowHeadersVisible = false;
             this.dataGridResultRenters.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridResultRenters.Size = new System.Drawing.Size(771, 329);
+            this.dataGridResultRenters.Size = new System.Drawing.Size(940, 329);
             this.dataGridResultRenters.TabIndex = 30;
             this.dataGridResultRenters.Visible = false;
             // 
@@ -784,6 +786,8 @@
             this.dataGridCommonResults.AllowUserToAddRows = false;
             this.dataGridCommonResults.AllowUserToDeleteRows = false;
             this.dataGridCommonResults.AllowUserToResizeRows = false;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.dataGridCommonResults.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dataGridCommonResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridCommonResults.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridCommonResults.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
@@ -793,16 +797,16 @@
             this.dataGridViewTextBoxColumn21,
             this.dataGridViewTextBoxColumn22});
             this.dataGridCommonResults.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridCommonResults.Location = new System.Drawing.Point(21, 67);
+            this.dataGridCommonResults.Location = new System.Drawing.Point(12, 42);
             this.dataGridCommonResults.MultiSelect = false;
             this.dataGridCommonResults.Name = "dataGridCommonResults";
             this.dataGridCommonResults.ReadOnly = true;
             this.dataGridCommonResults.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridCommonResults.RowHeadersVisible = false;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dataGridCommonResults.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dataGridCommonResults.RowsDefaultCellStyle = dataGridViewCellStyle8;
             this.dataGridCommonResults.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridCommonResults.Size = new System.Drawing.Size(771, 372);
+            this.dataGridCommonResults.Size = new System.Drawing.Size(940, 329);
             this.dataGridCommonResults.TabIndex = 31;
             this.dataGridCommonResults.Visible = false;
             this.dataGridCommonResults.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridCommonResults_RowsAdded);
@@ -838,7 +842,7 @@
             this.monthComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.monthComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.monthComboBox.FormattingEnabled = true;
-            this.monthComboBox.Location = new System.Drawing.Point(509, 571);
+            this.monthComboBox.Location = new System.Drawing.Point(12, 425);
             this.monthComboBox.Name = "monthComboBox";
             this.monthComboBox.Size = new System.Drawing.Size(185, 31);
             this.monthComboBox.TabIndex = 20;
@@ -848,7 +852,7 @@
             // amountPaymentTextBoxFinish
             // 
             this.amountPaymentTextBoxFinish.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.amountPaymentTextBoxFinish.Location = new System.Drawing.Point(244, 340);
+            this.amountPaymentTextBoxFinish.Location = new System.Drawing.Point(1159, 206);
             this.amountPaymentTextBoxFinish.Name = "amountPaymentTextBoxFinish";
             this.amountPaymentTextBoxFinish.Size = new System.Drawing.Size(127, 31);
             this.amountPaymentTextBoxFinish.TabIndex = 24;
@@ -859,7 +863,7 @@
             // amountPaymentTextBoxStart
             // 
             this.amountPaymentTextBoxStart.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.amountPaymentTextBoxStart.Location = new System.Drawing.Point(63, 338);
+            this.amountPaymentTextBoxStart.Location = new System.Drawing.Point(978, 204);
             this.amountPaymentTextBoxStart.Name = "amountPaymentTextBoxStart";
             this.amountPaymentTextBoxStart.Size = new System.Drawing.Size(127, 31);
             this.amountPaymentTextBoxStart.TabIndex = 10;
@@ -870,7 +874,7 @@
             // amountRentTextBoxStart
             // 
             this.amountRentTextBoxStart.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.amountRentTextBoxStart.Location = new System.Drawing.Point(63, 258);
+            this.amountRentTextBoxStart.Location = new System.Drawing.Point(978, 124);
             this.amountRentTextBoxStart.Name = "amountRentTextBoxStart";
             this.amountRentTextBoxStart.Size = new System.Drawing.Size(127, 31);
             this.amountRentTextBoxStart.TabIndex = 8;
@@ -881,7 +885,7 @@
             // amountRentTextBoxFinish
             // 
             this.amountRentTextBoxFinish.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.amountRentTextBoxFinish.Location = new System.Drawing.Point(244, 258);
+            this.amountRentTextBoxFinish.Location = new System.Drawing.Point(1159, 124);
             this.amountRentTextBoxFinish.Name = "amountRentTextBoxFinish";
             this.amountRentTextBoxFinish.Size = new System.Drawing.Size(127, 31);
             this.amountRentTextBoxFinish.TabIndex = 23;
@@ -893,7 +897,7 @@
             // 
             this.datePickerFinish.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.datePickerFinish.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.datePickerFinish.Location = new System.Drawing.Point(1143, 302);
+            this.datePickerFinish.Location = new System.Drawing.Point(1159, 291);
             this.datePickerFinish.Name = "datePickerFinish";
             this.datePickerFinish.Size = new System.Drawing.Size(127, 31);
             this.datePickerFinish.TabIndex = 22;
@@ -904,7 +908,7 @@
             // 
             this.dateLabel.AutoSize = true;
             this.dateLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dateLabel.Location = new System.Drawing.Point(1081, 255);
+            this.dateLabel.Location = new System.Drawing.Point(1098, 252);
             this.dateLabel.Name = "dateLabel";
             this.dateLabel.Size = new System.Drawing.Size(57, 23);
             this.dateLabel.TabIndex = 7;
@@ -915,7 +919,7 @@
             // 
             this.datePickerStart.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.datePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.datePickerStart.Location = new System.Drawing.Point(962, 302);
+            this.datePickerStart.Location = new System.Drawing.Point(978, 291);
             this.datePickerStart.Name = "datePickerStart";
             this.datePickerStart.Size = new System.Drawing.Size(127, 31);
             this.datePickerStart.TabIndex = 6;
@@ -928,7 +932,7 @@
             this.areaTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.areaTypeComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.areaTypeComboBox.FormattingEnabled = true;
-            this.areaTypeComboBox.Location = new System.Drawing.Point(997, 571);
+            this.areaTypeComboBox.Location = new System.Drawing.Point(767, 425);
             this.areaTypeComboBox.Name = "areaTypeComboBox";
             this.areaTypeComboBox.Size = new System.Drawing.Size(185, 31);
             this.areaTypeComboBox.TabIndex = 27;
@@ -940,7 +944,7 @@
             this.rentersComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.rentersComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rentersComboBox.FormattingEnabled = true;
-            this.rentersComboBox.Location = new System.Drawing.Point(767, 571);
+            this.rentersComboBox.Location = new System.Drawing.Point(406, 425);
             this.rentersComboBox.Name = "rentersComboBox";
             this.rentersComboBox.Size = new System.Drawing.Size(185, 31);
             this.rentersComboBox.Sorted = true;
@@ -952,7 +956,7 @@
             // 
             this.monthLabel.AutoSize = true;
             this.monthLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.monthLabel.Location = new System.Drawing.Point(568, 545);
+            this.monthLabel.Location = new System.Drawing.Point(71, 399);
             this.monthLabel.Name = "monthLabel";
             this.monthLabel.Size = new System.Drawing.Size(62, 23);
             this.monthLabel.TabIndex = 21;
@@ -972,14 +976,14 @@
             this.dataGridViewTextBoxColumn24,
             this.dataGridViewTextBoxColumn25});
             this.dataGridUninhabitedArea.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridUninhabitedArea.Location = new System.Drawing.Point(53, 82);
+            this.dataGridUninhabitedArea.Location = new System.Drawing.Point(12, 42);
             this.dataGridUninhabitedArea.MultiSelect = false;
             this.dataGridUninhabitedArea.Name = "dataGridUninhabitedArea";
             this.dataGridUninhabitedArea.ReadOnly = true;
             this.dataGridUninhabitedArea.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridUninhabitedArea.RowHeadersVisible = false;
             this.dataGridUninhabitedArea.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridUninhabitedArea.Size = new System.Drawing.Size(771, 357);
+            this.dataGridUninhabitedArea.Size = new System.Drawing.Size(940, 329);
             this.dataGridUninhabitedArea.TabIndex = 42;
             this.dataGridUninhabitedArea.Visible = false;
             this.dataGridUninhabitedArea.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridUninhabitedArea_RowsAdded);
@@ -1042,11 +1046,23 @@
             // 
             this.printResultOffices.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printResultOffices_PrintPage);
             // 
+            // lineLabel
+            // 
+            this.lineLabel.AutoSize = true;
+            this.lineLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lineLabel.Location = new System.Drawing.Point(1118, 285);
+            this.lineLabel.Name = "lineLabel";
+            this.lineLabel.Size = new System.Drawing.Size(30, 39);
+            this.lineLabel.TabIndex = 43;
+            this.lineLabel.Text = "-";
+            this.lineLabel.Visible = false;
+            // 
             // yy
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1311, 651);
-            this.Controls.Add(this.dataGridUninhabitedArea);
+            this.ClientSize = new System.Drawing.Size(1311, 482);
+            this.Controls.Add(this.dataGridResultRenters);
+            this.Controls.Add(this.lineLabel);
             this.Controls.Add(this.rentersComboBox);
             this.Controls.Add(this.areaTypeLabel);
             this.Controls.Add(this.areaTypeComboBox);
@@ -1063,13 +1079,13 @@
             this.Controls.Add(this.dateLabel);
             this.Controls.Add(this.datePickerStart);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.dataGridResultFlats);
-            this.Controls.Add(this.dataGridCommonResults);
-            this.Controls.Add(this.dataGridResultRenters);
             this.Controls.Add(this.dataGridResultOffices);
             this.Controls.Add(this.dataGridFlats);
             this.Controls.Add(this.dataGridOffices);
             this.Controls.Add(this.dataGridRenters);
+            this.Controls.Add(this.dataGridUninhabitedArea);
+            this.Controls.Add(this.dataGridResultFlats);
+            this.Controls.Add(this.dataGridCommonResults);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
@@ -1189,6 +1205,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn15;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn16;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
+        private System.Windows.Forms.Label lineLabel;
     }
 }
 

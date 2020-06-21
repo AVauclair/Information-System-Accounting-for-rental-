@@ -880,10 +880,10 @@ namespace manprac
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = false;
 
-
             dateLabel.Visible = false;
             datePickerStart.Visible = false;
             datePickerFinish.Visible = false;
+            lineLabel.Visible = false;
             amountPaymentTextBoxStart.Visible = false;
             amountPaymentTextBoxFinish.Visible = false;
             amountRentTextBoxFinish.Visible = false;
@@ -915,6 +915,7 @@ namespace manprac
             dateLabel.Visible = true;
             datePickerStart.Visible = true;
             datePickerFinish.Visible = true;
+            lineLabel.Visible = true;
             amountRentTextBoxFinish.Visible = true;
             amountRentTextBoxStart.Visible = true;
             monthLabel.Visible = true;
@@ -939,6 +940,7 @@ namespace manprac
             dateLabel.Visible = true;
             datePickerStart.Visible = true;
             datePickerFinish.Visible = true;
+            lineLabel.Visible = true;
             amountPaymentTextBoxStart.Visible = true;
             amountPaymentTextBoxFinish.Visible = true;
             amountRentTextBoxFinish.Visible = true;
@@ -967,6 +969,7 @@ namespace manprac
             dateLabel.Visible = true;
             datePickerStart.Visible = true;
             datePickerFinish.Visible = true;
+            lineLabel.Visible = true;
             amountPaymentTextBoxStart.Visible = false;
             amountPaymentTextBoxFinish.Visible = false;
             amountRentTextBoxFinish.Visible = false;
@@ -995,6 +998,7 @@ namespace manprac
             dateLabel.Visible = true;
             datePickerStart.Visible = true;
             datePickerFinish.Visible = true;
+            lineLabel.Visible = true;
             amountPaymentTextBoxStart.Visible = false;
             amountPaymentTextBoxFinish.Visible = false;
             amountRentTextBoxFinish.Visible = false;
@@ -1023,6 +1027,7 @@ namespace manprac
             dateLabel.Visible = true;
             datePickerStart.Visible = true;
             datePickerFinish.Visible = true;
+            lineLabel.Visible = true;
             amountPaymentTextBoxStart.Visible = false;
             amountPaymentTextBoxFinish.Visible = false;
             amountRentTextBoxFinish.Visible = false;
@@ -1055,6 +1060,7 @@ namespace manprac
             dateLabel.Visible = true;
             datePickerStart.Visible = true;
             datePickerFinish.Visible = true;
+            lineLabel.Visible = true;
             amountPaymentTextBoxStart.Visible = false;
             amountPaymentTextBoxFinish.Visible = false;
             amountRentTextBoxFinish.Visible = false;
