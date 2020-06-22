@@ -57,8 +57,8 @@ namespace manprac
                     Properties.Settings.Default.ConnectionString = stringTextBox.Text;
                     Properties.Settings.Default.Save();
 
-                    yy main = new yy();
-                    main.Show();
+                    LoginForm loginForm = new LoginForm();
+                    loginForm.Show();
                     Hide();
                 }
             }

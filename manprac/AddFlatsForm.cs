@@ -142,16 +142,16 @@ namespace manprac
             SqlCommand InsertInApatrament = new SqlCommand("INSERT INTO [Apartaments] (ID_Renters, Contract, ID_Month, Amount_Rent, " +
                 "VAT, Date_Payment, Apartament_Status, Note, Amount_Payment) VALUES (@ID_Renters, @Contract, @ID_Month, @Amount_Rent, " +
                 "@VAT, @Date_Payment, @Apartament_Status, @Note, @Amount_Payment)", conn);
-            InsertInApatrament.Parameters.AddWithValue("@ID_Renters",SelectedRenters);
-            InsertInApatrament.Parameters.AddWithValue("@Contract",contractTextBox.Text);
-            InsertInApatrament.Parameters.AddWithValue("@ID_Month",SelectedMonth);
+            InsertInApatrament.Parameters.AddWithValue("@ID_Renters", SelectedRenters);
+            InsertInApatrament.Parameters.AddWithValue("@Contract", contractTextBox.Text);
+            InsertInApatrament.Parameters.AddWithValue("@ID_Month", SelectedMonth);
             InsertInApatrament.Parameters.AddWithValue("@Amount_Rent", amountRentTextBox.Text);
             if(vatTextBox.Enabled == true)
             {
                 InsertInApatrament.Parameters.AddWithValue("@VAT", vatTextBox.Text);
             }
             else InsertInApatrament.Parameters.AddWithValue("@VAT", 0);
-            InsertInApatrament.Parameters.AddWithValue("@Date_Payment",datePicker.Value);
+            InsertInApatrament.Parameters.AddWithValue("@Date_Payment", datePicker.Value);
             InsertInApatrament.Parameters.AddWithValue("@Apartament_Status", SelectedStatus);
             InsertInApatrament.Parameters.AddWithValue("@Note", noteTextBox.Text);
             InsertInApatrament.Parameters.AddWithValue("@Amount_Payment", amountPaymentTextBox.Text);
