@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,17 +14,17 @@ namespace manprac
 {
     public partial class AddOfficesForm : Form
     {
-        public string ConnString = ConnStringForm.connection;
+        private string ConnString = "Data Source = RentDB; Version=3";
         Dictionary<int, string> DebitingRenters = new Dictionary<int, string>();
         Dictionary<int, string> DebitingMonth = new Dictionary<int, string>();
         public AddOfficesForm()
         {
             InitializeComponent();
 
-            SqlConnection conn = new SqlConnection(ConnString);
+            SQLiteConnection conn = new SQLiteConnection(ConnString);
             conn.Open();
-            SqlCommand loadRenters = new SqlCommand("SELECT ID_Renters, Name FROM Renters", conn);
-            SqlDataReader readerRenters = loadRenters.ExecuteReader();
+            SQLiteCommand loadRenters = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);
+            SQLiteDataReader readerRenters = loadRenters.ExecuteReader();
 
             while (readerRenters.Read())
             {
@@ -32,11 +33,11 @@ namespace manprac
             }
             readerRenters.Close();
 
-            SqlCommand loadMonth = new SqlCommand("SELECT ID_Month, Name FROM Months", conn);
-            SqlDataReader readerMonth = loadMonth.ExecuteReader();
+            SQLiteCommand loadMonth = new SQLiteCommand("SELECT ID_Months, Name FROM Months", conn);
+            SQLiteDataReader readerMonth = loadMonth.ExecuteReader();
             while(readerMonth.Read())
             {
-                DebitingMonth.Add(Convert.ToInt32(readerMonth["ID_Month"]), Convert.ToString(readerMonth["Name"]));
+                DebitingMonth.Add(Convert.ToInt32(readerMonth["ID_Months"]), Convert.ToString(readerMonth["Name"]));
                 monthComboBox.Items.Add(readerMonth["Name"]);
             }
             readerMonth.Close();
@@ -98,12 +99,34 @@ namespace manprac
                 }
             }
 
-            SqlConnection conn = new SqlConnection(ConnString);
+
+            SQLiteConnection conn = new SQLiteConnection(ConnString);
             conn.Open();
-            SqlCommand InsertInOffices = new SqlCommand("INSERT INTO [Offices] (ID_Renters, Contract, ID_Month, Amount_Rent, VAT, Date_Payment, Note) VALUES (@ID_Renters, @Contract, @ID_Month, @Amount_Rent, @VAT, @Date_Payment, @Note)", conn);
+
+            SQLiteCommand checkDublicate = new SQLiteCommand("SELECT  ID_Renters, Contract, ID_Month, Amount_Rent, VAT, Date_Payment, Note FROM Offices" +
+                " WHERE (ID_Renters = @ID_Renters AND Contract = @Contract AND ID_Month= @ID_Month)", conn);
+            checkDublicate.Parameters.AddWithValue("@Contract", contractTextBox.Text);
+            checkDublicate.Parameters.AddWithValue("@ID_Renters", SelectedRenters);
+            checkDublicate.Parameters.AddWithValue("@ID_Month", SelectedMonth);
+            
+            try
+            {
+                SQLiteDataReader readerDublicate = checkDublicate.ExecuteReader();
+                if (readerDublicate.HasRows)
+                {
+                    MessageBox.Show("Данная запись уже существует в базе.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    readerDublicate.Close();
+                    return;
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Произошла ошибка. "+ ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            SQLiteCommand InsertInOffices = new SQLiteCommand("INSERT INTO [Offices] (ID_Renters, Contract, ID_Month, Amount_Rent, VAT, Date_Payment, Note) VALUES (@ID_Renters, @Contract, @ID_Months, @Amount_Rent, @VAT, @Date_Payment, @Note)", conn);
             InsertInOffices.Parameters.AddWithValue("@ID_Renters", SelectedRenters);
             InsertInOffices.Parameters.AddWithValue("@Contract", contractTextBox.Text);
-            InsertInOffices.Parameters.AddWithValue("@ID_Month", SelectedMonth);
+            InsertInOffices.Parameters.AddWithValue("@ID_Months", SelectedMonth);
             InsertInOffices.Parameters.AddWithValue("@Amount_Rent", amountRentBox.Text);
             InsertInOffices.Parameters.AddWithValue("@VAT", vatTextBox.Text);
             InsertInOffices.Parameters.AddWithValue("@Date_Payment", datePicker.Value);
@@ -119,18 +142,15 @@ namespace manprac
             try
             {
                 InsertInOffices.ExecuteNonQuery();
-                MessageBox.Show("Запись успешно добавлена", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                SqlCommand loadOffices = new SqlCommand("SELECT ID_Office, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, VAT, Date_Payment, Note" +
+                SQLiteCommand loadOffices = new SQLiteCommand("SELECT ID_Office, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, VAT, Date_Payment, Note" +
               " FROM Offices LEFT JOIN Renters on Offices.ID_Renters = Renters.ID_Renters " +
-              " LEFT JOIN Months on Offices.ID_Month = Months.ID_Month", conn);
-                SqlDataReader readerOffices = loadOffices.ExecuteReader();
+              " LEFT JOIN Months on Offices.ID_Month = Months.ID_Months", conn);
+                SQLiteDataReader readerOffices = loadOffices.ExecuteReader();
                 List<string[]> dataOffices = new List<string[]>();
 
                 int countOffices = 1;
                 while (readerOffices.Read())
                 {
-
                     dataOffices.Add(new string[9]);
                     dataOffices[dataOffices.Count - 1][0] = readerOffices["ID_Office"].ToString();
                     dataOffices[dataOffices.Count - 1][1] = countOffices.ToString();
@@ -148,8 +168,10 @@ namespace manprac
                     main.dataGridOffices.Rows.Add(s);
 
                 readerOffices.Close();
+                MessageBox.Show("Запись успешно добавлена", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }

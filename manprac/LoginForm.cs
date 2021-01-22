@@ -85,5 +85,10 @@ namespace manprac
                 loginButton_Click(sender, e);
             }
         }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

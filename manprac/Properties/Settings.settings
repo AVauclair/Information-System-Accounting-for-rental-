@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="ConnectionString" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Data Source=DESKTOP-U4D9RVF;Initial Catalog=RentDB;Integrated Security=True</Value>
+      <Value Profile="(Default)"> "Data Source = RentDB; Version=3";</Value>
     </Setting>
   </Settings>
 </SettingsFile>

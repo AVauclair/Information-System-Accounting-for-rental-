@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace manprac
 {
     public partial class UpdateRentersForm : Form
     {
-        public string ConnString = ConnStringForm.connection;
+        private string ConnString = "Data Source = RentDB; Version=3";
         public UpdateRentersForm()
         {
             InitializeComponent();
@@ -25,11 +26,11 @@ namespace manprac
             {
                 yy main = this.Owner as yy;
                 ActiveControl = newNameTextBox;
-                SqlConnection conn = new SqlConnection(ConnString);
+                SQLiteConnection conn = new SQLiteConnection(ConnString);
                 conn.Open();
-                SqlCommand command = new SqlCommand("SELECT Name From Renters WHERE ID_Renters = @ID_Renters", conn);
+                SQLiteCommand command = new SQLiteCommand("SELECT Name From Renters WHERE ID_Renters = @ID_Renters", conn);
                 command.Parameters.AddWithValue("@ID_Renters", main.dataGridRenters.CurrentRow.Cells[0].Value);
-                SqlDataReader reader = command.ExecuteReader();
+                SQLiteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     newNameTextBox.Text = reader["Name"].ToString();
@@ -37,10 +38,9 @@ namespace manprac
                 reader.Close();
                 conn.Close();
             }
-            catch
+            catch(Exception ex)
             {
-                //Close();
-                //MessageBox.Show("Выберите");
+                MessageBox.Show(ex.Message);
             }
             newNameTextBox.SelectionStart = 100;
         }
@@ -55,10 +55,9 @@ namespace manprac
             }
             else
             {
-                MessageBox.Show("Запись была успешно обновлена", "Обновление", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                SqlConnection conn = new SqlConnection(ConnString);
+                SQLiteConnection conn = new SQLiteConnection(ConnString);
                 conn.Open();
-                SqlCommand command = new SqlCommand("UPDATE [Renters] SET [Name] = @Name WHERE [ID_Renters] = @ID_Renters", conn);
+                SQLiteCommand command = new SQLiteCommand("UPDATE [Renters] SET [Name] = @Name WHERE [ID_Renters] = @ID_Renters", conn);
                 command.Parameters.AddWithValue("@Name", newNameTextBox.Text);
                 command.Parameters.AddWithValue("@ID_Renters", main.dataGridRenters.CurrentRow.Cells[0].Value);
                 try
@@ -73,6 +72,9 @@ namespace manprac
                 {
                     conn.Close();
                 }
+
+                if (MessageBox.Show("Запись успешно изменена.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information) == DialogResult.OK)
+                    this.Close();
             }
         }
 
@@ -88,11 +90,11 @@ namespace manprac
         private void UpdateRentersForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             yy main = this.Owner as yy;
-            SqlConnection conn = new SqlConnection(ConnString);
+            SQLiteConnection conn = new SQLiteConnection(ConnString);
             conn.Open();
             main.dataGridRenters.Rows.Clear();
-            SqlCommand loadRenters = new SqlCommand("SELECT ID_Renters, Name FROM Renters", conn);
-            SqlDataReader readerRenters = loadRenters.ExecuteReader();
+            SQLiteCommand loadRenters = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);
+            SQLiteDataReader readerRenters = loadRenters.ExecuteReader();
             List<string[]> data = new List<string[]>();
 
             int count = 1;

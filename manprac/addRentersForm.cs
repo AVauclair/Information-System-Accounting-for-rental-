@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace manprac
 {
     public partial class AddRentersForm : Form
     {
-        public string ConnString = ConnStringForm.connection;
+        public string ConnString = "Data Source = RentDB; Version=3";
         public AddRentersForm()
         {
             InitializeComponent();
@@ -31,25 +32,37 @@ namespace manprac
                 MessageBox.Show("Заполните поле \"Название предприятия\" ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            else
+
+            SQLiteConnection conn = new SQLiteConnection(ConnString);
+            conn.Open();
+
+            SQLiteCommand loadRenters = new SQLiteCommand("SELECT  Name FROM Renters WHERE Name= @Name", conn);
+            loadRenters.Parameters.AddWithValue("@Name", nameTextBox.Text);
+            SQLiteDataReader readerRenters = loadRenters.ExecuteReader();
+
+            if (readerRenters.HasRows)
             {
-                MessageBox.Show("Запись была успешно добавлена", "Добавление", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                SqlConnection conn = new SqlConnection(ConnString);
-                conn.Open();
-                SqlCommand command = new SqlCommand("INSERT INTO [Renters] (Name) VALUES (@Name)", conn);
-                command.Parameters.AddWithValue("@Name", nameTextBox.Text);
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                finally
-                {
-                    conn.Close();
-                }
+                MessageBox.Show("Данный арендатор уже существует в базе.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                readerRenters.Close();
+                conn.Close();
+                return;
+            }
+
+                SQLiteCommand command = new SQLiteCommand("INSERT INTO [Renters] (Name) VALUES (@Name)", conn);
+            command.Parameters.AddWithValue("@Name", nameTextBox.Text);
+            try
+            {
+                command.ExecuteNonQuery();
+                MessageBox.Show("Запись была успешно добавлена", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+               readerRenters.Close();
+               conn.Close();
             }
         }
 
@@ -65,10 +78,10 @@ namespace manprac
         private void AddRentersForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             yy main = this.Owner as yy;
-            SqlConnection conn = new SqlConnection(ConnString);
+            SQLiteConnection conn = new SQLiteConnection(ConnString);
             conn.Open();
-            SqlCommand loadRenters = new SqlCommand("SELECT ID_Renters, Name FROM Renters", conn);
-            SqlDataReader readerRenters = loadRenters.ExecuteReader();
+            SQLiteCommand loadRenters = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);
+            SQLiteDataReader readerRenters = loadRenters.ExecuteReader();
             List<string[]> dataRenters = new List<string[]>();
 
             int countRenters = 1;

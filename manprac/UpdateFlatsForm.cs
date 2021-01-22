@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -17,7 +18,7 @@ namespace manprac
         Dictionary<int, string> DebitingRenters = new Dictionary<int, string>();
         Dictionary<int, string> DebitingStatus = new Dictionary<int, string>();
         Dictionary<int, string> DebitingMonth = new Dictionary<int, string>();
-        public string ConnString = ConnStringForm.connection;
+        private string ConnString = "Data Source = RentDB; Version=3";
         public UpdateFlatsForm()
         {
             InitializeComponent();
@@ -29,10 +30,10 @@ namespace manprac
             contractTextBox.SelectionStart = 0;
 
             yy main = this.Owner as yy;
-            SqlConnection conn = new SqlConnection(ConnString);
+            SQLiteConnection conn = new SQLiteConnection(ConnString);
             conn.Open();
-            SqlCommand loadRenters = new SqlCommand("SELECT ID_Renters, Name FROM Renters", conn);
-            SqlDataReader readerRenter = loadRenters.ExecuteReader();
+            SQLiteCommand loadRenters = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);
+            SQLiteDataReader readerRenter = loadRenters.ExecuteReader();
             while (readerRenter.Read())
             {
                 DebitingRenters.Add(Convert.ToInt32(readerRenter["ID_Renters"]), Convert.ToString(readerRenter["Name"]));
@@ -40,20 +41,20 @@ namespace manprac
             }
             readerRenter.Close();
 
-            SqlCommand loadMonth = new SqlCommand("SELECT ID_Month, Name FROM Months", conn);
-            SqlDataReader readerMonth = loadMonth.ExecuteReader();
+            SQLiteCommand loadMonth = new SQLiteCommand("SELECT ID_Months, Name FROM Months", conn);
+            SQLiteDataReader readerMonth = loadMonth.ExecuteReader();
             while (readerMonth.Read())
             {
-                DebitingMonth.Add(Convert.ToInt32(readerMonth["ID_Month"]), Convert.ToString(readerMonth["Name"]));
+                DebitingMonth.Add(Convert.ToInt32(readerMonth["ID_Months"]), Convert.ToString(readerMonth["Name"]));
                 monthComboBox.Items.Add(readerMonth["Name"]);
             }
             readerMonth.Close();
 
-            SqlCommand loadStatus = new SqlCommand("SELECT ID_Apartment_Status, Name FROM ApartmentStatus", conn);
-            SqlDataReader readerStatus = loadStatus.ExecuteReader();
+            SQLiteCommand loadStatus = new SQLiteCommand("SELECT ID_Apartament_Status, Name FROM ApartamentStatus", conn);
+            SQLiteDataReader readerStatus = loadStatus.ExecuteReader();
             while (readerStatus.Read())
             {
-                DebitingStatus.Add(Convert.ToInt32(readerStatus["ID_Apartment_Status"]), Convert.ToString(readerStatus["Name"]));
+                DebitingStatus.Add(Convert.ToInt32(readerStatus["ID_Apartament_Status"]), Convert.ToString(readerStatus["Name"]));
                 areaTypeComboBox.Items.Add(readerStatus["Name"]);
             }
             readerStatus.Close();
@@ -83,10 +84,10 @@ namespace manprac
                 }
             }
 
-            SqlCommand selectedItems = new SqlCommand("SELECT ID_Renters, Contract, ID_Month, Amount_Rent, VAT, Date_Payment, " +
+            SQLiteCommand selectedItems = new SQLiteCommand("SELECT ID_Renters, Contract, ID_Month, Amount_Rent, VAT, Date_Payment, " +
                 "Apartament_Status, Note, Amount_Payment FROM Apartaments WHERE ID_Apartament = @ID_Apartament", conn);
             selectedItems.Parameters.AddWithValue("@ID_Apartament", main.dataGridFlats.CurrentRow.Cells[0].Value);
-            SqlDataReader readerItems = selectedItems.ExecuteReader();
+            SQLiteDataReader readerItems = selectedItems.ExecuteReader();
             while(readerItems.Read())
             {
                 areaTypeComboBox.SelectedItem = DebitingStatus[Convert.ToInt32(readerItems["Apartament_Status"])];
@@ -196,9 +197,9 @@ namespace manprac
                 }
             }
 
-            SqlConnection conn = new SqlConnection(ConnString);
+            SQLiteConnection conn = new SQLiteConnection(ConnString);
             conn.Open();
-            SqlCommand updateApartament = new SqlCommand("UPDATE Apartaments SET [ID_Renters] = @ID_Renters, [Contract] =@Contract, [ID_Month] =@ID_Month," +
+            SQLiteCommand updateApartament = new SQLiteCommand("UPDATE Apartaments SET [ID_Renters] = @ID_Renters, [Contract] =@Contract, [ID_Month] =@ID_Month," +
                 " [Amount_Rent]=@Amount_Rent, [VAT] =@VAT, [Date_Payment] =@Date_Payment, [Apartament_Status]= @Apartament_Status, [Note] =@Note," +
                 " [Amount_Payment]= @Amount_Payment WHERE [ID_Apartament] = @ID_Apartament", conn);
             updateApartament.Parameters.AddWithValue("@ID_Renters", SelectedRenters);
@@ -212,45 +213,53 @@ namespace manprac
             else updateApartament.Parameters.AddWithValue("@VAT", 0);
             updateApartament.Parameters.AddWithValue("@Date_Payment", datePicker.Value);
             updateApartament.Parameters.AddWithValue("@Apartament_Status", SelectedStatus);
-            updateApartament.Parameters.AddWithValue("@Note", noteTextBox.Text);
+            if (noteTextBox.Text == "")
+            {
+                updateApartament.Parameters.AddWithValue("@Note", "Отсутствует");
+            }
+            else
+            {
+                updateApartament.Parameters.AddWithValue("@Note", noteTextBox.Text);
+            }
             updateApartament.Parameters.AddWithValue("@Amount_Payment", amountPaymentTextBox.Text);
             updateApartament.Parameters.AddWithValue("@ID_Apartament", main.dataGridFlats.CurrentRow.Cells[0].Value);
             try
             {
                 updateApartament.ExecuteNonQuery();
-                MessageBox.Show("Запись успешно изменена.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                SqlCommand loadApartaments = new SqlCommand("SELECT ID_Apartament, Renters.Name Renters, Contract, Months.Name Month," +
-                    " Amount_Rent, Amount_Payment, VAT," +
-                " Date_Payment, Note FROM Apartaments LEFT JOIN Renters on Apartaments.ID_Renters = Renters.ID_Renters " +
-                " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month", conn);
-                SqlDataReader readerApartaments = loadApartaments.ExecuteReader();
+                SQLiteCommand loadApartaments = new SQLiteCommand("SELECT ID_Apartament, Renters.Name Renters, Contract, Months.Name Months, Amount_Rent, Amount_Payment, VAT, ApartamentStatus.Name ApartamentStatus, " +
+                 " Date_Payment, Note FROM Apartaments LEFT JOIN Renters on Apartaments.ID_Renters = Renters.ID_Renters " +
+                 " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months " +
+                 " LEFT JOIN ApartamentStatus on Apartaments.Apartament_Status = ApartamentStatus.ID_Apartament_Status", conn);
+                SQLiteDataReader readerApartaments = loadApartaments.ExecuteReader();
                 List<string[]> dataApartaments = new List<string[]>();
-
                 int countApartaments = 1;
                 while (readerApartaments.Read())
                 {
-
-                    dataApartaments.Add(new string[10]);
+                    dataApartaments.Add(new string[11]);
                     dataApartaments[dataApartaments.Count - 1][0] = readerApartaments["ID_Apartament"].ToString();
                     dataApartaments[dataApartaments.Count - 1][1] = countApartaments.ToString();
                     dataApartaments[dataApartaments.Count - 1][2] = readerApartaments["Renters"].ToString();
                     dataApartaments[dataApartaments.Count - 1][3] = readerApartaments["Contract"].ToString();
-                    dataApartaments[dataApartaments.Count - 1][4] = readerApartaments["Month"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][4] = readerApartaments["Months"].ToString();
                     dataApartaments[dataApartaments.Count - 1][5] = readerApartaments["Amount_Rent"].ToString();
                     dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
                     dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
-                    dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["Date_Payment"].ToString();
-                    dataApartaments[dataApartaments.Count - 1][9] = readerApartaments["Note"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["ApartamentStatus"].ToString();
+                    if (readerApartaments["Date_Payment"].ToString() != "")
+                    {
+                        dataApartaments[dataApartaments.Count - 1][9] = Convert.ToDateTime(readerApartaments["Date_Payment"]).ToShortDateString();
+                    }
+                    dataApartaments[dataApartaments.Count - 1][10] = readerApartaments["Note"].ToString();
                     countApartaments++;
+                    main.dataGridFlats.Rows.Clear();
+                    foreach (string[] s in dataApartaments)
+                        main.dataGridFlats.Rows.Add(s);
                 }
-                main.dataGridFlats.Rows.Clear();
-                foreach (string[] s in dataApartaments)
-                    main.dataGridFlats.Rows.Add(s);
-
-                readerApartaments.Close();
+                if (MessageBox.Show("Запись успешно изменена.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information) == DialogResult.OK)
+                    this.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
