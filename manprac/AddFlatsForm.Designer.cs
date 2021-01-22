@@ -87,7 +87,7 @@
             this.rentersComboBox.FormattingEnabled = true;
             this.rentersComboBox.Location = new System.Drawing.Point(157, 46);
             this.rentersComboBox.Name = "rentersComboBox";
-            this.rentersComboBox.Size = new System.Drawing.Size(207, 31);
+            this.rentersComboBox.Size = new System.Drawing.Size(257, 31);
             this.rentersComboBox.TabIndex = 6;
             this.rentersComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.rentersComboBox_KeyDown);
             // 
@@ -98,7 +98,7 @@
             this.monthComboBox.FormattingEnabled = true;
             this.monthComboBox.Location = new System.Drawing.Point(157, 83);
             this.monthComboBox.Name = "monthComboBox";
-            this.monthComboBox.Size = new System.Drawing.Size(207, 31);
+            this.monthComboBox.Size = new System.Drawing.Size(257, 31);
             this.monthComboBox.TabIndex = 7;
             this.monthComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.monthComboBox_KeyDown);
             // 
@@ -199,7 +199,7 @@
             this.areaTypeComboBox.FormattingEnabled = true;
             this.areaTypeComboBox.Location = new System.Drawing.Point(157, 10);
             this.areaTypeComboBox.Name = "areaTypeComboBox";
-            this.areaTypeComboBox.Size = new System.Drawing.Size(207, 31);
+            this.areaTypeComboBox.Size = new System.Drawing.Size(257, 31);
             this.areaTypeComboBox.TabIndex = 30;
             this.areaTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.areaTypeComboBox_SelectedIndexChanged);
             this.areaTypeComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.areaTypeComboBox_KeyDown);
@@ -246,7 +246,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(376, 391);
+            this.ClientSize = new System.Drawing.Size(478, 391);
             this.Controls.Add(this.noteTextBox);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.amountPaymentTextBox);

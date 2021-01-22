@@ -48,6 +48,8 @@ namespace manprac
         private void updateRecordButton_Click(object sender, EventArgs e)
         {
             yy main = this.Owner as yy;
+            int columnIndex = main.dataGridRenters.CurrentCell.ColumnIndex;
+            int rowIndex = main.dataGridRenters.CurrentCell.RowIndex;
             if (newNameTextBox.Text == "")
             {
                 MessageBox.Show("Поле пустое", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -73,9 +75,11 @@ namespace manprac
                     conn.Close();
                 }
 
+                main.dataGridRenters.CurrentCell = main.dataGridRenters[1,4];
                 if (MessageBox.Show("Запись успешно изменена.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information) == DialogResult.OK)
                     this.Close();
             }
+            
         }
 
         private void newNameTextBox_KeyDown(object sender, KeyEventArgs e)

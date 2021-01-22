@@ -352,6 +352,44 @@ namespace manprac
                         MessageBox.Show("Произошла ошибка при фильтрации. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+                if(amountRentTextBoxStart.Text != "" && amountRentTextBoxFinish.Text == "")
+                {
+                    dataGridOffices.Rows.Clear();
+                    OfficesLoad();
+                    try
+                    {
+                        for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                        {
+                            if (!(Convert.ToDouble(dataGridOffices.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text)))
+                            {
+                                dataGridOffices.Rows[i].Visible = false;
+                            }
+                    }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Произошла ошибка при фильтрации. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                if(amountRentTextBoxStart.Text == "" && amountRentTextBoxFinish.Text != "")
+                {
+                    dataGridOffices.Rows.Clear();
+                    OfficesLoad();
+                    try
+                    {
+                        for(int i=0; i<dataGridOffices.Rows.Count; i++)
+                        {
+                            if (!(Convert.ToDouble(dataGridOffices.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text)))
+                            {
+                                dataGridOffices.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Произошла ошибка при фильтрации. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
 
             if (dataGridFlats.Visible == true)
@@ -364,36 +402,62 @@ namespace manprac
                     {
                         for (int i = 0; i < dataGridFlats.Rows.Count; i++)
                         {
-                            if (dataGridFlats.Rows[i].Cells[5].Value.ToString() == "")
-                            {
-                                dataGridFlats.Rows[i].Cells[5].Value = 0;
-                            }
-
                             if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text)) &&
-                                 (Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text))))
+                                (Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text))))
                             {
                                 dataGridFlats.Rows[i].Visible = false;
                             }
-
-                            if (Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value.ToString()) == 0)
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Произошла ошибка при фильтрации. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                if (amountRentTextBoxStart.Text != "" && amountRentTextBoxFinish.Text == "")
+                {
+                    dataGridFlats.Rows.Clear();
+                    FlatsLoad();
+                    try
+                    {
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                        {
+                            if (!(Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text)))
                             {
-                                dataGridFlats.Rows[i].Cells[5].Value = "";
+                                dataGridFlats.Rows[i].Visible = false;
                             }
                         }
                     }
-                    catch
+                    catch (Exception ex)
                     {
-
+                        MessageBox.Show("Произошла ошибка при фильтрации. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                if (amountRentTextBoxStart.Text == "" && amountRentTextBoxFinish.Text != "")
+                {
+                    dataGridFlats.Rows.Clear();
+                    FlatsLoad();
+                    try
+                    {
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                        {
+                            if (!(Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text)))
+                            {
+                                dataGridFlats.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Произошла ошибка при фильтрации. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
         }
+        
 
         public void AmountPaymentFiltration()
         {
-            SQLiteConnection conn = new SQLiteConnection(ConnString);
-            conn.Open();
-
             if (dataGridFlats.Visible == true)
             {
                 if (amountPaymentTextBoxStart.Text != "" && amountPaymentTextBoxFinish.Text != "")
@@ -404,31 +468,58 @@ namespace manprac
                     {
                         for (int i = 0; i < dataGridFlats.Rows.Count; i++)
                         {
-                            if (dataGridFlats.Rows[i].Cells[6].Value.ToString() == "")
-                            {
-                                dataGridFlats.Rows[i].Cells[6].Value = 0;
-                            }
 
                             if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) >= Convert.ToDouble(amountPaymentTextBoxStart.Text)) &&
                                  (Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) <= Convert.ToDouble(amountPaymentTextBoxFinish.Text))))
                             {
                                 dataGridFlats.Rows[i].Visible = false;
                             }
-
-                            if (Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) == 0)
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Произошла ошибка при фильтрации. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                if (amountPaymentTextBoxStart.Text != "" && amountPaymentTextBoxFinish.Text == "")
+                {
+                    dataGridFlats.Rows.Clear();
+                    FlatsLoad();
+                    try
+                    {
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                        {
+                            if (!(Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) >= Convert.ToDouble(amountPaymentTextBoxStart.Text)))
                             {
-                                dataGridFlats.Rows[i].Cells[6].Value = "";
+                                dataGridFlats.Rows[i].Visible = false;
                             }
                         }
                     }
-                    catch
+                    catch (Exception ex)
                     {
-
+                        MessageBox.Show("Произошла ошибка при фильтрации. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                if (amountPaymentTextBoxStart.Text == "" && amountPaymentTextBoxFinish.Text != "")
+                {
+                    dataGridFlats.Rows.Clear();
+                    FlatsLoad();
+                    try
+                    {
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                        {
+                            if (!(Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) <= Convert.ToDouble(amountPaymentTextBoxFinish.Text)))
+                            {
+                                dataGridFlats.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Произошла ошибка при фильтрации. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
-
-            conn.Close();
         }
 
         public void DateFiltration()
@@ -607,11 +698,11 @@ namespace manprac
             #endregion
             
             #region загрузка данных в таблицы
-            RentersLoad();
+           /* RentersLoad();
             
             OfficesLoad();
             
-            FlatsLoad();
+            FlatsLoad();*/
             #endregion
             
             #region установка изначальных значений в комбобоксы
@@ -882,6 +973,9 @@ namespace manprac
         #region отображение таблиц по нажатию на пункт в меню
         private void rentersToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            dataGridRenters.Rows.Clear();
+            RentersLoad();
+
             dataGridUninhabitedArea.Visible = false;
             dataGridRenters.Visible = true;
             dataGridFlats.Visible = false;
@@ -890,7 +984,6 @@ namespace manprac
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = false;
 
-            dateLabel.Visible = false;
             datePickerStart.Visible = false;
             datePickerFinish.Visible = false;
             lineLabel.Visible = false;
@@ -904,12 +997,13 @@ namespace manprac
             rentersComboBox.Visible = false;
             areaTypeLabel.Visible = false;
             areaTypeComboBox.Visible = false;
-            rentLabel.Visible = false;
-            paymentLabel.Visible = false;
         }
 
         private void officesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            dataGridOffices.Rows.Clear();
+            OfficesLoad();
+
             dataGridUninhabitedArea.Visible = false;
             dataGridRenters.Visible = false;
             dataGridFlats.Visible = false;
@@ -922,7 +1016,6 @@ namespace manprac
             amountPaymentTextBoxStart.Visible = false;
             amountPaymentTextBoxFinish.Visible = false;
 
-            dateLabel.Visible = true;
             datePickerStart.Visible = true;
             datePickerFinish.Visible = true;
             lineLabel.Visible = true;
@@ -932,13 +1025,14 @@ namespace manprac
             monthComboBox.Visible = true;
             rentersLabel.Visible = true;
             rentersComboBox.Visible = true;
-            areaTypeLabel.Visible = true;
-            areaTypeComboBox.Visible = true;
-            rentLabel.Visible = true;
+            areaTypeLabel.Visible = false;
+            areaTypeComboBox.Visible = false;
         }
 
         private void flatsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            dataGridFlats.Rows.Clear();
+            FlatsLoad();
             dataGridUninhabitedArea.Visible = false;
             dataGridRenters.Visible = false;
             dataGridFlats.Visible = true;
@@ -947,7 +1041,7 @@ namespace manprac
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = false;
 
-            dateLabel.Visible = true;
+
             datePickerStart.Visible = true;
             datePickerFinish.Visible = true;
             lineLabel.Visible = true;
@@ -962,8 +1056,6 @@ namespace manprac
             areaTypeLabel.Visible = true;
             areaTypeComboBox.Visible = true;
 
-            rentLabel.Visible = true;
-            paymentLabel.Visible = true;
         }
 
         private void resultFlatsToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -976,7 +1068,6 @@ namespace manprac
             dataGridResultFlats.Visible = true;
             dataGridResultOffices.Visible = false;
 
-            dateLabel.Visible = false;
             datePickerStart.Visible = false;
             datePickerFinish.Visible = false;
             lineLabel.Visible = false;
@@ -988,8 +1079,6 @@ namespace manprac
             rentersComboBox.Visible = false;
             areaTypeLabel.Visible = false;
             areaTypeComboBox.Visible = false;
-            rentLabel.Visible = false;
-            paymentLabel.Visible = false;
 
             dataGridResultFlats.Rows.Clear();
             ResultFlatsLoad();
@@ -1005,7 +1094,6 @@ namespace manprac
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = true;
 
-            dateLabel.Visible = false;
             datePickerStart.Visible = false;
             datePickerFinish.Visible = false;
             lineLabel.Visible = false;
@@ -1017,8 +1105,6 @@ namespace manprac
             rentersComboBox.Visible = false;
             areaTypeLabel.Visible = false;
             areaTypeComboBox.Visible = false;
-            rentLabel.Visible = false;
-            paymentLabel.Visible = false;
 
             dataGridResultOffices.Rows.Clear();
             ResultOfficesLoad();
@@ -1034,10 +1120,9 @@ namespace manprac
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = false;
 
-            dateLabel.Visible = false;
-            datePickerStart.Visible = false;
-            datePickerFinish.Visible = false;
-            lineLabel.Visible = false;
+            datePickerStart.Visible = true;
+            datePickerFinish.Visible = true;
+            lineLabel.Visible = true;
             amountPaymentTextBoxStart.Visible = false;
             amountPaymentTextBoxFinish.Visible = false;
             amountRentTextBoxFinish.Visible = false;
@@ -1046,8 +1131,6 @@ namespace manprac
             rentersComboBox.Visible = false;
             areaTypeLabel.Visible = false;
             areaTypeComboBox.Visible = false;
-            rentLabel.Visible = false;
-            paymentLabel.Visible = false;
 
             monthLabel.Visible = false;
             monthComboBox.Visible = false;
@@ -1066,7 +1149,6 @@ namespace manprac
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = false;
 
-            dateLabel.Visible = false;
             datePickerStart.Visible = false;
             datePickerFinish.Visible = false;
             lineLabel.Visible = false;
@@ -1189,22 +1271,27 @@ namespace manprac
 
         private void amountRentTextBoxStart_TextChanged(object sender, EventArgs e)
         {
-            AmountRentFiltration();
+             AmountRentFiltration();
+
+           
         }
 
         private void amountRentTextBoxFinish_TextChanged(object sender, EventArgs e)
         {
-            AmountRentFiltration();
+             AmountRentFiltration();
         }
 
         private void amountPaymentTextBoxStart_TextChanged(object sender, EventArgs e)
         {
             AmountPaymentFiltration();
+
+          
         }
 
         private void amountPaymentTextBoxFinish_TextChanged(object sender, EventArgs e)
         {
-            AmountPaymentFiltration();
+             AmountPaymentFiltration();
+            
         }
 
         #endregion
