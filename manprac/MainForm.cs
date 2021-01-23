@@ -18,7 +18,7 @@ using Rectangle = System.Drawing.Rectangle;
 
 namespace manprac
 {
-    public partial class yy : Form
+    public partial class MainForm : Form
     {
 
         Dictionary<int, string> DebitingMonth = new Dictionary<int, string>();
@@ -642,7 +642,7 @@ namespace manprac
 
         #endregion
 
-        public yy()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -696,15 +696,7 @@ namespace manprac
 
             conn.Close();
             #endregion
-            
-            #region загрузка данных в таблицы
-           /* RentersLoad();
-            
-            OfficesLoad();
-            
-            FlatsLoad();*/
-            #endregion
-            
+                        
             #region установка изначальных значений в комбобоксы
             monthComboBox.SelectedIndex = 0;
             rentersComboBox.SelectedIndex = 0;
@@ -984,19 +976,15 @@ namespace manprac
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = false;
 
-            datePickerStart.Visible = false;
-            datePickerFinish.Visible = false;
-            lineLabel.Visible = false;
-            amountPaymentTextBoxStart.Visible = false;
-            amountPaymentTextBoxFinish.Visible = false;
-            amountRentTextBoxFinish.Visible = false;
-            amountRentTextBoxStart.Visible = false;
-            monthLabel.Visible = false;
-            monthComboBox.Visible = false;
-            rentersLabel.Visible = false;
-            rentersComboBox.Visible = false;
-            areaTypeLabel.Visible = false;
-            areaTypeComboBox.Visible = false;
+            datePickerStart.Enabled = false;
+            datePickerFinish.Enabled = false;
+            amountPaymentTextBoxStart.Enabled = false;
+            amountPaymentTextBoxFinish.Enabled = false;
+            amountRentTextBoxFinish.Enabled = false;
+            amountRentTextBoxStart.Enabled = false;
+            monthComboBox.Enabled = false;
+            rentersComboBox.Enabled = false;
+            areaTypeComboBox.Enabled = false;
         }
 
         private void officesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1013,20 +1001,16 @@ namespace manprac
             dataGridResultRenters.Visible = false;
             dataGridResultOffices.Visible = false;
 
-            amountPaymentTextBoxStart.Visible = false;
-            amountPaymentTextBoxFinish.Visible = false;
+            amountPaymentTextBoxStart.Enabled = false;
+            amountPaymentTextBoxFinish.Enabled = false;
 
-            datePickerStart.Visible = true;
-            datePickerFinish.Visible = true;
-            lineLabel.Visible = true;
-            amountRentTextBoxFinish.Visible = true;
-            amountRentTextBoxStart.Visible = true;
-            monthLabel.Visible = true;
-            monthComboBox.Visible = true;
-            rentersLabel.Visible = true;
-            rentersComboBox.Visible = true;
-            areaTypeLabel.Visible = false;
-            areaTypeComboBox.Visible = false;
+            datePickerStart.Enabled = true;
+            datePickerFinish.Enabled = true;
+            amountRentTextBoxFinish.Enabled = true;
+            amountRentTextBoxStart.Enabled = true;
+            monthComboBox.Enabled = true;
+            rentersComboBox.Enabled = true;
+            areaTypeComboBox.Enabled = false;
         }
 
         private void flatsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1042,19 +1026,15 @@ namespace manprac
             dataGridResultOffices.Visible = false;
 
 
-            datePickerStart.Visible = true;
-            datePickerFinish.Visible = true;
-            lineLabel.Visible = true;
-            amountPaymentTextBoxStart.Visible = true;
-            amountPaymentTextBoxFinish.Visible = true;
-            amountRentTextBoxFinish.Visible = true;
-            amountRentTextBoxStart.Visible = true;
-            monthLabel.Visible = true;
-            monthComboBox.Visible = true;
-            rentersLabel.Visible = true;
-            rentersComboBox.Visible = true;
-            areaTypeLabel.Visible = true;
-            areaTypeComboBox.Visible = true;
+            datePickerStart.Enabled = true;
+            datePickerFinish.Enabled = true;
+            amountPaymentTextBoxStart.Enabled = true;
+            amountPaymentTextBoxFinish.Enabled = true;
+            amountRentTextBoxFinish.Enabled = true;
+            amountRentTextBoxStart.Enabled = true;
+            monthComboBox.Enabled = true;
+            rentersComboBox.Enabled = true;
+            areaTypeComboBox.Enabled = true;
 
         }
 
@@ -1068,22 +1048,19 @@ namespace manprac
             dataGridResultFlats.Visible = true;
             dataGridResultOffices.Visible = false;
 
-            datePickerStart.Visible = false;
-            datePickerFinish.Visible = false;
-            lineLabel.Visible = false;
-            amountPaymentTextBoxStart.Visible = false;
-            amountPaymentTextBoxFinish.Visible = false;
-            amountRentTextBoxFinish.Visible = false;
-            amountRentTextBoxStart.Visible = false;
-            rentersLabel.Visible = false;
-            rentersComboBox.Visible = false;
-            areaTypeLabel.Visible = false;
-            areaTypeComboBox.Visible = false;
+            datePickerStart.Enabled = true;
+            datePickerFinish.Enabled = true;
+            amountPaymentTextBoxStart.Enabled = false;
+            amountPaymentTextBoxFinish.Enabled = false;
+            amountRentTextBoxFinish.Enabled = false;
+            amountRentTextBoxStart.Enabled = false;
+            rentersComboBox.Enabled = false;
+            areaTypeComboBox.Enabled = false;
+            monthComboBox.Enabled = false;
 
             dataGridResultFlats.Rows.Clear();
             ResultFlatsLoad();
         }
-
         private void resultOfficesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dataGridUninhabitedArea.Visible = false;
@@ -1094,17 +1071,14 @@ namespace manprac
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = true;
 
-            datePickerStart.Visible = false;
-            datePickerFinish.Visible = false;
-            lineLabel.Visible = false;
-            amountPaymentTextBoxStart.Visible = false;
-            amountPaymentTextBoxFinish.Visible = false;
-            amountRentTextBoxFinish.Visible = false;
-            amountRentTextBoxStart.Visible = false;
-            rentersLabel.Visible = false;
-            rentersComboBox.Visible = false;
-            areaTypeLabel.Visible = false;
-            areaTypeComboBox.Visible = false;
+            amountPaymentTextBoxStart.Enabled = false;
+            amountPaymentTextBoxFinish.Enabled = false;
+            datePickerStart.Enabled = true;
+            datePickerFinish.Enabled = true;
+            amountRentTextBoxFinish.Enabled = false;
+            amountRentTextBoxStart.Enabled = false;
+            rentersComboBox.Enabled = false;
+            areaTypeComboBox.Enabled = false;
 
             dataGridResultOffices.Rows.Clear();
             ResultOfficesLoad();
@@ -1120,20 +1094,15 @@ namespace manprac
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = false;
 
-            datePickerStart.Visible = true;
-            datePickerFinish.Visible = true;
-            lineLabel.Visible = true;
-            amountPaymentTextBoxStart.Visible = false;
-            amountPaymentTextBoxFinish.Visible = false;
-            amountRentTextBoxFinish.Visible = false;
-            amountRentTextBoxStart.Visible = false;
-            rentersLabel.Visible = false;
-            rentersComboBox.Visible = false;
-            areaTypeLabel.Visible = false;
-            areaTypeComboBox.Visible = false;
-
-            monthLabel.Visible = false;
-            monthComboBox.Visible = false;
+            datePickerStart.Enabled = true;
+            datePickerFinish.Enabled = true;
+            amountPaymentTextBoxStart.Enabled = false;
+            amountPaymentTextBoxFinish.Enabled = false;
+            amountRentTextBoxStart.Enabled = false;
+            amountRentTextBoxFinish.Enabled = false;
+            rentersComboBox.Enabled = false;
+            areaTypeComboBox.Enabled = false;
+            monthComboBox.Enabled = false;
 
             dataGridCommonResults.Rows.Clear();
             ResultAllLoad();
@@ -1149,19 +1118,16 @@ namespace manprac
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = false;
 
-            datePickerStart.Visible = false;
-            datePickerFinish.Visible = false;
-            lineLabel.Visible = false;
-            amountPaymentTextBoxStart.Visible = false;
-            amountPaymentTextBoxFinish.Visible = false;
-            amountRentTextBoxFinish.Visible = false;
-            amountRentTextBoxStart.Visible = false;
-            rentersLabel.Visible = false;
-            rentersComboBox.Visible = false;
-            areaTypeLabel.Visible = false;
-            areaTypeComboBox.Visible = false;
-            monthLabel.Visible = false;
-            monthComboBox.Visible = false;
+            datePickerStart.Enabled = true;
+            datePickerFinish.Enabled = true;
+
+            amountPaymentTextBoxStart.Enabled = false;
+            amountPaymentTextBoxFinish.Enabled = false;
+            amountRentTextBoxFinish.Enabled = false;
+            amountRentTextBoxStart.Enabled = false;
+            rentersComboBox.Enabled = false;
+            areaTypeComboBox.Enabled = false;
+            monthComboBox.Enabled = false;
 
             dataGridUninhabitedArea.Rows.Clear();
             ResultFlatsNLoad();

@@ -24,7 +24,7 @@ namespace manprac
         {
             try
             {
-                yy main = this.Owner as yy;
+                MainForm main = this.Owner as MainForm;
                 ActiveControl = newNameTextBox;
                 SQLiteConnection conn = new SQLiteConnection(ConnString);
                 conn.Open();
@@ -47,9 +47,8 @@ namespace manprac
 
         private void updateRecordButton_Click(object sender, EventArgs e)
         {
-            yy main = this.Owner as yy;
-            int columnIndex = main.dataGridRenters.CurrentCell.ColumnIndex;
-            int rowIndex = main.dataGridRenters.CurrentCell.RowIndex;
+            MainForm main = this.Owner as MainForm;
+           
             if (newNameTextBox.Text == "")
             {
                 MessageBox.Show("Поле пустое", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -75,7 +74,6 @@ namespace manprac
                     conn.Close();
                 }
 
-                main.dataGridRenters.CurrentCell = main.dataGridRenters[1,4];
                 if (MessageBox.Show("Запись успешно изменена.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information) == DialogResult.OK)
                     this.Close();
             }
@@ -93,7 +91,10 @@ namespace manprac
 
         private void UpdateRentersForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            yy main = this.Owner as yy;
+            MainForm main = this.Owner as MainForm;
+            int columnIndex = main.dataGridRenters.CurrentCell.ColumnIndex;
+            int rowIndex = main.dataGridRenters.CurrentCell.RowIndex;
+
             SQLiteConnection conn = new SQLiteConnection(ConnString);
             conn.Open();
             main.dataGridRenters.Rows.Clear();
@@ -113,6 +114,8 @@ namespace manprac
             }
             foreach (string[] s in data)
                 main.dataGridRenters.Rows.Add(s);
+
+            main.dataGridRenters.CurrentCell = main.dataGridRenters[columnIndex, rowIndex];
 
             readerRenters.Close();
             conn.Close();

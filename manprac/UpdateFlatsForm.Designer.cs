@@ -271,6 +271,7 @@
             this.Name = "UpdateFlatsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Обновление записи";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UpdateFlatsForm_FormClosing);
             this.Load += new System.EventHandler(this.UpdateFlatsForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

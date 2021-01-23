@@ -59,7 +59,7 @@ namespace manprac
 
                     /*LoginForm loginForm = new LoginForm();
                     loginForm.Show();*/
-                    yy form = new yy();
+                    MainForm form = new MainForm();
                     form.Show();
                     Hide();
                 }

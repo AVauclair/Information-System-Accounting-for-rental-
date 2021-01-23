@@ -16,7 +16,7 @@ namespace manprac
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new yy());
+            Application.Run(new MainForm());
         }
     }
 }

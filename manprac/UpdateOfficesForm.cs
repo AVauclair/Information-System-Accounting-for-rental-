@@ -25,7 +25,7 @@ namespace manprac
 
         private void UpdateFlatsForm_Load(object sender, EventArgs e)
         {
-            yy main = this.Owner as yy;
+            MainForm main = this.Owner as MainForm;
 
             ActiveControl = contractTextBox;
 
@@ -87,7 +87,7 @@ namespace manprac
 
         private void updateRecordButton_Click(object sender, EventArgs e)
         {
-            yy main = this.Owner as yy;
+            MainForm main = this.Owner as MainForm;
             try
             {
                 double s = Convert.ToDouble(amountRentBox.Text);
@@ -159,33 +159,6 @@ namespace manprac
                 try
                 {
                     command.ExecuteNonQuery();
-
-                    SQLiteCommand loadOffices = new SQLiteCommand("SELECT ID_Office, Renters.Name Renters, Contract, Months.Name Months, Amount_Rent, VAT, Date_Payment, Note" +
-              " FROM Offices LEFT JOIN Renters on Offices.ID_Renters = Renters.ID_Renters " +
-              " LEFT JOIN Months on Offices.ID_Month = Months.ID_Months", conn);
-                    SQLiteDataReader readerOffices = loadOffices.ExecuteReader();
-                    List<string[]> dataOffices = new List<string[]>();
-
-                    int countOffices = 1;
-                    while (readerOffices.Read())
-                    {
-                        dataOffices.Add(new string[9]);
-                        dataOffices[dataOffices.Count - 1][0] = readerOffices["ID_Office"].ToString();
-                        dataOffices[dataOffices.Count - 1][1] = countOffices.ToString();
-                        dataOffices[dataOffices.Count - 1][2] = readerOffices["Renters"].ToString();
-                        dataOffices[dataOffices.Count - 1][3] = readerOffices["Contract"].ToString();
-                        dataOffices[dataOffices.Count - 1][4] = readerOffices["Months"].ToString();//////////
-                        dataOffices[dataOffices.Count - 1][5] = readerOffices["Amount_Rent"].ToString();
-                        dataOffices[dataOffices.Count - 1][6] = readerOffices["VAT"].ToString();
-                        dataOffices[dataOffices.Count - 1][7] = readerOffices["Date_Payment"].ToString();
-                        dataOffices[dataOffices.Count - 1][8] = readerOffices["Note"].ToString();
-                        countOffices++;
-                    }
-                    main.dataGridOffices.Rows.Clear();
-                    foreach (string[] s in dataOffices)
-                        main.dataGridOffices.Rows.Add(s);
-
-                    readerOffices.Close();
 
                     if (MessageBox.Show("Запись успешно изменена.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information) == DialogResult.OK)
                         this.Close();
@@ -296,7 +269,48 @@ namespace manprac
 
         private void UpdateOfficesForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-           
+            MainForm main = this.Owner as MainForm;
+            int columnIndex = main.dataGridOffices.CurrentCell.ColumnIndex;
+            int rowIndex = main.dataGridOffices.CurrentCell.RowIndex;
+
+            SQLiteConnection conn = new SQLiteConnection(ConnString);
+            conn.Open();
+
+            SQLiteCommand loadOffices = new SQLiteCommand("SELECT ID_Office, Renters.Name Renters, Contract, Months.Name Months, Amount_Rent, VAT, Date_Payment, Note" +
+              " FROM Offices LEFT JOIN Renters on Offices.ID_Renters = Renters.ID_Renters " +
+              " LEFT JOIN Months on Offices.ID_Month = Months.ID_Months", conn);
+            SQLiteDataReader readerOffices = loadOffices.ExecuteReader();
+            List<string[]> dataOffices = new List<string[]>();
+
+            int countOffices = 1;
+            while (readerOffices.Read())
+            {
+
+                dataOffices.Add(new string[9]);
+                dataOffices[dataOffices.Count - 1][0] = readerOffices["ID_Office"].ToString();
+                dataOffices[dataOffices.Count - 1][1] = countOffices.ToString();
+                dataOffices[dataOffices.Count - 1][2] = readerOffices["Renters"].ToString();
+                dataOffices[dataOffices.Count - 1][3] = readerOffices["Contract"].ToString();
+                dataOffices[dataOffices.Count - 1][4] = readerOffices["Months"].ToString();
+                dataOffices[dataOffices.Count - 1][5] = readerOffices["Amount_Rent"].ToString();
+                dataOffices[dataOffices.Count - 1][6] = readerOffices["VAT"].ToString();
+                if (readerOffices["Date_Payment"].ToString() != "")
+                {
+                    dataOffices[dataOffices.Count - 1][7] = Convert.ToDateTime(readerOffices["Date_Payment"]).ToShortDateString();
+                }
+                dataOffices[dataOffices.Count - 1][8] = readerOffices["Note"].ToString();
+                countOffices++;
+            }
+            main.dataGridOffices.Rows.Clear();
+            foreach (string[] s in dataOffices)
+            {
+                main.dataGridOffices.Rows.Add(s);
+            }
+
+            main.dataGridOffices.CurrentCell = main.dataGridOffices[columnIndex, rowIndex];
+
+            readerOffices.Close();
+            conn.Close();
         }
     }
 }

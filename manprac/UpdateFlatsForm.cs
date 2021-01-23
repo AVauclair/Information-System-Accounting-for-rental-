@@ -29,7 +29,7 @@ namespace manprac
             ActiveControl = contractTextBox;
             contractTextBox.SelectionStart = 0;
 
-            yy main = this.Owner as yy;
+            MainForm main = this.Owner as MainForm;
             SQLiteConnection conn = new SQLiteConnection(ConnString);
             conn.Open();
             SQLiteCommand loadRenters = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);
@@ -88,7 +88,7 @@ namespace manprac
                 "Apartament_Status, Note, Amount_Payment FROM Apartaments WHERE ID_Apartament = @ID_Apartament", conn);
             selectedItems.Parameters.AddWithValue("@ID_Apartament", main.dataGridFlats.CurrentRow.Cells[0].Value);
             SQLiteDataReader readerItems = selectedItems.ExecuteReader();
-            while(readerItems.Read())
+            while (readerItems.Read())
             {
                 areaTypeComboBox.SelectedItem = DebitingStatus[Convert.ToInt32(readerItems["Apartament_Status"])];
                 if (areaTypeComboBox.SelectedItem.ToString() == "Жилое")
@@ -118,7 +118,7 @@ namespace manprac
 
         private void updateRecordButton_Click(object sender, EventArgs e)
         {
-            yy main = this.Owner as yy;
+            MainForm main = this.Owner as MainForm;
             StringBuilder errors = new StringBuilder();
             if (string.IsNullOrEmpty(areaTypeComboBox.Text)) errors.AppendLine("Выберите тип помещения.");
             if (string.IsNullOrWhiteSpace(rentersComboBox.Text)) errors.AppendLine("Выберите арендатора.");
@@ -191,7 +191,7 @@ namespace manprac
 
             foreach (var item in DebitingStatus)
             {
-                if(item.Value == areaTypeComboBox.Text)
+                if (item.Value == areaTypeComboBox.Text)
                 {
                     SelectedStatus = item.Key;
                 }
@@ -227,35 +227,8 @@ namespace manprac
             {
                 updateApartament.ExecuteNonQuery();
 
-                SQLiteCommand loadApartaments = new SQLiteCommand("SELECT ID_Apartament, Renters.Name Renters, Contract, Months.Name Months, Amount_Rent, Amount_Payment, VAT, ApartamentStatus.Name ApartamentStatus, " +
-                 " Date_Payment, Note FROM Apartaments LEFT JOIN Renters on Apartaments.ID_Renters = Renters.ID_Renters " +
-                 " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months " +
-                 " LEFT JOIN ApartamentStatus on Apartaments.Apartament_Status = ApartamentStatus.ID_Apartament_Status", conn);
-                SQLiteDataReader readerApartaments = loadApartaments.ExecuteReader();
-                List<string[]> dataApartaments = new List<string[]>();
-                int countApartaments = 1;
-                while (readerApartaments.Read())
-                {
-                    dataApartaments.Add(new string[11]);
-                    dataApartaments[dataApartaments.Count - 1][0] = readerApartaments["ID_Apartament"].ToString();
-                    dataApartaments[dataApartaments.Count - 1][1] = countApartaments.ToString();
-                    dataApartaments[dataApartaments.Count - 1][2] = readerApartaments["Renters"].ToString();
-                    dataApartaments[dataApartaments.Count - 1][3] = readerApartaments["Contract"].ToString();
-                    dataApartaments[dataApartaments.Count - 1][4] = readerApartaments["Months"].ToString();
-                    dataApartaments[dataApartaments.Count - 1][5] = readerApartaments["Amount_Rent"].ToString();
-                    dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
-                    dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
-                    dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["ApartamentStatus"].ToString();
-                    if (readerApartaments["Date_Payment"].ToString() != "")
-                    {
-                        dataApartaments[dataApartaments.Count - 1][9] = Convert.ToDateTime(readerApartaments["Date_Payment"]).ToShortDateString();
-                    }
-                    dataApartaments[dataApartaments.Count - 1][10] = readerApartaments["Note"].ToString();
-                    countApartaments++;
-                    main.dataGridFlats.Rows.Clear();
-                    foreach (string[] s in dataApartaments)
-                        main.dataGridFlats.Rows.Add(s);
-                }
+
+
                 if (MessageBox.Show("Запись успешно изменена.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information) == DialogResult.OK)
                     this.Close();
             }
@@ -405,5 +378,53 @@ namespace manprac
                 vatTextBox.Enabled = false;
             }
         }
+
+        private void UpdateFlatsForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            MainForm main = this.Owner as MainForm;
+            int columnIndex = main.dataGridFlats.CurrentCell.ColumnIndex;
+            int rowIndex = main.dataGridFlats.CurrentCell.RowIndex;
+
+            SQLiteConnection conn = new SQLiteConnection(ConnString);
+            conn.Open();
+
+            SQLiteCommand loadApartaments = new SQLiteCommand("SELECT ID_Apartament, Renters.Name Renters, Contract, Months.Name Months, Amount_Rent, Amount_Payment, VAT, ApartamentStatus.Name ApartamentStatus, " +
+                " Date_Payment, Note FROM Apartaments LEFT JOIN Renters on Apartaments.ID_Renters = Renters.ID_Renters " +
+                " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months " +
+                " LEFT JOIN ApartamentStatus on Apartaments.Apartament_Status = ApartamentStatus.ID_Apartament_Status", conn);
+            SQLiteDataReader readerApartaments = loadApartaments.ExecuteReader();
+            List<string[]> dataApartaments = new List<string[]>();
+            int countApartaments = 1;
+            while (readerApartaments.Read())
+            {
+
+                dataApartaments.Add(new string[11]);
+                dataApartaments[dataApartaments.Count - 1][0] = readerApartaments["ID_Apartament"].ToString();
+                dataApartaments[dataApartaments.Count - 1][1] = countApartaments.ToString();
+                dataApartaments[dataApartaments.Count - 1][2] = readerApartaments["Renters"].ToString();
+                dataApartaments[dataApartaments.Count - 1][3] = readerApartaments["Contract"].ToString();
+                dataApartaments[dataApartaments.Count - 1][4] = readerApartaments["Months"].ToString();
+                dataApartaments[dataApartaments.Count - 1][5] = readerApartaments["Amount_Rent"].ToString();
+                dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
+                dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
+                dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["ApartamentStatus"].ToString();
+                if (readerApartaments["Date_Payment"].ToString() != "")
+                {
+                    dataApartaments[dataApartaments.Count - 1][9] = Convert.ToDateTime(readerApartaments["Date_Payment"]).ToShortDateString();
+                }
+                dataApartaments[dataApartaments.Count - 1][10] = readerApartaments["Note"].ToString();
+                countApartaments++;
+            }
+            main.dataGridFlats.Rows.Clear();
+            foreach (string[] s in dataApartaments)
+            {
+                main.dataGridFlats.Rows.Add(s);
+            }
+
+            readerApartaments.Close();
+            conn.Close();
+            main.dataGridFlats.CurrentCell = main.dataGridFlats[columnIndex, rowIndex];
+        }
+        }
     }
-}
+

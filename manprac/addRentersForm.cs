@@ -77,7 +77,7 @@ namespace manprac
 
         private void AddRentersForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            yy main = this.Owner as yy;
+            MainForm main = this.Owner as MainForm;
             SQLiteConnection conn = new SQLiteConnection(ConnString);
             conn.Open();
             SQLiteCommand loadRenters = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);

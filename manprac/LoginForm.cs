@@ -43,7 +43,7 @@ namespace manprac
 
                 if (table.Rows.Count > 0)
                 {
-                    yy main = new yy();
+                    MainForm main = new MainForm();
                     main.Show();
                     loginTextBox.Clear();
                     passwordTextBox.Clear();
