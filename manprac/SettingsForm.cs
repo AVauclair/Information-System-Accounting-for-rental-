@@ -1,0 +1,227 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.SQLite;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace manprac
+{
+    public partial class SettingsForm : Form
+    {
+
+        private String dbFileName = "RentDB";
+        private string ConnString = "Data Source = RentDB; Version=3";
+
+        public SettingsForm()
+        {
+            InitializeComponent();
+        }
+
+        private void SettingsForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void createDB_Button_Click(object sender, EventArgs e)
+        {
+            if(File.Exists(dbFileName))
+            {
+                MessageBox.Show("База данных уже существует в проекте.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            else if (!File.Exists(dbFileName))
+            {
+                SQLiteConnection.CreateFile(dbFileName);
+            } //Create DB
+
+            SQLiteConnection conn = new SQLiteConnection(ConnString);
+            try
+            {
+                conn.Open();
+                SQLiteCommand cmd = new SQLiteCommand();
+                cmd.Connection = conn;
+
+                cmd.CommandText = "CREATE TABLE IF NOT EXISTS Months (ID_Months INTEGER PRIMARY KEY AUTOINCREMENT, Name Text)";
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = "CREATE TABLE IF NOT EXISTS Renters (ID_Renters INTEGER PRIMARY KEY AUTOINCREMENT, Name Text)";
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = "CREATE TABLE IF NOT EXISTS Offices (ID_Office INTEGER PRIMARY KEY AUTOINCREMENT, ID_Renters INTEGER, Contract TEXT,  ID_Month INTEGER, Amount_Rent FLOAT, " +
+                    "VAT FLOAT, Date_Payment Date, Note Text,  FOREIGN KEY (ID_Renters) REFERENCES Renters(ID_Renters),  FOREIGN KEY (ID_Month) REFERENCES Months(ID_Month))";
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = "CREATE TABLE IF NOT EXISTS ApartamentStatus (ID_Apartament_Status INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT)";
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = "CREATE TABLE IF NOT EXISTS Apartaments (ID_Apartament INTEGER PRIMARY KEY AUTOINCREMENT, ID_Renters INTEGER, Contract TEXT, ID_Month INTEGER, Amount_Rent FLOAT," +
+                    " VAT FLOAT, Date_Payment Date, Apartament_Status INTEGER, Note TEXT, Amount_Payment FLOAT, FOREIGN KEY (ID_Renters) REFERENCES Renters(ID_Renters), " +
+                    "FOREIGN KEY (ID_Month) REFERENCES Months(ID_Month), FOREIGN KEY (Apartament_Status) REFERENCES ApartamentStatus(ID_Apartament_Status))";
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("База данных успешно создана.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("Произошла ошибка при создании базы данных" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private void clearRentersButton_Click(object sender, EventArgs e)
+        {
+            List<int> deleteRecordList = new List<int>();
+            string textMessage = "Будут удалены арендаторы, которые отсутствуют в таблицах квартир и офисов." +
+                " Чтобы удалить всех арендаторов необходимо предварительно удалить записи в квартирах и офисах. Продолжить?";
+            if (MessageBox.Show(textMessage, "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                SQLiteConnection conn = new SQLiteConnection(ConnString);
+                conn.Open();
+
+                SQLiteCommand readNullRenters = new SQLiteCommand("SELECT Renters.ID_Renters AS 'FreeRenters'  FROM Renters" +
+                    " LEFT JOIN Offices " +
+                    " ON Renters.ID_Renters = Offices.ID_Renters " +
+                    "WHERE Offices.ID_Renters IS NULL; ", conn);
+                
+            
+                try
+                {
+                    SQLiteDataReader reader = readNullRenters.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        deleteRecordList.Add(Convert.ToInt32(reader["FreeRenters"]));
+                    }
+                    reader.Close();
+
+
+                    if (deleteRecordList.Count == 0)
+                    {
+                        MessageBox.Show("Нет записей подходящих под удаление.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+
+                    for (int i =0; i<deleteRecordList.Count; i++)
+                    {
+                        SQLiteCommand deleteRenters = new SQLiteCommand("Delete FROM [Renters] WHERE ID_Renters = @ID_Renters", conn);
+                        deleteRenters.Parameters.AddWithValue("@ID_Renters", deleteRecordList.ElementAt(i));
+                        deleteRenters.ExecuteNonQuery();
+                    }
+                    MessageBox.Show("Записи успешно удалены.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void clearOfficesButton_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Вы уверены что хотите удалить все записи из таблицы \"Офисы\"?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                SQLiteConnection conn = new SQLiteConnection(ConnString);
+                conn.Open();
+
+                SQLiteCommand deleteAllRecors = new SQLiteCommand("DELETE FROM Offices", conn);
+                try
+                {
+                    deleteAllRecors.ExecuteNonQuery();
+                    MessageBox.Show("Данные из таблицы успешно удалены.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void clearFlatsButton_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Вы уверены что хотите удалить все записи из таблицы \"Квартиры\"?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                SQLiteConnection conn = new SQLiteConnection(ConnString);
+                conn.Open();
+
+                SQLiteCommand deleteAllRecors = new SQLiteCommand("DELETE FROM Apartaments", conn);
+                try
+                {
+                    deleteAllRecors.ExecuteNonQuery();
+                    MessageBox.Show("Данные из таблицы успешно удалены.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void savaDB_Button_Click(object sender, EventArgs e)
+        {
+            //string DBname = "";
+            SQLiteConnection conn = new SQLiteConnection(ConnString);
+            conn.Open();
+            /*SQLiteCommand NameDB = new SQLiteCommand("select " + dbFileName + " Name", conn);
+            SQLiteDataReader readerNameBD = NameDB.ExecuteReader();
+            while (readerNameBD.Read())
+            {
+                DBname = readerNameBD["Name"].ToString();
+            }
+            readerNameBD.Close();*/
+            try
+            {
+                SaveFileDialog dlg = new SaveFileDialog();
+                dlg.FileName = dbFileName + "_" + DateTime.Now.ToString("yyyy-MM-dd");
+                dlg.DefaultExt = ".bak";
+                dlg.Filter = "Базы данных (*.bak)|*.bak|Все файлы (*.*)|*.*";
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    string filename = dlg.FileName;
+                    SQLiteConnection connection = new SQLiteConnection(ConnString);
+
+                    string comm =  $"BACKUP DATABASE [{dbFileName}] TO DISK = N'{filename}'";
+                    SQLiteCommand command = new SQLiteCommand(comm, connection);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+
+                    MessageBox.Show("Резервное сохранение базы данных успешно создано.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private void loadDB_Button_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Скоро будет UwU");
+        }
+    }
+}

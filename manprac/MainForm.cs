@@ -715,11 +715,22 @@ namespace manprac
             addRentersForm.ShowDialog();
         }
 
+        private void dbToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SettingsForm form = new SettingsForm();
+            form.ShowDialog();
+        }
+
         private void updateRentersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dataGridRenters.Visible == false)
             {
                 MessageBox.Show("Выберите запись в таблице \"Арендаторы\", которую хотите изменить.", "Ошибки", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if(dataGridRenters.Rows.Count ==0)
+            {
+                MessageBox.Show("Отсутствуют записи в таблице.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (dataGridRenters.CurrentCell.Selected == false)
@@ -737,6 +748,11 @@ namespace manprac
             if (dataGridRenters.Visible == false)
             {
                 MessageBox.Show("Выберите запись в таблице \"Арендаторы\", которую хотите удалить.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (dataGridRenters.Rows.Count == 0)
+            {
+                MessageBox.Show("Отсутствуют записи в таблице.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (dataGridRenters.CurrentCell.Selected == false)
@@ -801,6 +817,11 @@ namespace manprac
                 MessageBox.Show("Выберите запись в таблице \"Офис\", которую хотите изменить.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (dataGridOffices.Rows.Count == 0)
+            {
+                MessageBox.Show("В таблице отсутсвуют записи.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             if (dataGridOffices.CurrentCell.Selected == false)
             {
                 MessageBox.Show("Выберите запись в таблице, которую хотите изменить.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -816,6 +837,11 @@ namespace manprac
             if (dataGridOffices.Visible == false)
             {
                 MessageBox.Show("Выберите запись в таблице \"Офис\", которую хотите удалить.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (dataGridOffices.Rows.Count == 0)
+            {
+                MessageBox.Show("В таблице отсутсвуют записи.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (dataGridOffices.CurrentCell.Selected == false)
@@ -887,6 +913,11 @@ namespace manprac
                 MessageBox.Show("Выберите запись в таблице \"Квартиры\", которую хотите изменить.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (dataGridFlats.Rows.Count == 0)
+            {
+                MessageBox.Show("В таблице отсутсвуют записи.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             if (dataGridFlats.CurrentCell.Selected == false)
             {
                 MessageBox.Show("Выберите запись в таблице, которую хотите изменить.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -904,11 +935,17 @@ namespace manprac
                 MessageBox.Show("Выберите запись в таблице \"Квартиры\", которую хотите удалить.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (dataGridFlats.Rows.Count == 0)
+            {
+                MessageBox.Show("В таблице отсутсвуют записи.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             if (dataGridFlats.CurrentCell.Selected == false)
             {
                 MessageBox.Show("Выберите запись в таблице, которую хотите удалить.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            
             if (MessageBox.Show("Вы уверены, что хотитет удалить запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 SQLiteConnection conn = new SQLiteConnection(ConnString);
@@ -1265,44 +1302,7 @@ namespace manprac
         #region дамп бд
         private void saveDBToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string DBname = "";
-            SqlConnection conn = new SqlConnection(ConnString);
-            conn.Open();
-            SqlCommand NameDB = new SqlCommand("select db_name() Name", conn);
-            SqlDataReader readerNameBD = NameDB.ExecuteReader();
-            while (readerNameBD.Read())
-            {
-                DBname = readerNameBD["Name"].ToString();
-            }
-            readerNameBD.Close();
-            try
-            {
-                SaveFileDialog dlg = new SaveFileDialog();
-                dlg.FileName = DBname + "_" + DateTime.Now.ToString("yyyy-MM-dd");
-                dlg.DefaultExt = ".bak";
-                dlg.Filter = "Базы данных (*.bak)|*.bak|Все файлы (*.*)|*.*";
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    string filename = dlg.FileName;
-                    SqlConnection connection = new SqlConnection(ConnString);
-
-                    string comm = "USE [master] " +
-                        $"BACKUP DATABASE [{DBname}] TO DISK = N'{filename}'";
-                    SqlCommand command = new SqlCommand(comm, connection);
-                    connection.Open();
-                    command.ExecuteNonQuery();
-
-                    MessageBox.Show("Резервное сохранение базы данных успешно создано.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
+           
         }
 
         private void loadDBToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1784,6 +1784,8 @@ namespace manprac
                 conn.Close();
             }
         }
+
+      
     }
 }
 

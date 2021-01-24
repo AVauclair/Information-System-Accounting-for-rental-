@@ -86,33 +86,43 @@ namespace manprac
 
             SQLiteCommand selectedItems = new SQLiteCommand("SELECT ID_Renters, Contract, ID_Month, Amount_Rent, VAT, Date_Payment, " +
                 "Apartament_Status, Note, Amount_Payment FROM Apartaments WHERE ID_Apartament = @ID_Apartament", conn);
-            selectedItems.Parameters.AddWithValue("@ID_Apartament", main.dataGridFlats.CurrentRow.Cells[0].Value);
-            SQLiteDataReader readerItems = selectedItems.ExecuteReader();
-            while (readerItems.Read())
+            try
             {
-                areaTypeComboBox.SelectedItem = DebitingStatus[Convert.ToInt32(readerItems["Apartament_Status"])];
-                if (areaTypeComboBox.SelectedItem.ToString() == "Жилое")
+                selectedItems.Parameters.AddWithValue("@ID_Apartament", main.dataGridFlats.CurrentRow.Cells[0].Value);
+                SQLiteDataReader readerItems = selectedItems.ExecuteReader();
+                while (readerItems.Read())
                 {
-                    vatTextBox.Enabled = false;
+                    areaTypeComboBox.SelectedItem = DebitingStatus[Convert.ToInt32(readerItems["Apartament_Status"])];
+                    if (areaTypeComboBox.SelectedItem.ToString() == "Жилое")
+                    {
+                        vatTextBox.Enabled = false;
+                    }
+                    else
+                    {
+                        vatTextBox.Enabled = true;
+                    }
+                    rentersComboBox.SelectedItem = DebitingRenters[Convert.ToInt32(readerItems["ID_Renters"])];
+                    monthComboBox.SelectedItem = DebitingMonth[Convert.ToInt32(readerItems["ID_Month"])];
+                    contractTextBox.Text = readerItems["Contract"].ToString();
+                    amountRentTextBox.Text = readerItems["Amount_Rent"].ToString();
+                    amountPaymentTextBox.Text = readerItems["Amount_Payment"].ToString();
+                    noteTextBox.Text = readerItems["Note"].ToString();
+                    vatTextBox.Text = readerItems["VAT"].ToString();
+                    datePicker.Value = Convert.ToDateTime(readerItems["Date_Payment"]);
+                    readerItems.Close();
                 }
-                else
-                {
-                    vatTextBox.Enabled = true;
-                }
-                rentersComboBox.SelectedItem = DebitingRenters[Convert.ToInt32(readerItems["ID_Renters"])];
-                monthComboBox.SelectedItem = DebitingMonth[Convert.ToInt32(readerItems["ID_Month"])];
-                contractTextBox.Text = readerItems["Contract"].ToString();
-                amountRentTextBox.Text = readerItems["Amount_Rent"].ToString();
-                amountPaymentTextBox.Text = readerItems["Amount_Payment"].ToString();
-                noteTextBox.Text = readerItems["Note"].ToString();
-                vatTextBox.Text = readerItems["VAT"].ToString();
-                datePicker.Value = Convert.ToDateTime(readerItems["Date_Payment"]);
-
 
             }
-            readerItems.Close();
-            conn.Close();
+            catch
+            {
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
+            finally
+            {
+                conn.Close();
 
+            }
             contractTextBox.SelectionStart = 0;
         }
 

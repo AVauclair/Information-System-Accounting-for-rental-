@@ -69,18 +69,26 @@ namespace manprac
             SQLiteCommand SelectedItems = new SQLiteCommand("SELECT ID_Renters, Contract, ID_Month, Amount_Rent, VAT, Date_Payment, Note FROM Offices WHERE ID_Office = @ID_Office", conn);
             SelectedItems.Parameters.AddWithValue("@ID_Office", main.dataGridOffices.CurrentRow.Cells[0].Value);
             SQLiteDataReader readerSelectedItems = SelectedItems.ExecuteReader();
-            while(readerSelectedItems.Read())
+            try
             {
-                rentersComboBox.SelectedItem = DebitingRenters[Convert.ToInt32(readerSelectedItems["ID_Renters"])];
-                monthComboBox.SelectedItem = DebitingMonth[Convert.ToInt32(readerSelectedItems["ID_Month"])];
-                amountRentBox.Text = readerSelectedItems["Amount_Rent"].ToString();
-                contractTextBox.Text = readerSelectedItems["Contract"].ToString();
-                amountRentBox.Text = readerSelectedItems["Amount_Rent"].ToString();
-                vatTextBox.Text = readerSelectedItems["VAT"].ToString();
-                datePicker.Value = Convert.ToDateTime(readerSelectedItems["Date_Payment"]);
-                noteTextBox.Text = readerSelectedItems["Note"].ToString();
+                while (readerSelectedItems.Read())
+                {
+                    rentersComboBox.SelectedItem = DebitingRenters[Convert.ToInt32(readerSelectedItems["ID_Renters"])];
+                    monthComboBox.SelectedItem = DebitingMonth[Convert.ToInt32(readerSelectedItems["ID_Month"])];
+                    amountRentBox.Text = readerSelectedItems["Amount_Rent"].ToString();
+                    contractTextBox.Text = readerSelectedItems["Contract"].ToString();
+                    amountRentBox.Text = readerSelectedItems["Amount_Rent"].ToString();
+                    vatTextBox.Text = readerSelectedItems["VAT"].ToString();
+                    datePicker.Value = Convert.ToDateTime(readerSelectedItems["Date_Payment"]);
+                    noteTextBox.Text = readerSelectedItems["Note"].ToString();
+                }
+                readerSelectedItems.Close();
             }
-            readerSelectedItems.Close();
+            catch
+            {
+                MessageBox.Show("Прозошла ошибка.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
             conn.Close();
             contractTextBox.SelectionStart = 0;
         }
