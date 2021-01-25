@@ -109,13 +109,13 @@ namespace manprac
                     noteTextBox.Text = readerItems["Note"].ToString();
                     vatTextBox.Text = readerItems["VAT"].ToString();
                     datePicker.Value = Convert.ToDateTime(readerItems["Date_Payment"]);
-                    readerItems.Close();
+                   
                 }
-
+                readerItems.Close();
             }
-            catch
+            catch(Exception ex)
             {
-                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Произошла ошибка. "+ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
             }
             finally

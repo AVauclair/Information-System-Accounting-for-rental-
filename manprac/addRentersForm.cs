@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ namespace manprac
     public partial class AddRentersForm : Form
     {
         public string ConnString = "Data Source = RentDB; Version=3";
+        private String dbFileName = "RentDB";
+
         public AddRentersForm()
         {
             InitializeComponent();
@@ -27,6 +30,8 @@ namespace manprac
 
         private void addRecordButton_Click(object sender, EventArgs e)
         {
+            MainForm main = this.Owner as MainForm;
+
             if (nameTextBox.Text == "")
             {
                 MessageBox.Show("Заполните поле \"Название предприятия\" ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -34,26 +39,51 @@ namespace manprac
             }
 
             SQLiteConnection conn = new SQLiteConnection(ConnString);
-            conn.Open();
-
-            SQLiteCommand loadRenters = new SQLiteCommand("SELECT  Name FROM Renters WHERE Name= @Name", conn);
-            loadRenters.Parameters.AddWithValue("@Name", nameTextBox.Text);
-            SQLiteDataReader readerRenters = loadRenters.ExecuteReader();
-
-            if (readerRenters.HasRows)
-            {
-                MessageBox.Show("Данный арендатор уже существует в базе.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                readerRenters.Close();
-                conn.Close();
-                return;
-            }
-
-                SQLiteCommand command = new SQLiteCommand("INSERT INTO [Renters] (Name) VALUES (@Name)", conn);
-            command.Parameters.AddWithValue("@Name", nameTextBox.Text);
             try
             {
+                conn.Open();
+
+                SQLiteCommand loadRenters = new SQLiteCommand("SELECT  Name FROM Renters WHERE Name= @Name", conn);
+                loadRenters.Parameters.AddWithValue("@Name", nameTextBox.Text);
+                SQLiteDataReader readerRenters = loadRenters.ExecuteReader();
+
+                if (readerRenters.HasRows)
+                {
+                    MessageBox.Show("Данный арендатор уже существует в базе.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    readerRenters.Close();
+                    conn.Close();
+                    return;
+                }
+
+                SQLiteCommand command = new SQLiteCommand("INSERT INTO [Renters] (Name) VALUES (@Name)", conn);
+                command.Parameters.AddWithValue("@Name", nameTextBox.Text);
                 command.ExecuteNonQuery();
+                readerRenters.Close();
                 MessageBox.Show("Запись была успешно добавлена", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                List<string[]> dataRenters = new List<string[]>();
+
+                SQLiteCommand loadRenters2 = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);
+                SQLiteDataReader readerRenters2 = loadRenters2.ExecuteReader();
+
+                int countRenters = 1;
+                while (readerRenters2.Read())
+                {
+                    dataRenters.Add(new string[3]);
+                    dataRenters[dataRenters.Count - 1][0] = readerRenters2["ID_Renters"].ToString();
+                    dataRenters[dataRenters.Count - 1][1] = countRenters.ToString();
+                    dataRenters[dataRenters.Count - 1][2] = readerRenters2["Name"].ToString();
+                    countRenters++;
+                }
+
+                main.dataGridRenters.Rows.Clear();
+                foreach (string[] s in dataRenters)
+                {
+                    main.dataGridRenters.Rows.Add(s);
+                }
+
+                readerRenters.Close();
+                readerRenters2.Close();
             }
             catch (Exception ex)
             {
@@ -61,7 +91,6 @@ namespace manprac
             }
             finally
             {
-               readerRenters.Close();
                conn.Close();
             }
         }
@@ -77,29 +106,7 @@ namespace manprac
 
         private void AddRentersForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            MainForm main = this.Owner as MainForm;
-            SQLiteConnection conn = new SQLiteConnection(ConnString);
-            conn.Open();
-            SQLiteCommand loadRenters = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);
-            SQLiteDataReader readerRenters = loadRenters.ExecuteReader();
-            List<string[]> dataRenters = new List<string[]>();
-
-            int countRenters = 1;
-            while (readerRenters.Read())
-            {
-
-                dataRenters.Add(new string[3]);
-                dataRenters[dataRenters.Count - 1][0] = readerRenters["ID_Renters"].ToString();
-                dataRenters[dataRenters.Count - 1][1] = countRenters.ToString();
-                dataRenters[dataRenters.Count - 1][2] = readerRenters["Name"].ToString();
-                countRenters++;
-            }
-            main.dataGridRenters.Rows.Clear();
-            foreach (string[] s in dataRenters)
-                main.dataGridRenters.Rows.Add(s);
-
-            readerRenters.Close();
-            conn.Close();
+           
         }
     }
 }

@@ -28,34 +28,43 @@ namespace manprac
             ActiveControl = contractTextBox;
             SQLiteConnection conn = new SQLiteConnection(ConnString);
             conn.Open();
-            SQLiteCommand loadRenters = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);
-            SQLiteDataReader readerRenter = loadRenters.ExecuteReader();
-            while(readerRenter.Read())
+            try
             {
-                DebitingRenters.Add(Convert.ToInt32(readerRenter["ID_Renters"]), Convert.ToString(readerRenter["Name"]));
-                rentersComboBox.Items.Add(readerRenter["Name"]);
-            }
-            readerRenter.Close();
+                SQLiteCommand loadRenters = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);
+                SQLiteDataReader readerRenter = loadRenters.ExecuteReader();
+                while (readerRenter.Read())
+                {
+                    DebitingRenters.Add(Convert.ToInt32(readerRenter["ID_Renters"]), Convert.ToString(readerRenter["Name"]));
+                    rentersComboBox.Items.Add(readerRenter["Name"]);
+                }
+                readerRenter.Close();
 
-            SQLiteCommand loadMonth = new SQLiteCommand("SELECT ID_Months, Name FROM Months", conn);
-            SQLiteDataReader readerMonth = loadMonth.ExecuteReader();
-            while(readerMonth.Read())
+                SQLiteCommand loadMonth = new SQLiteCommand("SELECT ID_Months, Name FROM Months", conn);
+                SQLiteDataReader readerMonth = loadMonth.ExecuteReader();
+                while (readerMonth.Read())
+                {
+                    DebitingMonth.Add(Convert.ToInt32(readerMonth["ID_Months"]), Convert.ToString(readerMonth["Name"]));
+                    monthComboBox.Items.Add(readerMonth["Name"]);
+                }
+                readerMonth.Close();
+
+                SQLiteCommand loadStatus = new SQLiteCommand("SELECT ID_Apartament_Status, Name FROM ApartamentStatus", conn);
+                SQLiteDataReader readerStatus = loadStatus.ExecuteReader();
+                while (readerStatus.Read())
+                {
+                    DebitingStatus.Add(Convert.ToInt32(readerStatus["ID_Apartament_Status"]), Convert.ToString(readerStatus["Name"]));
+                    areaTypeComboBox.Items.Add(readerStatus["Name"]);
+                }
+                readerStatus.Close();
+            }
+            catch(Exception ex)
             {
-                DebitingMonth.Add(Convert.ToInt32(readerMonth["ID_Months"]), Convert.ToString(readerMonth["Name"]));
-                monthComboBox.Items.Add(readerMonth["Name"]);
+                MessageBox.Show("Произошла ошибка. "+ ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            readerMonth.Close();
-
-            SQLiteCommand loadStatus = new SQLiteCommand("SELECT ID_Apartament_Status, Name FROM ApartamentStatus", conn);
-            SQLiteDataReader readerStatus = loadStatus.ExecuteReader();
-            while(readerStatus.Read())
+            finally
             {
-                DebitingStatus.Add(Convert.ToInt32(readerStatus["ID_Apartament_Status"]), Convert.ToString(readerStatus["Name"]));
-                areaTypeComboBox.Items.Add(readerStatus["Name"]);
+                conn.Close();
             }
-            readerStatus.Close();
-
-            conn.Close();
         }
 
         private void addFlatsButton_Click(object sender, EventArgs e)

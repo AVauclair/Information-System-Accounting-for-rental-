@@ -38,6 +38,7 @@ namespace manprac
             this.clearFlatsButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.RecreateDB_Button = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1.SuspendLayout();
@@ -73,8 +74,8 @@ namespace manprac
             this.createDB_Button.Size = new System.Drawing.Size(197, 36);
             this.createDB_Button.TabIndex = 2;
             this.createDB_Button.Text = "Создать базу данных ";
-            this.toolTip1.SetToolTip(this.createDB_Button, "Создание базы данных с таблицами. Если база данных уже существует в проекте, то  " +
-        "база данных заново создана не будет");
+            this.toolTip1.SetToolTip(this.createDB_Button, "Создание базы данных с таблицами. Если база данных уже существует в проекте,\r\n то" +
+        "  новая создана не будет.");
             this.createDB_Button.UseVisualStyleBackColor = true;
             this.createDB_Button.Click += new System.EventHandler(this.createDB_Button_Click);
             // 
@@ -122,13 +123,26 @@ namespace manprac
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.RecreateDB_Button);
             this.groupBox2.Controls.Add(this.createDB_Button);
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(337, 100);
+            this.groupBox2.Size = new System.Drawing.Size(590, 100);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Создание базы данных";
+            // 
+            // RecreateDB_Button
+            // 
+            this.RecreateDB_Button.Location = new System.Drawing.Point(353, 35);
+            this.RecreateDB_Button.Name = "RecreateDB_Button";
+            this.RecreateDB_Button.Size = new System.Drawing.Size(197, 36);
+            this.RecreateDB_Button.TabIndex = 3;
+            this.RecreateDB_Button.Text = "Пересоздать базу данных ";
+            this.toolTip1.SetToolTip(this.RecreateDB_Button, "Полное удаление старой БД и создание новой.\r\nНеобходимо использовать в случае, ес" +
+        "ли БД была\r\nповреждена или неправильно создана");
+            this.RecreateDB_Button.UseVisualStyleBackColor = true;
+            this.RecreateDB_Button.Click += new System.EventHandler(this.RecreateDB_Button_Click);
             // 
             // groupBox3
             // 
@@ -175,5 +189,6 @@ namespace manprac
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button RecreateDB_Button;
     }
 }

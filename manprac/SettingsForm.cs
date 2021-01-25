@@ -28,17 +28,13 @@ namespace manprac
 
         }
 
-        private void createDB_Button_Click(object sender, EventArgs e)
+
+        public void CreateDB()
         {
-            if(File.Exists(dbFileName))
-            {
-                MessageBox.Show("База данных уже существует в проекте.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-            else if (!File.Exists(dbFileName))
+             if (!File.Exists(dbFileName))
             {
                 SQLiteConnection.CreateFile(dbFileName);
-            } //Create DB
+            }
 
             SQLiteConnection conn = new SQLiteConnection(ConnString);
             try
@@ -54,17 +50,26 @@ namespace manprac
                 cmd.ExecuteNonQuery();
 
                 cmd.CommandText = "CREATE TABLE IF NOT EXISTS Offices (ID_Office INTEGER PRIMARY KEY AUTOINCREMENT, ID_Renters INTEGER, Contract TEXT,  ID_Month INTEGER, Amount_Rent FLOAT, " +
-                    "VAT FLOAT, Date_Payment Date, Note Text,  FOREIGN KEY (ID_Renters) REFERENCES Renters(ID_Renters),  FOREIGN KEY (ID_Month) REFERENCES Months(ID_Month))";
+                    "VAT FLOAT, Date_Payment timestamp, Note Text,  FOREIGN KEY (ID_Renters) REFERENCES Renters(ID_Renters),  FOREIGN KEY (ID_Month) REFERENCES Months(ID_Month))";
                 cmd.ExecuteNonQuery();
 
                 cmd.CommandText = "CREATE TABLE IF NOT EXISTS ApartamentStatus (ID_Apartament_Status INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT)";
                 cmd.ExecuteNonQuery();
 
                 cmd.CommandText = "CREATE TABLE IF NOT EXISTS Apartaments (ID_Apartament INTEGER PRIMARY KEY AUTOINCREMENT, ID_Renters INTEGER, Contract TEXT, ID_Month INTEGER, Amount_Rent FLOAT," +
-                    " VAT FLOAT, Date_Payment Date, Apartament_Status INTEGER, Note TEXT, Amount_Payment FLOAT, FOREIGN KEY (ID_Renters) REFERENCES Renters(ID_Renters), " +
+                    " VAT FLOAT, Date_Payment timestamp, Apartament_Status INTEGER, Note TEXT, Amount_Payment FLOAT, FOREIGN KEY (ID_Renters) REFERENCES Renters(ID_Renters), " +
                     "FOREIGN KEY (ID_Month) REFERENCES Months(ID_Month), FOREIGN KEY (Apartament_Status) REFERENCES ApartamentStatus(ID_Apartament_Status))";
                 cmd.ExecuteNonQuery();
-                MessageBox.Show("База данных успешно создана.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                SQLiteCommand InsertMonths = new SQLiteCommand("INSERT INTO  [Months] (ID_Months, Name) " +
+                    "VALUES (1, 'Январь'), (2, 'Февраль'), (3, 'Март'), (4, 'Апрель'), (5, 'Май'), (6, 'Июнь')," +
+                    " (7, 'Июль'), (8, 'Август'), (9, 'Сентябрь'), (10, 'Октябрь'), (11, 'Ноябрь'), (12, 'Декабрь')", conn);
+                InsertMonths.ExecuteNonQuery();
+
+                SQLiteCommand InsertStatusFlats = new SQLiteCommand("INSERT INTO [ApartamentStatus] (ID_Apartament_Status, Name) " +
+                "VALUES (1 , 'Нежилое'), (2, 'Жилое')", conn);
+                InsertStatusFlats.ExecuteNonQuery();
+
             }
             catch (SQLiteException ex)
             {
@@ -74,6 +79,19 @@ namespace manprac
             finally
             {
                 conn.Close();
+            }
+        }
+        private void createDB_Button_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(dbFileName))
+            {
+                MessageBox.Show("База данных уже существует в проекте.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            else
+            {
+                CreateDB();
+                MessageBox.Show("База данных успешно создана.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -89,10 +107,9 @@ namespace manprac
 
                 SQLiteCommand readNullRenters = new SQLiteCommand("SELECT Renters.ID_Renters AS 'FreeRenters'  FROM Renters" +
                     " LEFT JOIN Offices " +
-                    " ON Renters.ID_Renters = Offices.ID_Renters " +
-                    "WHERE Offices.ID_Renters IS NULL; ", conn);
-                
-            
+                    " ON Renters.ID_Renters = Offices.ID_Renters  LEFT JOIN Apartaments ON Renters.ID_Renters = Apartaments.ID_Renters " +
+                    "WHERE Offices.ID_Renters IS NULL AND Apartaments.ID_Renters IS NULL", conn);
+              
                 try
                 {
                     SQLiteDataReader reader = readNullRenters.ExecuteReader();
@@ -222,6 +239,17 @@ namespace manprac
         private void loadDB_Button_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Скоро будет UwU");
+        }
+
+        private void RecreateDB_Button_Click(object sender, EventArgs e)
+        {
+            if(File.Exists(dbFileName))
+            {
+                File.Delete(dbFileName);
+                CreateDB();
+                MessageBox.Show("База данных успешно пересоздана.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
         }
     }
 }

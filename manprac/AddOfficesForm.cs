@@ -22,27 +22,37 @@ namespace manprac
             InitializeComponent();
 
             SQLiteConnection conn = new SQLiteConnection(ConnString);
-            conn.Open();
-            SQLiteCommand loadRenters = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);
-            SQLiteDataReader readerRenters = loadRenters.ExecuteReader();
-
-            while (readerRenters.Read())
+            try
             {
-                DebitingRenters.Add(Convert.ToInt32(readerRenters["ID_Renters"]), Convert.ToString(readerRenters["Name"]));
-                rentersComboBox.Items.Add(readerRenters["Name"]);
-            }
-            readerRenters.Close();
+                conn.Open();
+                SQLiteCommand loadRenters = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);
+                SQLiteDataReader readerRenters = loadRenters.ExecuteReader();
 
-            SQLiteCommand loadMonth = new SQLiteCommand("SELECT ID_Months, Name FROM Months", conn);
-            SQLiteDataReader readerMonth = loadMonth.ExecuteReader();
-            while(readerMonth.Read())
+                while (readerRenters.Read())
+                {
+                    DebitingRenters.Add(Convert.ToInt32(readerRenters["ID_Renters"]), Convert.ToString(readerRenters["Name"]));
+                    rentersComboBox.Items.Add(readerRenters["Name"]);
+                }
+                readerRenters.Close();
+
+                SQLiteCommand loadMonth = new SQLiteCommand("SELECT ID_Months, Name FROM Months", conn);
+                SQLiteDataReader readerMonth = loadMonth.ExecuteReader();
+                while (readerMonth.Read())
+                {
+                    DebitingMonth.Add(Convert.ToInt32(readerMonth["ID_Months"]), Convert.ToString(readerMonth["Name"]));
+                    monthComboBox.Items.Add(readerMonth["Name"]);
+                }
+                readerMonth.Close();
+            }
+            catch(Exception ex)
             {
-                DebitingMonth.Add(Convert.ToInt32(readerMonth["ID_Months"]), Convert.ToString(readerMonth["Name"]));
-                monthComboBox.Items.Add(readerMonth["Name"]);
+                MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            readerMonth.Close();
-            conn.Close();
+            finally
+            {
+                conn.Close();
 
+            }
         }
 
         private void AddOfficesForm_Load(object sender, EventArgs e)
@@ -124,12 +134,15 @@ namespace manprac
                 MessageBox.Show("Произошла ошибка. "+ ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             SQLiteCommand InsertInOffices = new SQLiteCommand("INSERT INTO [Offices] (ID_Renters, Contract, ID_Month, Amount_Rent, VAT, Date_Payment, Note) VALUES (@ID_Renters, @Contract, @ID_Months, @Amount_Rent, @VAT, @Date_Payment, @Note)", conn);
+            DateTime dt = datePicker.Value;
+            string dt2 = dt.ToString("yyyy:MM:dd");
+           
             InsertInOffices.Parameters.AddWithValue("@ID_Renters", SelectedRenters);
             InsertInOffices.Parameters.AddWithValue("@Contract", contractTextBox.Text);
             InsertInOffices.Parameters.AddWithValue("@ID_Months", SelectedMonth);
             InsertInOffices.Parameters.AddWithValue("@Amount_Rent", amountRentBox.Text);
             InsertInOffices.Parameters.AddWithValue("@VAT", vatTextBox.Text);
-            InsertInOffices.Parameters.AddWithValue("@Date_Payment", datePicker.Value);
+            InsertInOffices.Parameters.AddWithValue("@Date_Payment", dt2);
             if (noteTextBox.Text == "")
             {
                 InsertInOffices.Parameters.AddWithValue("@Note", "Отсутствует");
@@ -145,6 +158,7 @@ namespace manprac
                 SQLiteCommand loadOffices = new SQLiteCommand("SELECT ID_Office, Renters.Name Renters, Contract, Months.Name Month, Amount_Rent, VAT, Date_Payment, Note" +
               " FROM Offices LEFT JOIN Renters on Offices.ID_Renters = Renters.ID_Renters " +
               " LEFT JOIN Months on Offices.ID_Month = Months.ID_Months", conn);
+
                 SQLiteDataReader readerOffices = loadOffices.ExecuteReader();
                 List<string[]> dataOffices = new List<string[]>();
 
@@ -173,7 +187,7 @@ namespace manprac
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {

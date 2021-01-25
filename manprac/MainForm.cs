@@ -36,14 +36,14 @@ namespace manprac
         string resultFlatsLoadQuery = "SELECT Months.ID_Months, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
             "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months " +
             " GROUP BY Months.ID_Months, Months.Name";
-        string resultOfficesLoadQueryConst = "Select Months.ID_Month, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference" +
+        string resultOfficesLoadQueryConst = "Select Months.ID_Months, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference" +
                 " FROM Offices LEFT JOIN Months on Offices.ID_Month = Months.ID_Month GROUP BY Months.ID_Month, Months.Name";
         string resultOfficesLoadQuery = "Select Months.ID_Months, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference" +
                 " FROM Offices LEFT JOIN Months on Offices.ID_Month = Months.ID_Months GROUP BY Months.ID_Months, Months.Name";
         string resultOfficesSumQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference FROM Offices";
         string resultOfficesSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference FROM Offices";
 
-        string resultFlatsNLoadQueryConst = "SELECT Months.ID_Month, Months.Name Month, sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments " +
+        string resultFlatsNLoadQueryConst = "SELECT Months.ID_Months, Months.Name Month, sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments " +
               " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month WHERE Apartament_Status = 2 Group By Months.ID_Month, Months.Name";
         string resultFlatsNLoadQuery = "SELECT Months.ID_Months, Months.Name Month, sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments " +
               " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months WHERE Apartament_Status = 2 Group By Months.ID_Months, Months.Name";
@@ -61,113 +61,138 @@ namespace manprac
         public void RentersLoad()
         {
             SQLiteConnection conn = new SQLiteConnection(ConnString);
-            conn.Open();
-
-            List<string[]> dataRenters = new List<string[]>();
-
-            SQLiteCommand loadRenters = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);
-            SQLiteDataReader readerRenters = loadRenters.ExecuteReader();
-
-            int countRenters = 1;
-            while (readerRenters.Read())
+            try
             {
-                dataRenters.Add(new string[3]);
-                dataRenters[dataRenters.Count - 1][0] = readerRenters["ID_Renters"].ToString();
-                dataRenters[dataRenters.Count - 1][1] = countRenters.ToString();
-                dataRenters[dataRenters.Count - 1][2] = readerRenters["Name"].ToString();
-                countRenters++;
+                conn.Open();
+                List<string[]> dataRenters = new List<string[]>();
+                SQLiteCommand loadRenters = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);
+                SQLiteDataReader readerRenters = loadRenters.ExecuteReader();
+
+                int countRenters = 1;
+                while (readerRenters.Read())
+                {
+                    dataRenters.Add(new string[3]);
+                    dataRenters[dataRenters.Count - 1][0] = readerRenters["ID_Renters"].ToString();
+                    dataRenters[dataRenters.Count - 1][1] = countRenters.ToString();
+                    dataRenters[dataRenters.Count - 1][2] = readerRenters["Name"].ToString();
+                    countRenters++;
+                }
+                foreach (string[] s in dataRenters)
+                {
+                    dataGridRenters.Rows.Add(s);
+                }
+
+                readerRenters.Close();
             }
-            foreach (string[] s in dataRenters)
+            catch
             {
-                dataGridRenters.Rows.Add(s);
+                MessageBox.Show("Произошла ошибка при загрузке таблицы. Проверьте существует ли база данных.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            readerRenters.Close();
-
-            conn.Close();
+            finally
+            {
+                conn.Close();
+            }
         }
 
         public void OfficesLoad()
         {
-
             SQLiteConnection conn = new SQLiteConnection(ConnString);
-            conn.Open();
-
-            SQLiteCommand loadOffices = new SQLiteCommand("SELECT ID_Office, Renters.Name Renters, Contract, Months.Name Months, Amount_Rent, VAT, Date_Payment, Note" +
+            
+            try
+            {
+                conn.Open();
+                SQLiteCommand loadOffices = new SQLiteCommand("SELECT ID_Office, Renters.Name Renters, Contract, Months.Name Months, Amount_Rent, VAT, Date_Payment, Note" +
               " FROM Offices LEFT JOIN Renters on Offices.ID_Renters = Renters.ID_Renters " +
               " LEFT JOIN Months on Offices.ID_Month = Months.ID_Months", conn);
-            SQLiteDataReader readerOffices = loadOffices.ExecuteReader();
-            List<string[]> dataOffices = new List<string[]>();
+                SQLiteDataReader readerOffices = loadOffices.ExecuteReader();
+                List<string[]> dataOffices = new List<string[]>();
 
-            int countOffices = 1;
-            while (readerOffices.Read())
-            {
-
-                dataOffices.Add(new string[9]);
-                dataOffices[dataOffices.Count - 1][0] = readerOffices["ID_Office"].ToString();
-                dataOffices[dataOffices.Count - 1][1] = countOffices.ToString();
-                dataOffices[dataOffices.Count - 1][2] = readerOffices["Renters"].ToString();
-                dataOffices[dataOffices.Count - 1][3] = readerOffices["Contract"].ToString();
-                dataOffices[dataOffices.Count - 1][4] = readerOffices["Months"].ToString();
-                dataOffices[dataOffices.Count - 1][5] = readerOffices["Amount_Rent"].ToString();
-                dataOffices[dataOffices.Count - 1][6] = readerOffices["VAT"].ToString();
-                if (readerOffices["Date_Payment"].ToString() != "")
+                int countOffices = 1;
+                while (readerOffices.Read())
                 {
-                    dataOffices[dataOffices.Count - 1][7] = Convert.ToDateTime(readerOffices["Date_Payment"]).ToShortDateString();
+
+                    dataOffices.Add(new string[9]);
+                    dataOffices[dataOffices.Count - 1][0] = readerOffices["ID_Office"].ToString();
+                    dataOffices[dataOffices.Count - 1][1] = countOffices.ToString();
+                    dataOffices[dataOffices.Count - 1][2] = readerOffices["Renters"].ToString();
+                    dataOffices[dataOffices.Count - 1][3] = readerOffices["Contract"].ToString();
+                    dataOffices[dataOffices.Count - 1][4] = readerOffices["Months"].ToString();
+                    dataOffices[dataOffices.Count - 1][5] = readerOffices["Amount_Rent"].ToString();
+                    dataOffices[dataOffices.Count - 1][6] = readerOffices["VAT"].ToString();
+                    if (readerOffices["Date_Payment"].ToString() != "")
+                    {
+                        dataOffices[dataOffices.Count - 1][7] = Convert.ToDateTime(readerOffices["Date_Payment"]).ToShortDateString();
+                    }
+                    dataOffices[dataOffices.Count - 1][8] = readerOffices["Note"].ToString();
+                    countOffices++;
                 }
-                dataOffices[dataOffices.Count - 1][8] = readerOffices["Note"].ToString();
-                countOffices++;
+                foreach (string[] s in dataOffices)
+                {
+                    dataGridOffices.Rows.Add(s);
+                }
+
+                readerOffices.Close();
             }
-            foreach (string[] s in dataOffices)
+            catch
             {
-                dataGridOffices.Rows.Add(s);
+                MessageBox.Show("Произошла ошибка при загрузке таблицы. Проверьте существует ли база данных.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
-
-            readerOffices.Close();
-
-            conn.Close();
+            finally
+            {
+                conn.Close();
+            }        
         }
 
         public void FlatsLoad()
         {
             SQLiteConnection conn = new SQLiteConnection(ConnString);
-            conn.Open();
-
-            SQLiteCommand loadApartaments = new SQLiteCommand("SELECT ID_Apartament, Renters.Name Renters, Contract, Months.Name Months, Amount_Rent, Amount_Payment, VAT, ApartamentStatus.Name ApartamentStatus, " +
-                " Date_Payment, Note FROM Apartaments LEFT JOIN Renters on Apartaments.ID_Renters = Renters.ID_Renters " +
-                " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months " +
-                " LEFT JOIN ApartamentStatus on Apartaments.Apartament_Status = ApartamentStatus.ID_Apartament_Status", conn);
-            SQLiteDataReader readerApartaments = loadApartaments.ExecuteReader();
-            List<string[]> dataApartaments = new List<string[]>();
-            int countApartaments = 1;
-            while (readerApartaments.Read())
+            try
             {
+                conn.Open();
 
-                dataApartaments.Add(new string[11]);
-                dataApartaments[dataApartaments.Count - 1][0] = readerApartaments["ID_Apartament"].ToString();
-                dataApartaments[dataApartaments.Count - 1][1] = countApartaments.ToString();
-                dataApartaments[dataApartaments.Count - 1][2] = readerApartaments["Renters"].ToString();
-                dataApartaments[dataApartaments.Count - 1][3] = readerApartaments["Contract"].ToString();
-                dataApartaments[dataApartaments.Count - 1][4] = readerApartaments["Months"].ToString();
-                dataApartaments[dataApartaments.Count - 1][5] = readerApartaments["Amount_Rent"].ToString();
-                dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
-                dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
-                dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["ApartamentStatus"].ToString();
-                if (readerApartaments["Date_Payment"].ToString() != "")
+                SQLiteCommand loadApartaments = new SQLiteCommand("SELECT ID_Apartament, Renters.Name Renters, Contract, Months.Name Months, Amount_Rent, Amount_Payment, VAT, ApartamentStatus.Name ApartamentStatus, " +
+                    " Date_Payment, Note FROM Apartaments LEFT JOIN Renters on Apartaments.ID_Renters = Renters.ID_Renters " +
+                    " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months " +
+                    " LEFT JOIN ApartamentStatus on Apartaments.Apartament_Status = ApartamentStatus.ID_Apartament_Status", conn);
+                SQLiteDataReader readerApartaments = loadApartaments.ExecuteReader();
+                List<string[]> dataApartaments = new List<string[]>();
+                int countApartaments = 1;
+                while (readerApartaments.Read())
                 {
-                    dataApartaments[dataApartaments.Count - 1][9] = Convert.ToDateTime(readerApartaments["Date_Payment"]).ToShortDateString();
+
+                    dataApartaments.Add(new string[11]);
+                    dataApartaments[dataApartaments.Count - 1][0] = readerApartaments["ID_Apartament"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][1] = countApartaments.ToString();
+                    dataApartaments[dataApartaments.Count - 1][2] = readerApartaments["Renters"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][3] = readerApartaments["Contract"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][4] = readerApartaments["Months"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][5] = readerApartaments["Amount_Rent"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
+                    dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["ApartamentStatus"].ToString();
+                    if (readerApartaments["Date_Payment"].ToString() != "")
+                    {
+                        dataApartaments[dataApartaments.Count - 1][9] = Convert.ToDateTime(readerApartaments["Date_Payment"]).ToShortDateString();
+                    }
+                    dataApartaments[dataApartaments.Count - 1][10] = readerApartaments["Note"].ToString();
+                    countApartaments++;
                 }
-                dataApartaments[dataApartaments.Count - 1][10] = readerApartaments["Note"].ToString();
-                countApartaments++;
+                foreach (string[] s in dataApartaments)
+                {
+                    dataGridFlats.Rows.Add(s);
+                }
+
+                readerApartaments.Close();
             }
-            foreach (string[] s in dataApartaments)
+            catch
             {
-                dataGridFlats.Rows.Add(s);
+                MessageBox.Show("Произошла ошибка при загрузке таблицы. Проверьте существует ли база данных.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            readerApartaments.Close();
-
-            conn.Close();
+            finally
+            {
+                conn.Close();
+            }
         }
 
         public void ResultFlatsLoad()
@@ -262,6 +287,7 @@ namespace manprac
 
         public void ResultAllLoad()
         {
+
             SQLiteConnection conn = new SQLiteConnection(ConnString);
             conn.Open();
             SQLiteCommand loadCommonSummary1 = new SQLiteCommand(resultAllLoadQuery, conn);
@@ -527,9 +553,12 @@ namespace manprac
             SQLiteConnection conn = new SQLiteConnection(ConnString);
             conn.Open();
 
-            string datestart = string.Format("{0:yyyy-MM-dd}", $"'{datePickerStart.Value}'");
-            string datefinish = string.Format("{0:yyyy-MM-dd}", $"'{datePickerFinish.Value}'");
-
+            //string datestart = string.Format("{0:yyyy-MM-dd}", $"'{datePickerStart.Value}'");
+            //string datefinish = string.Format("{0:yyyy-MM-dd}", $"'{datePickerFinish.Value}'");
+            DateTime datestart = Convert.ToDateTime(datePickerStart.Value);
+            DateTime datefinish = Convert.ToDateTime(datePickerFinish.Value);
+            datestart.ToString("O: {0:O}");
+            datefinish.ToString("O: {0:O}");
             if (dataGridOffices.Visible == true)
             {
                 dataGridOffices.Rows.Clear();
@@ -538,10 +567,7 @@ namespace manprac
                 {
                     for (int i = 0; i < dataGridOffices.Rows.Count; i++)
                     {
-                        if (dataGridFlats.Rows[i].Cells[7].Value.ToString() == "")
-                        {
-                            dataGridFlats.Rows[i].Cells[7].Value = 0;
-                        }
+
 
                         dataGridOffices.Rows[i].Cells[7].DataGridView.DefaultCellStyle.Format = "d";
                         DateTime dt = DateTime.Parse(dataGridOffices.Rows[i].Cells[7].Value.ToString());
@@ -549,16 +575,11 @@ namespace manprac
                         {
                             dataGridOffices.Rows[i].Visible = false;
                         }
-
-                        if (Convert.ToDouble(dataGridFlats.Rows[i].Cells[7].Value) == 0)
-                        {
-                            dataGridFlats.Rows[i].Cells[7].Value = "";
-                        }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
-
+                    MessageBox.Show(ex.Message);
                 }
             }
 
@@ -570,28 +591,17 @@ namespace manprac
                 {
                     for (int i = 0; i < dataGridFlats.Rows.Count; i++)
                     {
-
-                        if (dataGridFlats.Rows[i].Cells[9].Value == null)
-                        {
-                            dataGridFlats.Rows[i].Cells[9].Value = "01.01.2001";
-                        }
-
                         dataGridFlats.Rows[i].Cells[9].DataGridView.DefaultCellStyle.Format = "d";
                         DateTime dt = DateTime.Parse(dataGridFlats.Rows[i].Cells[9].Value.ToString());
                         if (!((dt.Date >= datePickerStart.Value.Date) && (dt.Date <= datePickerFinish.Value.Date)))
                         {
                             dataGridFlats.Rows[i].Visible = false;
                         }
-
-                        if (dataGridFlats.Rows[i].Cells[9].Value.ToString() == "01.01.2001")
-                        {
-                            dataGridFlats.Rows[i].Cells[9].Value = null;
-                        }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
-
+                    MessageBox.Show(ex.Message);
                 }
             }
 
@@ -629,13 +639,13 @@ namespace manprac
                 ResultFlatsNLoad();
             }
 
-            if (dataGridCommonResults.Visible == true)
+          /*  if (dataGridCommonResults.Visible == true)
             {
-                resultAllLoadQuery = resultAllLoadQueryConst.Insert(62, $" WHERE Date_Payment BETWEEN {datestart} AND {datefinish}");
-                resultAllSumQuery = resultAllSumQueryConst.Insert(66, $" WHERE Date_Payment BETWEEN {datestart} AND {datefinish}");
+                resultAllLoadQuery = resultAllLoadQueryConst.Insert(62, $" WHERE Date_Payment BETWEEN '{datestart.ToShortDateString()}' AND '{datefinish.ToShortDateString()}'");
+                resultAllSumQuery = resultAllSumQueryConst.Insert(66, $" WHERE Date_Payment BETWEEN '{datestart.ToShortDateString()}' AND '{datefinish.ToShortDateString()}'");
                 dataGridCommonResults.Rows.Clear();
                 ResultAllLoad();
-            }
+            }*/
 
             conn.Close();
         }
@@ -657,54 +667,70 @@ namespace manprac
             });
             #endregion
 
+         
+
+            ChangeHeight();
+
             #region заполнение комбобоксов
             rentersComboBox.Items.Add("Все");
             monthComboBox.Items.Add("Все");
             areaTypeComboBox.Items.Add("Все");
-            
-            SQLiteConnection conn = new SQLiteConnection("Data Source=" + dbFileName + ";Version=3;");
-            conn.Open();
+            #region установка изначальных значений в комбобоксы
+            monthComboBox.SelectedItem = "Все";
+            rentersComboBox.SelectedItem = "Все";
+            areaTypeComboBox.SelectedItem = "Все";
 
-            SQLiteCommand cmd = new SQLiteCommand("SELECT ID_Months, Name FROM Months", conn); 
-            SQLiteDataReader readerMonth = cmd.ExecuteReader();
-            
-            while (readerMonth.Read())
+            #endregion
+
+            if (!File.Exists(dbFileName))
             {
-                DebitingMonth.Add(Convert.ToInt32(readerMonth["ID_Months"]), Convert.ToString(readerMonth["Name"]));
-                monthComboBox.Items.Add(readerMonth["Name"]);
+                MessageBox.Show("Произошла ошибка. В программе отсутствует база данных. " +
+                    "Пожалуйста перейдите в настройки и создайте базу.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            readerMonth.Close();
-
-            SQLiteCommand loadAreaType = new SQLiteCommand("SELECT ID_Apartament_Status, Name FROM ApartamentStatus", conn);
-            SQLiteDataReader readerAreaType = loadAreaType.ExecuteReader();
-            while (readerAreaType.Read())
+            try
             {
-                DebitingAreaType.Add(Convert.ToInt32(readerAreaType["ID_Apartament_Status"]), Convert.ToString(readerAreaType["Name"]));
-                areaTypeComboBox.Items.Add(readerAreaType["Name"]);
-            }
-            readerAreaType.Close();
+                SQLiteConnection conn = new SQLiteConnection("Data Source=" + dbFileName + ";Version=3;");
+                conn.Open();
 
-            SQLiteCommand loadRentersComboBox = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);
-            SQLiteDataReader readerRentersComboBox = loadRentersComboBox.ExecuteReader();
-            
-            while (readerRentersComboBox.Read())
+                SQLiteCommand cmd = new SQLiteCommand("SELECT ID_Months, Name FROM Months", conn);
+                SQLiteDataReader readerMonth = cmd.ExecuteReader();
+
+                while (readerMonth.Read())
+                {
+                    DebitingMonth.Add(Convert.ToInt32(readerMonth["ID_Months"]), Convert.ToString(readerMonth["Name"]));
+                    monthComboBox.Items.Add(readerMonth["Name"]);
+                }
+                readerMonth.Close();
+
+                SQLiteCommand loadAreaType = new SQLiteCommand("SELECT ID_Apartament_Status, Name FROM ApartamentStatus", conn);
+                SQLiteDataReader readerAreaType = loadAreaType.ExecuteReader();
+                while (readerAreaType.Read())
+                {
+                    DebitingAreaType.Add(Convert.ToInt32(readerAreaType["ID_Apartament_Status"]), Convert.ToString(readerAreaType["Name"]));
+                    areaTypeComboBox.Items.Add(readerAreaType["Name"]);
+                }
+                readerAreaType.Close();
+
+                SQLiteCommand loadRentersComboBox = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);
+                SQLiteDataReader readerRentersComboBox = loadRentersComboBox.ExecuteReader();
+
+                while (readerRentersComboBox.Read())
+                {
+                    DebitingRenters.Add(Convert.ToInt32(readerRentersComboBox["ID_Renters"]), Convert.ToString(readerRentersComboBox["Name"]));
+                    rentersComboBox.Items.Add(readerRentersComboBox["Name"]);
+                }
+                readerAreaType.Close();
+
+                conn.Close();
+            }
+            catch(Exception ex)
             {
-                DebitingRenters.Add(Convert.ToInt32(readerRentersComboBox["ID_Renters"]), Convert.ToString(readerRentersComboBox["Name"]));
-                rentersComboBox.Items.Add(readerRentersComboBox["Name"]);
+                MessageBox.Show("Произошла ошибка. Вероятно база данных была создана некорректно, выполните пересоздание БД. \n" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            readerAreaType.Close();
-
-            conn.Close();
             #endregion
                         
-            #region установка изначальных значений в комбобоксы
-            monthComboBox.SelectedIndex = 0;
-            rentersComboBox.SelectedIndex = 0;
-            areaTypeComboBox.SelectedIndex = 0;
             
-            #endregion
-
-            ChangeHeight();
         }
 
         #region переход на другие формы
@@ -764,6 +790,22 @@ namespace manprac
             {
                 SQLiteConnection conn = new SQLiteConnection(ConnString);
                 conn.Open();
+
+                SQLiteCommand readNullRenters = new SQLiteCommand("SELECT  Renters.ID_Renters AS 'FreeRenters'  FROM Renters" +
+                   " LEFT JOIN Offices " +
+                   " ON Renters.ID_Renters = Offices.ID_Renters  LEFT JOIN Apartaments ON Renters.ID_Renters = Apartaments.ID_Renters " +
+                   "WHERE Offices.ID_Renters IS NULL AND Apartaments.ID_Renters IS NULL  AND Renters.ID_Renters = @ID_Renters", conn);
+                readNullRenters.Parameters.AddWithValue("@ID_Renters", dataGridRenters.CurrentRow.Cells[0].Value);
+                SQLiteDataReader reader = readNullRenters.ExecuteReader();
+
+                if(!reader.HasRows)
+                { 
+                  
+                        MessageBox.Show("Выбранного арендатора нельзя удалять, так как он используется в других таблицах.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+       
+                }
+               
                 SQLiteCommand deleteRenters = new SQLiteCommand("DELETE FROM [Renters] WHERE [ID_Renters] = @ID_Renters", conn);
                 deleteRenters.Parameters.AddWithValue("@ID_Renters", dataGridRenters.CurrentRow.Cells[0].Value);
                 try
@@ -1700,92 +1742,92 @@ namespace manprac
         }
         #endregion
 
-        private void суперМегаКнопкаНеНажиматьToolStripMenuItem_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            if (!File.Exists(dbFileName))
-            {
-                SQLiteConnection.CreateFile(dbFileName);
-            } //Create DB
 
-            SQLiteConnection conn = new SQLiteConnection("Data Source=" + dbFileName + ";Version=3;");
-            try
-            {       
-                conn.Open();
-                SQLiteCommand cmd = new SQLiteCommand();
-                cmd.Connection = conn;
+            dataGridCommonResults.Rows.Clear();
 
-                cmd.CommandText = "CREATE TABLE IF NOT EXISTS Months (ID_Months INTEGER PRIMARY KEY AUTOINCREMENT, Name Text)";
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("table months created", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                cmd.CommandText = "CREATE TABLE IF NOT EXISTS Renters (ID_Renters INTEGER PRIMARY KEY AUTOINCREMENT, Name Text)";
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("table renters created", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            DateTime datestart = Convert.ToDateTime(datePickerStart.Value);
+            DateTime datefinish = Convert.ToDateTime(datePickerFinish.Value);
+            datestart.ToString("YYYY:MM:DD");
+            datefinish.ToString("yyyy:MM:dd");
 
-                cmd.CommandText = "CREATE TABLE IF NOT EXISTS Offices (ID_Office INTEGER PRIMARY KEY AUTOINCREMENT, ID_Renters INTEGER, Contract TEXT,  ID_Month INTEGER, Amount_Rent FLOAT, " +
-                    "VAT FLOAT, Date_Payment Date, Note Text,  FOREIGN KEY (ID_Renters) REFERENCES Renters(ID_Renters),  FOREIGN KEY (ID_Month) REFERENCES Months(ID_Month))";
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("table Offices created", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                cmd.CommandText = "CREATE TABLE IF NOT EXISTS ApartamentStatus (ID_Apartament_Status INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT)";
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("table ApartamentStatus created", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                cmd.CommandText = "CREATE TABLE IF NOT EXISTS Apartaments (ID_Apartament INTEGER PRIMARY KEY AUTOINCREMENT, ID_Renters INTEGER, Contract TEXT, ID_Month INTEGER, Amount_Rent FLOAT," +
-                    " VAT FLOAT, Date_Payment Date, Apartament_Status INTEGER, Note TEXT, Amount_Payment FLOAT, FOREIGN KEY (ID_Renters) REFERENCES Renters(ID_Renters), " +
-                    "FOREIGN KEY (ID_Month) REFERENCES Months(ID_Month), FOREIGN KEY (Apartament_Status) REFERENCES ApartamentStatus(ID_Apartament_Status))";
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("table Apartaments created", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (SQLiteException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
-
-        private void аМесяцыКтоДобавлятьБудетToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SQLiteConnection conn = new SQLiteConnection(ConnString);
-            conn.Open();
-            SQLiteCommand cmd = new SQLiteCommand("INSERT INTO  [Months] (ID_Months, Name) VALUES (12, 'Декабрь')", conn);
-            try
-            {
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Month added");
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void статусКвартирыЖилоеНежилоеToolStripMenuItem_Click(object sender, EventArgs e)
-        {
             SQLiteConnection conn = new SQLiteConnection(ConnString);
             conn.Open();
 
-            SQLiteCommand cmd = new SQLiteCommand("INSERT INTO [ApartamentStatus] (ID_Apartament_Status, Name) " +
-                "VALUES (2 , 'Нежилое')", conn);
+            string resultAllLoadQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices" +
+                " WHERE Date_Payment BETWEEN '" + datestart.ToShortDateString() + "' AND '" + datefinish.ToShortDateString()  + "'";
+            string resultAllLoadQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices";
+            string resultAllSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Apartaments " +
+                " WHERE Date_Payment BETWEEN '" + datestart.ToShortDateString() + "' AND '" + datefinish.ToShortDateString() + "'";
+            string resultAllSumQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Apartaments";
+
+
+            SQLiteCommand loadCommonSummary1 = new SQLiteCommand(resultAllLoadQuery, conn);
             try
             {
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Apartament status added");
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
+                SQLiteDataReader readerCommonSummary1 = loadCommonSummary1.ExecuteReader();
+                List<string[]> data1 = new List<string[]>();
+                while (readerCommonSummary1.Read())
+                {
+                    data1.Add(new string[3]);
+                    data1[data1.Count - 1][0] = "Офис";
+                    data1[data1.Count - 1][1] = readerCommonSummary1["Amount_Rent"].ToString();
+                    data1[data1.Count - 1][2] = readerCommonSummary1["VAT"].ToString();
+                }
+                foreach (string[] s in data1)
+                    dataGridCommonResults.Rows.Add(s);
 
-      
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            SQLiteCommand loadCommonSummary2 = new SQLiteCommand(resultAllSumQuery, conn);
+            try
+            {
+                SQLiteDataReader readerCommonSummary2 = loadCommonSummary2.ExecuteReader();
+                List<string[]> data2 = new List<string[]>();
+                while (readerCommonSummary2.Read())
+                {
+                    data2.Add(new string[3]);
+                    data2[data2.Count - 1][0] = "Квартиры";
+                    data2[data2.Count - 1][1] = readerCommonSummary2["Amount_Rent"].ToString();
+                    data2[data2.Count - 1][2] = readerCommonSummary2["VAT"].ToString();
+                }
+                readerCommonSummary2.Close();
+                foreach (string[] s in data2)
+                    dataGridCommonResults.Rows.Add(s);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            conn.Close();
+            double sumRent = 0;
+            double sumVat = 0;
+            try
+            {
+                for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
+                {
+                    sumRent += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[1].Value);
+                    sumVat += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[2].Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            dataGridCommonResults.Rows.Add("Всего", sumRent, sumVat);
+
+           // resultAllLoadQuery = resultAllLoadQueryConst.Insert(62, $" WHERE Date_Payment BETWEEN '{datestart.ToShortDateString()}' AND '{datefinish.ToShortDateString()}'");
+           // resultAllSumQuery = resultAllSumQueryConst.Insert(66, $" WHERE Date_Payment BETWEEN '{datestart.ToShortDateString()}' AND '{datefinish.ToShortDateString()}'");
+            
+        }
     }
 }
 
