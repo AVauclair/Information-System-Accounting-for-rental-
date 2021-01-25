@@ -52,8 +52,8 @@ namespace manprac
 
         string resultAllLoadQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices";
         string resultAllLoadQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices";
-        string resultAllSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Apartaments";
-        string resultAllSumQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Apartaments";
+        string resultAllSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(Amount_Payment) Amount_Payment FROM Apartaments";
+        string resultAllSumQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(Amount_Payment) Amount_Payment FROM Apartaments";
         #endregion
 
 
@@ -321,7 +321,7 @@ namespace manprac
                     data2.Add(new string[3]);
                     data2[data2.Count - 1][0] = "Квартиры";
                     data2[data2.Count - 1][1] = readerCommonSummary2["Amount_Rent"].ToString();
-                    data2[data2.Count - 1][2] = readerCommonSummary2["VAT"].ToString();
+                    data2[data2.Count - 1][2] = readerCommonSummary2["Amount_Payment"].ToString();
                 }
                 readerCommonSummary2.Close();
                 foreach (string[] s in data2)
@@ -1750,18 +1750,16 @@ namespace manprac
 
             DateTime datestart = Convert.ToDateTime(datePickerStart.Value);
             DateTime datefinish = Convert.ToDateTime(datePickerFinish.Value);
-            datestart.ToString("YYYY:MM:DD");
-            datefinish.ToString("yyyy:MM:dd");
 
             SQLiteConnection conn = new SQLiteConnection(ConnString);
             conn.Open();
 
             string resultAllLoadQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices" +
-                " WHERE Date_Payment BETWEEN '" + datestart.ToShortDateString() + "' AND '" + datefinish.ToShortDateString()  + "'";
+                " WHERE Date_Payment BETWEEN '" + datestart.ToString("yyyy-MM-dd") + "' AND '" + datefinish.ToString("yyyy-MM-dd") + "'";
             string resultAllLoadQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices";
-            string resultAllSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Apartaments " +
-                " WHERE Date_Payment BETWEEN '" + datestart.ToShortDateString() + "' AND '" + datefinish.ToShortDateString() + "'";
-            string resultAllSumQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Apartaments";
+            string resultAllSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(Amount_Payment) Amount_Payment FROM Apartaments " +
+                " WHERE Date_Payment BETWEEN '" + datestart.ToString("yyyy-MM-dd") + "' AND '" + datefinish.ToString("yyyy-MM-dd") + "'";
+            string resultAllSumQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(Amount_Payment) Amount_Payment FROM Apartaments";
 
 
             SQLiteCommand loadCommonSummary1 = new SQLiteCommand(resultAllLoadQuery, conn);
@@ -1795,7 +1793,7 @@ namespace manprac
                     data2.Add(new string[3]);
                     data2[data2.Count - 1][0] = "Квартиры";
                     data2[data2.Count - 1][1] = readerCommonSummary2["Amount_Rent"].ToString();
-                    data2[data2.Count - 1][2] = readerCommonSummary2["VAT"].ToString();
+                    data2[data2.Count - 1][2] = readerCommonSummary2["Amount_Payment"].ToString();
                 }
                 readerCommonSummary2.Close();
                 foreach (string[] s in data2)

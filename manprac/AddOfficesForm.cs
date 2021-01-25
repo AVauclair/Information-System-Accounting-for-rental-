@@ -134,8 +134,9 @@ namespace manprac
                 MessageBox.Show("Произошла ошибка. "+ ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             SQLiteCommand InsertInOffices = new SQLiteCommand("INSERT INTO [Offices] (ID_Renters, Contract, ID_Month, Amount_Rent, VAT, Date_Payment, Note) VALUES (@ID_Renters, @Contract, @ID_Months, @Amount_Rent, @VAT, @Date_Payment, @Note)", conn);
+           
             DateTime dt = datePicker.Value;
-            string dt2 = dt.ToString("yyyy:MM:dd");
+            string dt2 = dt.ToString("yyyy-MM-dd");
            
             InsertInOffices.Parameters.AddWithValue("@ID_Renters", SelectedRenters);
             InsertInOffices.Parameters.AddWithValue("@Contract", contractTextBox.Text);

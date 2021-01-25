@@ -171,7 +171,10 @@ namespace manprac
                 MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-           SQLiteCommand InsertInApartament = new SQLiteCommand("INSERT INTO [Apartaments] (ID_Renters, Contract, ID_Month, Amount_Rent, " +
+            DateTime dt = datePicker.Value;
+            string dt2 = dt.ToString("yyyy-MM-dd");
+
+            SQLiteCommand InsertInApartament = new SQLiteCommand("INSERT INTO [Apartaments] (ID_Renters, Contract, ID_Month, Amount_Rent, " +
                 "VAT, Date_Payment, Apartament_Status, Note, Amount_Payment) VALUES (@ID_Renters, @Contract, @ID_Month, @Amount_Rent, " +
                 "@VAT, @Date_Payment, @Apartament_Status, @Note, @Amount_Payment)", conn);
             InsertInApartament.Parameters.AddWithValue("@ID_Renters", SelectedRenters);
@@ -183,7 +186,7 @@ namespace manprac
                 InsertInApartament.Parameters.AddWithValue("@VAT", vatTextBox.Text);
             }
             else InsertInApartament.Parameters.AddWithValue("@VAT", 0);
-            InsertInApartament.Parameters.AddWithValue("@Date_Payment", datePicker.Value);
+            InsertInApartament.Parameters.AddWithValue("@Date_Payment", dt2.ToString());
             InsertInApartament.Parameters.AddWithValue("@Apartament_Status", SelectedStatus);
 
             if (noteTextBox.Text == "")
