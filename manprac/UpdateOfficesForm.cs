@@ -96,6 +96,9 @@ namespace manprac
         private void updateRecordButton_Click(object sender, EventArgs e)
         {
             MainForm main = this.Owner as MainForm;
+            int columnIndex = main.dataGridOffices.CurrentCell.ColumnIndex;
+            int rowIndex = main.dataGridOffices.CurrentCell.RowIndex;
+
             try
             {
                 double s = Convert.ToDouble(amountRentBox.Text);
@@ -178,6 +181,7 @@ namespace manprac
                 finally
                 {
                     conn.Close();
+                    main.dataGridOffices.CurrentCell = main.dataGridOffices[columnIndex, rowIndex];
                 }
             }
         }

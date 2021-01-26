@@ -788,6 +788,9 @@ namespace manprac
             }
             if (MessageBox.Show("Вы уверены что хотите удалить выбранную запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
+                int columnIndex = dataGridRenters.CurrentCell.ColumnIndex;
+                int rowIndex = dataGridRenters.CurrentCell.RowIndex;
+
                 SQLiteConnection conn = new SQLiteConnection(ConnString);
                 conn.Open();
 
@@ -832,6 +835,8 @@ namespace manprac
                         dataGridRenters.Rows.Add(s);
 
                     readerRenters.Close();
+
+                    dataGridRenters.CurrentCell = dataGridRenters[columnIndex, rowIndex - 1];
                 }
                 catch
                 {
@@ -893,6 +898,9 @@ namespace manprac
             }
             if (MessageBox.Show("Вы уверены что хотите удалить выбранную запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
+                int columnIndex = dataGridOffices.CurrentCell.ColumnIndex;
+                int rowIndex = dataGridOffices.CurrentCell.RowIndex;
+
                 SQLiteConnection conn = new SQLiteConnection(ConnString);
                 conn.Open();
                 SQLiteCommand deleteOffices = new SQLiteCommand("DELETE FROM [Offices] WHERE [ID_Office] = @ID_Office", conn);
@@ -929,6 +937,7 @@ namespace manprac
                         dataGridOffices.Rows.Add(s);
 
                     readerOffices.Close();
+                    dataGridOffices.CurrentCell = dataGridOffices[columnIndex, rowIndex - 1];
                 }
                 catch(Exception ex)
                 {
@@ -988,8 +997,11 @@ namespace manprac
                 return;
             }
             
-            if (MessageBox.Show("Вы уверены, что хотитет удалить запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Вы уверены, что хотите удалить запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
+                int columnIndex = dataGridFlats.CurrentCell.ColumnIndex;
+                int rowIndex = dataGridFlats.CurrentCell.RowIndex;
+
                 SQLiteConnection conn = new SQLiteConnection(ConnString);
                 conn.Open();
                 SQLiteCommand deleteFlats = new SQLiteCommand("DELETE FROM [Apartaments] WHERE [ID_Apartament] = @ID_Apartament", conn);
@@ -1027,6 +1039,7 @@ namespace manprac
                         dataGridFlats.Rows.Add(s);
 
                     readerApartaments.Close();
+                    dataGridFlats.CurrentCell = dataGridFlats[columnIndex, rowIndex - 1];
                 }
                 catch (Exception ex)
                 {
@@ -1210,6 +1223,31 @@ namespace manprac
 
             dataGridUninhabitedArea.Rows.Clear();
             ResultFlatsNLoad();
+        }
+
+        //тоже самое, что и выше через один, но два варианта удобнее имхо
+        private void resultToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataGridUninhabitedArea.Visible = false;
+            dataGridRenters.Visible = false;
+            dataGridFlats.Visible = false;
+            dataGridOffices.Visible = false;
+            dataGridCommonResults.Visible = true;
+            dataGridResultFlats.Visible = false;
+            dataGridResultOffices.Visible = false;
+
+            datePickerStart.Enabled = true;
+            datePickerFinish.Enabled = true;
+            amountPaymentTextBoxStart.Enabled = false;
+            amountPaymentTextBoxFinish.Enabled = false;
+            amountRentTextBoxStart.Enabled = false;
+            amountRentTextBoxFinish.Enabled = false;
+            rentersComboBox.Enabled = false;
+            areaTypeComboBox.Enabled = false;
+            monthComboBox.Enabled = false;
+
+            dataGridCommonResults.Rows.Clear();
+            ResultAllLoad();
         }
         #endregion
 
@@ -1744,83 +1782,88 @@ namespace manprac
 
         private void button1_Click(object sender, EventArgs e)
         {
-
-            dataGridCommonResults.Rows.Clear();
-
-
-            DateTime datestart = Convert.ToDateTime(datePickerStart.Value);
-            DateTime datefinish = Convert.ToDateTime(datePickerFinish.Value);
-
-            SQLiteConnection conn = new SQLiteConnection(ConnString);
-            conn.Open();
-
-            string resultAllLoadQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices" +
-                " WHERE Date_Payment BETWEEN '" + datestart.ToString("yyyy-MM-dd") + "' AND '" + datefinish.ToString("yyyy-MM-dd") + "'";
-            string resultAllLoadQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices";
-            string resultAllSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(Amount_Payment) Amount_Payment FROM Apartaments " +
-                " WHERE Date_Payment BETWEEN '" + datestart.ToString("yyyy-MM-dd") + "' AND '" + datefinish.ToString("yyyy-MM-dd") + "'";
-            string resultAllSumQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(Amount_Payment) Amount_Payment FROM Apartaments";
-
-
-            SQLiteCommand loadCommonSummary1 = new SQLiteCommand(resultAllLoadQuery, conn);
-            try
+            if (datePickerStart.Value > datePickerFinish.Value)
             {
-                SQLiteDataReader readerCommonSummary1 = loadCommonSummary1.ExecuteReader();
-                List<string[]> data1 = new List<string[]>();
-                while (readerCommonSummary1.Read())
+                MessageBox.Show("Нижняя граница даты не может быть выше верхней.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                dataGridCommonResults.Rows.Clear();
+
+
+                DateTime datestart = Convert.ToDateTime(datePickerStart.Value);
+                DateTime datefinish = Convert.ToDateTime(datePickerFinish.Value);
+
+                SQLiteConnection conn = new SQLiteConnection(ConnString);
+                conn.Open();
+
+                string resultAllLoadQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices" +
+                    " WHERE Date_Payment BETWEEN '" + datestart.ToString("yyyy-MM-dd") + "' AND '" + datefinish.ToString("yyyy-MM-dd") + "'";
+                string resultAllLoadQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices";
+                string resultAllSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(Amount_Payment) Amount_Payment FROM Apartaments " +
+                    " WHERE Date_Payment BETWEEN '" + datestart.ToString("yyyy-MM-dd") + "' AND '" + datefinish.ToString("yyyy-MM-dd") + "'";
+                string resultAllSumQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(Amount_Payment) Amount_Payment FROM Apartaments";
+
+
+                SQLiteCommand loadCommonSummary1 = new SQLiteCommand(resultAllLoadQuery, conn);
+                try
                 {
-                    data1.Add(new string[3]);
-                    data1[data1.Count - 1][0] = "Офис";
-                    data1[data1.Count - 1][1] = readerCommonSummary1["Amount_Rent"].ToString();
-                    data1[data1.Count - 1][2] = readerCommonSummary1["VAT"].ToString();
+                    SQLiteDataReader readerCommonSummary1 = loadCommonSummary1.ExecuteReader();
+                    List<string[]> data1 = new List<string[]>();
+                    while (readerCommonSummary1.Read())
+                    {
+                        data1.Add(new string[3]);
+                        data1[data1.Count - 1][0] = "Офис";
+                        data1[data1.Count - 1][1] = readerCommonSummary1["Amount_Rent"].ToString();
+                        data1[data1.Count - 1][2] = readerCommonSummary1["VAT"].ToString();
+                    }
+                    foreach (string[] s in data1)
+                        dataGridCommonResults.Rows.Add(s);
                 }
-                foreach (string[] s in data1)
-                    dataGridCommonResults.Rows.Add(s);
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            SQLiteCommand loadCommonSummary2 = new SQLiteCommand(resultAllSumQuery, conn);
-            try
-            {
-                SQLiteDataReader readerCommonSummary2 = loadCommonSummary2.ExecuteReader();
-                List<string[]> data2 = new List<string[]>();
-                while (readerCommonSummary2.Read())
+                catch
                 {
-                    data2.Add(new string[3]);
-                    data2[data2.Count - 1][0] = "Квартиры";
-                    data2[data2.Count - 1][1] = readerCommonSummary2["Amount_Rent"].ToString();
-                    data2[data2.Count - 1][2] = readerCommonSummary2["Amount_Payment"].ToString();
+                    MessageBox.Show("В указанном диапазоне дат нет записей офисов.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                readerCommonSummary2.Close();
-                foreach (string[] s in data2)
-                    dataGridCommonResults.Rows.Add(s);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
 
-            conn.Close();
-            double sumRent = 0;
-            double sumVat = 0;
-            try
-            {
-                for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
+                SQLiteCommand loadCommonSummary2 = new SQLiteCommand(resultAllSumQuery, conn);
+                try
                 {
-                    sumRent += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[1].Value);
-                    sumVat += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[2].Value);
+                    SQLiteDataReader readerCommonSummary2 = loadCommonSummary2.ExecuteReader();
+                    List<string[]> data2 = new List<string[]>();
+                    while (readerCommonSummary2.Read())
+                    {
+                        data2.Add(new string[3]);
+                        data2[data2.Count - 1][0] = "Квартиры";
+                        data2[data2.Count - 1][1] = readerCommonSummary2["Amount_Rent"].ToString();
+                        data2[data2.Count - 1][2] = readerCommonSummary2["Amount_Payment"].ToString();
+                    }
+                    readerCommonSummary2.Close();
+                    foreach (string[] s in data2)
+                        dataGridCommonResults.Rows.Add(s);
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                catch
+                {
+                    MessageBox.Show("В указанном диапазоне дат нет записей квартир.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
 
+                conn.Close();
+                double sumRent = 0;
+                double sumVat = 0;
+                try
+                {
+                    for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
+                    {
+                        sumRent += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[1].Value);
+                        sumVat += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[2].Value);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+                dataGridCommonResults.Rows.Add("Всего", sumRent, sumVat);
             }
-            dataGridCommonResults.Rows.Add("Всего", sumRent, sumVat);
 
            // resultAllLoadQuery = resultAllLoadQueryConst.Insert(62, $" WHERE Date_Payment BETWEEN '{datestart.ToShortDateString()}' AND '{datefinish.ToShortDateString()}'");
            // resultAllSumQuery = resultAllSumQueryConst.Insert(66, $" WHERE Date_Payment BETWEEN '{datestart.ToShortDateString()}' AND '{datefinish.ToShortDateString()}'");

@@ -53,7 +53,7 @@
             // 
             this.addRecordButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.addRecordButton.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.addRecordButton.Location = new System.Drawing.Point(96, 349);
+            this.addRecordButton.Location = new System.Drawing.Point(163, 349);
             this.addRecordButton.Name = "addRecordButton";
             this.addRecordButton.Size = new System.Drawing.Size(182, 32);
             this.addRecordButton.TabIndex = 3;
@@ -76,7 +76,7 @@
             this.contractTextBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.contractTextBox.Location = new System.Drawing.Point(157, 120);
             this.contractTextBox.Name = "contractTextBox";
-            this.contractTextBox.Size = new System.Drawing.Size(207, 31);
+            this.contractTextBox.Size = new System.Drawing.Size(309, 31);
             this.contractTextBox.TabIndex = 8;
             this.contractTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.contractTextBox_KeyDown);
             // 
@@ -87,7 +87,7 @@
             this.rentersComboBox.FormattingEnabled = true;
             this.rentersComboBox.Location = new System.Drawing.Point(157, 46);
             this.rentersComboBox.Name = "rentersComboBox";
-            this.rentersComboBox.Size = new System.Drawing.Size(257, 31);
+            this.rentersComboBox.Size = new System.Drawing.Size(309, 31);
             this.rentersComboBox.TabIndex = 6;
             this.rentersComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.rentersComboBox_KeyDown);
             // 
@@ -98,7 +98,7 @@
             this.monthComboBox.FormattingEnabled = true;
             this.monthComboBox.Location = new System.Drawing.Point(157, 83);
             this.monthComboBox.Name = "monthComboBox";
-            this.monthComboBox.Size = new System.Drawing.Size(257, 31);
+            this.monthComboBox.Size = new System.Drawing.Size(309, 31);
             this.monthComboBox.TabIndex = 7;
             this.monthComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.monthComboBox_KeyDown);
             // 
@@ -137,7 +137,7 @@
             this.amountRentTextBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.amountRentTextBox.Location = new System.Drawing.Point(157, 157);
             this.amountRentTextBox.Name = "amountRentTextBox";
-            this.amountRentTextBox.Size = new System.Drawing.Size(207, 31);
+            this.amountRentTextBox.Size = new System.Drawing.Size(309, 31);
             this.amountRentTextBox.TabIndex = 12;
             this.amountRentTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.amountRentTextBox_KeyDown);
             // 
@@ -157,7 +157,7 @@
             this.vatTextBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.vatTextBox.Location = new System.Drawing.Point(157, 271);
             this.vatTextBox.Name = "vatTextBox";
-            this.vatTextBox.Size = new System.Drawing.Size(207, 31);
+            this.vatTextBox.Size = new System.Drawing.Size(309, 31);
             this.vatTextBox.TabIndex = 22;
             this.vatTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.vatTextBox_KeyDown);
             // 
@@ -177,7 +177,7 @@
             this.datePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.datePicker.Location = new System.Drawing.Point(157, 309);
             this.datePicker.Name = "datePicker";
-            this.datePicker.Size = new System.Drawing.Size(207, 31);
+            this.datePicker.Size = new System.Drawing.Size(309, 31);
             this.datePicker.TabIndex = 28;
             this.datePicker.Value = new System.DateTime(2020, 6, 3, 0, 0, 0, 0);
             this.datePicker.KeyDown += new System.Windows.Forms.KeyEventHandler(this.datePicker_KeyDown);
@@ -199,7 +199,7 @@
             this.areaTypeComboBox.FormattingEnabled = true;
             this.areaTypeComboBox.Location = new System.Drawing.Point(157, 10);
             this.areaTypeComboBox.Name = "areaTypeComboBox";
-            this.areaTypeComboBox.Size = new System.Drawing.Size(257, 31);
+            this.areaTypeComboBox.Size = new System.Drawing.Size(309, 31);
             this.areaTypeComboBox.TabIndex = 30;
             this.areaTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.areaTypeComboBox_SelectedIndexChanged);
             this.areaTypeComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.areaTypeComboBox_KeyDown);
@@ -219,7 +219,7 @@
             this.amountPaymentTextBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.amountPaymentTextBox.Location = new System.Drawing.Point(157, 194);
             this.amountPaymentTextBox.Name = "amountPaymentTextBox";
-            this.amountPaymentTextBox.Size = new System.Drawing.Size(207, 31);
+            this.amountPaymentTextBox.Size = new System.Drawing.Size(309, 31);
             this.amountPaymentTextBox.TabIndex = 14;
             this.amountPaymentTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.amountPaymentTextBox_KeyDown);
             // 
@@ -238,7 +238,7 @@
             this.noteTextBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.noteTextBox.Location = new System.Drawing.Point(157, 233);
             this.noteTextBox.Name = "noteTextBox";
-            this.noteTextBox.Size = new System.Drawing.Size(207, 31);
+            this.noteTextBox.Size = new System.Drawing.Size(309, 31);
             this.noteTextBox.TabIndex = 20;
             this.noteTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.noteTextBox_KeyDown);
             // 

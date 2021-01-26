@@ -169,7 +169,6 @@ namespace manprac
             this.Name = "SettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ISAFR: Настройки";
-            this.Load += new System.EventHandler(this.SettingsForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);

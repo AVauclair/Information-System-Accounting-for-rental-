@@ -115,10 +115,10 @@ namespace manprac
             foreach (string[] s in data)
                 main.dataGridRenters.Rows.Add(s);
 
-            main.dataGridRenters.CurrentCell = main.dataGridRenters[columnIndex, rowIndex];
-
             readerRenters.Close();
             conn.Close();
+
+            main.dataGridRenters.CurrentCell = main.dataGridRenters[columnIndex, rowIndex];
         }
     }
 }

@@ -129,6 +129,9 @@ namespace manprac
         private void updateRecordButton_Click(object sender, EventArgs e)
         {
             MainForm main = this.Owner as MainForm;
+            int columnIndex = main.dataGridFlats.CurrentCell.ColumnIndex;
+            int rowIndex = main.dataGridFlats.CurrentCell.RowIndex;
+
             StringBuilder errors = new StringBuilder();
             if (string.IsNullOrEmpty(areaTypeComboBox.Text)) errors.AppendLine("Выберите тип помещения.");
             if (string.IsNullOrWhiteSpace(rentersComboBox.Text)) errors.AppendLine("Выберите арендатора.");
@@ -249,6 +252,7 @@ namespace manprac
             finally
             {
                 conn.Close();
+                main.dataGridFlats.CurrentCell = main.dataGridFlats[columnIndex, rowIndex];
             }
 
         }

@@ -23,12 +23,6 @@ namespace manprac
             InitializeComponent();
         }
 
-        private void SettingsForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
-
         public void CreateDB()
         {
              if (!File.Exists(dbFileName))
@@ -97,6 +91,8 @@ namespace manprac
 
         private void clearRentersButton_Click(object sender, EventArgs e)
         {
+            MainForm main = new MainForm();
+
             List<int> deleteRecordList = new List<int>();
             string textMessage = "Будут удалены арендаторы, которые отсутствуют в таблицах квартир и офисов." +
                 " Чтобы удалить всех арендаторов необходимо предварительно удалить записи в квартирах и офисах. Продолжить?";
@@ -149,6 +145,8 @@ namespace manprac
 
         private void clearOfficesButton_Click(object sender, EventArgs e)
         {
+            MainForm main = new MainForm();
+
             if (MessageBox.Show("Вы уверены что хотите удалить все записи из таблицы \"Офисы\"?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 SQLiteConnection conn = new SQLiteConnection(ConnString);
@@ -173,6 +171,7 @@ namespace manprac
 
         private void clearFlatsButton_Click(object sender, EventArgs e)
         {
+            MainForm main = new MainForm();
             if (MessageBox.Show("Вы уверены что хотите удалить все записи из таблицы \"Квартиры\"?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 SQLiteConnection conn = new SQLiteConnection(ConnString);
