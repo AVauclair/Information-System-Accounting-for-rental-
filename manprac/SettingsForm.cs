@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -196,59 +197,93 @@ namespace manprac
 
         private void savaDB_Button_Click(object sender, EventArgs e)
         {
-            //string DBname = "";
-            SQLiteConnection conn = new SQLiteConnection(ConnString);
-            conn.Open();
-            /*SQLiteCommand NameDB = new SQLiteCommand("select " + dbFileName + " Name", conn);
-            SQLiteDataReader readerNameBD = NameDB.ExecuteReader();
-            while (readerNameBD.Read())
-            {
-                DBname = readerNameBD["Name"].ToString();
-            }
-            readerNameBD.Close();*/
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.FileName = dbFileName;
             try
-            {
-                SaveFileDialog dlg = new SaveFileDialog();
-                dlg.FileName = dbFileName + "_" + DateTime.Now.ToString("yyyy-MM-dd");
-                dlg.DefaultExt = ".bak";
-                dlg.Filter = "Базы данных (*.bak)|*.bak|Все файлы (*.*)|*.*";
-                if (dlg.ShowDialog() == DialogResult.OK)
+            { 
+                if(dialog.ShowDialog()== DialogResult.OK)
                 {
-                    string filename = dlg.FileName;
-                    SQLiteConnection connection = new SQLiteConnection(ConnString);
-
-                    string comm =  $"BACKUP DATABASE [{dbFileName}] TO DISK = N'{filename}'";
-                    SQLiteCommand command = new SQLiteCommand(comm, connection);
-                    connection.Open();
-                    command.ExecuteNonQuery();
-
-                    MessageBox.Show("Резервное сохранение базы данных успешно создано.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //string pathNewDB = @"C:\Users\Алексей\Downloads\SaveDBHere";
+                    string pathNewDB = Path.GetDirectoryName(dialog.FileName);
+                    using (var location = new SQLiteConnection(ConnString))
+                    using (var destination = new SQLiteConnection(string.Format(@"Data Source={0}\RentDB; Version=3;", pathNewDB)))
+                    {
+                        location.Open();
+                        destination.Open();
+                        location.BackupDatabase(destination, "main", "main", -1, null, 0);
+                        location.Close();
+                        destination.Close();
+                    }
+                    MessageBox.Show("Резервная копия базы данных успешно создана.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+                    
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            finally
-            {
-                conn.Close();
-            }
         }
 
         private void loadDB_Button_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Скоро будет UwU");
+            OpenFileDialog openFile = new OpenFileDialog();
+            var fileName = @"\RentDB";
+            var localProgramPath = Application.StartupPath  ;
+            try
+            {
+                if (openFile.ShowDialog() == DialogResult.OK)
+                {
+                    File.Delete(dbFileName);
+                    string getFilePath = Path.GetFullPath(openFile.FileName);
+                    File.Copy(getFilePath, localProgramPath + fileName);
+                    MessageBox.Show("Загрузка БД из копии успешно завершена. ", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                        
+                        // File.Replace(getFilePath, localProgramPath, Application.StartupPath);
+                        // File.Delete(localProgramPath);
+                        //  new FileInfo(getFilePath).MoveTo(localProgramPath);
+
+                    
+                    // File.Move(getFilePath, localProgramPath);
+                
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void RecreateDB_Button_Click(object sender, EventArgs e)
         {
-            if(File.Exists(dbFileName))
+            if(MessageBox.Show("При пересоздании базы данных будут утеряны все записи. Продолжить? ", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                File.Delete(dbFileName);
-                CreateDB();
-                MessageBox.Show("База данных успешно пересоздана.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (File.Exists(dbFileName))
+                {
+                    File.Delete(dbFileName);
+                    try
+                    {
+                        CreateDB();
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    MessageBox.Show("База данных успешно пересоздана.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                }
             }
+                
+                
+           
+        }
+
+        private void helpLabel_Click(object sender, EventArgs e)
+        {
+            string path = Application.StartupPath;
+            MessageBox.Show("В случае, если по каким либо причинам загрузить копию БД программно не удаётся  " +
+                "можно выполнить загрузку вручную. \r Для этого необходимо переместить резервную копию БД в папку с программой  " +
+                "по пути \r" + path, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
         }
     }
 }

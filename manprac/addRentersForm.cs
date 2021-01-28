@@ -31,8 +31,7 @@ namespace manprac
         private void addRecordButton_Click(object sender, EventArgs e)
         {
             MainForm main = this.Owner as MainForm;
-            int columnIndex = main.dataGridRenters.CurrentCell.ColumnIndex;
-            int rowIndex = main.dataGridRenters.CurrentCell.RowIndex;
+          
 
             if (nameTextBox.Text == "")
             {
@@ -61,7 +60,6 @@ namespace manprac
                 command.Parameters.AddWithValue("@Name", nameTextBox.Text);
                 command.ExecuteNonQuery();
                 readerRenters.Close();
-                main.dataGridRenters.CurrentCell = main.dataGridRenters[columnIndex, main.dataGridRenters.RowCount - 1];
                 MessageBox.Show("Запись была успешно добавлена", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 List<string[]> dataRenters = new List<string[]>();
@@ -95,6 +93,13 @@ namespace manprac
             finally
             {
                conn.Close();
+                if(main.dataGridRenters.Rows.Count>0 &&main.dataGridRenters.Visible == true)
+                {
+                    int columnIndex = main.dataGridRenters.CurrentCell.ColumnIndex;
+                    int rowIndex = main.dataGridRenters.CurrentCell.RowIndex;
+                    main.dataGridRenters.CurrentCell = main.dataGridRenters[columnIndex, main.dataGridRenters.RowCount - 1];
+
+                }
             }
         }
 

@@ -70,9 +70,7 @@ namespace manprac
         private void addFlatsButton_Click(object sender, EventArgs e)
         {
             MainForm main = this.Owner as MainForm;
-            int columnIndex = main.dataGridFlats.CurrentCell.ColumnIndex;
-            int rowIndex = main.dataGridFlats.CurrentCell.RowIndex;
-
+           
             StringBuilder errors = new StringBuilder();
             if (string.IsNullOrEmpty(areaTypeComboBox.Text)) errors.AppendLine("Выберите тип помещения.");
             if (string.IsNullOrWhiteSpace(rentersComboBox.Text)) errors.AppendLine("Выберите арендатора.");
@@ -242,7 +240,13 @@ namespace manprac
             finally
             {
                 conn.Close();
-                main.dataGridFlats.CurrentCell = main.dataGridFlats[columnIndex, main.dataGridFlats.RowCount - 1];
+                if(main.dataGridFlats.Rows.Count >0 && main.dataGridFlats.Visible == true)
+                {
+                    int columnIndex = main.dataGridFlats.CurrentCell.ColumnIndex;
+                    int rowIndex = main.dataGridFlats.CurrentCell.RowIndex;
+                    main.dataGridFlats.CurrentCell = main.dataGridFlats[columnIndex, main.dataGridFlats.RowCount - 1];
+
+                }
             }
         }
 

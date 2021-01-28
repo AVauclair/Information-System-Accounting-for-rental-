@@ -23,10 +23,10 @@ namespace manprac
         private void connStringForm_Load(object sender, EventArgs e)
         {
             ActiveControl = stringTextBox;
-            stringTextBox.Text = Properties.Settings.Default.ConnectionString;
+            stringTextBox.Text = ISAFR.Properties.Settings.Default.ConnectionString;
         }
 
-        public static string connection = /*"Data Source=DESKTOP-U4D9RVF;Initial Catalog=RentDB;Integrated Security=True";//*/Properties.Settings.Default.ConnectionString;
+        public static string connection = /*"Data Source=DESKTOP-U4D9RVF;Initial Catalog=RentDB;Integrated Security=True";//*/ISAFR.Properties.Settings.Default.ConnectionString;
 
         private void updateConnStringButton_Click(object sender, EventArgs e)
         {
@@ -54,8 +54,8 @@ namespace manprac
                 {
                     MessageBox.Show("Строка была успешно обновлена", "Обновление", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    Properties.Settings.Default.ConnectionString = stringTextBox.Text;
-                    Properties.Settings.Default.Save();
+                    ISAFR.Properties.Settings.Default.ConnectionString = stringTextBox.Text;
+                    ISAFR.Properties.Settings.Default.Save();
 
                     /*LoginForm loginForm = new LoginForm();
                     loginForm.Show();*/

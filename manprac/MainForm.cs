@@ -305,6 +305,14 @@ namespace manprac
                 foreach (string[] s in data1)
                     dataGridCommonResults.Rows.Add(s);
 
+                for(int i =0; i<dataGridCommonResults.Rows.Count; i++)
+                {
+                    if(dataGridCommonResults.Rows[i].Cells[1].Value == "")
+                    {
+                        MessageBox.Show("Отсутсвуют записи для составления сводов", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
             }
             catch(Exception ex)
             {
@@ -326,6 +334,16 @@ namespace manprac
                 readerCommonSummary2.Close();
                 foreach (string[] s in data2)
                     dataGridCommonResults.Rows.Add(s);
+
+                for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
+                {
+                    if (dataGridCommonResults.Rows[i].Cells[2].Value == "")
+                    {
+                        MessageBox.Show("Отсутсвуют записи для составления сводов", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
             }
             catch(Exception ex)
             {
@@ -670,7 +688,7 @@ namespace manprac
          
 
             ChangeHeight();
-
+            /*
             #region заполнение комбобоксов
             rentersComboBox.Items.Add("Все");
             monthComboBox.Items.Add("Все");
@@ -729,7 +747,7 @@ namespace manprac
                 MessageBox.Show("Произошла ошибка. Вероятно база данных была создана некорректно, выполните пересоздание БД. \n" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             #endregion
-                        
+           */             
             
         }
 
@@ -788,8 +806,7 @@ namespace manprac
             }
             if (MessageBox.Show("Вы уверены что хотите удалить выбранную запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                int columnIndex = dataGridRenters.CurrentCell.ColumnIndex;
-                int rowIndex = dataGridRenters.CurrentCell.RowIndex;
+              
 
                 SQLiteConnection conn = new SQLiteConnection(ConnString);
                 conn.Open();
@@ -835,12 +852,11 @@ namespace manprac
                         dataGridRenters.Rows.Add(s);
 
                     readerRenters.Close();
-
-                    dataGridRenters.CurrentCell = dataGridRenters[columnIndex, rowIndex - 1];
+                  
                 }
-                catch
+                catch(Exception ex)
                 {
-                    MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -898,9 +914,6 @@ namespace manprac
             }
             if (MessageBox.Show("Вы уверены что хотите удалить выбранную запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                int columnIndex = dataGridOffices.CurrentCell.ColumnIndex;
-                int rowIndex = dataGridOffices.CurrentCell.RowIndex;
-
                 SQLiteConnection conn = new SQLiteConnection(ConnString);
                 conn.Open();
                 SQLiteCommand deleteOffices = new SQLiteCommand("DELETE FROM [Offices] WHERE [ID_Office] = @ID_Office", conn);
@@ -937,7 +950,6 @@ namespace manprac
                         dataGridOffices.Rows.Add(s);
 
                     readerOffices.Close();
-                    dataGridOffices.CurrentCell = dataGridOffices[columnIndex, rowIndex - 1];
                 }
                 catch(Exception ex)
                 {
@@ -999,9 +1011,6 @@ namespace manprac
             
             if (MessageBox.Show("Вы уверены, что хотите удалить запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                int columnIndex = dataGridFlats.CurrentCell.ColumnIndex;
-                int rowIndex = dataGridFlats.CurrentCell.RowIndex;
-
                 SQLiteConnection conn = new SQLiteConnection(ConnString);
                 conn.Open();
                 SQLiteCommand deleteFlats = new SQLiteCommand("DELETE FROM [Apartaments] WHERE [ID_Apartament] = @ID_Apartament", conn);
@@ -1039,7 +1048,6 @@ namespace manprac
                         dataGridFlats.Rows.Add(s);
 
                     readerApartaments.Close();
-                    dataGridFlats.CurrentCell = dataGridFlats[columnIndex, rowIndex - 1];
                 }
                 catch (Exception ex)
                 {

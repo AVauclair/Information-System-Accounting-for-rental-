@@ -63,8 +63,6 @@ namespace manprac
         private void addRecordButton_Click(object sender, EventArgs e)
         {
             MainForm main = this.Owner as MainForm;
-            int columnIndex = main.dataGridOffices.CurrentCell.ColumnIndex;
-            int rowIndex = main.dataGridOffices.CurrentCell.RowIndex;
 
             StringBuilder errors = new StringBuilder();
             if (string.IsNullOrWhiteSpace(rentersComboBox.Text)) errors.AppendLine("Выберите арендатора.");
@@ -186,7 +184,6 @@ namespace manprac
                     main.dataGridOffices.Rows.Add(s);
 
                 readerOffices.Close();
-                main.dataGridOffices.CurrentCell = main.dataGridOffices[columnIndex, main.dataGridOffices.RowCount - 1];
                 MessageBox.Show("Запись успешно добавлена", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             }
@@ -197,6 +194,13 @@ namespace manprac
             finally
             {
                 conn.Close();
+                if(main.dataGridOffices.Rows.Count >0 && main.dataGridOffices.Visible == true)
+                {
+                    int columnIndex = main.dataGridOffices.CurrentCell.ColumnIndex;
+                    int rowIndex = main.dataGridOffices.CurrentCell.RowIndex;
+                    main.dataGridOffices.CurrentCell = main.dataGridOffices[columnIndex, main.dataGridOffices.RowCount - 1];
+
+                }
             }
         }
 
