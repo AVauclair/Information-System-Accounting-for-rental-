@@ -20,6 +20,7 @@ namespace manprac
         public AddOfficesForm()
         {
             InitializeComponent();
+            datePicker.Value = DateTime.Now;
 
             SQLiteConnection conn = new SQLiteConnection(ConnString);
             try
@@ -291,7 +292,7 @@ namespace manprac
             }
         }
 
-        private void dateTimePicker1_KeyDown(object sender, KeyEventArgs e)
+        private void datePickerStart_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {

@@ -26,6 +26,8 @@ namespace manprac
         private void AddFlatsForm_Load(object sender, EventArgs e)
         {
             ActiveControl = contractTextBox;
+            datePicker.Value = DateTime.Now;
+
             SQLiteConnection conn = new SQLiteConnection(ConnString);
             conn.Open();
             try

@@ -18,18 +18,16 @@ namespace manprac
             InitializeComponent();
         }
 
-        public string ConnString = ConnStringForm.connection;
-
         private void loginButton_Click(object sender, EventArgs e)
         {
             try
             {
-                string login = loginTextBox.Text;
+               /* string login = loginTextBox.Text;
                 string password = passwordTextBox.Text;
 
                 DataTable table = new DataTable();
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                SqlConnection conn = new SqlConnection(ConnString);
+                //SqlConnection conn = new SqlConnection(ConnString);
                 conn.Open();
 
                 SqlCommand command = new SqlCommand("SELECT * from Members WHERE login = @login AND password = @password", conn);
@@ -55,7 +53,7 @@ namespace manprac
                     MessageBox.Show("Неверный логин или пароль.");
                 }
 
-                conn.Close();
+                conn.Close();*/
             }
             catch (Exception ex)
             {

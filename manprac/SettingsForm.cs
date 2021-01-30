@@ -45,7 +45,7 @@ namespace manprac
                 cmd.ExecuteNonQuery();
 
                 cmd.CommandText = "CREATE TABLE IF NOT EXISTS Offices (ID_Office INTEGER PRIMARY KEY AUTOINCREMENT, ID_Renters INTEGER, Contract TEXT,  ID_Month INTEGER, Amount_Rent FLOAT, " +
-                    "VAT FLOAT, Date_Payment timestamp, Note Text,  FOREIGN KEY (ID_Renters) REFERENCES Renters(ID_Renters),  FOREIGN KEY (ID_Month) REFERENCES Months(ID_Month))";
+                    "VAT FLOAT, Date_Payment timestamp, Note Text,  FOREIGN KEY (ID_Renters) REFERENCES Renters(ID_Renters),  FOREIGN KEY (ID_Month) REFERENCES Months(ID_Months))";
                 cmd.ExecuteNonQuery();
 
                 cmd.CommandText = "CREATE TABLE IF NOT EXISTS ApartamentStatus (ID_Apartament_Status INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT)";
@@ -237,15 +237,7 @@ namespace manprac
                     string getFilePath = Path.GetFullPath(openFile.FileName);
                     File.Copy(getFilePath, localProgramPath + fileName);
                     MessageBox.Show("Загрузка БД из копии успешно завершена. ", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                        
-                        // File.Replace(getFilePath, localProgramPath, Application.StartupPath);
-                        // File.Delete(localProgramPath);
-                        //  new FileInfo(getFilePath).MoveTo(localProgramPath);
-
-                    
-                    // File.Move(getFilePath, localProgramPath);
-                
+                }  
             }
             catch(Exception ex)
             {

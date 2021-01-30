@@ -117,7 +117,6 @@
             this.amountRentTextBoxStart = new System.Windows.Forms.TextBox();
             this.amountRentTextBoxFinish = new System.Windows.Forms.TextBox();
             this.datePickerFinish = new System.Windows.Forms.DateTimePicker();
-            this.datePickerStart = new System.Windows.Forms.DateTimePicker();
             this.areaTypeComboBox = new System.Windows.Forms.ComboBox();
             this.rentersComboBox = new System.Windows.Forms.ComboBox();
             this.monthLabel = new System.Windows.Forms.Label();
@@ -137,8 +136,13 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.ClearFiltersButton = new System.Windows.Forms.Button();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.amountVAT_TextBoxStart = new System.Windows.Forms.TextBox();
+            this.amountVAT_TextBoxFinish = new System.Windows.Forms.TextBox();
+            this.datePickerStart = new System.Windows.Forms.DateTimePicker();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridRenters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridOffices)).BeginInit();
@@ -152,6 +156,7 @@
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -198,15 +203,15 @@
             // resultFlatsToolStripMenuItem1
             // 
             this.resultFlatsToolStripMenuItem1.Name = "resultFlatsToolStripMenuItem1";
-            this.resultFlatsToolStripMenuItem1.Size = new System.Drawing.Size(196, 22);
-            this.resultFlatsToolStripMenuItem1.Text = "Квартиры";
+            this.resultFlatsToolStripMenuItem1.Size = new System.Drawing.Size(183, 22);
+            this.resultFlatsToolStripMenuItem1.Text = "Жилые квартиры";
             this.resultFlatsToolStripMenuItem1.Click += new System.EventHandler(this.resultFlatsToolStripMenuItem1_Click);
             // 
             // resultFlatsNToolStripMenuItem
             // 
             this.resultFlatsNToolStripMenuItem.Name = "resultFlatsNToolStripMenuItem";
-            this.resultFlatsNToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.resultFlatsNToolStripMenuItem.Text = "Нежилые помещения";
+            this.resultFlatsNToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.resultFlatsNToolStripMenuItem.Text = "Нежилые квартиры";
             this.resultFlatsNToolStripMenuItem.Click += new System.EventHandler(this.resultFlatsNToolStripMenuItem_Click);
             // 
             // rentersToolStripMenuItem
@@ -223,21 +228,21 @@
             // addRentersToolStripMenuItem
             // 
             this.addRentersToolStripMenuItem.Name = "addRentersToolStripMenuItem";
-            this.addRentersToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.addRentersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addRentersToolStripMenuItem.Text = "Добавить";
             this.addRentersToolStripMenuItem.Click += new System.EventHandler(this.addRentersToolStripMenuItem_Click);
             // 
             // updateRentersToolStripMenuItem
             // 
             this.updateRentersToolStripMenuItem.Name = "updateRentersToolStripMenuItem";
-            this.updateRentersToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.updateRentersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.updateRentersToolStripMenuItem.Text = "Изменить";
             this.updateRentersToolStripMenuItem.Click += new System.EventHandler(this.updateRentersToolStripMenuItem_Click);
             // 
             // deleteRentersToolStripMenuItem
             // 
             this.deleteRentersToolStripMenuItem.Name = "deleteRentersToolStripMenuItem";
-            this.deleteRentersToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.deleteRentersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteRentersToolStripMenuItem.Text = "Удалить";
             this.deleteRentersToolStripMenuItem.Click += new System.EventHandler(this.deleteRentersToolStripMenuItem_Click);
             // 
@@ -255,21 +260,21 @@
             // addOfficeToolStripMenuItem
             // 
             this.addOfficeToolStripMenuItem.Name = "addOfficeToolStripMenuItem";
-            this.addOfficeToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.addOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addOfficeToolStripMenuItem.Text = "Добавить";
             this.addOfficeToolStripMenuItem.Click += new System.EventHandler(this.addOfficeToolStripMenuItem_Click);
             // 
             // updateOfficeToolStripMenuItem
             // 
             this.updateOfficeToolStripMenuItem.Name = "updateOfficeToolStripMenuItem";
-            this.updateOfficeToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.updateOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.updateOfficeToolStripMenuItem.Text = "Изменить";
             this.updateOfficeToolStripMenuItem.Click += new System.EventHandler(this.updateOfficeToolStripMenuItem_Click);
             // 
             // deleteOfficeToolStripMenuItem
             // 
             this.deleteOfficeToolStripMenuItem.Name = "deleteOfficeToolStripMenuItem";
-            this.deleteOfficeToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.deleteOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteOfficeToolStripMenuItem.Text = "Удалить";
             this.deleteOfficeToolStripMenuItem.Click += new System.EventHandler(this.deleteOfficeToolStripMenuItem_Click);
             // 
@@ -287,21 +292,21 @@
             // addFlatsPToolStripMenuItem
             // 
             this.addFlatsPToolStripMenuItem.Name = "addFlatsPToolStripMenuItem";
-            this.addFlatsPToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.addFlatsPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addFlatsPToolStripMenuItem.Text = "Добавить";
             this.addFlatsPToolStripMenuItem.Click += new System.EventHandler(this.addFlatsPToolStripMenuItem_Click);
             // 
             // updateFlatsPToolStripMenuItem
             // 
             this.updateFlatsPToolStripMenuItem.Name = "updateFlatsPToolStripMenuItem";
-            this.updateFlatsPToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.updateFlatsPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.updateFlatsPToolStripMenuItem.Text = "Изменить";
             this.updateFlatsPToolStripMenuItem.Click += new System.EventHandler(this.updateFlatsPToolStripMenuItem_Click);
             // 
             // deleteFlatsPToolStripMenuItem
             // 
             this.deleteFlatsPToolStripMenuItem.Name = "deleteFlatsPToolStripMenuItem";
-            this.deleteFlatsPToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.deleteFlatsPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteFlatsPToolStripMenuItem.Text = "Удалить";
             this.deleteFlatsPToolStripMenuItem.Click += new System.EventHandler(this.deleteFlatsPToolStripMenuItem_Click);
             // 
@@ -318,21 +323,21 @@
             // PrintPreviewToolStripMenuItem
             // 
             this.PrintPreviewToolStripMenuItem.Name = "PrintPreviewToolStripMenuItem";
-            this.PrintPreviewToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.PrintPreviewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.PrintPreviewToolStripMenuItem.Text = "Предпросмотр";
             this.PrintPreviewToolStripMenuItem.Click += new System.EventHandler(this.предпросмотрToolStripMenuItem_Click);
             // 
             // PrintToolStripMenuItem
             // 
             this.PrintToolStripMenuItem.Name = "PrintToolStripMenuItem";
-            this.PrintToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.PrintToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.PrintToolStripMenuItem.Text = "Печать";
             this.PrintToolStripMenuItem.Click += new System.EventHandler(this.PrintToolStripMenuItem_Click);
             // 
             // ExportToExcelToolStripMenuItem
             // 
             this.ExportToExcelToolStripMenuItem.Name = "ExportToExcelToolStripMenuItem";
-            this.ExportToExcelToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.ExportToExcelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ExportToExcelToolStripMenuItem.Text = "Экспорт в Excel";
             this.ExportToExcelToolStripMenuItem.Click += new System.EventHandler(this.ExportToExcelToolStripMenuItem_Click);
             // 
@@ -374,7 +379,7 @@
             this.dataGridRenters.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridRenters.RowHeadersVisible = false;
             this.dataGridRenters.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridRenters.Size = new System.Drawing.Size(1037, 683);
+            this.dataGridRenters.Size = new System.Drawing.Size(1037, 839);
             this.dataGridRenters.TabIndex = 2;
             this.dataGridRenters.Visible = false;
             // 
@@ -444,7 +449,7 @@
             this.dataGridOffices.RowHeadersVisible = false;
             this.dataGridOffices.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.dataGridOffices.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridOffices.Size = new System.Drawing.Size(1037, 683);
+            this.dataGridOffices.Size = new System.Drawing.Size(1037, 839);
             this.dataGridOffices.TabIndex = 3;
             this.dataGridOffices.Visible = false;
             // 
@@ -556,7 +561,7 @@
             dataGridViewCellStyle36.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridFlats.RowsDefaultCellStyle = dataGridViewCellStyle36;
             this.dataGridFlats.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridFlats.Size = new System.Drawing.Size(1037, 683);
+            this.dataGridFlats.Size = new System.Drawing.Size(1037, 839);
             this.dataGridFlats.TabIndex = 4;
             this.dataGridFlats.Visible = false;
             // 
@@ -663,7 +668,7 @@
             this.dataGridResultFlats.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridResultFlats.RowHeadersVisible = false;
             this.dataGridResultFlats.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridResultFlats.Size = new System.Drawing.Size(1037, 683);
+            this.dataGridResultFlats.Size = new System.Drawing.Size(1037, 839);
             this.dataGridResultFlats.TabIndex = 5;
             this.dataGridResultFlats.Visible = false;
             this.dataGridResultFlats.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridResultFlats_RowsAdded);
@@ -698,7 +703,7 @@
             // 
             this.rentersLabel.AutoSize = true;
             this.rentersLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rentersLabel.Location = new System.Drawing.Point(119, 101);
+            this.rentersLabel.Location = new System.Drawing.Point(125, 81);
             this.rentersLabel.Name = "rentersLabel";
             this.rentersLabel.Size = new System.Drawing.Size(105, 23);
             this.rentersLabel.TabIndex = 26;
@@ -708,7 +713,7 @@
             // 
             this.areaTypeLabel.AutoSize = true;
             this.areaTypeLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.areaTypeLabel.Location = new System.Drawing.Point(106, 188);
+            this.areaTypeLabel.Location = new System.Drawing.Point(108, 152);
             this.areaTypeLabel.Name = "areaTypeLabel";
             this.areaTypeLabel.Size = new System.Drawing.Size(137, 23);
             this.areaTypeLabel.TabIndex = 28;
@@ -746,7 +751,7 @@
             this.dataGridResultOffices.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridResultOffices.RowHeadersVisible = false;
             this.dataGridResultOffices.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridResultOffices.Size = new System.Drawing.Size(1037, 683);
+            this.dataGridResultOffices.Size = new System.Drawing.Size(1037, 839);
             this.dataGridResultOffices.TabIndex = 29;
             this.dataGridResultOffices.Visible = false;
             this.dataGridResultOffices.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridResultOffices_RowsAdded);
@@ -773,7 +778,7 @@
             // 
             this.dataGridViewTextBoxColumn16.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dataGridViewTextBoxColumn16.FillWeight = 58.37563F;
-            this.dataGridViewTextBoxColumn16.HeaderText = "Сумма оплаты";
+            this.dataGridViewTextBoxColumn16.HeaderText = "Общая сумма НДС";
             this.dataGridViewTextBoxColumn16.Name = "dataGridViewTextBoxColumn16";
             this.dataGridViewTextBoxColumn16.ReadOnly = true;
             // 
@@ -806,7 +811,7 @@
             this.dataGridResultRenters.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridResultRenters.RowHeadersVisible = false;
             this.dataGridResultRenters.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridResultRenters.Size = new System.Drawing.Size(1037, 683);
+            this.dataGridResultRenters.Size = new System.Drawing.Size(1037, 839);
             this.dataGridResultRenters.TabIndex = 30;
             this.dataGridResultRenters.Visible = false;
             // 
@@ -870,7 +875,7 @@
             dataGridViewCellStyle41.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.dataGridCommonResults.RowsDefaultCellStyle = dataGridViewCellStyle41;
             this.dataGridCommonResults.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridCommonResults.Size = new System.Drawing.Size(1037, 683);
+            this.dataGridCommonResults.Size = new System.Drawing.Size(1037, 839);
             this.dataGridCommonResults.TabIndex = 31;
             this.dataGridCommonResults.Visible = false;
             this.dataGridCommonResults.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridCommonResults_RowsAdded);
@@ -969,25 +974,13 @@
             this.datePickerFinish.Value = new System.DateTime(2020, 6, 6, 20, 21, 0, 0);
             this.datePickerFinish.ValueChanged += new System.EventHandler(this.datePickerFinish_ValueChanged);
             // 
-            // datePickerStart
-            // 
-            this.datePickerStart.Enabled = false;
-            this.datePickerStart.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.datePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.datePickerStart.Location = new System.Drawing.Point(30, 40);
-            this.datePickerStart.Name = "datePickerStart";
-            this.datePickerStart.Size = new System.Drawing.Size(127, 31);
-            this.datePickerStart.TabIndex = 6;
-            this.datePickerStart.Value = new System.DateTime(2020, 6, 1, 13, 44, 0, 0);
-            this.datePickerStart.ValueChanged += new System.EventHandler(this.datePickerStart_ValueChanged);
-            // 
             // areaTypeComboBox
             // 
             this.areaTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.areaTypeComboBox.Enabled = false;
             this.areaTypeComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.areaTypeComboBox.FormattingEnabled = true;
-            this.areaTypeComboBox.Location = new System.Drawing.Point(31, 214);
+            this.areaTypeComboBox.Location = new System.Drawing.Point(31, 178);
             this.areaTypeComboBox.Name = "areaTypeComboBox";
             this.areaTypeComboBox.Size = new System.Drawing.Size(295, 31);
             this.areaTypeComboBox.TabIndex = 27;
@@ -999,7 +992,7 @@
             this.rentersComboBox.Enabled = false;
             this.rentersComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rentersComboBox.FormattingEnabled = true;
-            this.rentersComboBox.Location = new System.Drawing.Point(31, 127);
+            this.rentersComboBox.Location = new System.Drawing.Point(31, 107);
             this.rentersComboBox.Name = "rentersComboBox";
             this.rentersComboBox.Size = new System.Drawing.Size(295, 31);
             this.rentersComboBox.TabIndex = 32;
@@ -1046,7 +1039,7 @@
             this.dataGridUninhabitedArea.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridUninhabitedArea.RowHeadersVisible = false;
             this.dataGridUninhabitedArea.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridUninhabitedArea.Size = new System.Drawing.Size(1037, 683);
+            this.dataGridUninhabitedArea.Size = new System.Drawing.Size(1037, 839);
             this.dataGridUninhabitedArea.TabIndex = 42;
             this.dataGridUninhabitedArea.Visible = false;
             this.dataGridUninhabitedArea.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridUninhabitedArea_RowsAdded);
@@ -1126,7 +1119,7 @@
             this.groupBox1.Controls.Add(this.amountRentTextBoxStart);
             this.groupBox1.Controls.Add(this.amountRentTextBoxFinish);
             this.groupBox1.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox1.Location = new System.Drawing.Point(1077, 60);
+            this.groupBox1.Location = new System.Drawing.Point(1075, 46);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(355, 100);
             this.groupBox1.TabIndex = 44;
@@ -1150,7 +1143,7 @@
             this.groupBox2.Controls.Add(this.amountPaymentTextBoxStart);
             this.groupBox2.Controls.Add(this.amountPaymentTextBoxFinish);
             this.groupBox2.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox2.Location = new System.Drawing.Point(1077, 166);
+            this.groupBox2.Location = new System.Drawing.Point(1075, 279);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(355, 100);
             this.groupBox2.TabIndex = 45;
@@ -1170,27 +1163,16 @@
             // groupBox3
             // 
             this.groupBox3.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.groupBox3.Controls.Add(this.button1);
             this.groupBox3.Controls.Add(this.datePickerStart);
             this.groupBox3.Controls.Add(this.lineLabel);
             this.groupBox3.Controls.Add(this.datePickerFinish);
             this.groupBox3.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox3.Location = new System.Drawing.Point(1077, 272);
+            this.groupBox3.Location = new System.Drawing.Point(1077, 396);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(355, 100);
             this.groupBox3.TabIndex = 46;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Дата";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(31, 77);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 44;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // groupBox4
             // 
@@ -1201,19 +1183,91 @@
             this.groupBox4.Controls.Add(this.monthLabel);
             this.groupBox4.Controls.Add(this.monthComboBox);
             this.groupBox4.Controls.Add(this.rentersComboBox);
-            this.groupBox4.Location = new System.Drawing.Point(1077, 400);
+            this.groupBox4.Location = new System.Drawing.Point(1075, 509);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(354, 278);
+            this.groupBox4.Size = new System.Drawing.Size(354, 224);
             this.groupBox4.TabIndex = 47;
             this.groupBox4.TabStop = false;
+            // 
+            // ClearFiltersButton
+            // 
+            this.ClearFiltersButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.ClearFiltersButton.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ClearFiltersButton.Location = new System.Drawing.Point(1154, 761);
+            this.ClearFiltersButton.Name = "ClearFiltersButton";
+            this.ClearFiltersButton.Size = new System.Drawing.Size(181, 54);
+            this.ClearFiltersButton.TabIndex = 48;
+            this.ClearFiltersButton.Text = "Очистить фильтры";
+            this.ClearFiltersButton.UseVisualStyleBackColor = true;
+            this.ClearFiltersButton.Click += new System.EventHandler(this.ClearFiltersButton_Click);
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.groupBox5.Controls.Add(this.label3);
+            this.groupBox5.Controls.Add(this.amountVAT_TextBoxStart);
+            this.groupBox5.Controls.Add(this.amountVAT_TextBoxFinish);
+            this.groupBox5.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.groupBox5.Location = new System.Drawing.Point(1075, 164);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(355, 100);
+            this.groupBox5.TabIndex = 49;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Сумма НДС";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.Location = new System.Drawing.Point(163, 32);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(30, 39);
+            this.label3.TabIndex = 44;
+            this.label3.Text = "-";
+            // 
+            // amountVAT_TextBoxStart
+            // 
+            this.amountVAT_TextBoxStart.Enabled = false;
+            this.amountVAT_TextBoxStart.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.amountVAT_TextBoxStart.Location = new System.Drawing.Point(30, 40);
+            this.amountVAT_TextBoxStart.Name = "amountVAT_TextBoxStart";
+            this.amountVAT_TextBoxStart.Size = new System.Drawing.Size(127, 31);
+            this.amountVAT_TextBoxStart.TabIndex = 8;
+            this.amountVAT_TextBoxStart.Text = "0";
+            this.amountVAT_TextBoxStart.TextChanged += new System.EventHandler(this.amountVAT_TextBoxStart_TextChanged);
+            // 
+            // amountVAT_TextBoxFinish
+            // 
+            this.amountVAT_TextBoxFinish.Enabled = false;
+            this.amountVAT_TextBoxFinish.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.amountVAT_TextBoxFinish.Location = new System.Drawing.Point(199, 40);
+            this.amountVAT_TextBoxFinish.Name = "amountVAT_TextBoxFinish";
+            this.amountVAT_TextBoxFinish.Size = new System.Drawing.Size(127, 31);
+            this.amountVAT_TextBoxFinish.TabIndex = 23;
+            this.amountVAT_TextBoxFinish.Text = "100000";
+            this.amountVAT_TextBoxFinish.TextChanged += new System.EventHandler(this.amountVAT_TextBoxFinish_TextChanged);
+            // 
+            // datePickerStart
+            // 
+            this.datePickerStart.Enabled = false;
+            this.datePickerStart.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.datePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.datePickerStart.Location = new System.Drawing.Point(30, 40);
+            this.datePickerStart.Name = "datePickerStart";
+            this.datePickerStart.Size = new System.Drawing.Size(127, 31);
+            this.datePickerStart.TabIndex = 6;
+            this.datePickerStart.Value = new System.DateTime(2021, 1, 1, 13, 44, 0, 0);
+            this.datePickerStart.ValueChanged += new System.EventHandler(this.datePickerStart_ValueChanged);
             // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1444, 722);
+            this.ClientSize = new System.Drawing.Size(1444, 878);
+            this.Controls.Add(this.groupBox5);
+            this.Controls.Add(this.ClearFiltersButton);
             this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dataGridResultRenters);
             this.Controls.Add(this.menuStrip1);
@@ -1250,6 +1304,8 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1304,7 +1360,6 @@
         private System.Windows.Forms.TextBox amountRentTextBoxStart;
         private System.Windows.Forms.TextBox amountRentTextBoxFinish;
         private System.Windows.Forms.DateTimePicker datePickerFinish;
-        private System.Windows.Forms.DateTimePicker datePickerStart;
         private System.Windows.Forms.ComboBox areaTypeComboBox;
         private System.Windows.Forms.ComboBox rentersComboBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
@@ -1341,10 +1396,6 @@
         private System.Drawing.Printing.PrintDocument printUninhabitedArea;
         private System.Drawing.Printing.PrintDocument printResultFlats;
         private System.Drawing.Printing.PrintDocument printResultOffices;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn15;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn16;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
         private System.Windows.Forms.Label lineLabel;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -1352,7 +1403,16 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn15;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn16;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
+        private System.Windows.Forms.Button ClearFiltersButton;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox amountVAT_TextBoxStart;
+        private System.Windows.Forms.TextBox amountVAT_TextBoxFinish;
+        private System.Windows.Forms.DateTimePicker datePickerStart;
     }
 }
 

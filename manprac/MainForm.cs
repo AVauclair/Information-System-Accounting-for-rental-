@@ -30,15 +30,15 @@ namespace manprac
         string resultFlatsLoadQueryConst = "SELECT Months.ID_Month, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
             "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month " +
             " GROUP BY Months.ID_Month, Months.Name";
-        
+
         string resultFlatsSumQueryConst = "SELECT SUM(Amount_Rent) SumRent, SUM(Amount_Payment) SumPayment FROM Apartaments";
         string resultFlatsSumQuery = "SELECT SUM(Amount_Rent) SumRent, SUM(Amount_Payment) SumPayment FROM Apartaments";
         string resultFlatsLoadQuery = "SELECT Months.ID_Months, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
-            "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months " +
+            "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months WHERE Apartament_Status = 2 " +
             " GROUP BY Months.ID_Months, Months.Name";
         string resultOfficesLoadQueryConst = "Select Months.ID_Months, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference" +
                 " FROM Offices LEFT JOIN Months on Offices.ID_Month = Months.ID_Month GROUP BY Months.ID_Month, Months.Name";
-        string resultOfficesLoadQuery = "Select Months.ID_Months, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference" +
+        string resultOfficesLoadQuery = "Select Months.ID_Months, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent - VAT) Difference " +
                 " FROM Offices LEFT JOIN Months on Offices.ID_Month = Months.ID_Months GROUP BY Months.ID_Months, Months.Name";
         string resultOfficesSumQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference FROM Offices";
         string resultOfficesSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference FROM Offices";
@@ -46,9 +46,9 @@ namespace manprac
         string resultFlatsNLoadQueryConst = "SELECT Months.ID_Months, Months.Name Month, sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments " +
               " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month WHERE Apartament_Status = 2 Group By Months.ID_Month, Months.Name";
         string resultFlatsNLoadQuery = "SELECT Months.ID_Months, Months.Name Month, sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments " +
-              " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months WHERE Apartament_Status = 2 Group By Months.ID_Months, Months.Name";
-        string resultFlatsNSumQueryConst = "SELECT sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments Where Apartament_Status = 2";
-        string resultFlatsNSumQuery = "SELECT sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments Where Apartament_Status = 2";
+              " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months WHERE Apartament_Status = 1 Group By Months.ID_Months, Months.Name";
+        string resultFlatsNSumQueryConst = "SELECT sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments Where Apartament_Status = 1";
+        string resultFlatsNSumQuery = "SELECT sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments Where Apartament_Status = 1";
 
         string resultAllLoadQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices";
         string resultAllLoadQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices";
@@ -97,7 +97,7 @@ namespace manprac
         public void OfficesLoad()
         {
             SQLiteConnection conn = new SQLiteConnection(ConnString);
-            
+
             try
             {
                 conn.Open();
@@ -141,7 +141,7 @@ namespace manprac
             finally
             {
                 conn.Close();
-            }        
+            }
         }
 
         public void FlatsLoad()
@@ -199,7 +199,7 @@ namespace manprac
         {
             SQLiteConnection conn = new SQLiteConnection(ConnString);
             conn.Open();
-            
+
             SQLiteCommand loadResultFlats = new SQLiteCommand(resultFlatsLoadQuery, conn);
             SQLiteDataReader readerResultFlats = loadResultFlats.ExecuteReader();
             List<string[]> data = new List<string[]>();
@@ -217,7 +217,11 @@ namespace manprac
                 dataGridResultFlats.Rows.Add(s);
             }
             readerResultFlats.Close();
-
+            if (dataGridResultFlats.Rows.Count == 0)
+            {
+                MessageBox.Show("Отсутствуют записи для составления сводки.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             SQLiteCommand loadResultTotal = new SQLiteCommand(resultFlatsSumQuery, conn);
             SQLiteDataReader readerResultTotal = loadResultTotal.ExecuteReader();
             while (readerResultTotal.Read())
@@ -247,6 +251,11 @@ namespace manprac
             foreach (string[] s in data)
                 dataGridResultOffices.Rows.Add(s);
 
+            if (dataGridResultOffices.Rows.Count == 0)
+            {
+                MessageBox.Show("Отсутствуют записи для составления сводки.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             SQLiteCommand loadResultSummary = new SQLiteCommand(resultOfficesSumQuery, conn);
             SQLiteDataReader readerResultSummary = loadResultSummary.ExecuteReader();
             while (readerResultSummary.Read())
@@ -274,6 +283,12 @@ namespace manprac
             readerUninhabitedArea1.Close();
             foreach (string[] s in data1)
                 dataGridUninhabitedArea.Rows.Add(s);
+
+            if (dataGridUninhabitedArea.Rows.Count == 0)
+            {
+                MessageBox.Show("Отсутствуют записи для составления сводки.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             SQLiteCommand loadUningabitedArea2 = new SQLiteCommand(resultFlatsNSumQuery, conn);
             SQLiteDataReader readerUninhabitedAre2 = loadUningabitedArea2.ExecuteReader();
@@ -305,16 +320,17 @@ namespace manprac
                 foreach (string[] s in data1)
                     dataGridCommonResults.Rows.Add(s);
 
-                for(int i =0; i<dataGridCommonResults.Rows.Count; i++)
+                for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
                 {
-                    if(dataGridCommonResults.Rows[i].Cells[1].Value == "")
+                    if (dataGridCommonResults.Rows[i].Cells[1].Value.ToString() == "")
                     {
-                        MessageBox.Show("Отсутсвуют записи для составления сводов", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Отсутсвуют записи для составления сводки. ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        dataGridCommonResults.Rows.Clear();
                         return;
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -337,15 +353,17 @@ namespace manprac
 
                 for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
                 {
-                    if (dataGridCommonResults.Rows[i].Cells[2].Value == "")
+                    if (dataGridCommonResults.Rows[i].Cells[2].Value.ToString() == "")
                     {
-                        MessageBox.Show("Отсутсвуют записи для составления сводов", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Отсутсвуют записи для составления сводки. ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        dataGridCommonResults.Rows.Clear();
                         return;
                     }
                 }
 
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -361,7 +379,7 @@ namespace manprac
                     sumVat += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[2].Value);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
@@ -372,215 +390,14 @@ namespace manprac
 
         #region методы фильтраций
 
-        public void AmountRentFiltration()
-        {
-            if (dataGridOffices.Visible == true)
-            {
-                if (amountRentTextBoxStart.Text != "" && amountRentTextBoxFinish.Text != "")
-                {
-                    dataGridOffices.Rows.Clear();
-                    OfficesLoad();
-                    try
-                    {
-                        for (int i = 0; i < dataGridOffices.Rows.Count; i++)
-                        {
-                            if (!((Convert.ToDouble(dataGridOffices.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text)) &&
-                                (Convert.ToDouble(dataGridOffices.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text))))
-                            {
-                                dataGridOffices.Rows[i].Visible = false;
-                            }
-                        }
-                    }
-                    catch(Exception ex)
-                    {
-                        MessageBox.Show("Произошла ошибка при фильтрации. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                if(amountRentTextBoxStart.Text != "" && amountRentTextBoxFinish.Text == "")
-                {
-                    dataGridOffices.Rows.Clear();
-                    OfficesLoad();
-                    try
-                    {
-                        for (int i = 0; i < dataGridOffices.Rows.Count; i++)
-                        {
-                            if (!(Convert.ToDouble(dataGridOffices.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text)))
-                            {
-                                dataGridOffices.Rows[i].Visible = false;
-                            }
-                    }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Произошла ошибка при фильтрации. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                if(amountRentTextBoxStart.Text == "" && amountRentTextBoxFinish.Text != "")
-                {
-                    dataGridOffices.Rows.Clear();
-                    OfficesLoad();
-                    try
-                    {
-                        for(int i=0; i<dataGridOffices.Rows.Count; i++)
-                        {
-                            if (!(Convert.ToDouble(dataGridOffices.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text)))
-                            {
-                                dataGridOffices.Rows[i].Visible = false;
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Произошла ошибка при фильтрации. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-
-            if (dataGridFlats.Visible == true)
-            {
-                if (amountRentTextBoxStart.Text != "" && amountRentTextBoxFinish.Text != "")
-                {
-                    dataGridFlats.Rows.Clear();
-                    FlatsLoad();
-                    try
-                    {
-                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
-                        {
-                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text)) &&
-                                (Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text))))
-                            {
-                                dataGridFlats.Rows[i].Visible = false;
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Произошла ошибка при фильтрации. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                if (amountRentTextBoxStart.Text != "" && amountRentTextBoxFinish.Text == "")
-                {
-                    dataGridFlats.Rows.Clear();
-                    FlatsLoad();
-                    try
-                    {
-                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
-                        {
-                            if (!(Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text)))
-                            {
-                                dataGridFlats.Rows[i].Visible = false;
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Произошла ошибка при фильтрации. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                if (amountRentTextBoxStart.Text == "" && amountRentTextBoxFinish.Text != "")
-                {
-                    dataGridFlats.Rows.Clear();
-                    FlatsLoad();
-                    try
-                    {
-                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
-                        {
-                            if (!(Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text)))
-                            {
-                                dataGridFlats.Rows[i].Visible = false;
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Произошла ошибка при фильтрации. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-        }
-        
-
-        public void AmountPaymentFiltration()
-        {
-            if (dataGridFlats.Visible == true)
-            {
-                if (amountPaymentTextBoxStart.Text != "" && amountPaymentTextBoxFinish.Text != "")
-                {
-                    dataGridFlats.Rows.Clear();
-                    FlatsLoad();
-                    try
-                    {
-                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
-                        {
-
-                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) >= Convert.ToDouble(amountPaymentTextBoxStart.Text)) &&
-                                 (Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) <= Convert.ToDouble(amountPaymentTextBoxFinish.Text))))
-                            {
-                                dataGridFlats.Rows[i].Visible = false;
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Произошла ошибка при фильтрации. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                if (amountPaymentTextBoxStart.Text != "" && amountPaymentTextBoxFinish.Text == "")
-                {
-                    dataGridFlats.Rows.Clear();
-                    FlatsLoad();
-                    try
-                    {
-                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
-                        {
-                            if (!(Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) >= Convert.ToDouble(amountPaymentTextBoxStart.Text)))
-                            {
-                                dataGridFlats.Rows[i].Visible = false;
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Произошла ошибка при фильтрации. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                if (amountPaymentTextBoxStart.Text == "" && amountPaymentTextBoxFinish.Text != "")
-                {
-                    dataGridFlats.Rows.Clear();
-                    FlatsLoad();
-                    try
-                    {
-                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
-                        {
-                            if (!(Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) <= Convert.ToDouble(amountPaymentTextBoxFinish.Text)))
-                            {
-                                dataGridFlats.Rows[i].Visible = false;
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Произошла ошибка при фильтрации. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-        }
-
         public void DateFiltration()
         {
-            SQLiteConnection conn = new SQLiteConnection(ConnString);
-            conn.Open();
-
-            //string datestart = string.Format("{0:yyyy-MM-dd}", $"'{datePickerStart.Value}'");
-            //string datefinish = string.Format("{0:yyyy-MM-dd}", $"'{datePickerFinish.Value}'");
             DateTime datestart = Convert.ToDateTime(datePickerStart.Value);
             DateTime datefinish = Convert.ToDateTime(datePickerFinish.Value);
             datestart.ToString("O: {0:O}");
             datefinish.ToString("O: {0:O}");
             if (dataGridOffices.Visible == true)
             {
-                dataGridOffices.Rows.Clear();
-                OfficesLoad();
                 try
                 {
                     for (int i = 0; i < dataGridOffices.Rows.Count; i++)
@@ -595,7 +412,7 @@ namespace manprac
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
@@ -603,8 +420,6 @@ namespace manprac
 
             if (dataGridFlats.Visible == true)
             {
-                dataGridFlats.Rows.Clear();
-                FlatsLoad();
                 try
                 {
                     for (int i = 0; i < dataGridFlats.Rows.Count; i++)
@@ -617,55 +432,11 @@ namespace manprac
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
             }
-
-            if (dataGridResultFlats.Visible == true)
-            {
-                if (areaTypeComboBox.SelectedIndex == 1)
-                {
-                    resultFlatsLoadQuery = resultFlatsLoadQueryConst.Insert(187, $"WHERE ((Date_Payment BETWEEN {datestart} AND {datefinish}) AND Apartament_Status = 1)");
-                    resultFlatsSumQuery = resultFlatsSumQueryConst + $" WHERE ((Date_Payment BETWEEN {datestart} AND {datefinish}) AND Apartament_Status = 1)";
-                    dataGridResultFlats.Rows.Clear();
-                    ResultFlatsLoad();
-                }
-                else if (areaTypeComboBox.SelectedIndex == 2)
-                {
-                    resultFlatsLoadQuery = resultFlatsLoadQueryConst.Insert(187, $"WHERE ((Date_Payment BETWEEN {datestart} AND {datefinish}) AND Apartament_Status = 2)");
-                    resultFlatsSumQuery = resultFlatsSumQueryConst + $" WHERE ((Date_Payment BETWEEN {datestart} AND {datefinish}) AND Apartament_Status = 2)";
-                    dataGridResultFlats.Rows.Clear();
-                    ResultFlatsLoad();
-                }
-            }
-
-            if (dataGridResultOffices.Visible == true)
-            {
-                resultOfficesLoadQuery = resultOfficesLoadQueryConst.Insert(187, $"WHERE Date_Payment BETWEEN {datestart} AND {datefinish}");
-                resultOfficesSumQuery = resultOfficesSumQueryConst + $" WHERE Date_Payment BETWEEN {datestart} AND {datefinish}";
-                dataGridResultOffices.Rows.Clear();
-                ResultOfficesLoad();
-            }
-
-            if (dataGridUninhabitedArea.Visible == true)
-            {
-                resultFlatsNLoadQuery = resultFlatsNLoadQueryConst.Insert(197, $"AND (Date_Payment BETWEEN {datestart} AND {datefinish})");
-                resultFlatsNSumQuery = resultFlatsNSumQueryConst + $" AND (Date_Payment BETWEEN {datestart} AND {datefinish})";
-                dataGridUninhabitedArea.Rows.Clear();
-                ResultFlatsNLoad();
-            }
-
-          /*  if (dataGridCommonResults.Visible == true)
-            {
-                resultAllLoadQuery = resultAllLoadQueryConst.Insert(62, $" WHERE Date_Payment BETWEEN '{datestart.ToShortDateString()}' AND '{datefinish.ToShortDateString()}'");
-                resultAllSumQuery = resultAllSumQueryConst.Insert(66, $" WHERE Date_Payment BETWEEN '{datestart.ToShortDateString()}' AND '{datefinish.ToShortDateString()}'");
-                dataGridCommonResults.Rows.Clear();
-                ResultAllLoad();
-            }*/
-
-            conn.Close();
         }
 
         #endregion
@@ -677,7 +448,7 @@ namespace manprac
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+
             #region открытие подменю тулстрип при наведении
             menuStrip1.Items.OfType<ToolStripMenuItem>().ToList().ForEach(x =>
             {
@@ -685,10 +456,9 @@ namespace manprac
             });
             #endregion
 
-         
-
+            datePickerFinish.Value = DateTime.Now;
             ChangeHeight();
-            /*
+
             #region заполнение комбобоксов
             rentersComboBox.Items.Add("Все");
             monthComboBox.Items.Add("Все");
@@ -742,13 +512,13 @@ namespace manprac
 
                 conn.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Произошла ошибка. Вероятно база данных была создана некорректно, выполните пересоздание БД. \n" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             #endregion
-           */             
-            
+
+
         }
 
         #region переход на другие формы
@@ -772,7 +542,7 @@ namespace manprac
                 MessageBox.Show("Выберите запись в таблице \"Арендаторы\", которую хотите изменить.", "Ошибки", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if(dataGridRenters.Rows.Count ==0)
+            if (dataGridRenters.Rows.Count == 0)
             {
                 MessageBox.Show("Отсутствуют записи в таблице.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -806,7 +576,7 @@ namespace manprac
             }
             if (MessageBox.Show("Вы уверены что хотите удалить выбранную запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-              
+
 
                 SQLiteConnection conn = new SQLiteConnection(ConnString);
                 conn.Open();
@@ -818,14 +588,14 @@ namespace manprac
                 readNullRenters.Parameters.AddWithValue("@ID_Renters", dataGridRenters.CurrentRow.Cells[0].Value);
                 SQLiteDataReader reader = readNullRenters.ExecuteReader();
 
-                if(!reader.HasRows)
-                { 
-                  
-                        MessageBox.Show("Выбранного арендатора нельзя удалять, так как он используется в других таблицах.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-       
+                if (!reader.HasRows)
+                {
+
+                    MessageBox.Show("Выбранного арендатора нельзя удалять, так как он используется в других таблицах.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+
                 }
-               
+
                 SQLiteCommand deleteRenters = new SQLiteCommand("DELETE FROM [Renters] WHERE [ID_Renters] = @ID_Renters", conn);
                 deleteRenters.Parameters.AddWithValue("@ID_Renters", dataGridRenters.CurrentRow.Cells[0].Value);
                 try
@@ -852,9 +622,9 @@ namespace manprac
                         dataGridRenters.Rows.Add(s);
 
                     readerRenters.Close();
-                  
+
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -951,7 +721,7 @@ namespace manprac
 
                     readerOffices.Close();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -1008,7 +778,7 @@ namespace manprac
                 MessageBox.Show("Выберите запись в таблице, которую хотите удалить.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            
+
             if (MessageBox.Show("Вы уверены, что хотите удалить запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 SQLiteConnection conn = new SQLiteConnection(ConnString);
@@ -1076,6 +846,8 @@ namespace manprac
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = false;
 
+            amountVAT_TextBoxStart.Enabled = false;
+            amountVAT_TextBoxFinish.Enabled = false;
             datePickerStart.Enabled = false;
             datePickerFinish.Enabled = false;
             amountPaymentTextBoxStart.Enabled = false;
@@ -1089,6 +861,7 @@ namespace manprac
 
         private void officesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            datePickerFinish.Value = DateTime.Now;
             dataGridOffices.Rows.Clear();
             OfficesLoad();
 
@@ -1104,6 +877,9 @@ namespace manprac
             amountPaymentTextBoxStart.Enabled = false;
             amountPaymentTextBoxFinish.Enabled = false;
 
+            amountVAT_TextBoxStart.Enabled = true;
+            amountVAT_TextBoxFinish.Enabled = true;
+
             datePickerStart.Enabled = true;
             datePickerFinish.Enabled = true;
             amountRentTextBoxFinish.Enabled = true;
@@ -1115,6 +891,7 @@ namespace manprac
 
         private void flatsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            datePickerFinish.Value = DateTime.Now;
             dataGridFlats.Rows.Clear();
             FlatsLoad();
             dataGridUninhabitedArea.Visible = false;
@@ -1126,6 +903,8 @@ namespace manprac
             dataGridResultOffices.Visible = false;
 
 
+            amountVAT_TextBoxStart.Enabled = true;
+            amountVAT_TextBoxFinish.Enabled = true;
             datePickerStart.Enabled = true;
             datePickerFinish.Enabled = true;
             amountPaymentTextBoxStart.Enabled = true;
@@ -1140,6 +919,8 @@ namespace manprac
 
         private void resultFlatsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            datePickerFinish.Value = DateTime.Now;
+
             dataGridUninhabitedArea.Visible = false;
             dataGridRenters.Visible = false;
             dataGridFlats.Visible = false;
@@ -1148,6 +929,8 @@ namespace manprac
             dataGridResultFlats.Visible = true;
             dataGridResultOffices.Visible = false;
 
+            amountVAT_TextBoxStart.Enabled = false;
+            amountVAT_TextBoxFinish.Enabled = false;
             datePickerStart.Enabled = true;
             datePickerFinish.Enabled = true;
             amountPaymentTextBoxStart.Enabled = false;
@@ -1163,6 +946,9 @@ namespace manprac
         }
         private void resultOfficesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            datePickerFinish.Value = DateTime.Now;
+
+
             dataGridUninhabitedArea.Visible = false;
             dataGridRenters.Visible = false;
             dataGridFlats.Visible = false;
@@ -1171,6 +957,8 @@ namespace manprac
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = true;
 
+            amountVAT_TextBoxStart.Enabled = false;
+            amountVAT_TextBoxFinish.Enabled = false;
             amountPaymentTextBoxStart.Enabled = false;
             amountPaymentTextBoxFinish.Enabled = false;
             datePickerStart.Enabled = true;
@@ -1186,6 +974,7 @@ namespace manprac
 
         private void resultAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            datePickerFinish.Value = DateTime.Now;
             dataGridUninhabitedArea.Visible = false;
             dataGridRenters.Visible = false;
             dataGridFlats.Visible = false;
@@ -1194,6 +983,8 @@ namespace manprac
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = false;
 
+            amountVAT_TextBoxStart.Enabled = false;
+            amountVAT_TextBoxFinish.Enabled = false;
             datePickerStart.Enabled = true;
             datePickerFinish.Enabled = true;
             amountPaymentTextBoxStart.Enabled = false;
@@ -1210,6 +1001,8 @@ namespace manprac
 
         private void resultFlatsNToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            datePickerFinish.Value = DateTime.Now;
+
             dataGridUninhabitedArea.Visible = true;
             dataGridRenters.Visible = false;
             dataGridFlats.Visible = false;
@@ -1221,6 +1014,8 @@ namespace manprac
             datePickerStart.Enabled = true;
             datePickerFinish.Enabled = true;
 
+            amountVAT_TextBoxStart.Enabled = false;
+            amountVAT_TextBoxFinish.Enabled = false;
             amountPaymentTextBoxStart.Enabled = false;
             amountPaymentTextBoxFinish.Enabled = false;
             amountRentTextBoxFinish.Enabled = false;
@@ -1236,6 +1031,7 @@ namespace manprac
         //тоже самое, что и выше через один, но два варианта удобнее имхо
         private void resultToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            datePickerFinish.Value = DateTime.Now;
             dataGridUninhabitedArea.Visible = false;
             dataGridRenters.Visible = false;
             dataGridFlats.Visible = false;
@@ -1244,6 +1040,8 @@ namespace manprac
             dataGridResultFlats.Visible = false;
             dataGridResultOffices.Visible = false;
 
+            amountVAT_TextBoxStart.Enabled = false;
+            amountVAT_TextBoxFinish.Enabled = false;
             datePickerStart.Enabled = true;
             datePickerFinish.Enabled = true;
             amountPaymentTextBoxStart.Enabled = false;
@@ -1264,176 +1062,70 @@ namespace manprac
         {
             if (dataGridOffices.Visible == true)
             {
-                dataGridOffices.Rows.Clear();
-                OfficesLoad();
-                if (monthComboBox.SelectedIndex != 0)
-                {
-                    for (int i = 0; i < dataGridOffices.Rows.Count; i++)
-                    {
-                        if (!(dataGridOffices.Rows[i].Cells[4].Value.ToString().Contains(monthComboBox.Text)))
-                        {
-                            dataGridOffices.Rows[i].Visible = false;
-                        }
-                    }
-                }
+                Filtration();
             }
 
             if (dataGridFlats.Visible == true)
             {
-                dataGridFlats.Rows.Clear();
-                FlatsLoad();
-                if (monthComboBox.SelectedIndex != 0)
-                {
-                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
-                    {
-                        if (!(dataGridFlats.Rows[i].Cells[4].Value.ToString().Contains(monthComboBox.Text)))
-                        {
-                            dataGridFlats.Rows[i].Visible = false;
-                        }
-                    }
-                }
-            }  
+
+                Filtration();
+            }
         }
 
         private void rentersComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (dataGridOffices.Visible == true)
             {
-                dataGridOffices.Rows.Clear();
-                OfficesLoad();
-                if (rentersComboBox.SelectedIndex != 0)
-                {
-                    for (int i = 0; i < dataGridOffices.Rows.Count; i++)
-                    {
-                        if (!(dataGridOffices.Rows[i].Cells[2].Value.ToString().Contains(rentersComboBox.Text)))
-                        {
-                            dataGridOffices.Rows[i].Visible = false;
-                        }
-                    }
-                }
+                Filtration();
             }
 
             if (dataGridFlats.Visible == true)
             {
-                dataGridFlats.Rows.Clear();
-                FlatsLoad();
-                if (rentersComboBox.SelectedIndex != 0)
-                {
-                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
-                    {
-                        if (!(dataGridFlats.Rows[i].Cells[2].Value.ToString().Contains(rentersComboBox.Text)))
-                        {
-                            dataGridFlats.Rows[i].Visible = false;
-                        }
-                    }
-                }
+                Filtration();
             }
 
         }
 
         private void areaTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (dataGridFlats.Visible == true)
-            {
-                dataGridFlats.Rows.Clear();
-                FlatsLoad();
-                if (areaTypeComboBox.SelectedIndex != 0)
-                {
-                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
-                    {
-                        if (!(dataGridFlats.Rows[i].Cells[8].Value.ToString().Contains(areaTypeComboBox.Text)))
-                        {
-                            dataGridFlats.Rows[i].Visible = false;
-                        }
-                    }
-                }
-            }
+            Filtration();
         }
 
         private void datePickerStart_ValueChanged(object sender, EventArgs e)
         {
+            Filtration();
             DateFiltration();
+
         }
 
         private void datePickerFinish_ValueChanged(object sender, EventArgs e)
         {
+            Filtration();
             DateFiltration();
+
         }
 
         private void amountRentTextBoxStart_TextChanged(object sender, EventArgs e)
         {
-             AmountRentFiltration();
+            Filtration();
 
-           
         }
 
         private void amountRentTextBoxFinish_TextChanged(object sender, EventArgs e)
         {
-             AmountRentFiltration();
+            Filtration();
         }
 
         private void amountPaymentTextBoxStart_TextChanged(object sender, EventArgs e)
         {
-            AmountPaymentFiltration();
-
-          
+            Filtration();
         }
 
         private void amountPaymentTextBoxFinish_TextChanged(object sender, EventArgs e)
         {
-             AmountPaymentFiltration();
-            
+            Filtration();
         }
 
-        #endregion
-
-        #region дамп бд
-        private void saveDBToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-           
-        }
-
-        private void loadDBToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string DBname = "";
-
-            SqlConnection conn = new SqlConnection(ConnString);
-            conn.Open();
-            SqlCommand NameDB = new SqlCommand("select db_name() Name", conn);
-            SqlDataReader readerNameBD = NameDB.ExecuteReader();
-            while (readerNameBD.Read())
-            {
-                DBname = readerNameBD["Name"].ToString();
-            }
-            readerNameBD.Close();
-
-            try
-            {
-                if (MessageBox.Show("После выбора файла несохраненные данные будут утеряны. Программа будет перезагружена. Продолжить?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-                {
-                    OpenFileDialog dlg = new OpenFileDialog();
-                    dlg.DefaultExt = ".bak";
-                    dlg.Filter = "Базы данных (*.bak)|*.bak|Все файлы (*.*)|*.*";
-                    if (dlg.ShowDialog() == DialogResult.OK)
-                    {
-                        string filename = dlg.FileName;
-                        SqlConnection connection = new SqlConnection(ConnString);
-                        string comm = "USE [master] " +
-                            $"ALTER DATABASE[{DBname}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE " +
-                            $"RESTORE DATABASE[{DBname}] FROM DISK = N'{filename}' WITH REPLACE " +
-                            $"ALTER DATABASE[{DBname}] SET MULTI_USER";
-                        SqlCommand command = new SqlCommand(comm, connection);
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                        Application.Restart();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
         #endregion
 
         private void yy_FormClosed(object sender, FormClosedEventArgs e)
@@ -1788,17 +1480,17 @@ namespace manprac
         }
         #endregion
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Filtration()
         {
-            if (datePickerStart.Value > datePickerFinish.Value)
+            if (dataGridCommonResults.Visible == true)
             {
-                MessageBox.Show("Нижняя граница даты не может быть выше верхней.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
+                if (datePickerStart.Value > datePickerFinish.Value)
+                {
+                    MessageBox.Show("Нижняя граница даты не может превышать верхнюю.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 dataGridCommonResults.Rows.Clear();
-
-
                 DateTime datestart = Convert.ToDateTime(datePickerStart.Value);
                 DateTime datefinish = Convert.ToDateTime(datePickerFinish.Value);
 
@@ -1807,10 +1499,8 @@ namespace manprac
 
                 string resultAllLoadQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices" +
                     " WHERE Date_Payment BETWEEN '" + datestart.ToString("yyyy-MM-dd") + "' AND '" + datefinish.ToString("yyyy-MM-dd") + "'";
-                string resultAllLoadQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices";
                 string resultAllSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(Amount_Payment) Amount_Payment FROM Apartaments " +
                     " WHERE Date_Payment BETWEEN '" + datestart.ToString("yyyy-MM-dd") + "' AND '" + datefinish.ToString("yyyy-MM-dd") + "'";
-                string resultAllSumQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(Amount_Payment) Amount_Payment FROM Apartaments";
 
 
                 SQLiteCommand loadCommonSummary1 = new SQLiteCommand(resultAllLoadQuery, conn);
@@ -1827,10 +1517,20 @@ namespace manprac
                     }
                     foreach (string[] s in data1)
                         dataGridCommonResults.Rows.Add(s);
+
+                    for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
+                    {
+                        if (dataGridCommonResults.Rows[i].Cells[1].Value.ToString() == "")
+                        {
+                            MessageBox.Show("Отсутсвуют записи для выбранного временного периода. ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            dataGridCommonResults.Rows.Clear();
+                            return;
+                        }
+                    }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("В указанном диапазоне дат нет записей офисов.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
                 SQLiteCommand loadCommonSummary2 = new SQLiteCommand(resultAllSumQuery, conn);
@@ -1848,34 +1548,511 @@ namespace manprac
                     readerCommonSummary2.Close();
                     foreach (string[] s in data2)
                         dataGridCommonResults.Rows.Add(s);
-                }
-                catch
-                {
-                    MessageBox.Show("В указанном диапазоне дат нет записей квартир.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
 
-                conn.Close();
-                double sumRent = 0;
-                double sumVat = 0;
-                try
-                {
+                    for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
+                    {
+                        if (dataGridCommonResults.Rows[i].Cells[2].Value.ToString() == "")
+                        {
+                            MessageBox.Show("Отсутствуют записи для выбранного временного периода.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            dataGridCommonResults.Rows.Clear();
+                            return;
+                        }
+                    }
+
+                    double sumRent = 0;
+                    double sumVat = 0;
+
                     for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
                     {
                         sumRent += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[1].Value);
                         sumVat += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[2].Value);
                     }
+
+                    dataGridCommonResults.Rows.Add("Всего", sumRent, sumVat);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                    MessageBox.Show("Произошла ошибка" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                dataGridCommonResults.Rows.Add("Всего", sumRent, sumVat);
+                finally
+                {
+                    conn.Close();
+                }
+
+            }
+            if (dataGridResultOffices.Visible == true)
+            {
+                if (datePickerStart.Value > datePickerFinish.Value)
+                {
+                    MessageBox.Show("Нижняя граница даты не может превышать верхнюю.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                DateTime datestart = Convert.ToDateTime(datePickerStart.Value);
+                DateTime datefinish = Convert.ToDateTime(datePickerFinish.Value);
+
+                string resultOfficesLoadQuery = "Select Months.ID_Months, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference" +
+                                   " FROM Offices LEFT JOIN Months on Offices.ID_Month = Months.ID_Months " + $"WHERE Date_Payment BETWEEN '{datestart.ToString("yyyy-MM-dd")}' AND '{datefinish.ToString("yyyy-MM-dd")}'" +
+                                   $" " + "GROUP BY Months.ID_Months, Months.Name";
+                SQLiteConnection conn = new SQLiteConnection(ConnString);
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand loadResultOffices = new SQLiteCommand(resultOfficesLoadQuery, conn);
+                    SQLiteDataReader readerResultOffices = loadResultOffices.ExecuteReader();
+                    List<string[]> data = new List<string[]>();
+                    while (readerResultOffices.Read())
+                    {
+                        data.Add(new string[4]);
+                        data[data.Count - 1][0] = readerResultOffices["Month"].ToString();
+                        data[data.Count - 1][1] = readerResultOffices["Amount_Rent"].ToString();
+                        data[data.Count - 1][2] = readerResultOffices["VAT"].ToString();
+                        data[data.Count - 1][3] = readerResultOffices["Difference"].ToString();
+                    }
+                    readerResultOffices.Close();
+                    dataGridResultOffices.Rows.Clear();
+                    foreach (string[] s in data)
+                        dataGridResultOffices.Rows.Add(s);
+
+                    double sumRent = 0;
+                    double sumVat = 0;
+                    double sumDif = 0;
+                    for (int i = 0; i < dataGridResultOffices.Rows.Count; i++)
+                    {
+                        sumRent += Convert.ToDouble(dataGridResultOffices.Rows[i].Cells[1].Value);
+                        sumVat += Convert.ToDouble(dataGridResultOffices.Rows[i].Cells[2].Value);
+
+                    }
+                    if (dataGridResultOffices.Rows.Count == 0)
+                    {
+                        MessageBox.Show("Отсутствуют записи для выбранного временного периода.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+
+                    sumDif = sumRent - sumVat;
+                    dataGridResultOffices.Rows.Add("Всего", sumRent, sumVat, sumDif);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Произошла ошибка" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            if (dataGridResultFlats.Visible == true)
+            {
+                if (datePickerStart.Value > datePickerFinish.Value)
+                {
+                    MessageBox.Show("Нижняя граница даты не может превышать верхнюю.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                DateTime datestart = Convert.ToDateTime(datePickerStart.Value);
+                DateTime datefinish = Convert.ToDateTime(datePickerFinish.Value);
+                string resultFlatsLoadQuery = "SELECT Months.ID_Months, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
+                   "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months " +
+                   " " + $"WHERE Date_Payment BETWEEN '{datestart.ToString("yyyy-MM-dd")}' AND '{datefinish.ToString("yyyy-MM-dd")} AND Apartament_Status = 2' " +
+                   " GROUP BY Months.ID_Months, Months.Name";
+                SQLiteConnection conn = new SQLiteConnection(ConnString);
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand loadResultFlats = new SQLiteCommand(resultFlatsLoadQuery, conn);
+                    SQLiteDataReader readerResultFlats = loadResultFlats.ExecuteReader();
+                    List<string[]> data = new List<string[]>();
+
+                    while (readerResultFlats.Read())
+                    {
+                        data.Add(new string[3]);
+                        data[data.Count - 1][0] = readerResultFlats["Month"].ToString();
+                        data[data.Count - 1][1] = readerResultFlats["SumRent"].ToString();
+                        data[data.Count - 1][2] = readerResultFlats["SumPayment"].ToString();
+
+                    }
+                    dataGridResultFlats.Rows.Clear();
+                    foreach (string[] s in data)
+                    {
+                        dataGridResultFlats.Rows.Add(s);
+                    }
+                    readerResultFlats.Close();
+
+                    if (dataGridResultFlats.Rows.Count == 0)
+                    {
+                        MessageBox.Show("Отсутствуют записи для выбранного временного периода.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    double sumRent = 0;
+                    double sumVat = 0;
+                    for (int i = 0; i < dataGridResultFlats.Rows.Count; i++)
+                    {
+                        sumRent += Convert.ToDouble(dataGridResultFlats.Rows[i].Cells[1].Value);
+                        sumVat += Convert.ToDouble(dataGridResultFlats.Rows[i].Cells[2].Value);
+
+                    }
+                    dataGridResultFlats.Rows.Add("Всего", sumRent, sumVat);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Произошла ошибка" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            if (dataGridUninhabitedArea.Visible == true)
+            {
+                if (datePickerStart.Value > datePickerFinish.Value)
+                {
+                    MessageBox.Show("Нижняя граница даты не может превышать верхнюю.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                DateTime datestart = Convert.ToDateTime(datePickerStart.Value);
+                DateTime datefinish = Convert.ToDateTime(datePickerFinish.Value);
+                string resultFlatsNLoadQuery = "SELECT Months.ID_Months, Months.Name Month, sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments " +
+                      " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months" +
+                      $" WHERE Date_Payment BETWEEN '{datestart.ToString("yyyy-MM-dd")}' AND '{datefinish.ToString("yyyy-MM-dd")}'" + " AND Apartament_Status = 1 " +
+                      "Group By Months.ID_Months, Months.Name";
+                SQLiteConnection conn = new SQLiteConnection(ConnString);
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand loadUninhabitedArea1 = new SQLiteCommand(resultFlatsNLoadQuery, conn);
+                    SQLiteDataReader readerUninhabitedArea1 = loadUninhabitedArea1.ExecuteReader();
+                    List<string[]> data1 = new List<string[]>();
+                    while (readerUninhabitedArea1.Read())
+                    {
+                        data1.Add(new string[3]);
+                        data1[data1.Count - 1][0] = readerUninhabitedArea1["Month"].ToString();
+                        data1[data1.Count - 1][1] = readerUninhabitedArea1["Amount_Payment"].ToString();
+                        data1[data1.Count - 1][2] = readerUninhabitedArea1["VAT"].ToString();
+                    }
+                    readerUninhabitedArea1.Close();
+
+                    dataGridUninhabitedArea.Rows.Clear();
+                    foreach (string[] s in data1)
+                        dataGridUninhabitedArea.Rows.Add(s);
+
+
+                    if (dataGridUninhabitedArea.Rows.Count == 0)
+                    {
+                        MessageBox.Show("Отсутствуют записи для выбранного временного периода.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+
+                    double sumRent = 0;
+                    double sumVat = 0;
+                    for (int i = 0; i < dataGridUninhabitedArea.Rows.Count; i++)
+                    {
+                        sumRent += Convert.ToDouble(dataGridUninhabitedArea.Rows[i].Cells[1].Value);
+                        sumVat += Convert.ToDouble(dataGridUninhabitedArea.Rows[i].Cells[2].Value);
+
+                    }
+                    dataGridUninhabitedArea.Rows.Add("Всего", sumRent, sumVat);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Произошла ошибка" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            if (dataGridOffices.Visible == true)
+            {
+                dataGridOffices.Rows.Clear();
+                OfficesLoad();
+
+                if (monthComboBox.SelectedIndex != 0)
+                {
+                    for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                    {
+                        if (!(dataGridOffices.Rows[i].Cells[4].Value.ToString().Contains(monthComboBox.Text)))
+                        {
+                            dataGridOffices.Rows[i].Visible = false;
+                        }
+                    }
+                }
+                if (rentersComboBox.SelectedIndex != 0)
+                {
+                    for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                    {
+                        if (!(dataGridOffices.Rows[i].Cells[2].Value.ToString().Contains(rentersComboBox.Text)))
+                        {
+                            dataGridOffices.Rows[i].Visible = false;
+                        }
+                    }
+                }
+                if (amountRentTextBoxStart.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                        {
+                            if (!((Convert.ToDouble(dataGridOffices.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text))))
+                            {
+                                dataGridOffices.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch 
+                    {
+                        MessageBox.Show("В поля \"Сумма аренды\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountRentTextBoxStart.Text = amountRentTextBoxStart.Text.Substring(0, amountRentTextBoxStart.Text.Length - 1);
+                        amountRentTextBoxStart.SelectionStart = amountRentTextBoxStart.TextLength;
+                    }
+                }
+                if (amountRentTextBoxFinish.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                        {
+                            if (!((Convert.ToDouble(dataGridOffices.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text))))
+                            {
+                                dataGridOffices.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма аренды\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountRentTextBoxFinish.Text = amountRentTextBoxFinish.Text.Substring(0, amountRentTextBoxFinish.Text.Length - 1);
+                        amountRentTextBoxFinish.SelectionStart = amountRentTextBoxFinish.TextLength;
+                    }
+                }
+                if(amountVAT_TextBoxStart.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                        {
+                            if (!((Convert.ToDouble(dataGridOffices.Rows[i].Cells[6].Value) >= Convert.ToDouble(amountVAT_TextBoxStart.Text))))
+                            {
+                                dataGridOffices.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма НДС\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountVAT_TextBoxStart.Text = amountVAT_TextBoxStart.Text.Substring(0, amountVAT_TextBoxStart.Text.Length - 1);
+                        amountVAT_TextBoxStart.SelectionStart = amountVAT_TextBoxStart.TextLength;
+                    }
+                }
+                if(amountVAT_TextBoxFinish.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                        {
+                            if (!((Convert.ToDouble(dataGridOffices.Rows[i].Cells[6].Value) <= Convert.ToDouble(amountVAT_TextBoxFinish.Text))))
+                            {
+                                dataGridOffices.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма НДС\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountVAT_TextBoxFinish.Text = amountVAT_TextBoxStart.Text.Substring(0, amountVAT_TextBoxStart.Text.Length - 1);
+                        amountVAT_TextBoxFinish.SelectionStart = amountVAT_TextBoxStart.TextLength;
+                    }
+                }
+                DateFiltration();
+            }
+            if (dataGridFlats.Visible == true)
+            {
+                dataGridFlats.Rows.Clear();
+                FlatsLoad();
+
+                if (monthComboBox.SelectedIndex != 0)
+                {
+                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                    {
+                        if (!(dataGridFlats.Rows[i].Cells[4].Value.ToString().Contains(monthComboBox.Text)))
+                        {
+                            dataGridFlats.Rows[i].Visible = false;
+                        }
+                    }
+                }
+                if (rentersComboBox.SelectedIndex != 0)
+                {
+                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                    {
+                        if (!(dataGridFlats.Rows[i].Cells[2].Value.ToString().Contains(rentersComboBox.Text)))
+                        {
+                            dataGridFlats.Rows[i].Visible = false;
+                        }
+                    }
+                }
+                if (areaTypeComboBox.SelectedIndex != 0)
+                {
+                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                    {
+                        if (!(dataGridFlats.Rows[i].Cells[8].Value.ToString().Contains(areaTypeComboBox.Text)))
+                        {
+                            dataGridFlats.Rows[i].Visible = false;
+                        }
+                    }
+                }
+                if (amountRentTextBoxStart.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                        {
+                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text))))
+                            {
+                                dataGridFlats.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма аренды\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountRentTextBoxStart.Text = amountRentTextBoxStart.Text.Substring(0, amountRentTextBoxStart.Text.Length - 1);
+                        amountRentTextBoxStart.SelectionStart = amountRentTextBoxStart.TextLength;
+                    }
+                }
+                if (amountRentTextBoxFinish.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                        {
+                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text))))
+                            {
+                                dataGridFlats.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма аренды\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountRentTextBoxFinish.Text = amountRentTextBoxFinish.Text.Substring(0, amountRentTextBoxFinish.Text.Length - 1);
+                        amountRentTextBoxFinish.SelectionStart = amountRentTextBoxFinish.TextLength;
+                    }
+                }
+                if (amountPaymentTextBoxStart.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                        {
+
+                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) >= Convert.ToDouble(amountPaymentTextBoxStart.Text))))
+                            {
+                                dataGridFlats.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма оплаты\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountPaymentTextBoxStart.Text = amountPaymentTextBoxStart.Text.Substring(0, amountPaymentTextBoxStart.Text.Length - 1);
+                        amountPaymentTextBoxStart.SelectionStart = amountPaymentTextBoxStart.TextLength;
+                    }
+                   
+                }
+                if (amountPaymentTextBoxFinish.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                        {
+
+                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) <= Convert.ToDouble(amountPaymentTextBoxFinish.Text))))
+                            {
+                                dataGridFlats.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма оплаты\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountPaymentTextBoxFinish.Text = amountPaymentTextBoxFinish.Text.Substring(0, amountPaymentTextBoxFinish.Text.Length - 1);
+                        amountPaymentTextBoxFinish.SelectionStart = amountPaymentTextBoxFinish.TextLength;
+                    }
+                   
+                }
+                if (amountVAT_TextBoxStart.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                        {
+                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[7].Value) >= Convert.ToDouble(amountVAT_TextBoxStart.Text))))
+                            {
+                                dataGridFlats.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма НДС\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountVAT_TextBoxStart.Text = amountVAT_TextBoxStart.Text.Substring(0, amountVAT_TextBoxStart.Text.Length - 1);
+                        amountVAT_TextBoxStart.SelectionStart = amountVAT_TextBoxStart.TextLength;
+                    }
+                }
+                if (amountVAT_TextBoxFinish.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                        {
+                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[7].Value) <= Convert.ToDouble(amountVAT_TextBoxFinish.Text))))
+                            {
+                                dataGridFlats.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма НДС\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountVAT_TextBoxFinish.Text = amountVAT_TextBoxFinish.Text.Substring(0, amountVAT_TextBoxFinish.Text.Length - 1);
+                        amountVAT_TextBoxFinish.SelectionStart = amountVAT_TextBoxFinish.TextLength;
+                    }
+                    DateFiltration();
+                }
+            }
+        }
+
+        private void ClearFiltersButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                monthComboBox.SelectedIndex = 0;
+                rentersComboBox.SelectedIndex = 0;
+                areaTypeComboBox.SelectedIndex = 0;
+                datePickerStart.Value = Convert.ToDateTime("01.01.2021");
+                datePickerFinish.Value = DateTime.Now;
+                amountRentTextBoxStart.Text = "1";
+                amountRentTextBoxFinish.Text = "1000000";
+                amountPaymentTextBoxStart.Text = "1";
+                amountRentTextBoxFinish.Text = "1000000";
+                amountVAT_TextBoxFinish.Text = "100000";
+                amountVAT_TextBoxStart.Text = "0";
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
 
-           // resultAllLoadQuery = resultAllLoadQueryConst.Insert(62, $" WHERE Date_Payment BETWEEN '{datestart.ToShortDateString()}' AND '{datefinish.ToShortDateString()}'");
-           // resultAllSumQuery = resultAllSumQueryConst.Insert(66, $" WHERE Date_Payment BETWEEN '{datestart.ToShortDateString()}' AND '{datefinish.ToShortDateString()}'");
-            
+        }
+
+        private void amountVAT_TextBoxStart_TextChanged(object sender, EventArgs e)
+        {
+            Filtration();
+        }
+
+        private void amountVAT_TextBoxFinish_TextChanged(object sender, EventArgs e)
+        {
+            Filtration();
         }
     }
 }

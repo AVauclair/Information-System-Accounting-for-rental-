@@ -176,7 +176,7 @@
             this.datePicker.Size = new System.Drawing.Size(207, 31);
             this.datePicker.TabIndex = 17;
             this.datePicker.Value = new System.DateTime(2020, 6, 3, 0, 0, 0, 0);
-            this.datePicker.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker1_KeyDown);
+            this.datePicker.KeyDown += new System.Windows.Forms.KeyEventHandler(this.datePickerStart_KeyDown);
             // 
             // noteTextBox
             // 
