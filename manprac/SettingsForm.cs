@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SQLite;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace manprac
@@ -26,7 +20,7 @@ namespace manprac
 
         public void CreateDB()
         {
-             if (!File.Exists(dbFileName))
+            if (!File.Exists(dbFileName))
             {
                 SQLiteConnection.CreateFile(dbFileName);
             }
@@ -106,7 +100,7 @@ namespace manprac
                     " LEFT JOIN Offices " +
                     " ON Renters.ID_Renters = Offices.ID_Renters  LEFT JOIN Apartaments ON Renters.ID_Renters = Apartaments.ID_Renters " +
                     "WHERE Offices.ID_Renters IS NULL AND Apartaments.ID_Renters IS NULL", conn);
-              
+
                 try
                 {
                     SQLiteDataReader reader = readNullRenters.ExecuteReader();
@@ -123,7 +117,7 @@ namespace manprac
                         return;
                     }
 
-                    for (int i =0; i<deleteRecordList.Count; i++)
+                    for (int i = 0; i < deleteRecordList.Count; i++)
                     {
                         SQLiteCommand deleteRenters = new SQLiteCommand("Delete FROM [Renters] WHERE ID_Renters = @ID_Renters", conn);
                         deleteRenters.Parameters.AddWithValue("@ID_Renters", deleteRecordList.ElementAt(i));
@@ -159,7 +153,7 @@ namespace manprac
                     deleteAllRecors.ExecuteNonQuery();
                     MessageBox.Show("Данные из таблицы успешно удалены.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
@@ -200,8 +194,8 @@ namespace manprac
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.FileName = dbFileName;
             try
-            { 
-                if(dialog.ShowDialog()== DialogResult.OK)
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     //string pathNewDB = @"C:\Users\Алексей\Downloads\SaveDBHere";
                     string pathNewDB = Path.GetDirectoryName(dialog.FileName);
@@ -216,7 +210,7 @@ namespace manprac
                     }
                     MessageBox.Show("Резервная копия базы данных успешно создана.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                    
+
             }
             catch (Exception ex)
             {
@@ -228,18 +222,24 @@ namespace manprac
         {
             OpenFileDialog openFile = new OpenFileDialog();
             var fileName = @"\RentDB";
-            var localProgramPath = Application.StartupPath  ;
+            var localProgramPath = Application.StartupPath;
             try
             {
                 if (openFile.ShowDialog() == DialogResult.OK)
                 {
-                    File.Delete(dbFileName);
-                    string getFilePath = Path.GetFullPath(openFile.FileName);
-                    File.Copy(getFilePath, localProgramPath + fileName);
-                    MessageBox.Show("Загрузка БД из копии успешно завершена. ", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }  
+                    if (openFile.SafeFileName == dbFileName)
+                    {
+                        File.Delete(dbFileName);
+                        string getFilePath = Path.GetFullPath(openFile.FileName);
+                        File.Copy(getFilePath, localProgramPath + fileName);
+                        MessageBox.Show("Загрузка БД из копии успешно завершена. ", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                        MessageBox.Show("Выбраный файл не является резервной копией БД.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -247,16 +247,17 @@ namespace manprac
 
         private void RecreateDB_Button_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show("При пересоздании базы данных будут утеряны все записи. Продолжить? ", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("При пересоздании базы данных будут утеряны все записи. Продолжить? ", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 if (File.Exists(dbFileName))
                 {
-                    File.Delete(dbFileName);
+                   
                     try
                     {
+                        File.Delete(dbFileName);
                         CreateDB();
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -264,9 +265,9 @@ namespace manprac
 
                 }
             }
-                
-                
-           
+
+
+
         }
 
         private void helpLabel_Click(object sender, EventArgs e)

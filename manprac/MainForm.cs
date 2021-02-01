@@ -1,15 +1,9 @@
-﻿using Microsoft.Office.Interop.Excel;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Application = System.Windows.Forms.Application;
 using Font = System.Drawing.Font;
@@ -27,33 +21,19 @@ namespace manprac
         private String dbFileName = "RentDB";
         private string ConnString = "Data Source = RentDB; Version=3";
         #region переменные для загрузки данных в таблицы
-        string resultFlatsLoadQueryConst = "SELECT Months.ID_Month, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
-            "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month " +
-            " GROUP BY Months.ID_Month, Months.Name";
 
-        string resultFlatsSumQueryConst = "SELECT SUM(Amount_Rent) SumRent, SUM(Amount_Payment) SumPayment FROM Apartaments";
         string resultFlatsSumQuery = "SELECT SUM(Amount_Rent) SumRent, SUM(Amount_Payment) SumPayment FROM Apartaments";
         string resultFlatsLoadQuery = "SELECT Months.ID_Months, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
             "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months WHERE Apartament_Status = 2 " +
             " GROUP BY Months.ID_Months, Months.Name";
-        string resultOfficesLoadQueryConst = "Select Months.ID_Months, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference" +
-                " FROM Offices LEFT JOIN Months on Offices.ID_Month = Months.ID_Month GROUP BY Months.ID_Month, Months.Name";
         string resultOfficesLoadQuery = "Select Months.ID_Months, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent - VAT) Difference " +
                 " FROM Offices LEFT JOIN Months on Offices.ID_Month = Months.ID_Months GROUP BY Months.ID_Months, Months.Name";
-        string resultOfficesSumQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference FROM Offices";
         string resultOfficesSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference FROM Offices";
-
-        string resultFlatsNLoadQueryConst = "SELECT Months.ID_Months, Months.Name Month, sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments " +
-              " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Month WHERE Apartament_Status = 2 Group By Months.ID_Month, Months.Name";
         string resultFlatsNLoadQuery = "SELECT Months.ID_Months, Months.Name Month, sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments " +
               " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months WHERE Apartament_Status = 1 Group By Months.ID_Months, Months.Name";
-        string resultFlatsNSumQueryConst = "SELECT sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments Where Apartament_Status = 1";
         string resultFlatsNSumQuery = "SELECT sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments Where Apartament_Status = 1";
-
         string resultAllLoadQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices";
-        string resultAllLoadQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices";
         string resultAllSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(Amount_Payment) Amount_Payment FROM Apartaments";
-        string resultAllSumQueryConst = "Select SUM(Amount_Rent) Amount_Rent, SUM(Amount_Payment) Amount_Payment FROM Apartaments";
         #endregion
 
 
@@ -623,6 +603,20 @@ namespace manprac
 
                     readerRenters.Close();
 
+                    Dictionary<int, string> DebitingRenters = new Dictionary<int, string>();
+                    SQLiteCommand loadRentersComboBox = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);
+                    SQLiteDataReader readerRentersComboBox = loadRentersComboBox.ExecuteReader();
+
+                    rentersComboBox.Items.Clear();
+                    rentersComboBox.Items.Add("Все");
+                    rentersComboBox.SelectedItem = "Все";
+                    while (readerRentersComboBox.Read())
+                    {
+                        DebitingRenters.Add(Convert.ToInt32(readerRentersComboBox["ID_Renters"]), Convert.ToString(readerRentersComboBox["Name"]));
+                        rentersComboBox.Items.Add(readerRentersComboBox["Name"]);
+                    }
+                    readerRentersComboBox.Close();
+
                 }
                 catch (Exception ex)
                 {
@@ -1126,6 +1120,580 @@ namespace manprac
             Filtration();
         }
 
+        private void Filtration()
+        {
+            if (dataGridCommonResults.Visible == true)
+            {
+                if (datePickerStart.Value > datePickerFinish.Value)
+                {
+                    MessageBox.Show("Нижняя граница даты не может превышать верхнюю.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                dataGridCommonResults.Rows.Clear();
+                DateTime datestart = Convert.ToDateTime(datePickerStart.Value);
+                DateTime datefinish = Convert.ToDateTime(datePickerFinish.Value);
+
+                SQLiteConnection conn = new SQLiteConnection(ConnString);
+                conn.Open();
+
+                string resultAllLoadQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices" +
+                    " WHERE Date_Payment BETWEEN '" + datestart.ToString("yyyy-MM-dd") + "' AND '" + datefinish.ToString("yyyy-MM-dd") + "'";
+                string resultAllSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(Amount_Payment) Amount_Payment FROM Apartaments " +
+                    " WHERE Date_Payment BETWEEN '" + datestart.ToString("yyyy-MM-dd") + "' AND '" + datefinish.ToString("yyyy-MM-dd") + "'";
+
+
+                SQLiteCommand loadCommonSummary1 = new SQLiteCommand(resultAllLoadQuery, conn);
+                try
+                {
+                    SQLiteDataReader readerCommonSummary1 = loadCommonSummary1.ExecuteReader();
+                    List<string[]> data1 = new List<string[]>();
+                    while (readerCommonSummary1.Read())
+                    {
+                        data1.Add(new string[3]);
+                        data1[data1.Count - 1][0] = "Офис";
+                        data1[data1.Count - 1][1] = readerCommonSummary1["Amount_Rent"].ToString();
+                        data1[data1.Count - 1][2] = readerCommonSummary1["VAT"].ToString();
+                    }
+                    foreach (string[] s in data1)
+                        dataGridCommonResults.Rows.Add(s);
+
+                    for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
+                    {
+                        if (dataGridCommonResults.Rows[i].Cells[1].Value.ToString() == "")
+                        {
+                            MessageBox.Show("Отсутсвуют записи для выбранного временного периода. ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            dataGridCommonResults.Rows.Clear();
+                            return;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                SQLiteCommand loadCommonSummary2 = new SQLiteCommand(resultAllSumQuery, conn);
+                try
+                {
+                    SQLiteDataReader readerCommonSummary2 = loadCommonSummary2.ExecuteReader();
+                    List<string[]> data2 = new List<string[]>();
+                    while (readerCommonSummary2.Read())
+                    {
+                        data2.Add(new string[3]);
+                        data2[data2.Count - 1][0] = "Квартиры";
+                        data2[data2.Count - 1][1] = readerCommonSummary2["Amount_Rent"].ToString();
+                        data2[data2.Count - 1][2] = readerCommonSummary2["Amount_Payment"].ToString();
+                    }
+                    readerCommonSummary2.Close();
+                    foreach (string[] s in data2)
+                        dataGridCommonResults.Rows.Add(s);
+
+                    for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
+                    {
+                        if (dataGridCommonResults.Rows[i].Cells[2].Value.ToString() == "")
+                        {
+                            MessageBox.Show("Отсутствуют записи для выбранного временного периода.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            dataGridCommonResults.Rows.Clear();
+                            return;
+                        }
+                    }
+
+                    double sumRent = 0;
+                    double sumVat = 0;
+
+                    for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
+                    {
+                        sumRent += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[1].Value);
+                        sumVat += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[2].Value);
+                    }
+
+                    dataGridCommonResults.Rows.Add("Всего", sumRent, sumVat);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Произошла ошибка" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+
+            }
+            if (dataGridResultOffices.Visible == true)
+            {
+                if (datePickerStart.Value > datePickerFinish.Value)
+                {
+                    MessageBox.Show("Нижняя граница даты не может превышать верхнюю.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                DateTime datestart = Convert.ToDateTime(datePickerStart.Value);
+                DateTime datefinish = Convert.ToDateTime(datePickerFinish.Value);
+
+                string resultOfficesLoadQuery = "Select Months.ID_Months, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference" +
+                                   " FROM Offices LEFT JOIN Months on Offices.ID_Month = Months.ID_Months " + $"WHERE Date_Payment BETWEEN '{datestart.ToString("yyyy-MM-dd")}' AND '{datefinish.ToString("yyyy-MM-dd")}'" +
+                                   $" " + "GROUP BY Months.ID_Months, Months.Name";
+                SQLiteConnection conn = new SQLiteConnection(ConnString);
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand loadResultOffices = new SQLiteCommand(resultOfficesLoadQuery, conn);
+                    SQLiteDataReader readerResultOffices = loadResultOffices.ExecuteReader();
+                    List<string[]> data = new List<string[]>();
+                    while (readerResultOffices.Read())
+                    {
+                        data.Add(new string[4]);
+                        data[data.Count - 1][0] = readerResultOffices["Month"].ToString();
+                        data[data.Count - 1][1] = readerResultOffices["Amount_Rent"].ToString();
+                        data[data.Count - 1][2] = readerResultOffices["VAT"].ToString();
+                        data[data.Count - 1][3] = readerResultOffices["Difference"].ToString();
+                    }
+                    readerResultOffices.Close();
+                    dataGridResultOffices.Rows.Clear();
+                    foreach (string[] s in data)
+                        dataGridResultOffices.Rows.Add(s);
+
+                    double sumRent = 0;
+                    double sumVat = 0;
+                    double sumDif = 0;
+                    for (int i = 0; i < dataGridResultOffices.Rows.Count; i++)
+                    {
+                        sumRent += Convert.ToDouble(dataGridResultOffices.Rows[i].Cells[1].Value);
+                        sumVat += Convert.ToDouble(dataGridResultOffices.Rows[i].Cells[2].Value);
+
+                    }
+                    if (dataGridResultOffices.Rows.Count == 0)
+                    {
+                        MessageBox.Show("Отсутствуют записи для выбранного временного периода.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+
+                    sumDif = sumRent - sumVat;
+                    dataGridResultOffices.Rows.Add("Всего", sumRent, sumVat, sumDif);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Произошла ошибка" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            if (dataGridResultFlats.Visible == true)
+            {
+                if (datePickerStart.Value > datePickerFinish.Value)
+                {
+                    MessageBox.Show("Нижняя граница даты не может превышать верхнюю.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                DateTime datestart = Convert.ToDateTime(datePickerStart.Value);
+                DateTime datefinish = Convert.ToDateTime(datePickerFinish.Value);
+                string resultFlatsLoadQuery = "SELECT Months.ID_Months, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
+                   "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months " +
+                   " " + $"WHERE Date_Payment BETWEEN '{datestart.ToString("yyyy-MM-dd")}' AND '{datefinish.ToString("yyyy-MM-dd")} AND Apartament_Status = 2' " +
+                   " GROUP BY Months.ID_Months, Months.Name";
+                SQLiteConnection conn = new SQLiteConnection(ConnString);
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand loadResultFlats = new SQLiteCommand(resultFlatsLoadQuery, conn);
+                    SQLiteDataReader readerResultFlats = loadResultFlats.ExecuteReader();
+                    List<string[]> data = new List<string[]>();
+
+                    while (readerResultFlats.Read())
+                    {
+                        data.Add(new string[3]);
+                        data[data.Count - 1][0] = readerResultFlats["Month"].ToString();
+                        data[data.Count - 1][1] = readerResultFlats["SumRent"].ToString();
+                        data[data.Count - 1][2] = readerResultFlats["SumPayment"].ToString();
+
+                    }
+                    dataGridResultFlats.Rows.Clear();
+                    foreach (string[] s in data)
+                    {
+                        dataGridResultFlats.Rows.Add(s);
+                    }
+                    readerResultFlats.Close();
+
+                    if (dataGridResultFlats.Rows.Count == 0)
+                    {
+                        MessageBox.Show("Отсутствуют записи для выбранного временного периода.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    double sumRent = 0;
+                    double sumVat = 0;
+                    for (int i = 0; i < dataGridResultFlats.Rows.Count; i++)
+                    {
+                        sumRent += Convert.ToDouble(dataGridResultFlats.Rows[i].Cells[1].Value);
+                        sumVat += Convert.ToDouble(dataGridResultFlats.Rows[i].Cells[2].Value);
+
+                    }
+                    dataGridResultFlats.Rows.Add("Всего", sumRent, sumVat);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Произошла ошибка" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            if (dataGridUninhabitedArea.Visible == true)
+            {
+                if (datePickerStart.Value > datePickerFinish.Value)
+                {
+                    MessageBox.Show("Нижняя граница даты не может превышать верхнюю.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                DateTime datestart = Convert.ToDateTime(datePickerStart.Value);
+                DateTime datefinish = Convert.ToDateTime(datePickerFinish.Value);
+                string resultFlatsNLoadQuery = "SELECT Months.ID_Months, Months.Name Month, sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments " +
+                      " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months" +
+                      $" WHERE Date_Payment BETWEEN '{datestart.ToString("yyyy-MM-dd")}' AND '{datefinish.ToString("yyyy-MM-dd")}'" + " AND Apartament_Status = 1 " +
+                      "Group By Months.ID_Months, Months.Name";
+                SQLiteConnection conn = new SQLiteConnection(ConnString);
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand loadUninhabitedArea1 = new SQLiteCommand(resultFlatsNLoadQuery, conn);
+                    SQLiteDataReader readerUninhabitedArea1 = loadUninhabitedArea1.ExecuteReader();
+                    List<string[]> data1 = new List<string[]>();
+                    while (readerUninhabitedArea1.Read())
+                    {
+                        data1.Add(new string[3]);
+                        data1[data1.Count - 1][0] = readerUninhabitedArea1["Month"].ToString();
+                        data1[data1.Count - 1][1] = readerUninhabitedArea1["Amount_Payment"].ToString();
+                        data1[data1.Count - 1][2] = readerUninhabitedArea1["VAT"].ToString();
+                    }
+                    readerUninhabitedArea1.Close();
+
+                    dataGridUninhabitedArea.Rows.Clear();
+                    foreach (string[] s in data1)
+                        dataGridUninhabitedArea.Rows.Add(s);
+
+
+                    if (dataGridUninhabitedArea.Rows.Count == 0)
+                    {
+                        MessageBox.Show("Отсутствуют записи для выбранного временного периода.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+
+                    double sumRent = 0;
+                    double sumVat = 0;
+                    for (int i = 0; i < dataGridUninhabitedArea.Rows.Count; i++)
+                    {
+                        sumRent += Convert.ToDouble(dataGridUninhabitedArea.Rows[i].Cells[1].Value);
+                        sumVat += Convert.ToDouble(dataGridUninhabitedArea.Rows[i].Cells[2].Value);
+
+                    }
+                    dataGridUninhabitedArea.Rows.Add("Всего", sumRent, sumVat);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Произошла ошибка" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            if (dataGridOffices.Visible == true)
+            {
+                dataGridOffices.Rows.Clear();
+                OfficesLoad();
+
+                if (monthComboBox.SelectedIndex != 0)
+                {
+                    for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                    {
+                        if (!(dataGridOffices.Rows[i].Cells[4].Value.ToString().Contains(monthComboBox.Text)))
+                        {
+                            dataGridOffices.Rows[i].Visible = false;
+                        }
+                    }
+                }
+                if (rentersComboBox.SelectedIndex != 0)
+                {
+                    for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                    {
+                        if (!(dataGridOffices.Rows[i].Cells[2].Value.ToString().Contains(rentersComboBox.Text)))
+                        {
+                            dataGridOffices.Rows[i].Visible = false;
+                        }
+                    }
+                }
+                if (amountRentTextBoxStart.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                        {
+                            if (!((Convert.ToDouble(dataGridOffices.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text))))
+                            {
+                                dataGridOffices.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма аренды\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountRentTextBoxStart.Text = amountRentTextBoxStart.Text.Substring(0, amountRentTextBoxStart.Text.Length - 1);
+                        amountRentTextBoxStart.SelectionStart = amountRentTextBoxStart.TextLength;
+                    }
+                }
+                if (amountRentTextBoxFinish.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                        {
+                            if (!((Convert.ToDouble(dataGridOffices.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text))))
+                            {
+                                dataGridOffices.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма аренды\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountRentTextBoxFinish.Text = amountRentTextBoxFinish.Text.Substring(0, amountRentTextBoxFinish.Text.Length - 1);
+                        amountRentTextBoxFinish.SelectionStart = amountRentTextBoxFinish.TextLength;
+                    }
+                }
+                if (amountVAT_TextBoxStart.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                        {
+                            if (!((Convert.ToDouble(dataGridOffices.Rows[i].Cells[6].Value) >= Convert.ToDouble(amountVAT_TextBoxStart.Text))))
+                            {
+                                dataGridOffices.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма НДС\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountVAT_TextBoxStart.Text = amountVAT_TextBoxStart.Text.Substring(0, amountVAT_TextBoxStart.Text.Length - 1);
+                        amountVAT_TextBoxStart.SelectionStart = amountVAT_TextBoxStart.TextLength;
+                    }
+                }
+                if (amountVAT_TextBoxFinish.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridOffices.Rows.Count; i++)
+                        {
+                            if (!((Convert.ToDouble(dataGridOffices.Rows[i].Cells[6].Value) <= Convert.ToDouble(amountVAT_TextBoxFinish.Text))))
+                            {
+                                dataGridOffices.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма НДС\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountVAT_TextBoxFinish.Text = amountVAT_TextBoxStart.Text.Substring(0, amountVAT_TextBoxStart.Text.Length - 1);
+                        amountVAT_TextBoxFinish.SelectionStart = amountVAT_TextBoxStart.TextLength;
+                    }
+                }
+                DateFiltration();
+            }
+            if (dataGridFlats.Visible == true)
+            {
+                dataGridFlats.Rows.Clear();
+                FlatsLoad();
+
+                if (monthComboBox.SelectedIndex != 0)
+                {
+                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                    {
+                        if (!(dataGridFlats.Rows[i].Cells[4].Value.ToString().Contains(monthComboBox.Text)))
+                        {
+                            dataGridFlats.Rows[i].Visible = false;
+                        }
+                    }
+                }
+                if (rentersComboBox.SelectedIndex != 0)
+                {
+                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                    {
+                        if (!(dataGridFlats.Rows[i].Cells[2].Value.ToString().Contains(rentersComboBox.Text)))
+                        {
+                            dataGridFlats.Rows[i].Visible = false;
+                        }
+                    }
+                }
+                if (areaTypeComboBox.SelectedIndex != 0)
+                {
+                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                    {
+                        if (!(dataGridFlats.Rows[i].Cells[8].Value.ToString().Contains(areaTypeComboBox.Text)))
+                        {
+                            dataGridFlats.Rows[i].Visible = false;
+                        }
+                    }
+                }
+                if (amountRentTextBoxStart.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                        {
+                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text))))
+                            {
+                                dataGridFlats.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма аренды\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountRentTextBoxStart.Text = amountRentTextBoxStart.Text.Substring(0, amountRentTextBoxStart.Text.Length - 1);
+                        amountRentTextBoxStart.SelectionStart = amountRentTextBoxStart.TextLength;
+                    }
+                }
+                if (amountRentTextBoxFinish.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                        {
+                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text))))
+                            {
+                                dataGridFlats.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма аренды\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountRentTextBoxFinish.Text = amountRentTextBoxFinish.Text.Substring(0, amountRentTextBoxFinish.Text.Length - 1);
+                        amountRentTextBoxFinish.SelectionStart = amountRentTextBoxFinish.TextLength;
+                    }
+                }
+                if (amountPaymentTextBoxStart.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                        {
+
+                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) >= Convert.ToDouble(amountPaymentTextBoxStart.Text))))
+                            {
+                                dataGridFlats.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма оплаты\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountPaymentTextBoxStart.Text = amountPaymentTextBoxStart.Text.Substring(0, amountPaymentTextBoxStart.Text.Length - 1);
+                        amountPaymentTextBoxStart.SelectionStart = amountPaymentTextBoxStart.TextLength;
+                    }
+
+                }
+                if (amountPaymentTextBoxFinish.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                        {
+
+                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) <= Convert.ToDouble(amountPaymentTextBoxFinish.Text))))
+                            {
+                                dataGridFlats.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма оплаты\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountPaymentTextBoxFinish.Text = amountPaymentTextBoxFinish.Text.Substring(0, amountPaymentTextBoxFinish.Text.Length - 1);
+                        amountPaymentTextBoxFinish.SelectionStart = amountPaymentTextBoxFinish.TextLength;
+                    }
+
+                }
+                if (amountVAT_TextBoxStart.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                        {
+                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[7].Value) >= Convert.ToDouble(amountVAT_TextBoxStart.Text))))
+                            {
+                                dataGridFlats.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма НДС\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountVAT_TextBoxStart.Text = amountVAT_TextBoxStart.Text.Substring(0, amountVAT_TextBoxStart.Text.Length - 1);
+                        amountVAT_TextBoxStart.SelectionStart = amountVAT_TextBoxStart.TextLength;
+                    }
+                }
+                if (amountVAT_TextBoxFinish.Text != "")
+                {
+                    try
+                    {
+                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
+                        {
+                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[7].Value) <= Convert.ToDouble(amountVAT_TextBoxFinish.Text))))
+                            {
+                                dataGridFlats.Rows[i].Visible = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В поля \"Сумма НДС\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        amountVAT_TextBoxFinish.Text = amountVAT_TextBoxFinish.Text.Substring(0, amountVAT_TextBoxFinish.Text.Length - 1);
+                        amountVAT_TextBoxFinish.SelectionStart = amountVAT_TextBoxFinish.TextLength;
+                    }
+                    DateFiltration();
+                }
+            }
+        }
+
+        private void ClearFiltersButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                monthComboBox.SelectedIndex = 0;
+                rentersComboBox.SelectedIndex = 0;
+                areaTypeComboBox.SelectedIndex = 0;
+                datePickerStart.Value = Convert.ToDateTime("01.01.2021");
+                datePickerFinish.Value = DateTime.Now;
+                amountRentTextBoxStart.Text = "1";
+                amountRentTextBoxFinish.Text = "1000000";
+                amountPaymentTextBoxStart.Text = "1";
+                amountRentTextBoxFinish.Text = "1000000";
+                amountVAT_TextBoxFinish.Text = "100000";
+                amountVAT_TextBoxStart.Text = "0";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+        private void amountVAT_TextBoxStart_TextChanged(object sender, EventArgs e)
+        {
+            Filtration();
+        }
+
+        private void amountVAT_TextBoxFinish_TextChanged(object sender, EventArgs e)
+        {
+            Filtration();
+        }
         #endregion
 
         private void yy_FormClosed(object sender, FormClosedEventArgs e)
@@ -1479,585 +2047,11 @@ namespace manprac
             catch { }
         }
         #endregion
-
-        private void Filtration()
-        {
-            if (dataGridCommonResults.Visible == true)
-            {
-                if (datePickerStart.Value > datePickerFinish.Value)
-                {
-                    MessageBox.Show("Нижняя граница даты не может превышать верхнюю.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                dataGridCommonResults.Rows.Clear();
-                DateTime datestart = Convert.ToDateTime(datePickerStart.Value);
-                DateTime datefinish = Convert.ToDateTime(datePickerFinish.Value);
-
-                SQLiteConnection conn = new SQLiteConnection(ConnString);
-                conn.Open();
-
-                string resultAllLoadQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices" +
-                    " WHERE Date_Payment BETWEEN '" + datestart.ToString("yyyy-MM-dd") + "' AND '" + datefinish.ToString("yyyy-MM-dd") + "'";
-                string resultAllSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(Amount_Payment) Amount_Payment FROM Apartaments " +
-                    " WHERE Date_Payment BETWEEN '" + datestart.ToString("yyyy-MM-dd") + "' AND '" + datefinish.ToString("yyyy-MM-dd") + "'";
-
-
-                SQLiteCommand loadCommonSummary1 = new SQLiteCommand(resultAllLoadQuery, conn);
-                try
-                {
-                    SQLiteDataReader readerCommonSummary1 = loadCommonSummary1.ExecuteReader();
-                    List<string[]> data1 = new List<string[]>();
-                    while (readerCommonSummary1.Read())
-                    {
-                        data1.Add(new string[3]);
-                        data1[data1.Count - 1][0] = "Офис";
-                        data1[data1.Count - 1][1] = readerCommonSummary1["Amount_Rent"].ToString();
-                        data1[data1.Count - 1][2] = readerCommonSummary1["VAT"].ToString();
-                    }
-                    foreach (string[] s in data1)
-                        dataGridCommonResults.Rows.Add(s);
-
-                    for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
-                    {
-                        if (dataGridCommonResults.Rows[i].Cells[1].Value.ToString() == "")
-                        {
-                            MessageBox.Show("Отсутсвуют записи для выбранного временного периода. ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            dataGridCommonResults.Rows.Clear();
-                            return;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-                SQLiteCommand loadCommonSummary2 = new SQLiteCommand(resultAllSumQuery, conn);
-                try
-                {
-                    SQLiteDataReader readerCommonSummary2 = loadCommonSummary2.ExecuteReader();
-                    List<string[]> data2 = new List<string[]>();
-                    while (readerCommonSummary2.Read())
-                    {
-                        data2.Add(new string[3]);
-                        data2[data2.Count - 1][0] = "Квартиры";
-                        data2[data2.Count - 1][1] = readerCommonSummary2["Amount_Rent"].ToString();
-                        data2[data2.Count - 1][2] = readerCommonSummary2["Amount_Payment"].ToString();
-                    }
-                    readerCommonSummary2.Close();
-                    foreach (string[] s in data2)
-                        dataGridCommonResults.Rows.Add(s);
-
-                    for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
-                    {
-                        if (dataGridCommonResults.Rows[i].Cells[2].Value.ToString() == "")
-                        {
-                            MessageBox.Show("Отсутствуют записи для выбранного временного периода.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            dataGridCommonResults.Rows.Clear();
-                            return;
-                        }
-                    }
-
-                    double sumRent = 0;
-                    double sumVat = 0;
-
-                    for (int i = 0; i < dataGridCommonResults.Rows.Count; i++)
-                    {
-                        sumRent += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[1].Value);
-                        sumVat += Convert.ToDouble(dataGridCommonResults.Rows[i].Cells[2].Value);
-                    }
-
-                    dataGridCommonResults.Rows.Add("Всего", sumRent, sumVat);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Произошла ошибка" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    conn.Close();
-                }
-
-            }
-            if (dataGridResultOffices.Visible == true)
-            {
-                if (datePickerStart.Value > datePickerFinish.Value)
-                {
-                    MessageBox.Show("Нижняя граница даты не может превышать верхнюю.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                DateTime datestart = Convert.ToDateTime(datePickerStart.Value);
-                DateTime datefinish = Convert.ToDateTime(datePickerFinish.Value);
-
-                string resultOfficesLoadQuery = "Select Months.ID_Months, Months.Name Month, SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT, SUM(Amount_Rent-VAT) Difference" +
-                                   " FROM Offices LEFT JOIN Months on Offices.ID_Month = Months.ID_Months " + $"WHERE Date_Payment BETWEEN '{datestart.ToString("yyyy-MM-dd")}' AND '{datefinish.ToString("yyyy-MM-dd")}'" +
-                                   $" " + "GROUP BY Months.ID_Months, Months.Name";
-                SQLiteConnection conn = new SQLiteConnection(ConnString);
-                try
-                {
-                    conn.Open();
-                    SQLiteCommand loadResultOffices = new SQLiteCommand(resultOfficesLoadQuery, conn);
-                    SQLiteDataReader readerResultOffices = loadResultOffices.ExecuteReader();
-                    List<string[]> data = new List<string[]>();
-                    while (readerResultOffices.Read())
-                    {
-                        data.Add(new string[4]);
-                        data[data.Count - 1][0] = readerResultOffices["Month"].ToString();
-                        data[data.Count - 1][1] = readerResultOffices["Amount_Rent"].ToString();
-                        data[data.Count - 1][2] = readerResultOffices["VAT"].ToString();
-                        data[data.Count - 1][3] = readerResultOffices["Difference"].ToString();
-                    }
-                    readerResultOffices.Close();
-                    dataGridResultOffices.Rows.Clear();
-                    foreach (string[] s in data)
-                        dataGridResultOffices.Rows.Add(s);
-
-                    double sumRent = 0;
-                    double sumVat = 0;
-                    double sumDif = 0;
-                    for (int i = 0; i < dataGridResultOffices.Rows.Count; i++)
-                    {
-                        sumRent += Convert.ToDouble(dataGridResultOffices.Rows[i].Cells[1].Value);
-                        sumVat += Convert.ToDouble(dataGridResultOffices.Rows[i].Cells[2].Value);
-
-                    }
-                    if (dataGridResultOffices.Rows.Count == 0)
-                    {
-                        MessageBox.Show("Отсутствуют записи для выбранного временного периода.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-
-                    sumDif = sumRent - sumVat;
-                    dataGridResultOffices.Rows.Add("Всего", sumRent, sumVat, sumDif);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Произошла ошибка" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    conn.Close();
-                }
-            }
-            if (dataGridResultFlats.Visible == true)
-            {
-                if (datePickerStart.Value > datePickerFinish.Value)
-                {
-                    MessageBox.Show("Нижняя граница даты не может превышать верхнюю.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                DateTime datestart = Convert.ToDateTime(datePickerStart.Value);
-                DateTime datefinish = Convert.ToDateTime(datePickerFinish.Value);
-                string resultFlatsLoadQuery = "SELECT Months.ID_Months, Months.Name Month, SUM (Amount_Rent) as 'SumRent', " +
-                   "SUM(Amount_Payment) as 'SumPayment' FROM Apartaments LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months " +
-                   " " + $"WHERE Date_Payment BETWEEN '{datestart.ToString("yyyy-MM-dd")}' AND '{datefinish.ToString("yyyy-MM-dd")} AND Apartament_Status = 2' " +
-                   " GROUP BY Months.ID_Months, Months.Name";
-                SQLiteConnection conn = new SQLiteConnection(ConnString);
-                try
-                {
-                    conn.Open();
-                    SQLiteCommand loadResultFlats = new SQLiteCommand(resultFlatsLoadQuery, conn);
-                    SQLiteDataReader readerResultFlats = loadResultFlats.ExecuteReader();
-                    List<string[]> data = new List<string[]>();
-
-                    while (readerResultFlats.Read())
-                    {
-                        data.Add(new string[3]);
-                        data[data.Count - 1][0] = readerResultFlats["Month"].ToString();
-                        data[data.Count - 1][1] = readerResultFlats["SumRent"].ToString();
-                        data[data.Count - 1][2] = readerResultFlats["SumPayment"].ToString();
-
-                    }
-                    dataGridResultFlats.Rows.Clear();
-                    foreach (string[] s in data)
-                    {
-                        dataGridResultFlats.Rows.Add(s);
-                    }
-                    readerResultFlats.Close();
-
-                    if (dataGridResultFlats.Rows.Count == 0)
-                    {
-                        MessageBox.Show("Отсутствуют записи для выбранного временного периода.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    double sumRent = 0;
-                    double sumVat = 0;
-                    for (int i = 0; i < dataGridResultFlats.Rows.Count; i++)
-                    {
-                        sumRent += Convert.ToDouble(dataGridResultFlats.Rows[i].Cells[1].Value);
-                        sumVat += Convert.ToDouble(dataGridResultFlats.Rows[i].Cells[2].Value);
-
-                    }
-                    dataGridResultFlats.Rows.Add("Всего", sumRent, sumVat);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Произошла ошибка" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    conn.Close();
-                }
-            }
-            if (dataGridUninhabitedArea.Visible == true)
-            {
-                if (datePickerStart.Value > datePickerFinish.Value)
-                {
-                    MessageBox.Show("Нижняя граница даты не может превышать верхнюю.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                DateTime datestart = Convert.ToDateTime(datePickerStart.Value);
-                DateTime datefinish = Convert.ToDateTime(datePickerFinish.Value);
-                string resultFlatsNLoadQuery = "SELECT Months.ID_Months, Months.Name Month, sum(Amount_Payment) Amount_Payment, sum(VAT) VAT FROM Apartaments " +
-                      " LEFT JOIN Months on Apartaments.ID_Month = Months.ID_Months" +
-                      $" WHERE Date_Payment BETWEEN '{datestart.ToString("yyyy-MM-dd")}' AND '{datefinish.ToString("yyyy-MM-dd")}'" + " AND Apartament_Status = 1 " +
-                      "Group By Months.ID_Months, Months.Name";
-                SQLiteConnection conn = new SQLiteConnection(ConnString);
-                try
-                {
-                    conn.Open();
-                    SQLiteCommand loadUninhabitedArea1 = new SQLiteCommand(resultFlatsNLoadQuery, conn);
-                    SQLiteDataReader readerUninhabitedArea1 = loadUninhabitedArea1.ExecuteReader();
-                    List<string[]> data1 = new List<string[]>();
-                    while (readerUninhabitedArea1.Read())
-                    {
-                        data1.Add(new string[3]);
-                        data1[data1.Count - 1][0] = readerUninhabitedArea1["Month"].ToString();
-                        data1[data1.Count - 1][1] = readerUninhabitedArea1["Amount_Payment"].ToString();
-                        data1[data1.Count - 1][2] = readerUninhabitedArea1["VAT"].ToString();
-                    }
-                    readerUninhabitedArea1.Close();
-
-                    dataGridUninhabitedArea.Rows.Clear();
-                    foreach (string[] s in data1)
-                        dataGridUninhabitedArea.Rows.Add(s);
-
-
-                    if (dataGridUninhabitedArea.Rows.Count == 0)
-                    {
-                        MessageBox.Show("Отсутствуют записи для выбранного временного периода.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-
-                    double sumRent = 0;
-                    double sumVat = 0;
-                    for (int i = 0; i < dataGridUninhabitedArea.Rows.Count; i++)
-                    {
-                        sumRent += Convert.ToDouble(dataGridUninhabitedArea.Rows[i].Cells[1].Value);
-                        sumVat += Convert.ToDouble(dataGridUninhabitedArea.Rows[i].Cells[2].Value);
-
-                    }
-                    dataGridUninhabitedArea.Rows.Add("Всего", sumRent, sumVat);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Произошла ошибка" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    conn.Close();
-                }
-            }
-            if (dataGridOffices.Visible == true)
-            {
-                dataGridOffices.Rows.Clear();
-                OfficesLoad();
-
-                if (monthComboBox.SelectedIndex != 0)
-                {
-                    for (int i = 0; i < dataGridOffices.Rows.Count; i++)
-                    {
-                        if (!(dataGridOffices.Rows[i].Cells[4].Value.ToString().Contains(monthComboBox.Text)))
-                        {
-                            dataGridOffices.Rows[i].Visible = false;
-                        }
-                    }
-                }
-                if (rentersComboBox.SelectedIndex != 0)
-                {
-                    for (int i = 0; i < dataGridOffices.Rows.Count; i++)
-                    {
-                        if (!(dataGridOffices.Rows[i].Cells[2].Value.ToString().Contains(rentersComboBox.Text)))
-                        {
-                            dataGridOffices.Rows[i].Visible = false;
-                        }
-                    }
-                }
-                if (amountRentTextBoxStart.Text != "")
-                {
-                    try
-                    {
-                        for (int i = 0; i < dataGridOffices.Rows.Count; i++)
-                        {
-                            if (!((Convert.ToDouble(dataGridOffices.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text))))
-                            {
-                                dataGridOffices.Rows[i].Visible = false;
-                            }
-                        }
-                    }
-                    catch 
-                    {
-                        MessageBox.Show("В поля \"Сумма аренды\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        amountRentTextBoxStart.Text = amountRentTextBoxStart.Text.Substring(0, amountRentTextBoxStart.Text.Length - 1);
-                        amountRentTextBoxStart.SelectionStart = amountRentTextBoxStart.TextLength;
-                    }
-                }
-                if (amountRentTextBoxFinish.Text != "")
-                {
-                    try
-                    {
-                        for (int i = 0; i < dataGridOffices.Rows.Count; i++)
-                        {
-                            if (!((Convert.ToDouble(dataGridOffices.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text))))
-                            {
-                                dataGridOffices.Rows[i].Visible = false;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        MessageBox.Show("В поля \"Сумма аренды\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        amountRentTextBoxFinish.Text = amountRentTextBoxFinish.Text.Substring(0, amountRentTextBoxFinish.Text.Length - 1);
-                        amountRentTextBoxFinish.SelectionStart = amountRentTextBoxFinish.TextLength;
-                    }
-                }
-                if(amountVAT_TextBoxStart.Text != "")
-                {
-                    try
-                    {
-                        for (int i = 0; i < dataGridOffices.Rows.Count; i++)
-                        {
-                            if (!((Convert.ToDouble(dataGridOffices.Rows[i].Cells[6].Value) >= Convert.ToDouble(amountVAT_TextBoxStart.Text))))
-                            {
-                                dataGridOffices.Rows[i].Visible = false;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        MessageBox.Show("В поля \"Сумма НДС\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        amountVAT_TextBoxStart.Text = amountVAT_TextBoxStart.Text.Substring(0, amountVAT_TextBoxStart.Text.Length - 1);
-                        amountVAT_TextBoxStart.SelectionStart = amountVAT_TextBoxStart.TextLength;
-                    }
-                }
-                if(amountVAT_TextBoxFinish.Text != "")
-                {
-                    try
-                    {
-                        for (int i = 0; i < dataGridOffices.Rows.Count; i++)
-                        {
-                            if (!((Convert.ToDouble(dataGridOffices.Rows[i].Cells[6].Value) <= Convert.ToDouble(amountVAT_TextBoxFinish.Text))))
-                            {
-                                dataGridOffices.Rows[i].Visible = false;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        MessageBox.Show("В поля \"Сумма НДС\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        amountVAT_TextBoxFinish.Text = amountVAT_TextBoxStart.Text.Substring(0, amountVAT_TextBoxStart.Text.Length - 1);
-                        amountVAT_TextBoxFinish.SelectionStart = amountVAT_TextBoxStart.TextLength;
-                    }
-                }
-                DateFiltration();
-            }
-            if (dataGridFlats.Visible == true)
-            {
-                dataGridFlats.Rows.Clear();
-                FlatsLoad();
-
-                if (monthComboBox.SelectedIndex != 0)
-                {
-                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
-                    {
-                        if (!(dataGridFlats.Rows[i].Cells[4].Value.ToString().Contains(monthComboBox.Text)))
-                        {
-                            dataGridFlats.Rows[i].Visible = false;
-                        }
-                    }
-                }
-                if (rentersComboBox.SelectedIndex != 0)
-                {
-                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
-                    {
-                        if (!(dataGridFlats.Rows[i].Cells[2].Value.ToString().Contains(rentersComboBox.Text)))
-                        {
-                            dataGridFlats.Rows[i].Visible = false;
-                        }
-                    }
-                }
-                if (areaTypeComboBox.SelectedIndex != 0)
-                {
-                    for (int i = 0; i < dataGridFlats.Rows.Count; i++)
-                    {
-                        if (!(dataGridFlats.Rows[i].Cells[8].Value.ToString().Contains(areaTypeComboBox.Text)))
-                        {
-                            dataGridFlats.Rows[i].Visible = false;
-                        }
-                    }
-                }
-                if (amountRentTextBoxStart.Text != "")
-                {
-                    try
-                    {
-                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
-                        {
-                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) >= Convert.ToDouble(amountRentTextBoxStart.Text))))
-                            {
-                                dataGridFlats.Rows[i].Visible = false;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        MessageBox.Show("В поля \"Сумма аренды\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        amountRentTextBoxStart.Text = amountRentTextBoxStart.Text.Substring(0, amountRentTextBoxStart.Text.Length - 1);
-                        amountRentTextBoxStart.SelectionStart = amountRentTextBoxStart.TextLength;
-                    }
-                }
-                if (amountRentTextBoxFinish.Text != "")
-                {
-                    try
-                    {
-                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
-                        {
-                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[5].Value) <= Convert.ToDouble(amountRentTextBoxFinish.Text))))
-                            {
-                                dataGridFlats.Rows[i].Visible = false;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        MessageBox.Show("В поля \"Сумма аренды\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        amountRentTextBoxFinish.Text = amountRentTextBoxFinish.Text.Substring(0, amountRentTextBoxFinish.Text.Length - 1);
-                        amountRentTextBoxFinish.SelectionStart = amountRentTextBoxFinish.TextLength;
-                    }
-                }
-                if (amountPaymentTextBoxStart.Text != "")
-                {
-                    try
-                    {
-                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
-                        {
-
-                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) >= Convert.ToDouble(amountPaymentTextBoxStart.Text))))
-                            {
-                                dataGridFlats.Rows[i].Visible = false;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        MessageBox.Show("В поля \"Сумма оплаты\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        amountPaymentTextBoxStart.Text = amountPaymentTextBoxStart.Text.Substring(0, amountPaymentTextBoxStart.Text.Length - 1);
-                        amountPaymentTextBoxStart.SelectionStart = amountPaymentTextBoxStart.TextLength;
-                    }
-                   
-                }
-                if (amountPaymentTextBoxFinish.Text != "")
-                {
-                    try
-                    {
-                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
-                        {
-
-                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[6].Value) <= Convert.ToDouble(amountPaymentTextBoxFinish.Text))))
-                            {
-                                dataGridFlats.Rows[i].Visible = false;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        MessageBox.Show("В поля \"Сумма оплаты\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        amountPaymentTextBoxFinish.Text = amountPaymentTextBoxFinish.Text.Substring(0, amountPaymentTextBoxFinish.Text.Length - 1);
-                        amountPaymentTextBoxFinish.SelectionStart = amountPaymentTextBoxFinish.TextLength;
-                    }
-                   
-                }
-                if (amountVAT_TextBoxStart.Text != "")
-                {
-                    try
-                    {
-                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
-                        {
-                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[7].Value) >= Convert.ToDouble(amountVAT_TextBoxStart.Text))))
-                            {
-                                dataGridFlats.Rows[i].Visible = false;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        MessageBox.Show("В поля \"Сумма НДС\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        amountVAT_TextBoxStart.Text = amountVAT_TextBoxStart.Text.Substring(0, amountVAT_TextBoxStart.Text.Length - 1);
-                        amountVAT_TextBoxStart.SelectionStart = amountVAT_TextBoxStart.TextLength;
-                    }
-                }
-                if (amountVAT_TextBoxFinish.Text != "")
-                {
-                    try
-                    {
-                        for (int i = 0; i < dataGridFlats.Rows.Count; i++)
-                        {
-                            if (!((Convert.ToDouble(dataGridFlats.Rows[i].Cells[7].Value) <= Convert.ToDouble(amountVAT_TextBoxFinish.Text))))
-                            {
-                                dataGridFlats.Rows[i].Visible = false;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        MessageBox.Show("В поля \"Сумма НДС\" можно вводить только числа с плавающей запятой.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        amountVAT_TextBoxFinish.Text = amountVAT_TextBoxFinish.Text.Substring(0, amountVAT_TextBoxFinish.Text.Length - 1);
-                        amountVAT_TextBoxFinish.SelectionStart = amountVAT_TextBoxFinish.TextLength;
-                    }
-                    DateFiltration();
-                }
-            }
-        }
-
-        private void ClearFiltersButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                monthComboBox.SelectedIndex = 0;
-                rentersComboBox.SelectedIndex = 0;
-                areaTypeComboBox.SelectedIndex = 0;
-                datePickerStart.Value = Convert.ToDateTime("01.01.2021");
-                datePickerFinish.Value = DateTime.Now;
-                amountRentTextBoxStart.Text = "1";
-                amountRentTextBoxFinish.Text = "1000000";
-                amountPaymentTextBoxStart.Text = "1";
-                amountRentTextBoxFinish.Text = "1000000";
-                amountVAT_TextBoxFinish.Text = "100000";
-                amountVAT_TextBoxStart.Text = "0";
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
-        }
-
-        private void amountVAT_TextBoxStart_TextChanged(object sender, EventArgs e)
-        {
-            Filtration();
-        }
-
-        private void amountVAT_TextBoxFinish_TextChanged(object sender, EventArgs e)
-        {
-            Filtration();
-        }
+   
     }
 }
 
 
 
-    
+
 

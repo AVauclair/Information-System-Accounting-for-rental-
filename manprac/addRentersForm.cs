@@ -1,14 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
 using System.Data.SQLite;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace manprac
@@ -16,7 +8,6 @@ namespace manprac
     public partial class AddRentersForm : Form
     {
         public string ConnString = "Data Source = RentDB; Version=3";
-        private String dbFileName = "RentDB";
 
         public AddRentersForm()
         {
@@ -31,7 +22,7 @@ namespace manprac
         private void addRecordButton_Click(object sender, EventArgs e)
         {
             MainForm main = this.Owner as MainForm;
-          
+
 
             if (nameTextBox.Text == "")
             {
@@ -85,6 +76,20 @@ namespace manprac
 
                 readerRenters.Close();
                 readerRenters2.Close();
+
+                Dictionary<int, string> DebitingRenters = new Dictionary<int, string>();
+                SQLiteCommand loadRentersComboBox = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);
+                SQLiteDataReader readerRentersComboBox = loadRentersComboBox.ExecuteReader();
+
+                main.rentersComboBox.Items.Clear();
+                main.rentersComboBox.Items.Add("Все");
+                main.rentersComboBox.SelectedItem = "Все";
+                while (readerRentersComboBox.Read())
+                {
+                    DebitingRenters.Add(Convert.ToInt32(readerRentersComboBox["ID_Renters"]), Convert.ToString(readerRentersComboBox["Name"]));
+                    main.rentersComboBox.Items.Add(readerRentersComboBox["Name"]);
+                }
+                readerRentersComboBox.Close();
             }
             catch (Exception ex)
             {
@@ -92,8 +97,8 @@ namespace manprac
             }
             finally
             {
-               conn.Close();
-                if(main.dataGridRenters.Rows.Count>0 &&main.dataGridRenters.Visible == true)
+                conn.Close();
+                if (main.dataGridRenters.Rows.Count > 0 && main.dataGridRenters.Visible == true)
                 {
                     int columnIndex = main.dataGridRenters.CurrentCell.ColumnIndex;
                     int rowIndex = main.dataGridRenters.CurrentCell.RowIndex;
@@ -114,7 +119,7 @@ namespace manprac
 
         private void AddRentersForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-           
+
         }
     }
 }

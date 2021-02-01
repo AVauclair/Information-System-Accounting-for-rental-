@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
 using System.Data.SQLite;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace manprac
@@ -45,7 +39,7 @@ namespace manprac
                 }
                 readerMonth.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -120,7 +114,7 @@ namespace manprac
             checkDublicate.Parameters.AddWithValue("@Contract", contractTextBox.Text);
             checkDublicate.Parameters.AddWithValue("@ID_Renters", SelectedRenters);
             checkDublicate.Parameters.AddWithValue("@ID_Month", SelectedMonth);
-            
+
             try
             {
                 SQLiteDataReader readerDublicate = checkDublicate.ExecuteReader();
@@ -131,15 +125,15 @@ namespace manprac
                     return;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show("Произошла ошибка. "+ ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             SQLiteCommand InsertInOffices = new SQLiteCommand("INSERT INTO [Offices] (ID_Renters, Contract, ID_Month, Amount_Rent, VAT, Date_Payment, Note) VALUES (@ID_Renters, @Contract, @ID_Months, @Amount_Rent, @VAT, @Date_Payment, @Note)", conn);
-           
+
             DateTime dt = datePicker.Value;
             string dt2 = dt.ToString("yyyy-MM-dd");
-           
+
             InsertInOffices.Parameters.AddWithValue("@ID_Renters", SelectedRenters);
             InsertInOffices.Parameters.AddWithValue("@Contract", contractTextBox.Text);
             InsertInOffices.Parameters.AddWithValue("@ID_Months", SelectedMonth);
@@ -195,7 +189,7 @@ namespace manprac
             finally
             {
                 conn.Close();
-                if(main.dataGridOffices.Rows.Count >0 && main.dataGridOffices.Visible == true)
+                if (main.dataGridOffices.Rows.Count > 0 && main.dataGridOffices.Visible == true)
                 {
                     int columnIndex = main.dataGridOffices.CurrentCell.ColumnIndex;
                     int rowIndex = main.dataGridOffices.CurrentCell.RowIndex;

@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
 using System.Data.SQLite;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace manprac
@@ -109,13 +102,13 @@ namespace manprac
                     noteTextBox.Text = readerItems["Note"].ToString();
                     vatTextBox.Text = readerItems["VAT"].ToString();
                     datePicker.Value = Convert.ToDateTime(readerItems["Date_Payment"]);
-                   
+
                 }
                 readerItems.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show("Произошла ошибка. "+ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
             }
             finally
@@ -439,6 +432,6 @@ namespace manprac
             conn.Close();
             main.dataGridFlats.CurrentCell = main.dataGridFlats[columnIndex, rowIndex];
         }
-        }
     }
+}
 

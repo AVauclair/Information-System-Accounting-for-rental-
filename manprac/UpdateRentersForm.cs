@@ -1,13 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
 using System.Data.SQLite;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace manprac
@@ -38,7 +31,7 @@ namespace manprac
                 reader.Close();
                 conn.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -48,7 +41,7 @@ namespace manprac
         private void updateRecordButton_Click(object sender, EventArgs e)
         {
             MainForm main = this.Owner as MainForm;
-           
+
             if (newNameTextBox.Text == "")
             {
                 MessageBox.Show("Поле пустое", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -64,6 +57,20 @@ namespace manprac
                 try
                 {
                     command.ExecuteNonQuery();
+
+                    Dictionary<int, string> DebitingRenters = new Dictionary<int, string>();
+                    SQLiteCommand loadRentersComboBox = new SQLiteCommand("SELECT ID_Renters, Name FROM Renters", conn);
+                    SQLiteDataReader readerRentersComboBox = loadRentersComboBox.ExecuteReader();
+
+                    main.rentersComboBox.Items.Clear();
+                    main.rentersComboBox.Items.Add("Все");
+                    main.rentersComboBox.SelectedItem = "Все";
+                    while (readerRentersComboBox.Read())
+                    {
+                        DebitingRenters.Add(Convert.ToInt32(readerRentersComboBox["ID_Renters"]), Convert.ToString(readerRentersComboBox["Name"]));
+                        main.rentersComboBox.Items.Add(readerRentersComboBox["Name"]);
+                    }
+                    readerRentersComboBox.Close();
                 }
                 catch
                 {
@@ -77,7 +84,7 @@ namespace manprac
                 if (MessageBox.Show("Запись успешно изменена.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information) == DialogResult.OK)
                     this.Close();
             }
-            
+
         }
 
         private void newNameTextBox_KeyDown(object sender, KeyEventArgs e)

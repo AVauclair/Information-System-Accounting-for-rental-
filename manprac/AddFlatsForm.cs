@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
 using System.Data.SQLite;
-using System.Drawing;
-using System.Linq;
-using System.Security.Permissions;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace manprac
@@ -59,9 +52,9 @@ namespace manprac
                 }
                 readerStatus.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show("Произошла ошибка. "+ ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -72,7 +65,7 @@ namespace manprac
         private void addFlatsButton_Click(object sender, EventArgs e)
         {
             MainForm main = this.Owner as MainForm;
-           
+
             StringBuilder errors = new StringBuilder();
             if (string.IsNullOrEmpty(areaTypeComboBox.Text)) errors.AppendLine("Выберите тип помещения.");
             if (string.IsNullOrWhiteSpace(rentersComboBox.Text)) errors.AppendLine("Выберите арендатора.");
@@ -80,11 +73,11 @@ namespace manprac
             if (string.IsNullOrWhiteSpace(contractTextBox.Text)) errors.AppendLine("Заполните поле \"Договор\".");
             if (string.IsNullOrWhiteSpace(amountRentTextBox.Text)) errors.AppendLine("Заполните поле \"Сумма аренды\".");
             if (string.IsNullOrWhiteSpace(amountPaymentTextBox.Text)) errors.AppendLine("Заполните поле \"Сумма оплаты\".");
-            if(vatTextBox.Enabled == true)
+            if (vatTextBox.Enabled == true)
             {
                 if (string.IsNullOrWhiteSpace(vatTextBox.Text)) errors.AppendLine("Заполните поле \"НДС\".");
             }
-            
+
             if (errors.Length > 0)
             {
                 MessageBox.Show(errors.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -100,7 +93,7 @@ namespace manprac
                 MessageBox.Show("В поле \"Сумма аренды\" можно вводить только числа", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-                 
+
             try
             {
                 double s3 = Convert.ToDouble(amountPaymentTextBox.Text);
@@ -116,7 +109,7 @@ namespace manprac
                 try
                 {
                     double s2 = Convert.ToDouble(vatTextBox.Text);
-                    
+
                 }
                 catch
                 {
@@ -144,7 +137,7 @@ namespace manprac
             }
             foreach (var item in DebitingStatus)
             {
-                if(item.Value == areaTypeComboBox.Text)
+                if (item.Value == areaTypeComboBox.Text)
                 {
                     SelectedStatus = item.Key;
                 }
@@ -158,18 +151,18 @@ namespace manprac
             checkDublicate.Parameters.AddWithValue("@ID_Renters", SelectedRenters);
             checkDublicate.Parameters.AddWithValue("@Contract", contractTextBox.Text);
             checkDublicate.Parameters.AddWithValue("@ID_Month", SelectedMonth);
-            checkDublicate.Parameters.AddWithValue("@Apartament_Status", SelectedStatus);   
+            checkDublicate.Parameters.AddWithValue("@Apartament_Status", SelectedStatus);
             try
             {
                 SQLiteDataReader readerDublicates = checkDublicate.ExecuteReader();
-                if(readerDublicates.HasRows)
+                if (readerDublicates.HasRows)
                 {
                     MessageBox.Show("Данная запись уже существует в базе.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     readerDublicates.Close();
                     return;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -184,7 +177,7 @@ namespace manprac
             InsertInApartament.Parameters.AddWithValue("@Contract", contractTextBox.Text);
             InsertInApartament.Parameters.AddWithValue("@ID_Month", SelectedMonth);
             InsertInApartament.Parameters.AddWithValue("@Amount_Rent", amountRentTextBox.Text);
-            if(vatTextBox.Enabled == true)
+            if (vatTextBox.Enabled == true)
             {
                 InsertInApartament.Parameters.AddWithValue("@VAT", vatTextBox.Text);
             }
@@ -194,7 +187,7 @@ namespace manprac
 
             if (noteTextBox.Text == "")
                 InsertInApartament.Parameters.AddWithValue("@Note", "Отсутствует");
-            else 
+            else
                 InsertInApartament.Parameters.AddWithValue("@Note", noteTextBox.Text);
             InsertInApartament.Parameters.AddWithValue("@Amount_Payment", amountPaymentTextBox.Text);
             try
@@ -233,16 +226,16 @@ namespace manprac
 
                 readerApartaments.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-               // MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
             finally
             {
                 conn.Close();
-                if(main.dataGridFlats.Rows.Count >0 && main.dataGridFlats.Visible == true)
+                if (main.dataGridFlats.Rows.Count > 0 && main.dataGridFlats.Visible == true)
                 {
                     int columnIndex = main.dataGridFlats.CurrentCell.ColumnIndex;
                     int rowIndex = main.dataGridFlats.CurrentCell.RowIndex;

@@ -1,13 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
 using System.Data.SQLite;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace manprac
@@ -282,6 +275,7 @@ namespace manprac
         private void UpdateOfficesForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             MainForm main = this.Owner as MainForm;
+
             int columnIndex = main.dataGridOffices.CurrentCell.ColumnIndex;
             int rowIndex = main.dataGridOffices.CurrentCell.RowIndex;
 

@@ -136,13 +136,13 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.datePickerStart = new System.Windows.Forms.DateTimePicker();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.ClearFiltersButton = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.amountVAT_TextBoxStart = new System.Windows.Forms.TextBox();
             this.amountVAT_TextBoxFinish = new System.Windows.Forms.TextBox();
-            this.datePickerStart = new System.Windows.Forms.DateTimePicker();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridRenters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridOffices)).BeginInit();
@@ -161,6 +161,8 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.menuStrip1.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.resultToolStripMenuItem,
             this.rentersToolStripMenuItem,
@@ -170,7 +172,7 @@
             this.dbToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1444, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1444, 25);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -182,35 +184,35 @@
             this.resultFlatsToolStripMenuItem1,
             this.resultFlatsNToolStripMenuItem});
             this.resultToolStripMenuItem.Name = "resultToolStripMenuItem";
-            this.resultToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.resultToolStripMenuItem.Size = new System.Drawing.Size(29, 90);
             this.resultToolStripMenuItem.Text = "Свод";
             this.resultToolStripMenuItem.Click += new System.EventHandler(this.resultToolStripMenuItem_Click);
             // 
             // resultAllToolStripMenuItem
             // 
             this.resultAllToolStripMenuItem.Name = "resultAllToolStripMenuItem";
-            this.resultAllToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.resultAllToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.resultAllToolStripMenuItem.Text = "Общий";
             this.resultAllToolStripMenuItem.Click += new System.EventHandler(this.resultAllToolStripMenuItem_Click);
             // 
             // resultOfficesToolStripMenuItem
             // 
             this.resultOfficesToolStripMenuItem.Name = "resultOfficesToolStripMenuItem";
-            this.resultOfficesToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.resultOfficesToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.resultOfficesToolStripMenuItem.Text = "Офис";
             this.resultOfficesToolStripMenuItem.Click += new System.EventHandler(this.resultOfficesToolStripMenuItem_Click);
             // 
             // resultFlatsToolStripMenuItem1
             // 
             this.resultFlatsToolStripMenuItem1.Name = "resultFlatsToolStripMenuItem1";
-            this.resultFlatsToolStripMenuItem1.Size = new System.Drawing.Size(183, 22);
+            this.resultFlatsToolStripMenuItem1.Size = new System.Drawing.Size(198, 22);
             this.resultFlatsToolStripMenuItem1.Text = "Жилые квартиры";
             this.resultFlatsToolStripMenuItem1.Click += new System.EventHandler(this.resultFlatsToolStripMenuItem1_Click);
             // 
             // resultFlatsNToolStripMenuItem
             // 
             this.resultFlatsNToolStripMenuItem.Name = "resultFlatsNToolStripMenuItem";
-            this.resultFlatsNToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.resultFlatsNToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.resultFlatsNToolStripMenuItem.Text = "Нежилые квартиры";
             this.resultFlatsNToolStripMenuItem.Click += new System.EventHandler(this.resultFlatsNToolStripMenuItem_Click);
             // 
@@ -221,28 +223,28 @@
             this.updateRentersToolStripMenuItem,
             this.deleteRentersToolStripMenuItem});
             this.rentersToolStripMenuItem.Name = "rentersToolStripMenuItem";
-            this.rentersToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
+            this.rentersToolStripMenuItem.Size = new System.Drawing.Size(29, 90);
             this.rentersToolStripMenuItem.Text = "Арендаторы";
             this.rentersToolStripMenuItem.Click += new System.EventHandler(this.rentersToolStripMenuItem_Click);
             // 
             // addRentersToolStripMenuItem
             // 
             this.addRentersToolStripMenuItem.Name = "addRentersToolStripMenuItem";
-            this.addRentersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addRentersToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.addRentersToolStripMenuItem.Text = "Добавить";
             this.addRentersToolStripMenuItem.Click += new System.EventHandler(this.addRentersToolStripMenuItem_Click);
             // 
             // updateRentersToolStripMenuItem
             // 
             this.updateRentersToolStripMenuItem.Name = "updateRentersToolStripMenuItem";
-            this.updateRentersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.updateRentersToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.updateRentersToolStripMenuItem.Text = "Изменить";
             this.updateRentersToolStripMenuItem.Click += new System.EventHandler(this.updateRentersToolStripMenuItem_Click);
             // 
             // deleteRentersToolStripMenuItem
             // 
             this.deleteRentersToolStripMenuItem.Name = "deleteRentersToolStripMenuItem";
-            this.deleteRentersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteRentersToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.deleteRentersToolStripMenuItem.Text = "Удалить";
             this.deleteRentersToolStripMenuItem.Click += new System.EventHandler(this.deleteRentersToolStripMenuItem_Click);
             // 
@@ -253,28 +255,28 @@
             this.updateOfficeToolStripMenuItem,
             this.deleteOfficeToolStripMenuItem});
             this.officesToolStripMenuItem.Name = "officesToolStripMenuItem";
-            this.officesToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+            this.officesToolStripMenuItem.Size = new System.Drawing.Size(29, 90);
             this.officesToolStripMenuItem.Text = "Офис";
             this.officesToolStripMenuItem.Click += new System.EventHandler(this.officesToolStripMenuItem_Click);
             // 
             // addOfficeToolStripMenuItem
             // 
             this.addOfficeToolStripMenuItem.Name = "addOfficeToolStripMenuItem";
-            this.addOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addOfficeToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.addOfficeToolStripMenuItem.Text = "Добавить";
             this.addOfficeToolStripMenuItem.Click += new System.EventHandler(this.addOfficeToolStripMenuItem_Click);
             // 
             // updateOfficeToolStripMenuItem
             // 
             this.updateOfficeToolStripMenuItem.Name = "updateOfficeToolStripMenuItem";
-            this.updateOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.updateOfficeToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.updateOfficeToolStripMenuItem.Text = "Изменить";
             this.updateOfficeToolStripMenuItem.Click += new System.EventHandler(this.updateOfficeToolStripMenuItem_Click);
             // 
             // deleteOfficeToolStripMenuItem
             // 
             this.deleteOfficeToolStripMenuItem.Name = "deleteOfficeToolStripMenuItem";
-            this.deleteOfficeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteOfficeToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.deleteOfficeToolStripMenuItem.Text = "Удалить";
             this.deleteOfficeToolStripMenuItem.Click += new System.EventHandler(this.deleteOfficeToolStripMenuItem_Click);
             // 
@@ -285,28 +287,28 @@
             this.updateFlatsPToolStripMenuItem,
             this.deleteFlatsPToolStripMenuItem});
             this.flatsToolStripMenuItem.Name = "flatsToolStripMenuItem";
-            this.flatsToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
+            this.flatsToolStripMenuItem.Size = new System.Drawing.Size(29, 90);
             this.flatsToolStripMenuItem.Text = "Квартиры";
             this.flatsToolStripMenuItem.Click += new System.EventHandler(this.flatsToolStripMenuItem_Click);
             // 
             // addFlatsPToolStripMenuItem
             // 
             this.addFlatsPToolStripMenuItem.Name = "addFlatsPToolStripMenuItem";
-            this.addFlatsPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addFlatsPToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.addFlatsPToolStripMenuItem.Text = "Добавить";
             this.addFlatsPToolStripMenuItem.Click += new System.EventHandler(this.addFlatsPToolStripMenuItem_Click);
             // 
             // updateFlatsPToolStripMenuItem
             // 
             this.updateFlatsPToolStripMenuItem.Name = "updateFlatsPToolStripMenuItem";
-            this.updateFlatsPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.updateFlatsPToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.updateFlatsPToolStripMenuItem.Text = "Изменить";
             this.updateFlatsPToolStripMenuItem.Click += new System.EventHandler(this.updateFlatsPToolStripMenuItem_Click);
             // 
             // deleteFlatsPToolStripMenuItem
             // 
             this.deleteFlatsPToolStripMenuItem.Name = "deleteFlatsPToolStripMenuItem";
-            this.deleteFlatsPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteFlatsPToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.deleteFlatsPToolStripMenuItem.Text = "Удалить";
             this.deleteFlatsPToolStripMenuItem.Click += new System.EventHandler(this.deleteFlatsPToolStripMenuItem_Click);
             // 
@@ -317,34 +319,34 @@
             this.PrintToolStripMenuItem,
             this.ExportToExcelToolStripMenuItem});
             this.reportToolStripMenuItem.Name = "reportToolStripMenuItem";
-            this.reportToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+            this.reportToolStripMenuItem.Size = new System.Drawing.Size(29, 90);
             this.reportToolStripMenuItem.Text = "Отчет";
             // 
             // PrintPreviewToolStripMenuItem
             // 
             this.PrintPreviewToolStripMenuItem.Name = "PrintPreviewToolStripMenuItem";
-            this.PrintPreviewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.PrintPreviewToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.PrintPreviewToolStripMenuItem.Text = "Предпросмотр";
             this.PrintPreviewToolStripMenuItem.Click += new System.EventHandler(this.предпросмотрToolStripMenuItem_Click);
             // 
             // PrintToolStripMenuItem
             // 
             this.PrintToolStripMenuItem.Name = "PrintToolStripMenuItem";
-            this.PrintToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.PrintToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.PrintToolStripMenuItem.Text = "Печать";
             this.PrintToolStripMenuItem.Click += new System.EventHandler(this.PrintToolStripMenuItem_Click);
             // 
             // ExportToExcelToolStripMenuItem
             // 
             this.ExportToExcelToolStripMenuItem.Name = "ExportToExcelToolStripMenuItem";
-            this.ExportToExcelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ExportToExcelToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.ExportToExcelToolStripMenuItem.Text = "Экспорт в Excel";
             this.ExportToExcelToolStripMenuItem.Click += new System.EventHandler(this.ExportToExcelToolStripMenuItem_Click);
             // 
             // dbToolStripMenuItem
             // 
             this.dbToolStripMenuItem.Name = "dbToolStripMenuItem";
-            this.dbToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
+            this.dbToolStripMenuItem.Size = new System.Drawing.Size(29, 90);
             this.dbToolStripMenuItem.Text = "Настройки";
             this.dbToolStripMenuItem.Click += new System.EventHandler(this.dbToolStripMenuItem_Click);
             // 
@@ -702,20 +704,20 @@
             // rentersLabel
             // 
             this.rentersLabel.AutoSize = true;
-            this.rentersLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rentersLabel.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rentersLabel.Location = new System.Drawing.Point(125, 81);
             this.rentersLabel.Name = "rentersLabel";
-            this.rentersLabel.Size = new System.Drawing.Size(105, 23);
+            this.rentersLabel.Size = new System.Drawing.Size(97, 21);
             this.rentersLabel.TabIndex = 26;
             this.rentersLabel.Text = "Арендатор";
             // 
             // areaTypeLabel
             // 
             this.areaTypeLabel.AutoSize = true;
-            this.areaTypeLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.areaTypeLabel.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.areaTypeLabel.Location = new System.Drawing.Point(108, 152);
             this.areaTypeLabel.Name = "areaTypeLabel";
-            this.areaTypeLabel.Size = new System.Drawing.Size(137, 23);
+            this.areaTypeLabel.Size = new System.Drawing.Size(138, 21);
             this.areaTypeLabel.TabIndex = 28;
             this.areaTypeLabel.Text = "Тип помещения";
             // 
@@ -910,21 +912,21 @@
             // 
             this.monthComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.monthComboBox.Enabled = false;
-            this.monthComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.monthComboBox.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.monthComboBox.FormattingEnabled = true;
             this.monthComboBox.Location = new System.Drawing.Point(31, 42);
             this.monthComboBox.Name = "monthComboBox";
-            this.monthComboBox.Size = new System.Drawing.Size(295, 31);
+            this.monthComboBox.Size = new System.Drawing.Size(295, 29);
             this.monthComboBox.TabIndex = 20;
             this.monthComboBox.SelectedIndexChanged += new System.EventHandler(this.monthComboBox_SelectedIndexChanged);
             // 
             // amountPaymentTextBoxFinish
             // 
             this.amountPaymentTextBoxFinish.Enabled = false;
-            this.amountPaymentTextBoxFinish.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.amountPaymentTextBoxFinish.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.amountPaymentTextBoxFinish.Location = new System.Drawing.Point(199, 43);
             this.amountPaymentTextBoxFinish.Name = "amountPaymentTextBoxFinish";
-            this.amountPaymentTextBoxFinish.Size = new System.Drawing.Size(127, 31);
+            this.amountPaymentTextBoxFinish.Size = new System.Drawing.Size(127, 29);
             this.amountPaymentTextBoxFinish.TabIndex = 24;
             this.amountPaymentTextBoxFinish.Text = "1000000";
             this.amountPaymentTextBoxFinish.TextChanged += new System.EventHandler(this.amountPaymentTextBoxFinish_TextChanged);
@@ -932,10 +934,10 @@
             // amountPaymentTextBoxStart
             // 
             this.amountPaymentTextBoxStart.Enabled = false;
-            this.amountPaymentTextBoxStart.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.amountPaymentTextBoxStart.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.amountPaymentTextBoxStart.Location = new System.Drawing.Point(30, 43);
             this.amountPaymentTextBoxStart.Name = "amountPaymentTextBoxStart";
-            this.amountPaymentTextBoxStart.Size = new System.Drawing.Size(127, 31);
+            this.amountPaymentTextBoxStart.Size = new System.Drawing.Size(127, 29);
             this.amountPaymentTextBoxStart.TabIndex = 10;
             this.amountPaymentTextBoxStart.Text = "1";
             this.amountPaymentTextBoxStart.TextChanged += new System.EventHandler(this.amountPaymentTextBoxStart_TextChanged);
@@ -943,10 +945,10 @@
             // amountRentTextBoxStart
             // 
             this.amountRentTextBoxStart.Enabled = false;
-            this.amountRentTextBoxStart.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.amountRentTextBoxStart.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.amountRentTextBoxStart.Location = new System.Drawing.Point(30, 40);
             this.amountRentTextBoxStart.Name = "amountRentTextBoxStart";
-            this.amountRentTextBoxStart.Size = new System.Drawing.Size(127, 31);
+            this.amountRentTextBoxStart.Size = new System.Drawing.Size(127, 29);
             this.amountRentTextBoxStart.TabIndex = 8;
             this.amountRentTextBoxStart.Text = "1";
             this.amountRentTextBoxStart.TextChanged += new System.EventHandler(this.amountRentTextBoxStart_TextChanged);
@@ -954,10 +956,10 @@
             // amountRentTextBoxFinish
             // 
             this.amountRentTextBoxFinish.Enabled = false;
-            this.amountRentTextBoxFinish.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.amountRentTextBoxFinish.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.amountRentTextBoxFinish.Location = new System.Drawing.Point(199, 40);
             this.amountRentTextBoxFinish.Name = "amountRentTextBoxFinish";
-            this.amountRentTextBoxFinish.Size = new System.Drawing.Size(127, 31);
+            this.amountRentTextBoxFinish.Size = new System.Drawing.Size(127, 29);
             this.amountRentTextBoxFinish.TabIndex = 23;
             this.amountRentTextBoxFinish.Text = "1000000";
             this.amountRentTextBoxFinish.TextChanged += new System.EventHandler(this.amountRentTextBoxFinish_TextChanged);
@@ -965,11 +967,11 @@
             // datePickerFinish
             // 
             this.datePickerFinish.Enabled = false;
-            this.datePickerFinish.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.datePickerFinish.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.datePickerFinish.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.datePickerFinish.Location = new System.Drawing.Point(199, 40);
             this.datePickerFinish.Name = "datePickerFinish";
-            this.datePickerFinish.Size = new System.Drawing.Size(127, 31);
+            this.datePickerFinish.Size = new System.Drawing.Size(127, 29);
             this.datePickerFinish.TabIndex = 22;
             this.datePickerFinish.Value = new System.DateTime(2020, 6, 6, 20, 21, 0, 0);
             this.datePickerFinish.ValueChanged += new System.EventHandler(this.datePickerFinish_ValueChanged);
@@ -978,11 +980,11 @@
             // 
             this.areaTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.areaTypeComboBox.Enabled = false;
-            this.areaTypeComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.areaTypeComboBox.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.areaTypeComboBox.FormattingEnabled = true;
             this.areaTypeComboBox.Location = new System.Drawing.Point(31, 178);
             this.areaTypeComboBox.Name = "areaTypeComboBox";
-            this.areaTypeComboBox.Size = new System.Drawing.Size(295, 31);
+            this.areaTypeComboBox.Size = new System.Drawing.Size(295, 29);
             this.areaTypeComboBox.TabIndex = 27;
             this.areaTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.areaTypeComboBox_SelectedIndexChanged);
             // 
@@ -990,21 +992,21 @@
             // 
             this.rentersComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.rentersComboBox.Enabled = false;
-            this.rentersComboBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rentersComboBox.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rentersComboBox.FormattingEnabled = true;
             this.rentersComboBox.Location = new System.Drawing.Point(31, 107);
             this.rentersComboBox.Name = "rentersComboBox";
-            this.rentersComboBox.Size = new System.Drawing.Size(295, 31);
+            this.rentersComboBox.Size = new System.Drawing.Size(295, 29);
             this.rentersComboBox.TabIndex = 32;
             this.rentersComboBox.SelectedIndexChanged += new System.EventHandler(this.rentersComboBox_SelectedIndexChanged);
             // 
             // monthLabel
             // 
             this.monthLabel.AutoSize = true;
-            this.monthLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.monthLabel.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.monthLabel.Location = new System.Drawing.Point(139, 16);
             this.monthLabel.Name = "monthLabel";
-            this.monthLabel.Size = new System.Drawing.Size(62, 23);
+            this.monthLabel.Size = new System.Drawing.Size(62, 21);
             this.monthLabel.TabIndex = 21;
             this.monthLabel.Text = "Месяц";
             // 
@@ -1118,7 +1120,7 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.amountRentTextBoxStart);
             this.groupBox1.Controls.Add(this.amountRentTextBoxFinish);
-            this.groupBox1.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.groupBox1.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.groupBox1.Location = new System.Drawing.Point(1075, 46);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(355, 100);
@@ -1142,7 +1144,7 @@
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.amountPaymentTextBoxStart);
             this.groupBox2.Controls.Add(this.amountPaymentTextBoxFinish);
-            this.groupBox2.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.groupBox2.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.groupBox2.Location = new System.Drawing.Point(1075, 279);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(355, 100);
@@ -1166,13 +1168,25 @@
             this.groupBox3.Controls.Add(this.datePickerStart);
             this.groupBox3.Controls.Add(this.lineLabel);
             this.groupBox3.Controls.Add(this.datePickerFinish);
-            this.groupBox3.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.groupBox3.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.groupBox3.Location = new System.Drawing.Point(1077, 396);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(355, 100);
             this.groupBox3.TabIndex = 46;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Дата";
+            // 
+            // datePickerStart
+            // 
+            this.datePickerStart.Enabled = false;
+            this.datePickerStart.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.datePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.datePickerStart.Location = new System.Drawing.Point(30, 40);
+            this.datePickerStart.Name = "datePickerStart";
+            this.datePickerStart.Size = new System.Drawing.Size(127, 29);
+            this.datePickerStart.TabIndex = 6;
+            this.datePickerStart.Value = new System.DateTime(2021, 1, 1, 13, 44, 0, 0);
+            this.datePickerStart.ValueChanged += new System.EventHandler(this.datePickerStart_ValueChanged);
             // 
             // groupBox4
             // 
@@ -1183,6 +1197,7 @@
             this.groupBox4.Controls.Add(this.monthLabel);
             this.groupBox4.Controls.Add(this.monthComboBox);
             this.groupBox4.Controls.Add(this.rentersComboBox);
+            this.groupBox4.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.groupBox4.Location = new System.Drawing.Point(1075, 509);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(354, 224);
@@ -1192,7 +1207,7 @@
             // ClearFiltersButton
             // 
             this.ClearFiltersButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.ClearFiltersButton.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ClearFiltersButton.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ClearFiltersButton.Location = new System.Drawing.Point(1154, 761);
             this.ClearFiltersButton.Name = "ClearFiltersButton";
             this.ClearFiltersButton.Size = new System.Drawing.Size(181, 54);
@@ -1207,7 +1222,7 @@
             this.groupBox5.Controls.Add(this.label3);
             this.groupBox5.Controls.Add(this.amountVAT_TextBoxStart);
             this.groupBox5.Controls.Add(this.amountVAT_TextBoxFinish);
-            this.groupBox5.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.groupBox5.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.groupBox5.Location = new System.Drawing.Point(1075, 164);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(355, 100);
@@ -1228,10 +1243,10 @@
             // amountVAT_TextBoxStart
             // 
             this.amountVAT_TextBoxStart.Enabled = false;
-            this.amountVAT_TextBoxStart.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.amountVAT_TextBoxStart.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.amountVAT_TextBoxStart.Location = new System.Drawing.Point(30, 40);
             this.amountVAT_TextBoxStart.Name = "amountVAT_TextBoxStart";
-            this.amountVAT_TextBoxStart.Size = new System.Drawing.Size(127, 31);
+            this.amountVAT_TextBoxStart.Size = new System.Drawing.Size(127, 29);
             this.amountVAT_TextBoxStart.TabIndex = 8;
             this.amountVAT_TextBoxStart.Text = "0";
             this.amountVAT_TextBoxStart.TextChanged += new System.EventHandler(this.amountVAT_TextBoxStart_TextChanged);
@@ -1239,29 +1254,18 @@
             // amountVAT_TextBoxFinish
             // 
             this.amountVAT_TextBoxFinish.Enabled = false;
-            this.amountVAT_TextBoxFinish.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.amountVAT_TextBoxFinish.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.amountVAT_TextBoxFinish.Location = new System.Drawing.Point(199, 40);
             this.amountVAT_TextBoxFinish.Name = "amountVAT_TextBoxFinish";
-            this.amountVAT_TextBoxFinish.Size = new System.Drawing.Size(127, 31);
+            this.amountVAT_TextBoxFinish.Size = new System.Drawing.Size(127, 29);
             this.amountVAT_TextBoxFinish.TabIndex = 23;
             this.amountVAT_TextBoxFinish.Text = "100000";
             this.amountVAT_TextBoxFinish.TextChanged += new System.EventHandler(this.amountVAT_TextBoxFinish_TextChanged);
             // 
-            // datePickerStart
-            // 
-            this.datePickerStart.Enabled = false;
-            this.datePickerStart.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.datePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.datePickerStart.Location = new System.Drawing.Point(30, 40);
-            this.datePickerStart.Name = "datePickerStart";
-            this.datePickerStart.Size = new System.Drawing.Size(127, 31);
-            this.datePickerStart.TabIndex = 6;
-            this.datePickerStart.Value = new System.DateTime(2021, 1, 1, 13, 44, 0, 0);
-            this.datePickerStart.ValueChanged += new System.EventHandler(this.datePickerStart_ValueChanged);
-            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(1444, 878);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.ClearFiltersButton);
@@ -1361,7 +1365,6 @@
         private System.Windows.Forms.TextBox amountRentTextBoxFinish;
         private System.Windows.Forms.DateTimePicker datePickerFinish;
         private System.Windows.Forms.ComboBox areaTypeComboBox;
-        private System.Windows.Forms.ComboBox rentersComboBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
@@ -1413,6 +1416,7 @@
         private System.Windows.Forms.TextBox amountVAT_TextBoxStart;
         private System.Windows.Forms.TextBox amountVAT_TextBoxFinish;
         private System.Windows.Forms.DateTimePicker datePickerStart;
+        public System.Windows.Forms.ComboBox rentersComboBox;
     }
 }
 

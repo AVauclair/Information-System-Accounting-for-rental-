@@ -37,8 +37,8 @@
             // updateRecordButton
             // 
             this.updateRecordButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.updateRecordButton.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.updateRecordButton.Location = new System.Drawing.Point(132, 47);
+            this.updateRecordButton.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.updateRecordButton.Location = new System.Drawing.Point(137, 47);
             this.updateRecordButton.Name = "updateRecordButton";
             this.updateRecordButton.Size = new System.Drawing.Size(182, 32);
             this.updateRecordButton.TabIndex = 3;
@@ -49,19 +49,19 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(11, 11);
+            this.label2.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.Location = new System.Drawing.Point(11, 15);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(136, 23);
+            this.label2.Size = new System.Drawing.Size(134, 21);
             this.label2.TabIndex = 7;
             this.label2.Text = "ФИО/Название:";
             // 
             // newNameTextBox
             // 
-            this.newNameTextBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.newNameTextBox.Location = new System.Drawing.Point(152, 8);
+            this.newNameTextBox.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.newNameTextBox.Location = new System.Drawing.Point(148, 12);
             this.newNameTextBox.Name = "newNameTextBox";
-            this.newNameTextBox.Size = new System.Drawing.Size(283, 31);
+            this.newNameTextBox.Size = new System.Drawing.Size(302, 29);
             this.newNameTextBox.TabIndex = 6;
             this.newNameTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.newNameTextBox_KeyDown);
             // 
@@ -69,7 +69,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(446, 88);
+            this.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.ClientSize = new System.Drawing.Size(472, 88);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.newNameTextBox);
             this.Controls.Add(this.updateRecordButton);
