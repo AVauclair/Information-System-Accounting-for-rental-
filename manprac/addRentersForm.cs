@@ -23,7 +23,6 @@ namespace manprac
         {
             MainForm main = this.Owner as MainForm;
 
-
             if (nameTextBox.Text == "")
             {
                 MessageBox.Show("Заполните поле \"Название предприятия\" ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -103,7 +102,6 @@ namespace manprac
                     int columnIndex = main.dataGridRenters.CurrentCell.ColumnIndex;
                     int rowIndex = main.dataGridRenters.CurrentCell.RowIndex;
                     main.dataGridRenters.CurrentCell = main.dataGridRenters[columnIndex, main.dataGridRenters.RowCount - 1];
-
                 }
             }
         }

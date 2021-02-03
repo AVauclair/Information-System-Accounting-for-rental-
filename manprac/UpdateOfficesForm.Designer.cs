@@ -123,7 +123,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(22, 123);
+            this.label5.Location = new System.Drawing.Point(22, 124);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(132, 21);
             this.label5.TabIndex = 11;
@@ -161,7 +161,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.Location = new System.Drawing.Point(40, 235);
+            this.label7.Location = new System.Drawing.Point(42, 235);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(114, 21);
             this.label7.TabIndex = 15;
@@ -182,7 +182,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(77, 198);
+            this.label1.Location = new System.Drawing.Point(77, 197);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(77, 21);
             this.label1.TabIndex = 20;
@@ -201,7 +201,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ClientSize = new System.Drawing.Size(376, 315);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.noteTextBox);

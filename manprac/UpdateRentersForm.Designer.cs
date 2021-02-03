@@ -38,7 +38,7 @@
             // 
             this.updateRecordButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.updateRecordButton.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.updateRecordButton.Location = new System.Drawing.Point(137, 47);
+            this.updateRecordButton.Location = new System.Drawing.Point(141, 48);
             this.updateRecordButton.Name = "updateRecordButton";
             this.updateRecordButton.Size = new System.Drawing.Size(182, 32);
             this.updateRecordButton.TabIndex = 3;
@@ -69,7 +69,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ClientSize = new System.Drawing.Size(472, 88);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.newNameTextBox);

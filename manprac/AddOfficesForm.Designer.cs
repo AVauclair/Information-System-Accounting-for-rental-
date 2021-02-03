@@ -50,7 +50,7 @@
             // 
             this.addRecordButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.addRecordButton.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.addRecordButton.Location = new System.Drawing.Point(90, 271);
+            this.addRecordButton.Location = new System.Drawing.Point(95, 272);
             this.addRecordButton.Name = "addRecordButton";
             this.addRecordButton.Size = new System.Drawing.Size(182, 32);
             this.addRecordButton.TabIndex = 3;
@@ -201,7 +201,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ClientSize = new System.Drawing.Size(376, 315);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.noteTextBox);

@@ -62,7 +62,7 @@ namespace manprac
             }
             catch (SQLiteException ex)
             {
-                MessageBox.Show("Произошла ошибка при создании базы данных" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Произошла ошибка при создании базы данных: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
             finally
@@ -232,7 +232,7 @@ namespace manprac
                         File.Delete(dbFileName);
                         string getFilePath = Path.GetFullPath(openFile.FileName);
                         File.Copy(getFilePath, localProgramPath + fileName);
-                        MessageBox.Show("Загрузка БД из копии успешно завершена. ", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Загрузка БД из копии успешно завершена.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                         MessageBox.Show("Выбраный файл не является резервной копией БД.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -241,7 +241,7 @@ namespace manprac
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Произошла ошибка." + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -259,7 +259,7 @@ namespace manprac
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Произошла ошибка. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Произошла ошибка." + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     MessageBox.Show("База данных успешно пересоздана.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -273,9 +273,9 @@ namespace manprac
         private void helpLabel_Click(object sender, EventArgs e)
         {
             string path = Application.StartupPath;
-            MessageBox.Show("В случае, если по каким либо причинам загрузить копию БД программно не удаётся  " +
-                "можно выполнить загрузку вручную. \r Для этого необходимо переместить резервную копию БД в папку с программой  " +
-                "по пути \r" + path, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("В случае, если по каким либо причинам загрузить копию БД программно не удаётся " +
+                "можно выполнить загрузку вручную. \r Для этого необходимо переместить резервную копию БД в папку с программой " +
+                "по пути \r" + path, "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
     }

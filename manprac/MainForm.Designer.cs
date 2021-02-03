@@ -161,7 +161,7 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.menuStrip1.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.resultToolStripMenuItem,
@@ -184,7 +184,7 @@
             this.resultFlatsToolStripMenuItem1,
             this.resultFlatsNToolStripMenuItem});
             this.resultToolStripMenuItem.Name = "resultToolStripMenuItem";
-            this.resultToolStripMenuItem.Size = new System.Drawing.Size(29, 90);
+            this.resultToolStripMenuItem.Size = new System.Drawing.Size(52, 21);
             this.resultToolStripMenuItem.Text = "Свод";
             this.resultToolStripMenuItem.Click += new System.EventHandler(this.resultToolStripMenuItem_Click);
             // 
@@ -223,7 +223,7 @@
             this.updateRentersToolStripMenuItem,
             this.deleteRentersToolStripMenuItem});
             this.rentersToolStripMenuItem.Name = "rentersToolStripMenuItem";
-            this.rentersToolStripMenuItem.Size = new System.Drawing.Size(29, 90);
+            this.rentersToolStripMenuItem.Size = new System.Drawing.Size(98, 21);
             this.rentersToolStripMenuItem.Text = "Арендаторы";
             this.rentersToolStripMenuItem.Click += new System.EventHandler(this.rentersToolStripMenuItem_Click);
             // 
@@ -255,7 +255,7 @@
             this.updateOfficeToolStripMenuItem,
             this.deleteOfficeToolStripMenuItem});
             this.officesToolStripMenuItem.Name = "officesToolStripMenuItem";
-            this.officesToolStripMenuItem.Size = new System.Drawing.Size(29, 90);
+            this.officesToolStripMenuItem.Size = new System.Drawing.Size(54, 21);
             this.officesToolStripMenuItem.Text = "Офис";
             this.officesToolStripMenuItem.Click += new System.EventHandler(this.officesToolStripMenuItem_Click);
             // 
@@ -287,7 +287,7 @@
             this.updateFlatsPToolStripMenuItem,
             this.deleteFlatsPToolStripMenuItem});
             this.flatsToolStripMenuItem.Name = "flatsToolStripMenuItem";
-            this.flatsToolStripMenuItem.Size = new System.Drawing.Size(29, 90);
+            this.flatsToolStripMenuItem.Size = new System.Drawing.Size(82, 21);
             this.flatsToolStripMenuItem.Text = "Квартиры";
             this.flatsToolStripMenuItem.Click += new System.EventHandler(this.flatsToolStripMenuItem_Click);
             // 
@@ -319,7 +319,7 @@
             this.PrintToolStripMenuItem,
             this.ExportToExcelToolStripMenuItem});
             this.reportToolStripMenuItem.Name = "reportToolStripMenuItem";
-            this.reportToolStripMenuItem.Size = new System.Drawing.Size(29, 90);
+            this.reportToolStripMenuItem.Size = new System.Drawing.Size(60, 21);
             this.reportToolStripMenuItem.Text = "Отчет";
             // 
             // PrintPreviewToolStripMenuItem
@@ -346,7 +346,7 @@
             // dbToolStripMenuItem
             // 
             this.dbToolStripMenuItem.Name = "dbToolStripMenuItem";
-            this.dbToolStripMenuItem.Size = new System.Drawing.Size(29, 90);
+            this.dbToolStripMenuItem.Size = new System.Drawing.Size(87, 21);
             this.dbToolStripMenuItem.Text = "Настройки";
             this.dbToolStripMenuItem.Click += new System.EventHandler(this.dbToolStripMenuItem_Click);
             // 
@@ -910,6 +910,7 @@
             // 
             // monthComboBox
             // 
+            this.monthComboBox.Cursor = System.Windows.Forms.Cursors.Hand;
             this.monthComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.monthComboBox.Enabled = false;
             this.monthComboBox.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -922,6 +923,7 @@
             // 
             // amountPaymentTextBoxFinish
             // 
+            this.amountPaymentTextBoxFinish.Cursor = System.Windows.Forms.Cursors.Hand;
             this.amountPaymentTextBoxFinish.Enabled = false;
             this.amountPaymentTextBoxFinish.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.amountPaymentTextBoxFinish.Location = new System.Drawing.Point(199, 43);
@@ -933,6 +935,7 @@
             // 
             // amountPaymentTextBoxStart
             // 
+            this.amountPaymentTextBoxStart.Cursor = System.Windows.Forms.Cursors.Hand;
             this.amountPaymentTextBoxStart.Enabled = false;
             this.amountPaymentTextBoxStart.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.amountPaymentTextBoxStart.Location = new System.Drawing.Point(30, 43);
@@ -944,6 +947,7 @@
             // 
             // amountRentTextBoxStart
             // 
+            this.amountRentTextBoxStart.Cursor = System.Windows.Forms.Cursors.Hand;
             this.amountRentTextBoxStart.Enabled = false;
             this.amountRentTextBoxStart.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.amountRentTextBoxStart.Location = new System.Drawing.Point(30, 40);
@@ -955,6 +959,7 @@
             // 
             // amountRentTextBoxFinish
             // 
+            this.amountRentTextBoxFinish.Cursor = System.Windows.Forms.Cursors.Hand;
             this.amountRentTextBoxFinish.Enabled = false;
             this.amountRentTextBoxFinish.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.amountRentTextBoxFinish.Location = new System.Drawing.Point(199, 40);
@@ -966,6 +971,7 @@
             // 
             // datePickerFinish
             // 
+            this.datePickerFinish.Cursor = System.Windows.Forms.Cursors.Hand;
             this.datePickerFinish.Enabled = false;
             this.datePickerFinish.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.datePickerFinish.Format = System.Windows.Forms.DateTimePickerFormat.Short;
@@ -978,6 +984,7 @@
             // 
             // areaTypeComboBox
             // 
+            this.areaTypeComboBox.Cursor = System.Windows.Forms.Cursors.Hand;
             this.areaTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.areaTypeComboBox.Enabled = false;
             this.areaTypeComboBox.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -990,6 +997,7 @@
             // 
             // rentersComboBox
             // 
+            this.rentersComboBox.Cursor = System.Windows.Forms.Cursors.Hand;
             this.rentersComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.rentersComboBox.Enabled = false;
             this.rentersComboBox.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -1178,6 +1186,7 @@
             // 
             // datePickerStart
             // 
+            this.datePickerStart.Cursor = System.Windows.Forms.Cursors.Hand;
             this.datePickerStart.Enabled = false;
             this.datePickerStart.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.datePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
@@ -1207,10 +1216,12 @@
             // ClearFiltersButton
             // 
             this.ClearFiltersButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.ClearFiltersButton.CausesValidation = false;
+            this.ClearFiltersButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ClearFiltersButton.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ClearFiltersButton.Location = new System.Drawing.Point(1154, 761);
+            this.ClearFiltersButton.Location = new System.Drawing.Point(1166, 749);
             this.ClearFiltersButton.Name = "ClearFiltersButton";
-            this.ClearFiltersButton.Size = new System.Drawing.Size(181, 54);
+            this.ClearFiltersButton.Size = new System.Drawing.Size(181, 31);
             this.ClearFiltersButton.TabIndex = 48;
             this.ClearFiltersButton.Text = "Очистить фильтры";
             this.ClearFiltersButton.UseVisualStyleBackColor = true;
@@ -1242,6 +1253,7 @@
             // 
             // amountVAT_TextBoxStart
             // 
+            this.amountVAT_TextBoxStart.Cursor = System.Windows.Forms.Cursors.Hand;
             this.amountVAT_TextBoxStart.Enabled = false;
             this.amountVAT_TextBoxStart.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.amountVAT_TextBoxStart.Location = new System.Drawing.Point(30, 40);
@@ -1253,6 +1265,7 @@
             // 
             // amountVAT_TextBoxFinish
             // 
+            this.amountVAT_TextBoxFinish.Cursor = System.Windows.Forms.Cursors.Hand;
             this.amountVAT_TextBoxFinish.Enabled = false;
             this.amountVAT_TextBoxFinish.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.amountVAT_TextBoxFinish.Location = new System.Drawing.Point(199, 40);
@@ -1265,7 +1278,7 @@
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ClientSize = new System.Drawing.Size(1444, 878);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.ClearFiltersButton);

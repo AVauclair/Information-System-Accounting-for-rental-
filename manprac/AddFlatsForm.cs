@@ -216,7 +216,10 @@ namespace manprac
                     dataApartaments[dataApartaments.Count - 1][6] = readerApartaments["Amount_Payment"].ToString();
                     dataApartaments[dataApartaments.Count - 1][7] = readerApartaments["VAT"].ToString();
                     dataApartaments[dataApartaments.Count - 1][8] = readerApartaments["ApartamentStatus"].ToString();
-                    dataApartaments[dataApartaments.Count - 1][9] = readerApartaments["Date_Payment"].ToString();///
+                    if (readerApartaments["Date_Payment"].ToString() != "")
+                    {
+                        dataApartaments[dataApartaments.Count - 1][9] = Convert.ToDateTime(readerApartaments["Date_Payment"]).ToShortDateString();
+                    }
                     dataApartaments[dataApartaments.Count - 1][10] = readerApartaments["Note"].ToString();
                     countApartaments++;
                 }

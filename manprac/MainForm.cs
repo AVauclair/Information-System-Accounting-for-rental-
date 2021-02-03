@@ -35,7 +35,7 @@ namespace manprac
         string resultAllLoadQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(VAT) VAT FROM Offices";
         string resultAllSumQuery = "Select SUM(Amount_Rent) Amount_Rent, SUM(Amount_Payment) Amount_Payment FROM Apartaments";
         #endregion
-
+        
 
         #region методы загрузок таблиц
         public void RentersLoad()
@@ -282,7 +282,6 @@ namespace manprac
 
         public void ResultAllLoad()
         {
-
             SQLiteConnection conn = new SQLiteConnection(ConnString);
             conn.Open();
             SQLiteCommand loadCommonSummary1 = new SQLiteCommand(resultAllLoadQuery, conn);
@@ -497,16 +496,21 @@ namespace manprac
                 MessageBox.Show("Произошла ошибка. Вероятно база данных была создана некорректно, выполните пересоздание БД. \n" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             #endregion
-
-
         }
 
         #region переход на другие формы
         private void addRentersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddRentersForm addRentersForm = new AddRentersForm();
-            addRentersForm.Owner = this;
-            addRentersForm.ShowDialog();
+            if (dataGridRenters.Visible == true)
+            {
+                AddRentersForm addRentersForm = new AddRentersForm();
+                addRentersForm.Owner = this;
+                addRentersForm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Перейдите на таблицу \"Арендаторы\", чтобы добавить запись.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void dbToolStripMenuItem_Click(object sender, EventArgs e)
@@ -519,7 +523,7 @@ namespace manprac
         {
             if (dataGridRenters.Visible == false)
             {
-                MessageBox.Show("Выберите запись в таблице \"Арендаторы\", которую хотите изменить.", "Ошибки", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Выберите запись в таблице \"Арендаторы\", которую хотите изменить.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (dataGridRenters.Rows.Count == 0)
@@ -632,9 +636,16 @@ namespace manprac
 
         private void addOfficeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddOfficesForm addOfficesForm = new AddOfficesForm();
-            addOfficesForm.Owner = this;
-            addOfficesForm.ShowDialog();
+            if (dataGridOffices.Visible == true)
+            {
+                AddOfficesForm addOfficesForm = new AddOfficesForm();
+                addOfficesForm.Owner = this;
+                addOfficesForm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Перейдите на таблицу \"Офисы\", чтобы добавить запись.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void updateOfficeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -728,9 +739,16 @@ namespace manprac
 
         private void addFlatsPToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddFlatsForm addFlatsForm = new AddFlatsForm();
-            addFlatsForm.Owner = this;
-            addFlatsForm.ShowDialog();
+            if (dataGridFlats.Visible == true)
+            {
+                AddFlatsForm addFlatsForm = new AddFlatsForm();
+                addFlatsForm.Owner = this;
+                addFlatsForm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Перейдите на таблицу \"Квартиры\", чтобы добавить запись.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void updateFlatsPToolStripMenuItem_Click(object sender, EventArgs e)
@@ -855,7 +873,9 @@ namespace manprac
 
         private void officesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            datePickerStart.Value = new DateTime(2021, 01, 01);
             datePickerFinish.Value = DateTime.Now;
+
             dataGridOffices.Rows.Clear();
             OfficesLoad();
 
@@ -885,7 +905,9 @@ namespace manprac
 
         private void flatsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            datePickerStart.Value = new DateTime(2021, 01, 01);
             datePickerFinish.Value = DateTime.Now;
+
             dataGridFlats.Rows.Clear();
             FlatsLoad();
             dataGridUninhabitedArea.Visible = false;
@@ -913,6 +935,7 @@ namespace manprac
 
         private void resultFlatsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            datePickerStart.Value = new DateTime(2021, 01, 01);
             datePickerFinish.Value = DateTime.Now;
 
             dataGridUninhabitedArea.Visible = false;
@@ -937,11 +960,18 @@ namespace manprac
 
             dataGridResultFlats.Rows.Clear();
             ResultFlatsLoad();
+
+            try
+            {
+                dataGridResultFlats.Rows[dataGridResultFlats.RowCount - 1].DefaultCellStyle.BackColor = Color.Green;
+                dataGridResultFlats.Rows[dataGridResultFlats.RowCount - 1].DefaultCellStyle.ForeColor = Color.White;
+            }
+            catch { }
         }
         private void resultOfficesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            datePickerStart.Value = new DateTime(2021, 01, 01);
             datePickerFinish.Value = DateTime.Now;
-
 
             dataGridUninhabitedArea.Visible = false;
             dataGridRenters.Visible = false;
@@ -964,11 +994,20 @@ namespace manprac
 
             dataGridResultOffices.Rows.Clear();
             ResultOfficesLoad();
+
+            try
+            {
+                dataGridResultOffices.Rows[dataGridResultOffices.RowCount - 1].DefaultCellStyle.BackColor = Color.Green;
+                dataGridResultOffices.Rows[dataGridResultOffices.RowCount - 1].DefaultCellStyle.ForeColor = Color.White;
+            }
+            catch { }
         }
 
         private void resultAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            datePickerStart.Value = new DateTime(2021, 01, 01);
             datePickerFinish.Value = DateTime.Now;
+
             dataGridUninhabitedArea.Visible = false;
             dataGridRenters.Visible = false;
             dataGridFlats.Visible = false;
@@ -991,10 +1030,18 @@ namespace manprac
 
             dataGridCommonResults.Rows.Clear();
             ResultAllLoad();
+
+            try
+            {
+                dataGridCommonResults.Rows[dataGridCommonResults.RowCount - 1].DefaultCellStyle.BackColor = Color.Green;
+                dataGridCommonResults.Rows[dataGridCommonResults.RowCount - 1].DefaultCellStyle.ForeColor = Color.White;
+            }
+            catch { }
         }
 
         private void resultFlatsNToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            datePickerStart.Value = new DateTime(2021, 01, 01);
             datePickerFinish.Value = DateTime.Now;
 
             dataGridUninhabitedArea.Visible = true;
@@ -1020,12 +1067,21 @@ namespace manprac
 
             dataGridUninhabitedArea.Rows.Clear();
             ResultFlatsNLoad();
+
+            try
+            {
+                dataGridUninhabitedArea.Rows[dataGridUninhabitedArea.RowCount - 1].DefaultCellStyle.BackColor = Color.Green;
+                dataGridUninhabitedArea.Rows[dataGridUninhabitedArea.RowCount - 1].DefaultCellStyle.ForeColor = Color.White;
+            }
+            catch { }
         }
 
         //тоже самое, что и выше через один, но два варианта удобнее имхо
         private void resultToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            datePickerStart.Value = new DateTime(2021, 01, 01);
             datePickerFinish.Value = DateTime.Now;
+
             dataGridUninhabitedArea.Visible = false;
             dataGridRenters.Visible = false;
             dataGridFlats.Visible = false;
@@ -1048,6 +1104,13 @@ namespace manprac
 
             dataGridCommonResults.Rows.Clear();
             ResultAllLoad();
+
+            try
+            {
+                dataGridCommonResults.Rows[dataGridCommonResults.RowCount - 1].DefaultCellStyle.BackColor = Color.Green;
+                dataGridCommonResults.Rows[dataGridCommonResults.RowCount - 1].DefaultCellStyle.ForeColor = Color.White;
+            }
+            catch { }
         }
         #endregion
 
@@ -1217,6 +1280,12 @@ namespace manprac
                 finally
                 {
                     conn.Close();
+                    try
+                    {
+                        dataGridCommonResults.Rows[dataGridCommonResults.RowCount - 1].DefaultCellStyle.BackColor = Color.Green;
+                        dataGridCommonResults.Rows[dataGridCommonResults.RowCount - 1].DefaultCellStyle.ForeColor = Color.White;
+                    }
+                    catch { }
                 }
 
             }
@@ -1279,6 +1348,12 @@ namespace manprac
                 finally
                 {
                     conn.Close();
+                    try
+                    {
+                        dataGridResultOffices.Rows[dataGridResultOffices.RowCount - 1].DefaultCellStyle.BackColor = Color.Green;
+                        dataGridResultOffices.Rows[dataGridResultOffices.RowCount - 1].DefaultCellStyle.ForeColor = Color.White;
+                    }
+                    catch { }
                 }
             }
             if (dataGridResultFlats.Visible == true)
@@ -1340,6 +1415,12 @@ namespace manprac
                 finally
                 {
                     conn.Close();
+                    try
+                    {
+                        dataGridResultFlats.Rows[dataGridResultFlats.RowCount - 1].DefaultCellStyle.BackColor = Color.Green;
+                        dataGridResultFlats.Rows[dataGridResultFlats.RowCount - 1].DefaultCellStyle.ForeColor = Color.White;
+                    }
+                    catch { }
                 }
             }
             if (dataGridUninhabitedArea.Visible == true)
@@ -1400,6 +1481,12 @@ namespace manprac
                 finally
                 {
                     conn.Close();
+                    try
+                    {
+                        dataGridUninhabitedArea.Rows[dataGridUninhabitedArea.RowCount - 1].DefaultCellStyle.BackColor = Color.Green;
+                        dataGridUninhabitedArea.Rows[dataGridUninhabitedArea.RowCount - 1].DefaultCellStyle.ForeColor = Color.White;
+                    }
+                    catch { }
                 }
             }
             if (dataGridOffices.Visible == true)

@@ -170,7 +170,11 @@ namespace manprac
                     dataOffices[dataOffices.Count - 1][4] = readerOffices["Month"].ToString();
                     dataOffices[dataOffices.Count - 1][5] = readerOffices["Amount_Rent"].ToString();
                     dataOffices[dataOffices.Count - 1][6] = readerOffices["VAT"].ToString();
-                    dataOffices[dataOffices.Count - 1][7] = readerOffices["Date_Payment"].ToString();
+                    dataOffices[dataOffices.Count - 1][6] = readerOffices["VAT"].ToString();
+                    if (readerOffices["Date_Payment"].ToString() != "")
+                    {
+                        dataOffices[dataOffices.Count - 1][7] = Convert.ToDateTime(readerOffices["Date_Payment"]).ToShortDateString();
+                    }
                     dataOffices[dataOffices.Count - 1][8] = readerOffices["Note"].ToString();
                     countOffices++;
                 }
