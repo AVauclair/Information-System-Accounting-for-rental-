@@ -55,6 +55,7 @@ namespace manprac
             this.savaDB_Button.Name = "savaDB_Button";
             this.savaDB_Button.Size = new System.Drawing.Size(203, 36);
             this.savaDB_Button.TabIndex = 0;
+            this.savaDB_Button.TabStop = false;
             this.savaDB_Button.Text = "Сохранить базу";
             this.savaDB_Button.UseVisualStyleBackColor = true;
             this.savaDB_Button.Click += new System.EventHandler(this.savaDB_Button_Click);
@@ -66,6 +67,7 @@ namespace manprac
             this.loadDB_Button.Name = "loadDB_Button";
             this.loadDB_Button.Size = new System.Drawing.Size(203, 36);
             this.loadDB_Button.TabIndex = 1;
+            this.loadDB_Button.TabStop = false;
             this.loadDB_Button.Text = "Загрузить базу";
             this.loadDB_Button.UseVisualStyleBackColor = true;
             this.loadDB_Button.Click += new System.EventHandler(this.loadDB_Button_Click);
@@ -77,6 +79,7 @@ namespace manprac
             this.createDB_Button.Name = "createDB_Button";
             this.createDB_Button.Size = new System.Drawing.Size(197, 36);
             this.createDB_Button.TabIndex = 2;
+            this.createDB_Button.TabStop = false;
             this.createDB_Button.Text = "Создать базу данных ";
             this.toolTip1.SetToolTip(this.createDB_Button, "Создание базы данных с таблицами. Если база данных уже существует в проекте,\r\n то" +
         "  новая создана не будет.");
@@ -90,6 +93,7 @@ namespace manprac
             this.clearRentersButton.Name = "clearRentersButton";
             this.clearRentersButton.Size = new System.Drawing.Size(298, 41);
             this.clearRentersButton.TabIndex = 3;
+            this.clearRentersButton.TabStop = false;
             this.clearRentersButton.Text = "Стереть данные в таблице \"Арендаторы\"";
             this.clearRentersButton.UseVisualStyleBackColor = true;
             this.clearRentersButton.Click += new System.EventHandler(this.clearRentersButton_Click);
@@ -101,6 +105,7 @@ namespace manprac
             this.clearOfficesButton.Name = "clearOfficesButton";
             this.clearOfficesButton.Size = new System.Drawing.Size(298, 36);
             this.clearOfficesButton.TabIndex = 4;
+            this.clearOfficesButton.TabStop = false;
             this.clearOfficesButton.Text = "Стереть данные в таблице \"Офисы\"";
             this.clearOfficesButton.UseVisualStyleBackColor = true;
             this.clearOfficesButton.Click += new System.EventHandler(this.clearOfficesButton_Click);
@@ -112,6 +117,7 @@ namespace manprac
             this.clearFlatsButton.Name = "clearFlatsButton";
             this.clearFlatsButton.Size = new System.Drawing.Size(298, 36);
             this.clearFlatsButton.TabIndex = 5;
+            this.clearFlatsButton.TabStop = false;
             this.clearFlatsButton.Text = "Стереть данные в таблице \"Квартиры\"";
             this.clearFlatsButton.UseVisualStyleBackColor = true;
             this.clearFlatsButton.Click += new System.EventHandler(this.clearFlatsButton_Click);
@@ -148,6 +154,7 @@ namespace manprac
             this.RecreateDB_Button.Name = "RecreateDB_Button";
             this.RecreateDB_Button.Size = new System.Drawing.Size(197, 36);
             this.RecreateDB_Button.TabIndex = 3;
+            this.RecreateDB_Button.TabStop = false;
             this.RecreateDB_Button.Text = "Пересоздать базу данных ";
             this.toolTip1.SetToolTip(this.RecreateDB_Button, "Полное удаление старой БД и создание новой.\r\nНеобходимо использовать в случае, ес" +
         "ли БД была\r\nповреждена или неправильно создана");
